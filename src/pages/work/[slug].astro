@@ -1,0 +1,316 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CustomCursor from "../../components/home/CustomCursor.astro";
+import CaseStudySidebar from "../../components/casestudy/CaseStudySidebar.astro";
+import { getWorkProject, workProjects } from "../../lib/work-projects";
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+const project = slug ? getWorkProject(slug) : undefined;
+
+if (!project) {
+  return Astro.redirect("/home", 302);
+}
+
+const sections = [
+  { id: "overview", label: "Overview" },
+  { id: "gallery", label: "Images" },
+  { id: "highlights", label: "Highlights" },
+  { id: "process", label: "Process" },
+  { id: "takeaway", label: "Takeaway" },
+];
+
+const currentIndex = workProjects.findIndex((item) => item.slug === project.slug);
+const nextProject = workProjects[currentIndex + 1] ?? workProjects[0];
+---
+
+<BaseLayout
+  title={`${project.title} - Aishwarya's Portfolio`}
+  description={project.description}
+  image={project.images[0]}
+>
+  <div id="top" class="work-detail-shell">
+    <CaseStudySidebar sections={sections} active="overview" />
+
+    <main class="work-detail">
+      <a href="/home" class="work-detail__back" data-cursor="link">Back to work</a>
+
+      <header class="work-hero" style={`--work-accent: var(--color-${project.accent});`}>
+        <p class="work-hero__kicker">{project.status}</p>
+        <h1>{project.title}</h1>
+        <p class="work-hero__description">{project.description}</p>
+
+        <dl class="work-hero__meta">
+          <div>
+            <dt>Role</dt>
+            <dd>{project.role}</dd>
+          </div>
+          <div>
+            <dt>Team</dt>
+            <dd>{project.team}</dd>
+          </div>
+          <div>
+            <dt>Timeline</dt>
+            <dd>{project.shipped}</dd>
+          </div>
+        </dl>
+      </header>
+
+      <section id="overview" data-cs-section class="work-section">
+        <p class="work-section__eyebrow">Overview</p>
+        <h2>What this project is about</h2>
+        <p>{project.overview}</p>
+      </section>
+
+      <section id="gallery" data-cs-section class="work-section">
+        <p class="work-section__eyebrow">Image slots</p>
+        <h2>Ready for your project visuals</h2>
+        <p>
+          These two image tiles are wired per project. They use existing portfolio assets now;
+          replace the paths in <code>src/lib/work-projects.ts</code> when you add your real images.
+        </p>
+        <div class="work-image-grid">
+          {
+            project.images.map((image, index) => (
+              <figure class="work-image-card">
+                <img src={image} alt="" loading="lazy" decoding="async" />
+                <figcaption>Image slot {index + 1}</figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="highlights" data-cs-section class="work-section">
+        <p class="work-section__eyebrow">Highlights</p>
+        <h2>What stands out</h2>
+        <ul class="work-list">
+          {project.highlights.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      <section id="process" data-cs-section class="work-section">
+        <p class="work-section__eyebrow">Process</p>
+        <h2>How I approached it</h2>
+        <ol class="work-list work-list--ordered">
+          {project.process.map((item) => <li>{item}</li>)}
+        </ol>
+      </section>
+
+      <section id="takeaway" data-cs-section class="work-section work-section--takeaway">
+        <p class="work-section__eyebrow">Takeaway</p>
+        <h2>The main lesson</h2>
+        <p>{project.takeaway}</p>
+      </section>
+
+      <a href={`/work/${nextProject.slug}`} class="work-next" data-cursor="case-study">
+        <span>Next project</span>
+        <strong>{nextProject.title}</strong>
+      </a>
+    </main>
+  </div>
+
+  <CustomCursor color={project.accent} />
+
+  <style>
+    .work-detail-shell {
+      display: flex;
+      min-height: 100vh;
+      background: var(--color-bg);
+      color: var(--color-ink);
+    }
+
+    .work-detail {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      padding: 28px clamp(18px, 5vw, 72px) 64px;
+    }
+
+    .work-detail__back {
+      width: fit-content;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: var(--color-ink-dim);
+      text-decoration: none;
+    }
+    .work-detail__back:hover {
+      color: var(--color-ink);
+    }
+
+    .work-hero,
+    .work-section,
+    .work-next {
+      border-radius: 8px;
+    }
+
+    .work-hero {
+      display: grid;
+      gap: 18px;
+      padding: clamp(24px, 5vw, 56px);
+      background:
+        radial-gradient(circle at 84% 12%, color-mix(in oklab, var(--work-accent) 45%, white), transparent 28%),
+        linear-gradient(135deg, color-mix(in oklab, var(--work-accent) 32%, var(--color-bg-light)), var(--color-bg-light));
+      box-shadow: 0 18px 44px -34px rgba(36, 36, 36, 0.42);
+    }
+
+    .work-hero__kicker,
+    .work-section__eyebrow,
+    .work-hero__meta dt,
+    .work-next span,
+    .work-image-card figcaption {
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      color: var(--color-ink-dim);
+    }
+
+    .work-hero__kicker,
+    .work-section__eyebrow {
+      margin: 0;
+      font-size: 0.82rem;
+    }
+
+    .work-hero h1 {
+      max-width: 11ch;
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 300;
+      line-height: 0.9;
+    }
+
+    .work-hero__description {
+      max-width: 760px;
+      margin: 0;
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      line-height: 1.45;
+      color: var(--color-ink-dim);
+    }
+
+    .work-hero__meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 10px 0 0;
+    }
+    .work-hero__meta div {
+      padding-top: 12px;
+      border-top: 1px solid color-mix(in oklab, var(--color-ink) 18%, transparent);
+    }
+    .work-hero__meta dt {
+      font-size: 0.72rem;
+    }
+    .work-hero__meta dd {
+      margin: 6px 0 0;
+      color: var(--color-ink);
+      line-height: 1.35;
+    }
+
+    .work-section {
+      display: grid;
+      gap: 12px;
+      max-width: 980px;
+      padding: clamp(22px, 4vw, 40px);
+      background: var(--color-bg-light);
+      scroll-margin-top: 24px;
+    }
+    .work-section h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1;
+    }
+    .work-section p {
+      margin: 0;
+      max-width: 760px;
+      color: var(--color-ink-dim);
+      line-height: 1.65;
+    }
+    .work-section code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      color: var(--color-ink);
+    }
+
+    .work-image-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 8px;
+    }
+    .work-image-card {
+      margin: 0;
+      display: grid;
+      gap: 8px;
+    }
+    .work-image-card img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 8px;
+      background: var(--color-bg-neutral);
+    }
+    .work-image-card figcaption {
+      font-size: 0.72rem;
+    }
+
+    .work-list {
+      margin: 0;
+      padding-left: 1.2rem;
+      color: var(--color-ink-dim);
+      line-height: 1.6;
+    }
+    .work-list li + li {
+      margin-top: 8px;
+    }
+
+    .work-section--takeaway {
+      background: var(--color-ink);
+      color: var(--color-ink-inverted);
+    }
+    .work-section--takeaway p,
+    .work-section--takeaway .work-section__eyebrow {
+      color: var(--color-ink-mute);
+    }
+
+    .work-next {
+      display: grid;
+      gap: 4px;
+      max-width: 980px;
+      padding: 22px;
+      text-decoration: none;
+      color: var(--color-ink);
+      background: var(--color-bg-neutral);
+      transition:
+        transform var(--duration-base) var(--ease-out-soft),
+        background var(--duration-base) var(--ease-out-soft);
+    }
+    .work-next:hover {
+      transform: translateY(-2px);
+      background: var(--color-bg-neutral-2);
+    }
+    .work-next span {
+      font-size: 0.72rem;
+    }
+    .work-next strong {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 300;
+    }
+
+    @media (max-width: 900px) {
+      .work-detail-shell {
+        display: block;
+      }
+      .work-hero__meta,
+      .work-image-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</BaseLayout>

@@ -1,0 +1,484 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  accent?: string;
+}
+
+const { slug, title, accent = "teal" } = Astro.props;
+---
+
+<div class={`project-visual project-visual--${slug}`} style={`--visual-accent: var(--color-${accent});`} aria-label={`${title} project visual`}>
+  {slug === "snowflake-cortex-analyst" && (
+    <>
+      <span class="pv-orb"></span>
+      <span class="pv-db"></span>
+      <span class="pv-query pv-query--a">SELECT</span>
+      <span class="pv-query pv-query--b">SEMANTIC</span>
+      <span class="pv-check pv-check--a"></span>
+      <span class="pv-check pv-check--b"></span>
+      <span class="pv-line pv-line--a"></span>
+      <span class="pv-line pv-line--b"></span>
+    </>
+  )}
+
+  {slug === "agent-maestro" && (
+    <>
+      <span class="pv-node pv-node--center">AI</span>
+      <span class="pv-node pv-node--a">Risk</span>
+      <span class="pv-node pv-node--b">Policy</span>
+      <span class="pv-node pv-node--c">Owner</span>
+      <span class="pv-node pv-node--d">Data</span>
+      <span class="pv-connector pv-connector--a"></span>
+      <span class="pv-connector pv-connector--b"></span>
+      <span class="pv-connector pv-connector--c"></span>
+      <span class="pv-connector pv-connector--d"></span>
+    </>
+  )}
+
+  {slug === "gopractice-ai-for-pms" && (
+    <>
+      <span class="pv-loop"></span>
+      <span class="pv-loop-dot pv-loop-dot--a"></span>
+      <span class="pv-loop-dot pv-loop-dot--b"></span>
+      <span class="pv-reward">+R</span>
+      <span class="pv-model-card">MODEL</span>
+      <span class="pv-choice pv-choice--a"></span>
+      <span class="pv-choice pv-choice--b"></span>
+    </>
+  )}
+
+  {slug === "netflix-live-event-analysis" && (
+    <>
+      <span class="pv-screen"></span>
+      <span class="pv-live">LIVE</span>
+      <span class="pv-wave pv-wave--a"></span>
+      <span class="pv-wave pv-wave--b"></span>
+      <span class="pv-viewers">60M+</span>
+      <span class="pv-buffer pv-buffer--a"></span>
+      <span class="pv-buffer pv-buffer--b"></span>
+    </>
+  )}
+
+  {slug === "fraudulent-survey-response-detection" && (
+    <>
+      <span class="pv-survey"></span>
+      <span class="pv-answer pv-answer--a"></span>
+      <span class="pv-answer pv-answer--b"></span>
+      <span class="pv-answer pv-answer--c"></span>
+      <span class="pv-flag">!</span>
+      <span class="pv-scan"></span>
+    </>
+  )}
+
+  {slug === "supply-chain-resilience" && (
+    <>
+      <span class="pv-chain pv-chain--a"></span>
+      <span class="pv-chain pv-chain--b"></span>
+      <span class="pv-chain pv-chain--c"></span>
+      <span class="pv-shield"></span>
+      <span class="pv-route pv-route--a"></span>
+      <span class="pv-route pv-route--b"></span>
+      <span class="pv-box pv-box--a"></span>
+      <span class="pv-box pv-box--b"></span>
+    </>
+  )}
+
+  {slug === "harmonyhub" && (
+    <>
+      <span class="pv-watch"></span>
+      <span class="pv-pulse"></span>
+      <span class="pv-task pv-task--a"></span>
+      <span class="pv-task pv-task--b"></span>
+      <span class="pv-task pv-task--c"></span>
+      <span class="pv-heart"></span>
+    </>
+  )}
+
+  {slug === "ai-in-microsoft-teams" && (
+    <>
+      <span class="pv-chat pv-chat--a"></span>
+      <span class="pv-chat pv-chat--b"></span>
+      <span class="pv-caption">AI summary</span>
+      <span class="pv-translate">EN -> ES</span>
+      <span class="pv-spark pv-spark--a"></span>
+      <span class="pv-spark pv-spark--b"></span>
+    </>
+  )}
+
+  {slug === "quickhook" && (
+    <>
+      <span class="pv-hook"></span>
+      <span class="pv-bag"></span>
+      <span class="pv-survey-dot pv-survey-dot--a"></span>
+      <span class="pv-survey-dot pv-survey-dot--b"></span>
+      <span class="pv-survey-dot pv-survey-dot--c"></span>
+      <span class="pv-insight">insight</span>
+    </>
+  )}
+
+  {slug === "cliftonstrengths-profile" && (
+    <>
+      <span class="pv-person"></span>
+      <span class="pv-strength pv-strength--a">A</span>
+      <span class="pv-strength pv-strength--b">C</span>
+      <span class="pv-strength pv-strength--c">S</span>
+      <span class="pv-strength pv-strength--d">I</span>
+      <span class="pv-strength pv-strength--e">Co</span>
+    </>
+  )}
+</div>
+
+<style>
+  .project-visual {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 96px;
+    overflow: hidden;
+    border-radius: 8px;
+    background:
+      radial-gradient(circle at 18% 18%, color-mix(in oklab, var(--visual-accent) 30%, white), transparent 28%),
+      linear-gradient(135deg, color-mix(in oklab, var(--visual-accent) 18%, var(--color-bg-light)), var(--color-bg-neutral));
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 10%, transparent);
+  }
+
+  .project-visual > span {
+    position: absolute;
+    display: block;
+  }
+
+  :global(.index-card:hover) .project-visual {
+    background:
+      radial-gradient(circle at 72% 24%, color-mix(in oklab, var(--visual-accent) 36%, white), transparent 30%),
+      linear-gradient(135deg, color-mix(in oklab, var(--visual-accent) 28%, var(--color-bg-light)), var(--color-bg-neutral));
+  }
+
+  .pv-orb {
+    right: 18px;
+    top: 13px;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    background: var(--visual-accent);
+    opacity: 0.82;
+  }
+  .pv-db {
+    left: 18px;
+    bottom: 16px;
+    width: 58px;
+    height: 44px;
+    border-radius: 50% / 18%;
+    background: var(--color-ink);
+    box-shadow: inset 0 12px 0 color-mix(in oklab, var(--visual-accent) 42%, var(--color-bg-light));
+  }
+  .pv-query {
+    left: 78px;
+    height: 14px;
+    border-radius: 4px;
+    padding: 2px 6px;
+    background: var(--color-bg-light);
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 8px;
+  }
+  .pv-query--a { top: 25px; }
+  .pv-query--b { top: 45px; }
+  .pv-check {
+    right: 22px;
+    width: 18px;
+    height: 10px;
+    border-left: 3px solid var(--color-green);
+    border-bottom: 3px solid var(--color-green);
+    transform: rotate(-45deg);
+  }
+  .pv-check--a { bottom: 34px; }
+  .pv-check--b { bottom: 18px; opacity: 0.62; }
+  .pv-line {
+    height: 2px;
+    background: color-mix(in oklab, var(--color-ink) 32%, transparent);
+    transform-origin: left center;
+  }
+  .pv-line--a { left: 72px; top: 62px; width: 66px; transform: rotate(14deg); }
+  .pv-line--b { left: 74px; top: 72px; width: 88px; transform: rotate(-8deg); }
+  :global(.index-card:hover) .pv-query { animation: pv-slide 900ms var(--ease-out-soft) infinite alternate; }
+
+  .pv-node {
+    display: grid !important;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--color-bg-light);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-ink) 12%, transparent);
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 8px;
+  }
+  .pv-node--center {
+    left: 50%;
+    top: 50%;
+    width: 42px;
+    height: 42px;
+    background: var(--visual-accent);
+    color: var(--color-ink-inverted);
+    transform: translate(-50%, -50%);
+  }
+  .pv-node--a { left: 18px; top: 14px; width: 46px; height: 24px; }
+  .pv-node--b { right: 18px; top: 14px; width: 52px; height: 24px; }
+  .pv-node--c { left: 16px; bottom: 16px; width: 52px; height: 24px; }
+  .pv-node--d { right: 24px; bottom: 18px; width: 42px; height: 24px; }
+  .pv-connector {
+    left: 50%;
+    top: 50%;
+    width: 62px;
+    height: 2px;
+    background: color-mix(in oklab, var(--color-ink) 28%, transparent);
+    transform-origin: left center;
+  }
+  .pv-connector--a { transform: rotate(210deg); }
+  .pv-connector--b { transform: rotate(330deg); }
+  .pv-connector--c { transform: rotate(145deg); }
+  .pv-connector--d { transform: rotate(35deg); }
+  :global(.index-card:hover) .pv-node--center { animation: pv-pulse 900ms ease-in-out infinite; }
+
+  .pv-loop {
+    left: 28px;
+    top: 18px;
+    width: 78px;
+    height: 56px;
+    border: 5px solid var(--visual-accent);
+    border-left-color: transparent;
+    border-radius: 999px;
+  }
+  .pv-loop-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: var(--color-ink);
+  }
+  .pv-loop-dot--a { left: 34px; top: 31px; }
+  .pv-loop-dot--b { left: 88px; top: 58px; }
+  .pv-reward,
+  .pv-model-card,
+  .pv-choice,
+  .pv-live,
+  .pv-viewers,
+  .pv-flag,
+  .pv-insight,
+  .pv-caption,
+  .pv-translate {
+    font-family: var(--font-mono);
+    font-size: 9px;
+  }
+  .pv-reward { right: 24px; top: 18px; color: var(--color-green); }
+  .pv-model-card {
+    right: 18px;
+    bottom: 18px;
+    border-radius: 6px;
+    padding: 9px 12px;
+    background: var(--color-ink);
+    color: var(--color-ink-inverted);
+  }
+  .pv-choice { right: 76px; width: 28px; height: 8px; border-radius: 999px; background: var(--visual-accent); }
+  .pv-choice--a { top: 45px; }
+  .pv-choice--b { top: 60px; opacity: 0.55; }
+  :global(.index-card:hover) .pv-loop { animation: pv-spin 1.4s linear infinite; }
+
+  .pv-screen {
+    left: 18px;
+    top: 16px;
+    right: 18px;
+    bottom: 18px;
+    border-radius: 8px;
+    background: var(--color-ink);
+  }
+  .pv-live {
+    left: 28px;
+    top: 26px;
+    border-radius: 999px;
+    padding: 4px 7px;
+    background: var(--color-pink);
+    color: white;
+  }
+  .pv-wave { left: 48px; right: 48px; height: 2px; background: var(--color-orange-2); }
+  .pv-wave--a { top: 58px; }
+  .pv-wave--b { top: 68px; opacity: 0.65; }
+  .pv-viewers { right: 28px; bottom: 28px; color: var(--color-bg-light); }
+  .pv-buffer { left: 50%; top: 50%; width: 18px; height: 18px; border-radius: 999px; border: 3px solid rgba(255,255,255,0.28); border-top-color: var(--color-orange-1); }
+  .pv-buffer--a { transform: translate(-50%, -50%); }
+  .pv-buffer--b { transform: translate(-50%, -50%) scale(1.55); opacity: 0.38; }
+  :global(.index-card:hover) .pv-buffer--a { animation: pv-spin 850ms linear infinite; }
+
+  .pv-survey {
+    left: 22px;
+    top: 14px;
+    width: 94px;
+    height: 68px;
+    border-radius: 8px;
+    background: var(--color-bg-light);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 12%, transparent);
+  }
+  .pv-answer { left: 38px; width: 60px; height: 8px; border-radius: 999px; background: var(--visual-accent); }
+  .pv-answer--a { top: 32px; }
+  .pv-answer--b { top: 48px; }
+  .pv-answer--c { top: 64px; }
+  .pv-flag {
+    right: 30px;
+    top: 34px;
+    display: grid !important;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    background: var(--color-pink);
+    color: white;
+  }
+  .pv-scan {
+    left: 22px;
+    top: 18px;
+    width: 94px;
+    height: 4px;
+    background: rgba(198, 83, 103, 0.58);
+  }
+  :global(.index-card:hover) .pv-scan { animation: pv-scan 1.2s ease-in-out infinite; }
+
+  .pv-chain {
+    border: 4px solid var(--color-ink);
+    border-radius: 999px;
+    width: 44px;
+    height: 24px;
+  }
+  .pv-chain--a { left: 20px; top: 36px; transform: rotate(-18deg); }
+  .pv-chain--b { left: 58px; top: 36px; transform: rotate(18deg); }
+  .pv-chain--c { left: 96px; top: 36px; transform: rotate(-18deg); }
+  .pv-shield {
+    right: 24px;
+    bottom: 18px;
+    width: 38px;
+    height: 44px;
+    background: var(--visual-accent);
+    clip-path: polygon(50% 0, 92% 16%, 82% 76%, 50% 100%, 18% 76%, 8% 16%);
+  }
+  .pv-route { height: 3px; background: color-mix(in oklab, var(--visual-accent) 70%, var(--color-ink)); }
+  .pv-route--a { left: 24px; right: 70px; bottom: 22px; }
+  .pv-route--b { left: 40px; right: 90px; bottom: 34px; opacity: 0.58; }
+  .pv-box { width: 18px; height: 18px; border-radius: 3px; background: var(--color-orange-1); }
+  .pv-box--a { left: 28px; bottom: 15px; }
+  .pv-box--b { left: 82px; bottom: 27px; }
+  :global(.index-card:hover) .pv-box--a { animation: pv-slide-box 1.3s var(--ease-out-soft) infinite alternate; }
+
+  .pv-watch {
+    left: 28px;
+    top: 18px;
+    width: 54px;
+    height: 66px;
+    border-radius: 18px;
+    background: var(--color-ink);
+    box-shadow: inset 0 10px 0 var(--visual-accent), inset 0 -10px 0 var(--visual-accent);
+  }
+  .pv-pulse {
+    left: 40px;
+    top: 48px;
+    width: 30px;
+    height: 16px;
+    border-bottom: 3px solid var(--color-bg-light);
+    transform: skewX(-18deg);
+  }
+  .pv-task { right: 24px; height: 9px; border-radius: 999px; background: var(--color-bg-light); }
+  .pv-task--a { top: 26px; width: 70px; }
+  .pv-task--b { top: 46px; width: 54px; }
+  .pv-task--c { top: 66px; width: 64px; }
+  .pv-heart {
+    right: 50px;
+    bottom: 12px;
+    width: 18px;
+    height: 18px;
+    background: var(--color-pink);
+    transform: rotate(45deg);
+  }
+  .pv-heart::before,
+  .pv-heart::after { content: ""; position: absolute; width: 18px; height: 18px; border-radius: 999px; background: var(--color-pink); }
+  .pv-heart::before { left: -9px; }
+  .pv-heart::after { top: -9px; }
+  :global(.index-card:hover) .pv-pulse { animation: pv-pulse 720ms ease-in-out infinite; }
+
+  .pv-chat { border-radius: 12px; background: var(--color-bg-light); }
+  .pv-chat--a { left: 18px; top: 20px; width: 82px; height: 36px; }
+  .pv-chat--b { right: 18px; top: 52px; width: 76px; height: 32px; background: var(--visual-accent); }
+  .pv-caption {
+    left: 26px;
+    top: 32px;
+    color: var(--color-ink);
+  }
+  .pv-translate {
+    right: 25px;
+    top: 62px;
+    color: var(--color-ink-inverted);
+  }
+  .pv-spark { width: 8px; height: 8px; border-radius: 999px; background: var(--color-orange-1); }
+  .pv-spark--a { left: 110px; top: 24px; }
+  .pv-spark--b { left: 124px; top: 42px; opacity: 0.7; }
+  :global(.index-card:hover) .pv-spark { animation: pv-pulse 620ms ease-in-out infinite alternate; }
+
+  .pv-hook {
+    left: 42px;
+    top: 14px;
+    width: 52px;
+    height: 70px;
+    border: 10px solid var(--color-ink);
+    border-top: 0;
+    border-left: 0;
+    border-radius: 0 0 38px 0;
+  }
+  .pv-bag {
+    right: 28px;
+    bottom: 14px;
+    width: 44px;
+    height: 38px;
+    border-radius: 6px;
+    background: var(--visual-accent);
+  }
+  .pv-bag::before { content: ""; position: absolute; left: 10px; top: -12px; width: 24px; height: 18px; border: 4px solid var(--visual-accent); border-bottom: 0; border-radius: 999px 999px 0 0; }
+  .pv-survey-dot { left: 22px; width: 9px; height: 9px; border-radius: 999px; background: var(--color-orange); }
+  .pv-survey-dot--a { bottom: 18px; }
+  .pv-survey-dot--b { bottom: 34px; opacity: 0.75; }
+  .pv-survey-dot--c { bottom: 50px; opacity: 0.5; }
+  .pv-insight { right: 20px; top: 18px; color: var(--color-ink-dim); }
+  :global(.index-card:hover) .pv-bag { animation: pv-bob 700ms ease-in-out infinite; }
+
+  .pv-person {
+    left: 50%;
+    top: 52%;
+    width: 44px;
+    height: 52px;
+    border-radius: 18px 18px 10px 10px;
+    background: var(--color-ink);
+    transform: translate(-50%, -50%);
+  }
+  .pv-person::before { content: ""; position: absolute; left: 50%; top: -24px; width: 30px; height: 30px; border-radius: 999px; background: var(--visual-accent); transform: translateX(-50%); }
+  .pv-strength {
+    display: grid !important;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: var(--color-bg-light);
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-ink) 10%, transparent);
+  }
+  .pv-strength--a { left: 22px; top: 18px; }
+  .pv-strength--b { right: 30px; top: 16px; }
+  .pv-strength--c { left: 26px; bottom: 18px; }
+  .pv-strength--d { right: 26px; bottom: 18px; }
+  .pv-strength--e { left: 50%; top: 10px; transform: translateX(-50%); }
+  :global(.index-card:hover) .pv-strength { animation: pv-bob 900ms ease-in-out infinite alternate; }
+
+  @keyframes pv-slide { to { transform: translateX(8px); } }
+  @keyframes pv-pulse { 50% { transform: translate(-50%, -50%) scale(1.08); } }
+  @keyframes pv-spin { to { rotate: 360deg; } }
+  @keyframes pv-scan { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(56px); } }
+  @keyframes pv-slide-box { to { transform: translateX(42px); } }
+  @keyframes pv-bob { to { transform: translateY(-5px); } }
+</style>
+

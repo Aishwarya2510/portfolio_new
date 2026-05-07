@@ -1,0 +1,699 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Sidebar from "../components/home/Sidebar.astro";
+import CustomCursor from "../components/home/CustomCursor.astro";
+
+export const prerender = false;
+
+const topics = [
+  {
+    key: "ai",
+    label: "AI Transformation",
+    info: "I help teams move from scattered AI ideas to practical use cases, governance, adoption, and measurable operating value.",
+  },
+  {
+    key: "ops",
+    label: "Operations Enablement",
+    info: "I build the playbooks, dashboards, workflows, rituals, and ownership models that help change keep moving.",
+  },
+  {
+    key: "data",
+    label: "Data Trust",
+    info: "I care about clean signals, validation, controls, and decision confidence before scaling any AI or operations work.",
+  },
+  {
+    key: "people",
+    label: "Stakeholder Adoption",
+    info: "I translate technical change into clear stories, training, and team-ready ways of working.",
+  },
+  {
+    key: "delivery",
+    label: "Execution Leadership",
+    info: "I bring structure to ambiguous work: scope, risk, timeline, milestones, communication, and follow-through.",
+  },
+];
+---
+
+<BaseLayout
+  title="About - Aishwarya's Portfolio"
+  description="About Aishwarya Choursia, AI transformation lead and operations enablement leader."
+>
+  <div class="about-shell">
+    <Sidebar active="about" />
+
+    <main class="about-main">
+      <section class="about-intro">
+        <p class="about-kicker">About me</p>
+        <h1>I'm Aishwarya Choursia.</h1>
+        <ul>
+          <li>AI Transformation Lead focused on turning AI ideas into trusted, usable business systems.</li>
+          <li>Operations Enablement Leader who builds workflows, dashboards, playbooks, and adoption rhythms.</li>
+          <li>I like connecting people, process, data, and technology so change keeps working after launch.</li>
+        </ul>
+      </section>
+
+      <section class="game-shell" data-about-game>
+        <div class="game-frame" data-game-frame>
+          <div class="director" aria-label="Professional woman directing the game">
+            <div class="director-pointer" aria-hidden="true"></div>
+            <div class="director-head" aria-hidden="true">
+              <span></span><span></span><i></i>
+            </div>
+            <div class="director-body" aria-hidden="true"></div>
+            <div class="director-board" aria-hidden="true">Pick a block</div>
+          </div>
+
+          <div class="topic-arena" data-topic-arena aria-label="Choose what you want to know">
+            {
+              topics.map((topic, index) => (
+                <button
+                  type="button"
+                  class="topic-block"
+                  data-topic={topic.key}
+                  data-info={topic.info}
+                  style={`--x: ${18 + index * 12}%; --y: ${18 + (index % 3) * 18}%; --delay: ${index * -0.7}s;`}
+                  data-cursor="link"
+                >
+                  {topic.label}
+                </button>
+              ))
+            }
+          </div>
+
+          <aside class="info-card" aria-live="polite">
+            <span data-info-title>Choose a moving block</span>
+            <p data-info-copy>
+              Click one of the moving blocks to learn about Aishwarya's work style.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <div class="chat-widget" data-chat-widget>
+        <button type="button" class="chat-launcher" data-chat-toggle data-cursor="link" aria-expanded="false">
+          <span>Chat</span>
+          <small>Let's chat</small>
+        </button>
+
+        <section class="chat-box" data-chat-box aria-label="About Aishwarya chatbot" hidden>
+          <header>
+            <div>
+              <span>Aishwarya bot</span>
+              <small>Ask about AI, ops, projects, strengths</small>
+            </div>
+            <button type="button" data-chat-close aria-label="Close chat">x</button>
+          </header>
+          <div class="chat-log" data-chat-log>
+            <p class="bot">Hi, I can answer quick questions about Aishwarya.</p>
+          </div>
+          <div class="quick-questions">
+            <button type="button" data-question="What is your focus?">Focus</button>
+            <button type="button" data-question="What are your strengths?">Strengths</button>
+            <button type="button" data-question="What projects should I see?">Projects</button>
+          </div>
+          <form data-chat-form>
+            <input data-chat-input type="text" placeholder="Ask a question..." aria-label="Ask about Aishwarya" />
+            <button type="submit">Send</button>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <CustomCursor color="teal" />
+</BaseLayout>
+
+<style>
+  .about-shell {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 86% 12%, rgba(179, 208, 213, 0.32), transparent 18rem),
+      radial-gradient(circle at 14% 88%, rgba(238, 188, 148, 0.32), transparent 20rem),
+      var(--color-bg);
+    color: var(--color-ink);
+  }
+
+  .about-main {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(260px, 0.34fr) minmax(0, 1fr);
+    align-items: stretch;
+    gap: 14px;
+    min-height: 0;
+    padding: 14px clamp(12px, 3vw, 28px) 18px;
+  }
+
+  .about-intro,
+  .game-frame {
+    border-radius: 10px;
+    background: var(--color-bg-light);
+    box-shadow: 0 0 4px 0 #999079;
+  }
+
+  .about-intro {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: 12px;
+    min-height: calc(100vh - 126px);
+    padding: clamp(18px, 3vw, 30px);
+  }
+
+  .about-kicker {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    color: var(--color-ink-dim);
+  }
+
+  .about-intro h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2.45rem, 4.4vw, 4.4rem);
+    font-weight: 300;
+    line-height: 0.98;
+  }
+
+  .about-intro ul {
+    display: grid;
+    gap: 7px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .about-intro li {
+    border-radius: 8px;
+    padding: 8px 10px;
+    background: var(--color-bg-neutral);
+    color: var(--color-ink-dim);
+    line-height: 1.28;
+    font-size: 0.9rem;
+  }
+
+  .game-shell {
+    min-height: 0;
+  }
+
+  .game-frame {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(160px, 0.32fr) minmax(320px, 1fr) minmax(190px, 0.34fr);
+    gap: 10px;
+    min-height: calc(100vh - 126px);
+    height: 100%;
+    padding: 12px;
+    overflow: hidden;
+  }
+
+  .director {
+    position: relative;
+    min-height: 100%;
+    border-radius: 12px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.38), transparent),
+      var(--color-bg-neutral);
+  }
+
+  .director-head {
+    position: absolute;
+    left: 50%;
+    top: 58px;
+    width: 70px;
+    height: 70px;
+    border-radius: 999px;
+    background: #9a6546;
+    transform: translateX(-50%);
+    box-shadow: 0 -11px 0 6px #2c2522;
+  }
+  .director-head span {
+    position: absolute;
+    top: 30px;
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--color-ink);
+  }
+  .director-head span:first-child { left: 22px; }
+  .director-head span:nth-child(2) { right: 22px; }
+  .director-head i {
+    position: absolute;
+    left: 50%;
+    top: 44px;
+    width: 22px;
+    height: 10px;
+    border-bottom: 3px solid var(--color-ink);
+    border-radius: 0 0 999px 999px;
+    transform: translateX(-50%);
+  }
+
+  .director-body {
+    position: absolute;
+    left: 50%;
+    top: 122px;
+    width: 108px;
+    height: 126px;
+    border-radius: 36px 36px 12px 12px;
+    background: var(--color-teal);
+    transform: translateX(-50%);
+  }
+  .director-body::before,
+  .director-body::after {
+    content: "";
+    position: absolute;
+    top: 24px;
+    width: 58px;
+    height: 13px;
+    border-radius: 999px;
+    background: var(--color-teal);
+  }
+  .director-body::before {
+    left: -44px;
+    transform: rotate(-22deg);
+  }
+  .director-body::after {
+    right: -44px;
+    transform: rotate(22deg);
+  }
+
+  .director-pointer {
+    position: absolute;
+    right: 18px;
+    top: 174px;
+    width: 54px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--color-ink);
+    transform-origin: left center;
+    animation: pointer-wave 2.4s ease-in-out infinite;
+    z-index: 3;
+  }
+
+  .director-board {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    border-radius: 10px;
+    padding: 9px;
+    font-size: 0.72rem;
+    background: var(--color-ink);
+    color: var(--color-ink-inverted);
+    font-family: var(--font-mono);
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .topic-arena {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: center;
+    gap: 14px;
+    min-width: 0;
+    min-height: 100%;
+    padding: 18px;
+    border: 2px dashed color-mix(in oklab, var(--color-teal) 42%, transparent);
+    border-radius: 12px;
+    background:
+      linear-gradient(color-mix(in oklab, var(--color-ink) 5%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in oklab, var(--color-ink) 5%, transparent) 1px, transparent 1px),
+      var(--color-bg-neutral);
+    background-size: 32px 32px;
+    overflow: hidden;
+  }
+
+  .topic-block {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    min-height: 50px;
+    border: 0;
+    border-radius: 12px;
+    padding: 9px;
+    background: var(--color-bg-light);
+    color: var(--color-ink);
+    box-shadow: 0 7px 16px -12px rgba(36, 36, 36, 0.7), 0 0 3px #999079;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+    cursor: pointer;
+    transform: translateY(0);
+    animation: float-block 7s ease-in-out infinite;
+    animation-delay: var(--delay);
+    transition:
+      background var(--duration-fast) var(--ease-out-soft),
+      color var(--duration-fast) var(--ease-out-soft),
+      transform var(--duration-fast) var(--ease-out-soft);
+  }
+  .topic-block:hover,
+  .topic-block:focus-visible,
+  .topic-block.is-active {
+    z-index: 4;
+    background: var(--color-pink);
+    color: var(--color-ink-inverted);
+    transform: translateY(-2px) scale(1.02);
+    animation-play-state: paused;
+  }
+
+  .info-card {
+    display: grid;
+    align-content: end;
+    gap: 10px;
+    min-width: 0;
+    border-radius: 12px;
+    padding: 14px;
+    background: var(--color-teal);
+    color: var(--color-ink-inverted);
+  }
+  .info-card span {
+    font-family: var(--font-display);
+    font-size: clamp(1.55rem, 2.4vw, 2.35rem);
+    line-height: 0.95;
+  }
+  .info-card p {
+    margin: 0;
+    color: var(--color-teal-3);
+    line-height: 1.32;
+  }
+
+  .chat-widget {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 80;
+  }
+
+  .chat-launcher {
+    display: grid;
+    place-items: center;
+    width: 74px;
+    height: 74px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--color-orange-1);
+    color: var(--color-ink);
+    box-shadow: 0 16px 28px -18px rgba(36, 36, 36, 0.75);
+    cursor: pointer;
+    animation: chat-pulse 2.5s ease-in-out infinite;
+  }
+  .chat-launcher span {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+  .chat-launcher small {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+  }
+
+  .chat-box {
+    position: absolute;
+    right: 0;
+    bottom: 86px;
+    width: min(330px, calc(100vw - 32px));
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--color-bg-light);
+    box-shadow: 0 20px 42px -24px rgba(36, 36, 36, 0.9), 0 0 4px #999079;
+  }
+  .chat-box header {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px;
+    background: var(--color-ink);
+    color: var(--color-ink-inverted);
+  }
+  .chat-box header span {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    line-height: 1;
+  }
+  .chat-box header small {
+    color: var(--color-starlight);
+  }
+  .chat-box header button {
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--color-bg-light);
+    color: var(--color-ink);
+    cursor: pointer;
+  }
+  .chat-log {
+    display: grid;
+    gap: 8px;
+    max-height: 260px;
+    overflow: auto;
+    padding: 12px;
+  }
+  .chat-log p {
+    width: fit-content;
+    max-width: 88%;
+    margin: 0;
+    border-radius: 12px;
+    padding: 9px 11px;
+    line-height: 1.35;
+  }
+  .chat-log .bot {
+    background: var(--color-bg-neutral);
+    color: var(--color-ink-dim);
+  }
+  .chat-log .user {
+    justify-self: end;
+    background: var(--color-teal);
+    color: var(--color-ink-inverted);
+  }
+  .quick-questions {
+    display: flex;
+    gap: 6px;
+    padding: 0 12px 10px;
+    overflow-x: auto;
+  }
+  .quick-questions button,
+  .chat-box form button {
+    border: 0;
+    border-radius: 999px;
+    padding: 8px 10px;
+    background: var(--color-bg-neutral);
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .chat-box form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    padding: 12px;
+    border-top: 1px solid color-mix(in oklab, var(--color-ink) 10%, transparent);
+  }
+  .chat-box input {
+    min-width: 0;
+    border: 1px solid color-mix(in oklab, var(--color-ink) 12%, transparent);
+    border-radius: 999px;
+    padding: 9px 12px;
+    background: var(--color-bg-white);
+  }
+  .chat-box form button {
+    background: var(--color-teal);
+    color: var(--color-ink-inverted);
+  }
+
+  @keyframes float-block {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -6px; }
+  }
+  @keyframes pointer-wave {
+    0%, 100% { transform: rotate(-10deg); }
+    50% { transform: rotate(12deg); }
+  }
+  @keyframes chat-pulse {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  @media (max-width: 1180px) {
+    .about-intro,
+    .game-frame {
+      grid-template-columns: 1fr;
+    }
+    .game-frame {
+      min-height: auto;
+    }
+    .director {
+      min-height: 220px;
+    }
+    .director-head {
+      top: 36px;
+    }
+    .director-body {
+      top: 118px;
+      height: 86px;
+    }
+    .director-pointer {
+      top: 156px;
+      right: 26%;
+    }
+    .director-board {
+      left: auto;
+      width: 180px;
+    }
+    .topic-arena {
+      min-height: 390px;
+    }
+    .info-card {
+      min-height: 180px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .about-shell {
+      display: block;
+    }
+    .about-main {
+      padding-inline: 12px;
+    }
+    .about-intro,
+    .game-frame {
+      padding: 16px;
+    }
+    .about-intro h1 {
+      font-size: clamp(3.1rem, 17vw, 4.5rem);
+    }
+    .topic-arena {
+      min-height: 360px;
+      grid-template-columns: 1fr;
+    }
+    .topic-block {
+      width: 100%;
+      min-height: 56px;
+      font-size: 0.68rem;
+      padding: 9px;
+    }
+    .chat-widget {
+      right: 14px;
+      bottom: 14px;
+    }
+    .chat-launcher {
+      width: 76px;
+      height: 76px;
+    }
+    .chat-box {
+      bottom: 88px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .topic-block,
+    .director-pointer,
+    .chat-launcher {
+      animation: none !important;
+    }
+  }
+</style>
+
+<script>
+  function initAboutInteractions() {
+    const blocks = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-topic]"));
+    const infoTitle = document.querySelector<HTMLElement>("[data-info-title]");
+    const infoCopy = document.querySelector<HTMLElement>("[data-info-copy]");
+
+    blocks.forEach((block) => {
+      if (block.dataset.wired === "1") return;
+      block.dataset.wired = "1";
+      block.addEventListener("click", () => {
+        blocks.forEach((item) => item.classList.toggle("is-active", item === block));
+        if (infoTitle) infoTitle.textContent = block.textContent?.trim() ?? "";
+        if (infoCopy) infoCopy.textContent = block.dataset.info ?? "";
+      });
+    });
+
+    const widget = document.querySelector<HTMLElement>("[data-chat-widget]");
+    const toggle = document.querySelector<HTMLButtonElement>("[data-chat-toggle]");
+    const close = document.querySelector<HTMLButtonElement>("[data-chat-close]");
+    const box = document.querySelector<HTMLElement>("[data-chat-box]");
+    const log = document.querySelector<HTMLElement>("[data-chat-log]");
+    const form = document.querySelector<HTMLFormElement>("[data-chat-form]");
+    const input = document.querySelector<HTMLInputElement>("[data-chat-input]");
+
+    function openChat() {
+      if (!box || !toggle) return;
+      box.hidden = false;
+      toggle.setAttribute("aria-expanded", "true");
+      input?.focus();
+    }
+    function closeChat() {
+      if (!box || !toggle) return;
+      box.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+    }
+    function answer(question: string) {
+      const text = question.toLowerCase();
+      if (text.includes("project")) {
+        return "Start with the AI and operations projects: Agent Maestro, Snowflake Cortex Analyst, AI in Teams, Supply Chain Resilience, and HarmonyHub.";
+      }
+      if (text.includes("strength")) {
+        return "Aishwarya's strengths are structure, communication, analytical thinking, stakeholder clarity, and turning messy work into repeatable systems.";
+      }
+      if (text.includes("focus") || text.includes("what")) {
+        return "Her focus is AI transformation and operations enablement: making AI useful, trusted, adopted, and operationally sustainable.";
+      }
+      if (text.includes("experience")) {
+        return "She has worked across QA, business strategy, transformation, product operations, and revenue operations.";
+      }
+      return "Good question. The short version: Aishwarya helps teams make AI change practical through data trust, workflows, adoption, and execution leadership.";
+    }
+    function addMessage(text: string, who: "user" | "bot") {
+      if (!log) return;
+      const p = document.createElement("p");
+      p.className = who;
+      p.textContent = text;
+      log.append(p);
+      log.scrollTop = log.scrollHeight;
+    }
+    function ask(question: string) {
+      const trimmed = question.trim();
+      if (!trimmed) return;
+      addMessage(trimmed, "user");
+      window.setTimeout(() => addMessage(answer(trimmed), "bot"), 180);
+    }
+
+    if (widget && toggle && widget.dataset.chatWired !== "1") {
+      widget.dataset.chatWired = "1";
+      toggle.addEventListener("click", () => {
+        if (box?.hidden) openChat();
+        else closeChat();
+      });
+      close?.addEventListener("click", closeChat);
+      form?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!input) return;
+        ask(input.value);
+        input.value = "";
+      });
+      document.querySelectorAll<HTMLButtonElement>("[data-question]").forEach((button) => {
+        button.addEventListener("click", () => {
+          openChat();
+          ask(button.dataset.question ?? "");
+        });
+      });
+    }
+  }
+
+  initAboutInteractions();
+  document.addEventListener("astro:page-load", initAboutInteractions);
+</script>

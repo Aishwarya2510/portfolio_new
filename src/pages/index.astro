@@ -1,0 +1,17 @@
+---
+import DarkScene from "../layouts/DarkScene.astro";
+import MonsterChooser from "../components/onboarding/MonsterChooser.astro";
+import CustomCursor from "../components/home/CustomCursor.astro";
+
+export const prerender = false;
+---
+
+<DarkScene
+  title="Choose your monster - Aishwarya's Portfolio"
+  description="Pick the monster that will run around Aishwarya's portfolio with you."
+  showClock={false}
+  canonical="/"
+>
+  <MonsterChooser />
+  <CustomCursor color="teal" />
+</DarkScene>

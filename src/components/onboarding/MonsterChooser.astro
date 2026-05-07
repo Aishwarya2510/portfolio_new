@@ -1,0 +1,355 @@
+---
+type Monster = {
+  id: string;
+  name: string;
+  temperament: string;
+  body: string;
+  accent: string;
+  glow: string;
+};
+
+const monsters: Monster[] = [
+  { id: "spark", name: "Spark", temperament: "quick little voltage", body: "#b8ffe7", accent: "#ffeb6e", glow: "rgba(184,255,231,0.36)" },
+  { id: "moss", name: "Moss", temperament: "soft forest wanderer", body: "#7db592", accent: "#d7f27a", glow: "rgba(125,181,146,0.34)" },
+  { id: "orbit", name: "Orbit", temperament: "small cosmic drifter", body: "#9fa8ff", accent: "#73f3ff", glow: "rgba(115,243,255,0.3)" },
+  { id: "byte", name: "Byte", temperament: "glitchy desk friend", body: "#8ad7ff", accent: "#ff7bd3", glow: "rgba(138,215,255,0.34)" },
+  { id: "bloom", name: "Bloom", temperament: "cheerful petal sprite", body: "#ff9bd0", accent: "#ffe16b", glow: "rgba(255,155,208,0.34)" },
+  { id: "ember", name: "Ember", temperament: "tiny warm flame", body: "#ff955c", accent: "#ffd36a", glow: "rgba(255,149,92,0.34)" },
+  { id: "luna", name: "Luna", temperament: "quiet moon bean", body: "#d9e3ff", accent: "#9bb4ff", glow: "rgba(217,227,255,0.28)" },
+  { id: "prism", name: "Prism", temperament: "bright color collector", body: "#f3c8ff", accent: "#77ffd8", glow: "rgba(243,200,255,0.3)" },
+  { id: "reef", name: "Reef", temperament: "bouncy tide buddy", body: "#65d6c7", accent: "#6ee7ff", glow: "rgba(101,214,199,0.32)" },
+  { id: "nova", name: "Nova", temperament: "starry chaos dot", body: "#f8f1b5", accent: "#ff8ab3", glow: "rgba(248,241,181,0.34)" },
+];
+---
+
+<section class="monster-chooser" aria-labelledby="monster-title">
+  <div class="monster-chooser__header">
+    <p class="monster-chooser__eyebrow">choose your monster</p>
+    <h1 id="monster-title">Who should run around the website?</h1>
+    <a href="/home" class="monster-chooser__skip" data-skip-monster data-cursor="link">
+      Skip for now
+    </a>
+  </div>
+
+  <div class="monster-grid">
+    {
+      monsters.map((monster) => (
+        <button
+          type="button"
+          class="monster-card"
+          data-monster-choice={monster.id}
+          data-cursor="link"
+            style={`--monster-body:${monster.body};--monster-accent:${monster.accent};--monster-glow:${monster.glow};`}
+            aria-label={`Choose ${monster.name}`}
+        >
+          <span class="monster-card__stage" aria-hidden="true">
+            <svg viewBox="0 0 72 72" class="monster-card__svg" fill="none">
+              <ellipse cx="36" cy="62" rx="18" ry="3" fill="rgba(0,0,0,0.26)" />
+              {monster.id === "spark" && (
+                <>
+                  <path d="M18 18L26 6L27 20Z" fill="var(--monster-accent)" />
+                  <path d="M45 20L52 7L54 19Z" fill="var(--monster-accent)" />
+                </>
+              )}
+              {monster.id === "moss" && (
+                <>
+                  <ellipse cx="25" cy="12" rx="11" ry="5" fill="var(--monster-accent)" transform="rotate(22 25 12)" />
+                  <ellipse cx="47" cy="12" rx="11" ry="5" fill="var(--monster-accent)" transform="rotate(-22 47 12)" />
+                </>
+              )}
+              {monster.id === "orbit" && (
+                <ellipse cx="36" cy="39" rx="30" ry="11" stroke="var(--monster-accent)" stroke-width="3" opacity="0.72" />
+              )}
+              {monster.id === "byte" && (
+                <>
+                  <rect x="9" y="21" width="10" height="10" rx="2" fill="var(--monster-accent)" />
+                  <rect x="53" y="21" width="10" height="10" rx="2" fill="var(--monster-accent)" />
+                </>
+              )}
+              {monster.id === "bloom" && (
+                <>
+                  <circle cx="36" cy="10" r="6" fill="var(--monster-accent)" />
+                  <circle cx="27" cy="15" r="6" fill="var(--monster-accent)" />
+                  <circle cx="45" cy="15" r="6" fill="var(--monster-accent)" />
+                </>
+              )}
+              {monster.id === "ember" && (
+                <path d="M36 4C48 15 39 22 36 27C28 20 30 11 36 4Z" fill="var(--monster-accent)" />
+              )}
+              {monster.id === "luna" && (
+                <path d="M49 7C39 10 37 21 43 27C31 25 27 12 35 4C41 -1 47 2 49 7Z" fill="var(--monster-accent)" />
+              )}
+              {monster.id === "prism" && (
+                <polygon points="36,4 47,20 36,29 25,20" fill="var(--monster-accent)" />
+              )}
+              {monster.id === "reef" && (
+                <>
+                  <path d="M17 30C8 24 8 15 18 12C24 17 24 25 17 30Z" fill="var(--monster-accent)" />
+                  <path d="M55 30C64 24 64 15 54 12C48 17 48 25 55 30Z" fill="var(--monster-accent)" />
+                </>
+              )}
+              {monster.id === "nova" && (
+                <path d="M36 4L40 15L52 16L42 23L45 35L36 28L27 35L30 23L20 16L32 15Z" fill="var(--monster-accent)" />
+              )}
+              <rect x="16" y="18" width="40" height="38" rx="15" fill="var(--monster-body)" />
+              <rect x="22" y="23" width="28" height="5" rx="2.5" fill="#fff" opacity="0.28" />
+              <circle cx="27" cy="38" r="3.2" fill="#111318" />
+              <circle cx="45" cy="38" r="3.2" fill="#111318" />
+              <path d="M32 46C34.1 48 38.1 48 40 46" stroke="#111318" stroke-width="2" stroke-linecap="round" />
+              <rect x="22" y="53" width="10" height="8" rx="4" fill="var(--monster-accent)" />
+              <rect x="40" y="53" width="10" height="8" rx="4" fill="var(--monster-accent)" />
+            </svg>
+          </span>
+          <span class="monster-card__name">{monster.name}</span>
+          <span class="monster-card__temperament">{monster.temperament}</span>
+        </button>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .monster-chooser {
+    position: relative;
+    z-index: 1;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+    width: min(100%, 1040px);
+    margin: 0 auto;
+    padding: 40px 18px;
+  }
+
+  .monster-chooser__header {
+    display: grid;
+    gap: 8px;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .monster-chooser__eyebrow,
+  .monster-card__temperament {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    color: rgba(211, 238, 229, 0.68);
+  }
+
+  .monster-chooser__eyebrow {
+    font-size: 0.82rem;
+  }
+
+  .monster-chooser h1 {
+    margin: 0;
+    color: #fff7fb;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 4.2rem);
+    font-weight: 300;
+    line-height: 0.98;
+    text-shadow:
+      0 0 24px rgba(255, 105, 177, 0.3),
+      0 0 46px rgba(0, 238, 204, 0.16);
+  }
+
+  .monster-chooser__skip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    margin-top: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 247, 251, 0.82);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition:
+      background 180ms var(--ease-out-soft),
+      border-color 180ms var(--ease-out-soft),
+      color 180ms var(--ease-out-soft),
+      transform 180ms var(--ease-out-soft);
+  }
+
+  .monster-chooser__skip:hover,
+  .monster-chooser__skip:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.34);
+    background: rgba(255, 255, 255, 0.11);
+    color: #fff7fb;
+  }
+
+  .monster-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .monster-card {
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    min-height: 172px;
+    padding: 16px 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    background:
+      radial-gradient(circle at 50% 18%, var(--monster-glow), transparent 46%),
+      rgba(255, 255, 255, 0.045);
+    color: #fff7fb;
+    cursor: pointer;
+    transition:
+      transform 220ms var(--ease-out-soft),
+      border-color 220ms var(--ease-out-soft),
+      background-color 220ms var(--ease-out-soft),
+      box-shadow 220ms var(--ease-out-soft);
+  }
+
+  .monster-card:hover,
+  .monster-card:focus-visible {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.36);
+    background-color: rgba(255, 255, 255, 0.075);
+    box-shadow: 0 18px 36px -24px var(--monster-glow);
+  }
+
+  .monster-card[data-selected] {
+    border-color: var(--monster-accent);
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--monster-accent) 55%, transparent),
+      0 18px 42px -22px var(--monster-glow);
+  }
+
+  .monster-card__stage {
+    display: grid;
+    place-items: center;
+    width: 82px;
+    height: 82px;
+  }
+
+  .monster-card__svg {
+    width: 76px;
+    height: 76px;
+    overflow: visible;
+    filter: drop-shadow(0 0 16px var(--monster-glow));
+    animation: monster-idle 1.6s ease-in-out infinite;
+  }
+
+  .monster-card:hover .monster-card__svg {
+    animation-duration: 0.72s;
+  }
+
+  .monster-card__name {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+
+  .monster-card__temperament {
+    max-width: 12ch;
+    font-size: 0.62rem;
+    line-height: 1.25;
+  }
+
+  @keyframes monster-idle {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .monster-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 520px) {
+    .monster-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .monster-card {
+      min-height: 132px;
+      grid-template-columns: auto 1fr;
+      justify-items: start;
+      text-align: left;
+    }
+
+    .monster-card__stage {
+      grid-row: span 2;
+      width: 70px;
+      height: 70px;
+    }
+
+    .monster-card__svg {
+      width: 66px;
+      height: 66px;
+    }
+
+    .monster-card__temperament {
+      max-width: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .monster-card,
+    .monster-card__svg {
+      animation: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { navigate } from "astro:transitions/client";
+
+  const MONSTER_KEY = "sitepet:monster";
+
+  function wireMonsterChooser() {
+    const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-monster-choice]"));
+    const skip = document.querySelector<HTMLAnchorElement>("[data-skip-monster]");
+    if (!cards.length && !skip) return;
+    if (skip && skip.dataset.wired !== "1") {
+      skip.dataset.wired = "1";
+      skip.addEventListener("click", (event) => {
+        event.preventDefault();
+        try {
+          sessionStorage.setItem("wallet:arrival", "1");
+        } catch {}
+        navigate("/home");
+      });
+    }
+    if (!cards.length) return;
+    let saved = "spark";
+    try {
+      saved = localStorage.getItem(MONSTER_KEY) || saved;
+    } catch {}
+    cards.forEach((card) => {
+      if (card.dataset.monsterChoice === saved) card.setAttribute("data-selected", "");
+      if (card.dataset.wired === "1") return;
+      card.dataset.wired = "1";
+      card.addEventListener("click", async () => {
+        const choice = card.dataset.monsterChoice || "spark";
+        cards.forEach((item) => item.removeAttribute("data-selected"));
+        card.setAttribute("data-selected", "");
+        try {
+          localStorage.setItem(MONSTER_KEY, choice);
+          sessionStorage.setItem("wallet:arrival", "1");
+        } catch {}
+        window.dispatchEvent(new CustomEvent("sitepet:monster-change", { detail: { monster: choice } }));
+        await new Promise((resolve) => window.setTimeout(resolve, 180));
+        navigate("/home");
+      });
+    });
+  }
+
+  wireMonsterChooser();
+  document.addEventListener("astro:page-load", wireMonsterChooser);
+</script>

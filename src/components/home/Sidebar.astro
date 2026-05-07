@@ -1,0 +1,210 @@
+---
+import Logo from "../ui/Logo.astro";
+import TableOfContents from "./TableOfContents.astro";
+
+interface Props {
+  active?: "work" | "experience" | "about" | "connect";
+  anon?: boolean;
+  visitorCard?: unknown;
+}
+
+const { active = "work" } = Astro.props;
+---
+
+<header
+  id="site-sidebar"
+  data-sidebar
+  transition:name="sidebar"
+  transition:animate="none"
+  class="site-sidebar site-navbar"
+>
+  <a href="/home" aria-label="Home" class="site-navbar__brand" data-cursor="link">
+    <Logo class="site-navbar__logo" />
+    <span>
+      <strong>Aishwarya</strong>
+      <small>AI Strategy &amp; Product Management</small>
+    </span>
+  </a>
+
+  <TableOfContents active={active} />
+
+  <div class="site-navbar__status" aria-label="Portfolio status">
+    <span class="site-navbar__status-dot" aria-hidden="true"></span>
+    <span>online</span>
+  </div>
+</header>
+
+<style>
+  .site-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 45;
+    display: grid;
+    grid-template-columns: minmax(190px, auto) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(12px, 2vw, 24px);
+    width: 100%;
+    padding: 14px clamp(14px, 3vw, 36px);
+    border-bottom: 1px solid color-mix(in oklab, var(--color-ink) 12%, transparent);
+    background: color-mix(in oklab, var(--color-bg-light) 94%, white);
+    box-shadow: 0 12px 28px -24px rgba(110, 72, 34, 0.35);
+  }
+
+  .site-navbar__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .site-navbar__brand :global(svg),
+  .site-navbar__logo {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 auto;
+  }
+
+  .site-navbar__brand span {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .site-navbar__brand strong {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2vw, 1.8rem);
+    font-weight: 300;
+    line-height: 0.95;
+  }
+
+  .site-navbar__brand small {
+    max-width: 30ch;
+    overflow: hidden;
+    color: var(--color-ink-dim);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    line-height: 1.15;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .site-navbar :global([data-toc]) {
+    justify-self: center;
+    width: auto !important;
+    padding: 6px !important;
+    border-radius: 999px !important;
+  }
+
+  .site-navbar :global([data-toc] > p) {
+    display: none;
+  }
+
+  .site-navbar :global([data-toc-list]) {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 4px !important;
+  }
+
+  .site-navbar :global([data-toc-item]) {
+    min-height: 34px;
+    padding: 7px 10px !important;
+    white-space: nowrap;
+  }
+
+  .site-navbar :global([data-toc-item] span:last-child) {
+    display: none;
+  }
+
+  .site-navbar :global(.toc-preview) {
+    display: none !important;
+  }
+
+  .site-navbar__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--color-ink-dim);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .site-navbar__status-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--color-green-1);
+    animation: navbar-status-pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes navbar-status-pulse {
+    0%,
+    100% {
+      opacity: 0.9;
+      box-shadow: 0 0 0 0 rgba(125, 181, 146, 0.55);
+    }
+    50% {
+      opacity: 0.5;
+      box-shadow: 0 0 0 4px rgba(125, 181, 146, 0);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .site-navbar {
+      grid-template-columns: 1fr;
+      justify-items: stretch;
+      gap: 10px;
+    }
+
+    .site-navbar__brand {
+      justify-content: center;
+    }
+
+    .site-navbar__brand small,
+    .site-navbar__status {
+      display: none;
+    }
+
+    .site-navbar :global([data-toc]) {
+      justify-self: stretch;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .site-navbar :global([data-toc]::-webkit-scrollbar) {
+      display: none;
+    }
+
+    .site-navbar :global([data-toc-list]) {
+      width: max-content;
+      min-width: 100%;
+      justify-content: center;
+    }
+
+    .site-navbar :global([data-toc-item]) {
+      font-size: 0.86rem;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .site-navbar {
+      padding-inline: 10px;
+    }
+
+    .site-navbar :global([data-toc-list]) {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-navbar__status-dot {
+      animation: none !important;
+    }
+  }
+</style>

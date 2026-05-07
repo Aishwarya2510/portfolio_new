@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+
+*.log
+*.err
+
+.env
+.env.*
+
+temp_mywork/
+*.vsix
