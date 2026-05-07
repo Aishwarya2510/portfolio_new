@@ -2,12 +2,6 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Sidebar from "../components/home/Sidebar.astro";
 import CustomCursor from "../components/home/CustomCursor.astro";
-import { getCurrentVisitor } from "../lib/visitor-server";
-
-export const prerender = false;
-
-const visitor = await getCurrentVisitor(Astro);
-const cursorColor = visitor?.color ?? "pink";
 
 const experiences = [
   {
@@ -106,18 +100,7 @@ const experiences = [
 
 <BaseLayout title="Experience - Aishwarya's Portfolio" description="Experience and selected work.">
   <div class="flex flex-col min-h-screen">
-    <Sidebar
-      active="experience"
-      anon={!visitor}
-      visitorCard={visitor
-        ? {
-            name: visitor.name,
-            color: visitor.color,
-            number: visitor.number,
-            signature: visitor.signature,
-          }
-        : null}
-    />
+    <Sidebar active="experience" />
 
     <main class="experience-page flex-1 min-w-0">
       <section
@@ -327,7 +310,7 @@ const experiences = [
     </main>
   </div>
 
-  <CustomCursor color={cursorColor} />
+  <CustomCursor color="pink" />
 </BaseLayout>
 
 <style>

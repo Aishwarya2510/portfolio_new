@@ -4,7 +4,11 @@ import CustomCursor from "../../components/home/CustomCursor.astro";
 import CaseStudySidebar from "../../components/casestudy/CaseStudySidebar.astro";
 import { getWorkProject, workProjects } from "../../lib/work-projects";
 
-export const prerender = false;
+export function getStaticPaths() {
+  return workProjects.map((project) => ({
+    params: { slug: project.slug },
+  }));
+}
 
 const { slug } = Astro.params;
 const project = slug ? getWorkProject(slug) : undefined;

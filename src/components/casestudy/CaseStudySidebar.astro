@@ -18,13 +18,11 @@ interface SectionLink {
   label: string;
 }
 
-interface Props {
+const { sections, active } = Astro.props as {
   sections: SectionLink[];
   /** Initially-active section; scrollspy overrides this once mounted. */
   active?: string;
-}
-
-const { sections, active } = Astro.props;
+};
 const initialActive = active ?? sections[0]?.id;
 ---
 

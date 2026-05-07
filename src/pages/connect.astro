@@ -3,16 +3,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Sidebar from "../components/home/Sidebar.astro";
 import CustomCursor from "../components/home/CustomCursor.astro";
 
-export const prerender = false;
-
-const formspreeEndpoint =
-  import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? "https://formspree.io/f/your-form-id";
+const formspreeEndpoint = "https://formspree.io/f/xykodeqj";
 
 const socials = [
-  { label: "LinkedIn", href: "#", note: "professional updates" },
-  { label: "GitHub", href: "#", note: "projects and code" },
-  { label: "Email", href: "mailto:hello@example.com", note: "direct hello" },
-  { label: "Portfolio", href: "/home", note: "selected work" },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/aishwarya-chourasia-65b381151/details/skills/",
+    note: "professional updates",
+  },
+  { label: "GitHub", href: "https://github.com/Aishwarya2510/", note: "projects and code" },
+  { label: "Email", href: "mailto:aishwarya7uiuc@gmail.com", note: "direct hello" },
 ];
 ---
 

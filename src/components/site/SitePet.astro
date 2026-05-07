@@ -889,7 +889,6 @@
 
     const PET_W = 44;
     const PET_H = 56;
-    const _MARGIN_R = 12;
     const SPEED = 34; // px / sec
 
     // Quips keyed by event. Picked at random each time.
@@ -913,11 +912,13 @@
       if (count <= 7) return CLICK_PHRASES_ANNOYED;
       return CLICK_PHRASES_DONE;
     }
-    // Global poke count — fetched once, incremented optimistically on click.
+    // Local poke count, kept in the browser for the static GitHub Pages build.
     let globalPokes = 0;
     let pokeQuipUsed = false;
     let sessionClicks = 0;
-    fetch("/api/pet-pokes").then((r) => r.json()).then((d) => { globalPokes = d.pokes; }).catch(() => {});
+    try {
+      globalPokes = parseInt(localStorage.getItem("sitepet:pokes") ?? "0", 10) || 0;
+    } catch {}
 
     const HOVER_PHRASES = ["what's up?", "hi!", "oh hey", "howdy", "sup?", "hello"];
     const DRAG_PHRASES = [
@@ -973,16 +974,6 @@
       "this is exciting",
       "send the note!",
       "i'll cheer from here",
-    ];
-    const GALLERY_PHRASES = [
-      "so many visitors!",
-      "ooh who's this one",
-      "i wonder who'll\ncome next",
-      "look at all\nthese people",
-      "everyone has\nsuch cool colors",
-      "am i a visitor too?",
-      "it's a party in here",
-      "the gallery is growing!",
     ];
     const LEDGE_LAND_PHRASES = [
       "nice view up here",
@@ -2039,8 +2030,6 @@
             saySomething(pet, clickPool(clickCount), 1400);
           }
 
-          // Increment server counter (fire-and-forget).
-          fetch("/api/pet-pokes", { method: "POST" }).catch(() => {});
           try {
             const p = parseInt(localStorage.getItem("sitepet:pokes") ?? "0", 10);
             localStorage.setItem("sitepet:pokes", String(p + 1));
@@ -2127,7 +2116,6 @@
         }
         if (path.startsWith("/connect")) return CONTACT_PHRASES;
         if (path.startsWith("/about")) return ABOUT_PHRASES;
-        if (path.startsWith("/visitor-gallery")) return GALLERY_PHRASES;
         return IDLE_PHRASES;
       }
       let lastIdleQuipAt = 0;
@@ -2283,19 +2271,11 @@
       rack.querySelectorAll<HTMLElement>("[data-hat-choice]").forEach((btn) => {
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
-          const prev = readHat();
           const choice = (btn.dataset.hatChoice || "none") as HatKey;
           try {
             localStorage.setItem(HAT_KEY, choice);
           } catch {}
           applyHat(choice);
-          if (prev !== choice) {
-            fetch("/api/hat-picks", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ from: prev, to: choice }),
-            }).catch(() => {});
-          }
           rack.removeAttribute("data-open");
           rack.setAttribute("data-hat-picked", "");
           // Blur so :focus-within doesn't keep the menu visible.

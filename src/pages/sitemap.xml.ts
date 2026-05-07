@@ -1,7 +1,8 @@
 import type { APIRoute } from "astro";
+import { workProjects } from "../lib/work-projects";
 
 // Static sitemap for the portfolio. Listed pages are the durable, indexable
-// routes; /api, /admin, /onboarding, and per-visitor pages are excluded.
+// routes for the static portfolio.
 const SITE = "https://aishwarya-portfolio.com";
 
 const routes = [
@@ -10,8 +11,7 @@ const routes = [
   { path: "/experience", priority: "0.9" },
   { path: "/about", priority: "0.9" },
   { path: "/connect", priority: "0.8" },
-  { path: "/work/lingofable", priority: "0.8" },
-  { path: "/work/splunk", priority: "0.8" },
+  ...workProjects.map((project) => ({ path: `/work/${project.slug}`, priority: "0.8" })),
 ];
 
 export const GET: APIRoute = () => {

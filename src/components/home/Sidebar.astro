@@ -4,8 +4,6 @@ import TableOfContents from "./TableOfContents.astro";
 
 interface Props {
   active?: "work" | "experience" | "about" | "connect";
-  anon?: boolean;
-  visitorCard?: unknown;
 }
 
 const { active = "work" } = Astro.props;

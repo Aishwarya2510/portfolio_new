@@ -3,12 +3,6 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import CaseStudySidebar from "../../components/casestudy/CaseStudySidebar.astro";
 import CustomCursor from "../../components/home/CustomCursor.astro";
 import Tag from "../../components/ui/Tag.astro";
-import { getCurrentVisitor } from "../../lib/visitor-server";
-
-export const prerender = false;
-
-const visitor = await getCurrentVisitor(Astro);
-const cursorColor = visitor?.color ?? "pink";
 
 const tocSections = [
   { id: "context", label: "Context" },
@@ -788,7 +782,7 @@ const reflections = [
     </main>
   </div>
 
-  <CustomCursor color={cursorColor} />
+  <CustomCursor color="pink" />
 </BaseLayout>
 
 <style>

@@ -4,12 +4,6 @@ import CaseStudySidebar from "../../components/casestudy/CaseStudySidebar.astro"
 import CustomCursor from "../../components/home/CustomCursor.astro";
 import Tag from "../../components/ui/Tag.astro";
 import Button from "../../components/ui/Button.astro";
-import { getCurrentVisitor } from "../../lib/visitor-server";
-
-export const prerender = false;
-
-const visitor = await getCurrentVisitor(Astro);
-const cursorColor = visitor?.color ?? "pink";
 
 // Sidebar sections — ids map 1:1 to the section elements below.
 const tocSections = [
@@ -522,7 +516,7 @@ const reflections = [
     </main>
   </div>
 
-  <CustomCursor color={cursorColor} />
+  <CustomCursor color="pink" />
 </BaseLayout>
 
 <style>
