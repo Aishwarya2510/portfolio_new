@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   site: "https://meganyap.me",
+  output: "static",
   vite: {
     plugins: [/** @type {any} */ (tailwindcss())],
   },
