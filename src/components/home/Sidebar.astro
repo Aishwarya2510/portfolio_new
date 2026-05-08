@@ -1,6 +1,7 @@
 ---
 import Logo from "../ui/Logo.astro";
 import TableOfContents from "./TableOfContents.astro";
+import { withBase } from "../../lib/paths";
 
 interface Props {
   active?: "work" | "experience" | "about" | "connect";
@@ -16,7 +17,7 @@ const { active = "work" } = Astro.props;
   transition:animate="none"
   class="site-sidebar site-navbar"
 >
-  <a href="/home" aria-label="Home" class="site-navbar__brand" data-cursor="link">
+  <a href={withBase("/home")} aria-label="Home" class="site-navbar__brand" data-cursor="link">
     <Logo class="site-navbar__logo" />
     <span>
       <strong>Aishwarya</strong>

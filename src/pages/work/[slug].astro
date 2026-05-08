@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import CustomCursor from "../../components/home/CustomCursor.astro";
 import CaseStudySidebar from "../../components/casestudy/CaseStudySidebar.astro";
 import { getWorkProject, workProjects } from "../../lib/work-projects";
+import { withBase } from "../../lib/paths";
 
 export function getStaticPaths() {
   return workProjects.map((project) => ({
@@ -14,7 +15,7 @@ const { slug } = Astro.params;
 const project = slug ? getWorkProject(slug) : undefined;
 
 if (!project) {
-  return Astro.redirect("/home", 302);
+  return Astro.redirect(withBase("/home"), 302);
 }
 
 const sections = [
@@ -38,7 +39,7 @@ const nextProject = workProjects[currentIndex + 1] ?? workProjects[0];
     <CaseStudySidebar sections={sections} active="overview" />
 
     <main class="work-detail">
-      <a href="/home" class="work-detail__back" data-cursor="link">Back to work</a>
+      <a href={withBase("/home")} class="work-detail__back" data-cursor="link">Back to work</a>
 
       <header class="work-hero" style={`--work-accent: var(--color-${project.accent});`}>
         <p class="work-hero__kicker">{project.status}</p>
@@ -108,7 +109,7 @@ const nextProject = workProjects[currentIndex + 1] ?? workProjects[0];
         <p>{project.takeaway}</p>
       </section>
 
-      <a href={`/work/${nextProject.slug}`} class="work-next" data-cursor="case-study">
+      <a href={withBase(`/work/${nextProject.slug}`)} class="work-next" data-cursor="case-study">
         <span>Next project</span>
         <strong>{nextProject.title}</strong>
       </a>

@@ -881,7 +881,13 @@
     if ((window as any).__sitePetInit) return;
     (window as any).__sitePetInit = true;
 
+    const BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, "");
     const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+    function currentPath() {
+      const path = window.location.pathname;
+      return BASE_PATH && path.startsWith(BASE_PATH) ? path.slice(BASE_PATH.length) || "/" : path;
+    }
 
     function el(): HTMLElement | null {
       return document.querySelector<HTMLElement>("[data-site-pet]");
@@ -2109,7 +2115,7 @@
       }
       function idlePool(): string[] {
         if (currentLedge) return perchPool();
-        const path = window.location.pathname;
+        const path = currentPath();
         if (path.startsWith("/work/")) {
           const extras = CASE_STUDY_PAGE_PHRASES[path] ?? [];
           return extras.length ? [...CASE_STUDY_PHRASES, ...extras] : CASE_STUDY_PHRASES;
@@ -2315,7 +2321,7 @@
       measureWalls();
       const pet = el();
       if (pet) {
-        const isContact = window.location.pathname.startsWith("/connect");
+        const isContact = currentPath().startsWith("/connect");
         pet.toggleAttribute("data-contact-page", isContact);
         applyMonster(readMonster());
         wire(pet);

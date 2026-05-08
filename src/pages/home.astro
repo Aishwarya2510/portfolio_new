@@ -5,6 +5,7 @@ import LatestLog from "../components/home/LatestLog.astro";
 import ProjectIndexCard from "../components/home/ProjectIndexCard.astro";
 import CustomCursor from "../components/home/CustomCursor.astro";
 import { workProjects as projects } from "../lib/work-projects";
+import { withBase } from "../lib/paths";
 ---
 
 <BaseLayout
@@ -52,7 +53,7 @@ import { workProjects as projects } from "../lib/work-projects";
                 accent={project.accent}
                 image={project.images[0]}
                 imageHeight={96}
-                href={`/work/${project.slug}`}
+                href={withBase(`/work/${project.slug}`)}
                 tilt={0}
               />
             ))

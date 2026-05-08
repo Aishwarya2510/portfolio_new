@@ -1,3 +1,5 @@
+import { withBase } from "./paths";
+
 export type WorkProject = {
   slug: string;
   title: string;
@@ -16,6 +18,8 @@ export type WorkProject = {
   takeaway: string;
 };
 
+const image = withBase;
+
 export const workProjects: WorkProject[] = [
   {
     slug: "snowflake-cortex-analyst",
@@ -29,7 +33,7 @@ export const workProjects: WorkProject[] = [
     accent: "teal",
     imageHeight: 250,
     tilt: -0.6,
-    images: ["/images/work/splunk/rootcause-tree-diagram.webp", "/images/work/splunk/content-layout-final.png"],
+    images: [image("/images/work/splunk/rootcause-tree-diagram.webp"), image("/images/work/splunk/content-layout-final.png")],
     overview:
       "This project studies what separates impressive AI demos from AI systems that executives can trust in production. Snowflake Cortex Analyst became a useful lens for thinking about text-to-SQL, semantic context, verified queries, regression tracking, latency visibility, and continuous refinement.",
     highlights: [
@@ -57,7 +61,7 @@ export const workProjects: WorkProject[] = [
     accent: "pink",
     imageHeight: 290,
     tilt: 0.5,
-    images: ["/images/work/splunk/flow-01-create-investigations.webp", "/images/work/splunk/solution-remediate.png"],
+    images: [image("/images/work/splunk/flow-01-create-investigations.webp"), image("/images/work/splunk/solution-remediate.png")],
     overview:
       "Agent Maestro is an AI-native decision layer for operations. It was shaped around a common enterprise problem: simple requests turn into long threads because ownership, risk, policy, and context are scattered across systems.",
     highlights: [
@@ -85,7 +89,7 @@ export const workProjects: WorkProject[] = [
     accent: "green",
     imageHeight: 250,
     tilt: -0.3,
-    images: ["/images/projects/loop.png", "/images/work/lingofable/bento-2-track-progress.png"],
+    images: [image("/images/projects/loop.png"), image("/images/work/lingofable/bento-2-track-progress.png")],
     overview:
       "This work came from GoPractice's Generative AI for PMs course and explored why reinforcement learning felt overlooked compared with supervised learning and LLMs. DeepSeek R1-Zero made RL newly relevant as a path toward reasoning without supervised fine-tuning.",
     highlights: [
@@ -113,7 +117,7 @@ export const workProjects: WorkProject[] = [
     accent: "orange",
     imageHeight: 270,
     tilt: 0.4,
-    images: ["/images/projects/gcal-wrapped.gif", "/images/projects/copilot.gif"],
+    images: [image("/images/projects/gcal-wrapped.gif"), image("/images/projects/copilot.gif")],
     overview:
       "This analysis reflected on Netflix's live streaming of the Tyson vs. Jake Paul fight as a case in ambitious product strategy, infrastructure stress, user expectations, and real-time operational response.",
     highlights: [
@@ -141,7 +145,7 @@ export const workProjects: WorkProject[] = [
     accent: "teal",
     imageHeight: 280,
     tilt: -0.4,
-    images: ["/images/projects/cu-reviews.gif", "/images/work/splunk/content-sme-findings.png"],
+    images: [image("/images/projects/cu-reviews.gif"), image("/images/work/splunk/content-sme-findings.png")],
     overview:
       "At Vista Research, this project focused on the business impact of fraudulent survey responses, especially straight-line behavior where respondents select the same answer across questions.",
     highlights: [
@@ -169,7 +173,7 @@ export const workProjects: WorkProject[] = [
     accent: "green",
     imageHeight: 245,
     tilt: 0.6,
-    images: ["/images/work/splunk/entry-final-hybrid.png", "/images/work/splunk/flow-03-auto-apply.webp"],
+    images: [image("/images/work/splunk/entry-final-hybrid.png"), image("/images/work/splunk/flow-03-auto-apply.webp")],
     overview:
       "This UIUC Technology Management project explored how modern supply chains can become more sustainable, resilient, transparent, and secure.",
     highlights: [
@@ -197,7 +201,7 @@ export const workProjects: WorkProject[] = [
     accent: "pink",
     imageHeight: 255,
     tilt: -0.5,
-    images: ["/images/projects/lingofable.png", "/images/work/lingofable/bento-1-fairy-tales.png"],
+    images: [image("/images/projects/lingofable.png"), image("/images/work/lingofable/bento-1-fairy-tales.png")],
     overview:
       "HarmonyHub is a productivity app concept designed to integrate with wearable devices and support productivity and well-being.",
     highlights: [
@@ -225,7 +229,7 @@ export const workProjects: WorkProject[] = [
     accent: "teal",
     imageHeight: 265,
     tilt: 0.35,
-    images: ["/images/projects/splunk.gif", "/images/work/splunk/solution-investigate.png"],
+    images: [image("/images/projects/splunk.gif"), image("/images/work/splunk/solution-investigate.png")],
     overview:
       "This project evaluated the strategic decision to integrate AI into Microsoft Teams to improve user experience, collaboration, and operational productivity.",
     highlights: [
@@ -253,7 +257,7 @@ export const workProjects: WorkProject[] = [
     accent: "orange",
     imageHeight: 255,
     tilt: -0.25,
-    images: ["/images/projects/sklonuj.png", "/images/work/lingofable/onboarding-commit.png"],
+    images: [image("/images/projects/sklonuj.png"), image("/images/work/lingofable/onboarding-commit.png")],
     overview:
       "QuickHook was developed through a New Product Development course, using the product development life cycle from ideation and market research to prototyping and launch planning.",
     highlights: [
@@ -281,7 +285,7 @@ export const workProjects: WorkProject[] = [
     accent: "pink",
     imageHeight: 235,
     tilt: 0.45,
-    images: ["/images/about/portrait-1.jpg", "/images/communities/dcc-photo.png"],
+    images: [image("/images/about/portrait-1.jpg"), image("/images/communities/dcc-photo.png")],
     overview:
       "This reflection unpacked the top five CliftonStrengths themes and connected them to product management, project management, supply chain, analytics, and team collaboration.",
     highlights: [

@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import SitePet from "../components/site/SitePet.astro";
+import { withBase } from "../lib/paths";
 
 interface Props {
   title?: string;
@@ -25,8 +26,9 @@ const {
   canonical,
 } = Astro.props;
 
-const canonicalUrl = new URL(canonical ?? Astro.url.pathname, Astro.site).href;
-const ogImageUrl = new URL(image, Astro.site).href;
+const canonicalUrl = new URL(canonical ? withBase(canonical) : Astro.url.pathname, Astro.site).href;
+const ogImageUrl = new URL(withBase(image), Astro.site).href;
+const iconUrl = withBase("/portfolio-logo.png");
 ---
 
 <!doctype html>
@@ -52,7 +54,7 @@ const ogImageUrl = new URL(image, Astro.site).href;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <link rel="icon" type="image/png" href="/portfolio-logo.png" />
+    <link rel="icon" type="image/png" href={iconUrl} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

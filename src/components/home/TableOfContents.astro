@@ -1,5 +1,6 @@
 ---
 type ActiveKey = "work" | "experience" | "about" | "connect";
+import { withBase } from "../../lib/paths";
 
 interface Props {
   active?: ActiveKey;
@@ -8,10 +9,10 @@ interface Props {
 const { active = "work" } = Astro.props;
 
 const items: { key: ActiveKey; label: string; href: string }[] = [
-  { key: "work", label: "01. My Work", href: "/home" },
-  { key: "experience", label: "02. Experience", href: "/experience" },
-  { key: "about", label: "03. About Me", href: "/about" },
-  { key: "connect", label: "04. Connect", href: "/connect" },
+  { key: "work", label: "01. My Work", href: withBase("/home") },
+  { key: "experience", label: "02. Experience", href: withBase("/experience") },
+  { key: "about", label: "03. About Me", href: withBase("/about") },
+  { key: "connect", label: "04. Connect", href: withBase("/connect") },
 ];
 ---
 

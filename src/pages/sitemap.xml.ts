@@ -1,9 +1,10 @@
 import type { APIRoute } from "astro";
 import { workProjects } from "../lib/work-projects";
+import { withBase } from "../lib/paths";
 
 // Static sitemap for the portfolio. Listed pages are the durable, indexable
 // routes for the static portfolio.
-const SITE = "https://aishwarya-portfolio.com";
+const SITE = "https://aishwarya2510.github.io";
 
 const routes = [
   { path: "/", priority: "0.8" },
@@ -21,7 +22,7 @@ export const GET: APIRoute = () => {
 ${routes
   .map(
     (r) =>
-      `  <url><loc>${SITE}${r.path}</loc><lastmod>${lastmod}</lastmod><priority>${r.priority}</priority></url>`,
+      `  <url><loc>${new URL(withBase(r.path), SITE).href}</loc><lastmod>${lastmod}</lastmod><priority>${r.priority}</priority></url>`,
   )
   .join("\n")}
 </urlset>
