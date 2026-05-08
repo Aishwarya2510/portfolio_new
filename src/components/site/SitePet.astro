@@ -1160,8 +1160,6 @@
     }
     function invalidateLedgeCache() { ledgeCacheDirty = true; }
     document.addEventListener("astro:page-load", invalidateLedgeCache);
-    window.addEventListener("gallery:shuffle", invalidateLedgeCache);
-    window.addEventListener("gallery:cards-added", invalidateLedgeCache);
 
     function getLedgeCandidates(): HTMLElement[] {
       if (ledgeCacheDirty) refreshLedgeCache();
@@ -1366,7 +1364,7 @@
     let fallResumeAt = 0;
     // Cooldown so the pet doesn't immediately re-mount onto a neighboring
     // ledge mid-flight after falling off one — that creates a quip loop on
-    // dense pages like the visitor gallery.
+    // dense pages.
     let lastDismountAt = 0;
     let lastLedgeFallSpokenAt = 0;
 
@@ -1642,7 +1640,7 @@
           // Mid-flight ledge catch — while falling (not on a ledge already),
           // check if the pet's feet cross through a ledge surface this frame.
           // Throttled to every Nth frame to avoid per-frame querySelectorAll on
-          // pages with many ledge candidates (e.g. visitor gallery).
+          // pages with many ledge candidates.
           ledgeScanFrame = (ledgeScanFrame + 1) % LEDGE_SCAN_INTERVAL;
           // Skip the catch for ~700ms after a forced dismount so the pet
           // actually falls instead of grabbing a neighbor and looping

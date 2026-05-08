@@ -3,4 +3,4 @@ Allow: /
 Disallow:
 Disallow: /admin/
 
-Sitemap: https://meganyap.me/sitemap.xml
+Sitemap: https://aishwarya2510.github.io/portfolio_new/sitemap.xml
