@@ -8,155 +8,181 @@ interface Props {
 const { slug, title, accent = "teal" } = Astro.props;
 ---
 
-<div class={`project-visual project-visual--${slug}`} style={`--visual-accent: var(--color-${accent});`} aria-label={`${title} project visual`}>
+<div
+  class={`project-visual project-visual--${slug}`}
+  style={`--visual-accent: var(--color-${accent});`}
+  role="img"
+  aria-label={`${title} project visual`}
+>
   {slug === "decision-operating-systems" && (
-    <>
-      <span class="pv-thread pv-thread--a"></span>
-      <span class="pv-thread pv-thread--b"></span>
-      <span class="pv-thread pv-thread--c"></span>
-      <span class="pv-decision-core">5m</span>
-      <span class="pv-thread-time">2d</span>
-      <span class="pv-os-step pv-os-step--a">Own</span>
-      <span class="pv-os-step pv-os-step--b">HITL</span>
-      <span class="pv-os-step pv-os-step--c">Risk</span>
-      <span class="pv-os-route pv-os-route--a"></span>
-      <span class="pv-os-route pv-os-route--b"></span>
-      <span class="pv-os-value">Value</span>
-    </>
+    <svg viewBox="0 0 240 132" aria-hidden="true">
+      <path class="pv-skyline" d="M16 102h208M25 102V70h16v32M49 102V56h19v46M78 102V82h18v20M105 102V62h20v40M135 102V76h18v26M164 102V48h22v54M196 102V68h17v34" />
+      <path class="pv-route pv-route--glow" d="M28 106 C62 84, 70 116, 102 93 S137 47, 171 66 S188 101, 216 38" />
+      <path class="pv-route" d="M28 106 C62 84, 70 116, 102 93 S137 47, 171 66 S188 101, 216 38" />
+      <g class="pv-pin pv-pin--a"><circle cx="102" cy="93" r="9" /><path d="M102 101l-5 12h10z" /></g>
+      <g class="pv-pin pv-pin--b"><circle cx="171" cy="66" r="9" /><path d="M171 74l-5 12h10z" /></g>
+      <g class="pv-pin pv-pin--c"><circle cx="216" cy="38" r="10" /><path d="M216 47l-6 13h12z" /></g>
+      <text x="22" y="30">5 MIN</text>
+      <text x="153" y="25">2 DAY THREAD</text>
+      <rect class="pv-chip" x="21" y="38" width="55" height="20" rx="6" />
+      <rect class="pv-chip pv-chip--dark" x="147" y="32" width="76" height="20" rx="6" />
+    </svg>
   )}
 
   {slug === "insight-to-execution-operations" && (
-    <>
-      <span class="pv-signal pv-signal--a">Market</span>
-      <span class="pv-signal pv-signal--b">CRM</span>
-      <span class="pv-signal pv-signal--c">Ops</span>
-      <span class="pv-orchestrator">AI</span>
-      <span class="pv-flow pv-flow--a"></span>
-      <span class="pv-flow pv-flow--b"></span>
-      <span class="pv-flow pv-flow--c"></span>
-      <span class="pv-approval">OK</span>
-      <span class="pv-roi">ROI</span>
-      <span class="pv-execute">Execute</span>
-    </>
+    <svg viewBox="0 0 240 132" aria-hidden="true">
+      <g class="pv-doc-stack">
+        <rect x="15" y="20" width="50" height="64" rx="7" />
+        <path d="M27 38h26M27 50h20M27 62h24" />
+      </g>
+      <g class="pv-doc-stack pv-doc-stack--b">
+        <rect x="15" y="20" width="50" height="64" rx="7" />
+        <path d="M27 38h26M27 50h20M27 62h24" />
+      </g>
+      <path class="pv-pipeline" d="M72 54h28c19 0 19 24 38 24h28" />
+      <circle class="pv-core" cx="119" cy="66" r="24" />
+      <path class="pv-pipeline pv-pipeline--b" d="M143 54h24c20 0 20-25 43-25" />
+      <path class="pv-pipeline pv-pipeline--c" d="M143 78h24c20 0 20 25 43 25" />
+      <rect class="pv-exec" x="178" y="18" width="44" height="25" rx="8" />
+      <rect class="pv-exec" x="178" y="89" width="44" height="25" rx="8" />
+      <text x="98" y="70">OPS</text>
+      <text x="187" y="34">ROI</text>
+      <text x="184" y="105">GO</text>
+    </svg>
   )}
 
   {slug === "snowflake-cortex-analyst" && (
-    <>
-      <span class="pv-orb"></span>
-      <span class="pv-db"></span>
-      <span class="pv-query pv-query--a">SELECT</span>
-      <span class="pv-query pv-query--b">SEMANTIC</span>
-      <span class="pv-check pv-check--a"></span>
-      <span class="pv-check pv-check--b"></span>
-      <span class="pv-line pv-line--a"></span>
-      <span class="pv-line pv-line--b"></span>
-    </>
+    <svg viewBox="0 0 240 132" aria-hidden="true">
+      <ellipse class="pv-db" cx="55" cy="35" rx="38" ry="14" />
+      <path class="pv-db" d="M17 35v50c0 8 17 14 38 14s38-6 38-14V35" />
+      <ellipse class="pv-db pv-db--accent" cx="55" cy="84" rx="38" ry="14" />
+      <g class="pv-snow">
+        <path d="M162 19v56M138 33l48 28M138 61l48-28" />
+        <circle cx="162" cy="47" r="8" />
+      </g>
+      <rect class="pv-query-card" x="103" y="83" width="106" height="27" rx="8" />
+      <path class="pv-code" d="M116 96h24M148 96h16M171 96h24" />
+      <path class="pv-link" d="M88 65C113 58 121 50 138 48" />
+      <text x="111" y="28">semantic</text>
+    </svg>
   )}
 
   {slug === "agent-maestro" && (
-    <>
-      <span class="pv-node pv-node--center">AI</span>
-      <span class="pv-node pv-node--a">Risk</span>
-      <span class="pv-node pv-node--b">Policy</span>
-      <span class="pv-node pv-node--c">Owner</span>
-      <span class="pv-node pv-node--d">Data</span>
-      <span class="pv-connector pv-connector--a"></span>
-      <span class="pv-connector pv-connector--b"></span>
-      <span class="pv-connector pv-connector--c"></span>
-      <span class="pv-connector pv-connector--d"></span>
-    </>
+    <svg viewBox="0 0 240 132" aria-hidden="true">
+      <circle class="pv-orbit" cx="120" cy="66" r="42" />
+      <circle class="pv-orbit pv-orbit--b" cx="120" cy="66" r="62" />
+      <g class="pv-agent-node pv-agent-node--center"><circle cx="120" cy="66" r="23" /><text x="120" y="70">AI</text></g>
+      <g class="pv-agent-node"><circle cx="60" cy="31" r="17" /><text x="60" y="34">Risk</text></g>
+      <g class="pv-agent-node"><circle cx="183" cy="32" r="17" /><text x="183" y="35">Policy</text></g>
+      <g class="pv-agent-node"><circle cx="61" cy="101" r="17" /><text x="61" y="104">Data</text></g>
+      <g class="pv-agent-node"><circle cx="184" cy="100" r="17" /><text x="184" y="103">Owner</text></g>
+      <path class="pv-baton" d="M113 55l57-33" />
+      <circle class="pv-baton-tip" cx="170" cy="22" r="5" />
+    </svg>
   )}
 
   {slug === "gopractice-ai-for-pms" && (
-    <>
-      <span class="pv-loop"></span>
-      <span class="pv-loop-dot pv-loop-dot--a"></span>
-      <span class="pv-loop-dot pv-loop-dot--b"></span>
-      <span class="pv-reward">+R</span>
-      <span class="pv-model-card">MODEL</span>
-      <span class="pv-choice pv-choice--a"></span>
-      <span class="pv-choice pv-choice--b"></span>
-    </>
+    <svg viewBox="0 0 240 132" aria-hidden="true">
+      <path class="pv-maze" d="M28 92V35h72v22H55v35h55v-19h39V35h54v62h-30" />
+      <circle class="pv-learner" cx="55" cy="92" r="12" />
+      <circle class="pv-reward" cx="197" cy="96" r="14" />
+      <text x="192" y="101">R</text>
+      <rect class="pv-model" x="116" y="78" width="46" height="24" rx="7" />
+      <path class="pv-choice" d="M73 92h39M150 91h35" />
+      <text x="116" y="30">RL LOOP</text>
+    </svg>
   )}
 
   {slug === "netflix-live-event-analysis" && (
-    <>
-      <span class="pv-screen"></span>
-      <span class="pv-live">LIVE</span>
-      <span class="pv-wave pv-wave--a"></span>
-      <span class="pv-wave pv-wave--b"></span>
-      <span class="pv-viewers">60M+</span>
-      <span class="pv-buffer pv-buffer--a"></span>
-      <span class="pv-buffer pv-buffer--b"></span>
-    </>
+    <svg viewBox="0 0 240 132" aria-hidden="true">
+      <rect class="pv-screen" x="20" y="18" width="200" height="96" rx="12" />
+      <rect class="pv-live-pill" x="34" y="30" width="41" height="19" rx="9" />
+      <path class="pv-play" d="M104 47l38 22-38 22z" />
+      <path class="pv-wave" d="M41 83c16-19 31 19 47 0s31 19 47 0 31 19 47 0" />
+      <path class="pv-wave pv-wave--b" d="M41 98c16-14 31 14 47 0s31 14 47 0 31 14 47 0" />
+      <circle class="pv-buffer" cx="187" cy="43" r="12" />
+      <text x="166" y="104">60M+</text>
+    </svg>
   )}
 
   {slug === "fraudulent-survey-response-detection" && (
-    <>
-      <span class="pv-survey"></span>
-      <span class="pv-answer pv-answer--a"></span>
-      <span class="pv-answer pv-answer--b"></span>
-      <span class="pv-answer pv-answer--c"></span>
-      <span class="pv-flag">!</span>
-      <span class="pv-scan"></span>
-    </>
+    <svg viewBox="0 0 240 132" aria-hidden="true">
+      <rect class="pv-survey-page" x="35" y="16" width="110" height="98" rx="9" />
+      <path class="pv-survey-lines" d="M56 41h62M56 58h62M56 75h62M56 92h62" />
+      <path class="pv-straight-line" d="M126 41v51" />
+      <circle class="pv-answer-dot" cx="126" cy="41" r="5" />
+      <circle class="pv-answer-dot" cx="126" cy="58" r="5" />
+      <circle class="pv-answer-dot" cx="126" cy="75" r="5" />
+      <circle class="pv-answer-dot" cx="126" cy="92" r="5" />
+      <path class="pv-scan" d="M35 67h110" />
+      <g class="pv-alert"><circle cx="179" cy="66" r="24" /><text x="179" y="73">!</text></g>
+    </svg>
   )}
 
   {slug === "supply-chain-resilience" && (
-    <>
-      <span class="pv-chain pv-chain--a"></span>
-      <span class="pv-chain pv-chain--b"></span>
-      <span class="pv-chain pv-chain--c"></span>
-      <span class="pv-shield"></span>
-      <span class="pv-route pv-route--a"></span>
-      <span class="pv-route pv-route--b"></span>
-      <span class="pv-box pv-box--a"></span>
-      <span class="pv-box pv-box--b"></span>
-    </>
+    <svg viewBox="0 0 240 132" aria-hidden="true">
+      <path class="pv-world" d="M31 78c23-43 68-48 101-24 18 13 35 11 59-7" />
+      <rect class="pv-container pv-container--a" x="30" y="85" width="43" height="25" rx="4" />
+      <rect class="pv-container pv-container--b" x="93" y="58" width="43" height="25" rx="4" />
+      <rect class="pv-container pv-container--c" x="162" y="81" width="43" height="25" rx="4" />
+      <path class="pv-shield" d="M120 19l27 10-6 44-21 17-21-17-6-44z" />
+      <path class="pv-checkmark" d="M109 51l8 8 17-21" />
+      <path class="pv-route-dots" d="M73 94c22-19 43-24 68-23s37 11 58 24" />
+    </svg>
   )}
 
   {slug === "harmonyhub" && (
-    <>
-      <span class="pv-watch"></span>
-      <span class="pv-pulse"></span>
-      <span class="pv-task pv-task--a"></span>
-      <span class="pv-task pv-task--b"></span>
-      <span class="pv-task pv-task--c"></span>
-      <span class="pv-heart"></span>
-    </>
+    <svg viewBox="0 0 240 132" aria-hidden="true">
+      <rect class="pv-watch" x="43" y="21" width="58" height="86" rx="22" />
+      <path class="pv-pulse-line" d="M55 66h14l6-13 10 25 7-12h12" />
+      <rect class="pv-plan" x="126" y="24" width="73" height="76" rx="11" />
+      <path class="pv-plan-lines" d="M140 43h41M140 61h31M140 79h37" />
+      <circle class="pv-task-dot" cx="189" cy="43" r="5" />
+      <circle class="pv-task-dot" cx="178" cy="61" r="5" />
+      <circle class="pv-task-dot" cx="185" cy="79" r="5" />
+      <path class="pv-heartline" d="M105 65c13-22 26 8 38-12" />
+    </svg>
   )}
 
   {slug === "ai-in-microsoft-teams" && (
-    <>
-      <span class="pv-chat pv-chat--a"></span>
-      <span class="pv-chat pv-chat--b"></span>
-      <span class="pv-caption">AI summary</span>
-      <span class="pv-translate">EN -> ES</span>
-      <span class="pv-spark pv-spark--a"></span>
-      <span class="pv-spark pv-spark--b"></span>
-    </>
+    <svg viewBox="0 0 240 132" aria-hidden="true">
+      <rect class="pv-teams-chat pv-teams-chat--a" x="25" y="24" width="92" height="38" rx="13" />
+      <rect class="pv-teams-chat pv-teams-chat--b" x="93" y="70" width="112" height="39" rx="13" />
+      <path class="pv-chat-line" d="M42 43h54M113 89h72" />
+      <circle class="pv-teams-ai" cx="126" cy="54" r="20" />
+      <text x="126" y="59">AI</text>
+      <text x="39" y="86">EN</text>
+      <path class="pv-translate-arrow" d="M62 82h38m-9-8l9 8-9 8" />
+      <text x="111" y="86">ES</text>
+      <path class="pv-spark" d="M190 22l5 11 12 4-12 4-5 11-5-11-12-4 12-4z" />
+    </svg>
   )}
 
   {slug === "quickhook" && (
-    <>
-      <span class="pv-hook"></span>
-      <span class="pv-bag"></span>
-      <span class="pv-survey-dot pv-survey-dot--a"></span>
-      <span class="pv-survey-dot pv-survey-dot--b"></span>
-      <span class="pv-survey-dot pv-survey-dot--c"></span>
-      <span class="pv-insight">insight</span>
-    </>
+    <svg viewBox="0 0 240 132" aria-hidden="true">
+      <path class="pv-hook" d="M91 19v52c0 27-41 27-41 0" />
+      <path class="pv-hook-tip" d="M50 71c0 16 17 23 29 12" />
+      <rect class="pv-bag" x="125" y="54" width="66" height="49" rx="8" />
+      <path class="pv-bag-handle" d="M141 54c0-21 34-21 34 0" />
+      <g class="pv-survey-mini">
+        <rect x="31" y="86" width="60" height="29" rx="6" />
+        <path d="M43 98h28M43 107h20" />
+      </g>
+      <path class="pv-insight-ray" d="M105 44h32M108 34l27 13M108 54l27-13" />
+    </svg>
   )}
 
   {slug === "cliftonstrengths-profile" && (
-    <>
-      <span class="pv-person"></span>
-      <span class="pv-strength pv-strength--a">A</span>
-      <span class="pv-strength pv-strength--b">C</span>
-      <span class="pv-strength pv-strength--c">S</span>
-      <span class="pv-strength pv-strength--d">I</span>
-      <span class="pv-strength pv-strength--e">Co</span>
-    </>
+    <svg viewBox="0 0 240 132" aria-hidden="true">
+      <circle class="pv-profile-head" cx="118" cy="42" r="23" />
+      <path class="pv-profile-body" d="M78 112c7-30 73-30 80 0" />
+      <path class="pv-constellation" d="M51 38l41 18 54-31 44 29-22 38-64-13-53 15z" />
+      <g class="pv-strength-dot"><circle cx="51" cy="38" r="12" /><text x="51" y="42">A</text></g>
+      <g class="pv-strength-dot"><circle cx="92" cy="56" r="12" /><text x="92" y="60">C</text></g>
+      <g class="pv-strength-dot"><circle cx="146" cy="25" r="12" /><text x="146" y="29">S</text></g>
+      <g class="pv-strength-dot"><circle cx="190" cy="54" r="12" /><text x="190" y="58">I</text></g>
+      <g class="pv-strength-dot"><circle cx="168" cy="92" r="12" /><text x="168" y="96">Co</text></g>
+    </svg>
   )}
 </div>
 
@@ -169,494 +195,424 @@ const { slug, title, accent = "teal" } = Astro.props;
     overflow: hidden;
     border-radius: 8px;
     background:
-      radial-gradient(circle at 18% 18%, color-mix(in oklab, var(--visual-accent) 30%, white), transparent 28%),
-      linear-gradient(135deg, color-mix(in oklab, var(--visual-accent) 18%, var(--color-bg-light)), var(--color-bg-neutral));
+      radial-gradient(circle at var(--spot-x, 18%) var(--spot-y, 18%), color-mix(in oklab, var(--visual-accent) 42%, white), transparent 31%),
+      linear-gradient(135deg, var(--visual-bg-a, color-mix(in oklab, var(--visual-accent) 20%, var(--color-bg-light))), var(--visual-bg-b, var(--color-bg-neutral)));
     box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 10%, transparent);
   }
 
-  .project-visual > span {
+  .project-visual::before {
+    content: "";
     position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(color-mix(in oklab, var(--color-ink) 7%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in oklab, var(--color-ink) 7%, transparent) 1px, transparent 1px);
+    background-size: var(--grid-size, 24px) var(--grid-size, 24px);
+    mask-image: radial-gradient(circle at 50% 50%, black, transparent 72%);
+    opacity: 0.55;
+  }
+
+  .project-visual svg {
+    position: relative;
+    z-index: 1;
     display: block;
+    width: 100%;
+    height: 100%;
   }
 
-  :global(.index-card:hover) .project-visual {
-    background:
-      radial-gradient(circle at 72% 24%, color-mix(in oklab, var(--visual-accent) 36%, white), transparent 30%),
-      linear-gradient(135deg, color-mix(in oklab, var(--visual-accent) 28%, var(--color-bg-light)), var(--color-bg-neutral));
-  }
-
-  .pv-thread {
-    width: 78px;
-    height: 22px;
-    border: 2px solid color-mix(in oklab, var(--color-ink) 38%, transparent);
-    border-radius: 999px;
-    opacity: 0.78;
-  }
-  .pv-thread--a { left: 18px; top: 20px; transform: rotate(-10deg); }
-  .pv-thread--b { left: 34px; top: 44px; transform: rotate(8deg); }
-  .pv-thread--c { left: 16px; top: 68px; transform: rotate(-4deg); }
-  .pv-decision-core,
-  .pv-thread-time,
-  .pv-os-step,
-  .pv-os-value {
-    display: grid !important;
-    place-items: center;
-    font-family: var(--font-mono);
-    line-height: 1;
-    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 12%, transparent);
-  }
-  .pv-decision-core {
-    left: 45%;
-    top: 50%;
-    width: 46px;
-    height: 46px;
-    border-radius: 999px;
-    background: var(--visual-accent);
-    color: var(--color-ink);
-    font-size: 12px;
-    font-weight: 800;
-    transform: translate(-50%, -50%);
-  }
-  .pv-thread-time {
-    left: 23px;
-    bottom: 12px;
-    width: 34px;
-    height: 22px;
-    border-radius: 8px;
-    background: var(--color-ink);
-    color: var(--color-ink-inverted);
+  .project-visual text {
+    font-family: var(--font-mono, monospace);
     font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0;
+    fill: var(--color-ink);
+    text-anchor: middle;
   }
-  .pv-os-step {
-    right: 18px;
-    width: 48px;
-    height: 20px;
-    border-radius: 8px;
-    background: var(--color-bg-light);
-    color: var(--color-ink);
-    font-size: 8px;
-  }
-  .pv-os-step--a { top: 15px; }
-  .pv-os-step--b { top: 40px; background: color-mix(in oklab, var(--visual-accent) 36%, var(--color-bg-light)); }
-  .pv-os-step--c { top: 65px; }
-  .pv-os-route {
-    height: 3px;
-    border-radius: 999px;
-    background: color-mix(in oklab, var(--visual-accent) 72%, var(--color-ink));
-    transform-origin: left center;
-  }
-  .pv-os-route--a { left: 96px; top: 42px; width: 54px; transform: rotate(-16deg); }
-  .pv-os-route--b { left: 96px; top: 60px; width: 54px; transform: rotate(16deg); }
-  .pv-os-value {
-    right: 20px;
-    bottom: 12px;
-    width: 66px;
-    height: 22px;
-    border-radius: 8px;
-    background: var(--color-ink);
-    color: var(--color-ink-inverted);
-    font-size: 8px;
-  }
-  :global(.index-card:hover) .pv-thread { animation: pv-thread-untangle 980ms ease-in-out infinite alternate; }
-  :global(.index-card:hover) .pv-decision-core { animation: pv-pulse 900ms ease-in-out infinite; }
-  :global(.index-card:hover) .pv-os-route { animation: pv-flow 900ms ease-in-out infinite alternate; }
 
-  .pv-signal,
-  .pv-orchestrator,
-  .pv-approval,
-  .pv-roi,
-  .pv-execute {
-    display: grid !important;
-    place-items: center;
-    border-radius: 8px;
-    font-family: var(--font-mono);
-    font-size: 8px;
-    line-height: 1;
-    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 12%, transparent);
+  .project-visual path,
+  .project-visual rect,
+  .project-visual circle,
+  .project-visual ellipse {
+    vector-effect: non-scaling-stroke;
   }
-  .pv-signal {
-    left: 14px;
-    width: 50px;
-    height: 20px;
-    background: var(--color-bg-light);
-    color: var(--color-ink);
-  }
-  .pv-signal--a { top: 14px; }
-  .pv-signal--b { top: 40px; }
-  .pv-signal--c { top: 66px; }
-  .pv-orchestrator {
-    left: 50%;
-    top: 50%;
-    width: 42px;
-    height: 42px;
-    border-radius: 999px;
-    background: var(--visual-accent);
-    color: var(--color-ink);
-    transform: translate(-50%, -50%);
-  }
-  .pv-flow {
-    height: 3px;
-    border-radius: 999px;
-    background: color-mix(in oklab, var(--visual-accent) 70%, var(--color-ink));
-    transform-origin: left center;
-  }
-  .pv-flow--a { left: 62px; top: 24px; width: 54px; transform: rotate(18deg); }
-  .pv-flow--b { left: 64px; top: 50px; width: 48px; }
-  .pv-flow--c { left: 62px; top: 76px; width: 54px; transform: rotate(-18deg); }
-  .pv-approval {
-    right: 54px;
-    top: 18px;
-    width: 34px;
-    height: 24px;
-    background: var(--color-green-1);
-    color: var(--color-ink);
-  }
-  .pv-roi {
-    right: 18px;
-    top: 46px;
-    width: 34px;
-    height: 24px;
-    background: var(--color-bg-light);
-    color: var(--color-ink);
-  }
-  .pv-execute {
-    right: 20px;
-    bottom: 16px;
-    width: 76px;
-    height: 24px;
-    background: var(--color-ink);
-    color: var(--color-ink-inverted);
-  }
-  :global(.index-card:hover) .pv-flow { animation: pv-flow 900ms ease-in-out infinite alternate; }
-  :global(.index-card:hover) .pv-orchestrator { animation: pv-pulse 900ms ease-in-out infinite; }
 
-  .pv-orb {
-    right: 18px;
-    top: 13px;
-    width: 38px;
-    height: 38px;
-    border-radius: 999px;
-    background: var(--visual-accent);
-    opacity: 0.82;
+  .project-visual--decision-operating-systems {
+    --visual-bg-a: #fff2df;
+    --visual-bg-b: #dceaf0;
+    --spot-x: 82%;
+    --spot-y: 18%;
+  }
+  .project-visual--insight-to-execution-operations {
+    --visual-bg-a: #fff7df;
+    --visual-bg-b: #e5f2e4;
+    --spot-x: 54%;
+    --spot-y: 54%;
+  }
+  .project-visual--snowflake-cortex-analyst {
+    --visual-bg-a: #e9fbff;
+    --visual-bg-b: #edf2ff;
+    --grid-size: 18px;
+  }
+  .project-visual--agent-maestro {
+    --visual-bg-a: #f9e4ef;
+    --visual-bg-b: #ebe6ff;
+    --spot-x: 50%;
+    --spot-y: 50%;
+  }
+  .project-visual--gopractice-ai-for-pms {
+    --visual-bg-a: #eff8dc;
+    --visual-bg-b: #fff1d8;
+    --spot-x: 82%;
+    --spot-y: 72%;
+  }
+  .project-visual--netflix-live-event-analysis {
+    --visual-bg-a: #261a23;
+    --visual-bg-b: #141823;
+    --spot-x: 46%;
+    --spot-y: 52%;
+  }
+  .project-visual--fraudulent-survey-response-detection {
+    --visual-bg-a: #e6fbf7;
+    --visual-bg-b: #fff0f2;
+  }
+  .project-visual--supply-chain-resilience {
+    --visual-bg-a: #edf7db;
+    --visual-bg-b: #e8f0ff;
+  }
+  .project-visual--harmonyhub {
+    --visual-bg-a: #ffe4ef;
+    --visual-bg-b: #eaf7f3;
+    --spot-x: 28%;
+    --spot-y: 50%;
+  }
+  .project-visual--ai-in-microsoft-teams {
+    --visual-bg-a: #e3f7fa;
+    --visual-bg-b: #ece8ff;
+  }
+  .project-visual--quickhook {
+    --visual-bg-a: #fff0d8;
+    --visual-bg-b: #f0ecdf;
+    --spot-x: 70%;
+    --spot-y: 70%;
+  }
+  .project-visual--cliftonstrengths-profile {
+    --visual-bg-a: #ffe8f0;
+    --visual-bg-b: #fff5dc;
+    --spot-x: 50%;
+    --spot-y: 20%;
+  }
+
+  .pv-skyline,
+  .pv-world,
+  .pv-constellation,
+  .pv-link,
+  .pv-pipeline,
+  .pv-pulse-line,
+  .pv-heartline,
+  .pv-chat-line,
+  .pv-translate-arrow,
+  .pv-insight-ray,
+  .pv-maze,
+  .pv-choice,
+  .pv-survey-lines,
+  .pv-plan-lines,
+  .pv-route-dots,
+  .pv-bag-handle,
+  .pv-survey-mini path,
+  .pv-code {
+    fill: none;
+    stroke: color-mix(in oklab, var(--color-ink) 62%, transparent);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .pv-route {
+    fill: none;
+    stroke: var(--visual-accent);
+    stroke-width: 5;
+    stroke-linecap: round;
+  }
+  .pv-route--glow {
+    stroke: color-mix(in oklab, var(--visual-accent) 35%, white);
+    stroke-width: 13;
+    opacity: 0.55;
+  }
+  .pv-pin circle,
+  .pv-pin path,
+  .pv-core,
+  .pv-exec,
+  .pv-db--accent,
+  .pv-agent-node--center circle,
+  .pv-reward,
+  .pv-answer-dot,
+  .pv-shield,
+  .pv-task-dot,
+  .pv-teams-ai,
+  .pv-bag,
+  .pv-profile-head,
+  .pv-strength-dot circle {
+    fill: var(--visual-accent);
+  }
+  .pv-chip,
+  .pv-doc-stack rect,
+  .pv-query-card,
+  .pv-model,
+  .pv-survey-page,
+  .pv-plan,
+  .pv-teams-chat,
+  .pv-survey-mini rect {
+    fill: color-mix(in oklab, var(--color-bg-light) 86%, white);
+    stroke: color-mix(in oklab, var(--color-ink) 13%, transparent);
+    stroke-width: 1.4;
+  }
+  .pv-chip--dark,
+  .pv-screen,
+  .pv-watch {
+    fill: var(--color-ink);
+  }
+  .pv-chip--dark + text,
+  .project-visual--netflix-live-event-analysis text,
+  .pv-teams-ai + text {
+    fill: var(--color-ink-inverted);
+  }
+
+  .pv-doc-stack {
+    fill: none;
+    stroke: color-mix(in oklab, var(--color-ink) 44%, transparent);
+    stroke-width: 2.5;
+  }
+  .pv-doc-stack--b {
+    transform: translate(9px, 12px);
+    opacity: 0.62;
+  }
+  .pv-pipeline,
+  .pv-pipeline--b,
+  .pv-pipeline--c {
+    stroke: var(--visual-accent);
+    stroke-width: 4;
+  }
+  .pv-exec {
+    stroke: color-mix(in oklab, var(--color-ink) 10%, transparent);
   }
   .pv-db {
-    left: 18px;
-    bottom: 16px;
-    width: 58px;
-    height: 44px;
-    border-radius: 50% / 18%;
-    background: var(--color-ink);
-    box-shadow: inset 0 12px 0 color-mix(in oklab, var(--visual-accent) 42%, var(--color-bg-light));
+    fill: color-mix(in oklab, var(--color-ink) 88%, #29404a);
+    stroke: color-mix(in oklab, var(--color-bg-light) 42%, transparent);
+    stroke-width: 2;
   }
-  .pv-query {
-    left: 78px;
-    height: 14px;
-    border-radius: 4px;
-    padding: 2px 6px;
-    background: var(--color-bg-light);
-    color: var(--color-ink);
-    font-family: var(--font-mono);
+  .pv-snow {
+    fill: none;
+    stroke: var(--visual-accent);
+    stroke-width: 4;
+    stroke-linecap: round;
+  }
+  .pv-snow circle {
+    fill: color-mix(in oklab, var(--visual-accent) 38%, white);
+  }
+  .pv-orbit {
+    fill: none;
+    stroke: color-mix(in oklab, var(--visual-accent) 35%, transparent);
+    stroke-width: 2;
+  }
+  .pv-orbit--b {
+    stroke-dasharray: 5 8;
+  }
+  .pv-agent-node circle {
+    fill: color-mix(in oklab, var(--color-bg-light) 90%, white);
+    stroke: color-mix(in oklab, var(--color-ink) 13%, transparent);
+    stroke-width: 1.5;
+  }
+  .pv-agent-node text {
     font-size: 8px;
   }
-  .pv-query--a { top: 25px; }
-  .pv-query--b { top: 45px; }
-  .pv-check {
-    right: 22px;
-    width: 18px;
-    height: 10px;
-    border-left: 3px solid var(--color-green);
-    border-bottom: 3px solid var(--color-green);
-    transform: rotate(-45deg);
+  .pv-agent-node--center text,
+  .pv-alert text,
+  .pv-strength-dot text {
+    fill: var(--color-ink-inverted);
   }
-  .pv-check--a { bottom: 34px; }
-  .pv-check--b { bottom: 18px; opacity: 0.62; }
-  .pv-line {
-    height: 2px;
-    background: color-mix(in oklab, var(--color-ink) 32%, transparent);
-    transform-origin: left center;
+  .pv-baton {
+    stroke: var(--color-ink);
+    stroke-width: 3;
+    stroke-linecap: round;
   }
-  .pv-line--a { left: 72px; top: 62px; width: 66px; transform: rotate(14deg); }
-  .pv-line--b { left: 74px; top: 72px; width: 88px; transform: rotate(-8deg); }
-  :global(.index-card:hover) .pv-query { animation: pv-slide 900ms var(--ease-out-soft) infinite alternate; }
-
-  .pv-node {
-    display: grid !important;
-    place-items: center;
-    border-radius: 999px;
-    background: var(--color-bg-light);
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-ink) 12%, transparent);
-    color: var(--color-ink);
-    font-family: var(--font-mono);
-    font-size: 8px;
+  .pv-baton-tip {
+    fill: var(--color-ink);
   }
-  .pv-node--center {
-    left: 50%;
-    top: 50%;
-    width: 42px;
-    height: 42px;
-    background: var(--visual-accent);
-    color: var(--color-ink-inverted);
-    transform: translate(-50%, -50%);
+  .pv-maze {
+    stroke: color-mix(in oklab, var(--color-ink) 72%, transparent);
+    stroke-width: 8;
   }
-  .pv-node--a { left: 18px; top: 14px; width: 46px; height: 24px; }
-  .pv-node--b { right: 18px; top: 14px; width: 52px; height: 24px; }
-  .pv-node--c { left: 16px; bottom: 16px; width: 52px; height: 24px; }
-  .pv-node--d { right: 24px; bottom: 18px; width: 42px; height: 24px; }
-  .pv-connector {
-    left: 50%;
-    top: 50%;
-    width: 62px;
-    height: 2px;
-    background: color-mix(in oklab, var(--color-ink) 28%, transparent);
-    transform-origin: left center;
+  .pv-learner {
+    fill: var(--color-green-1);
+    stroke: var(--color-ink);
+    stroke-width: 2;
   }
-  .pv-connector--a { transform: rotate(210deg); }
-  .pv-connector--b { transform: rotate(330deg); }
-  .pv-connector--c { transform: rotate(145deg); }
-  .pv-connector--d { transform: rotate(35deg); }
-  :global(.index-card:hover) .pv-node--center { animation: pv-pulse 900ms ease-in-out infinite; }
-
-  .pv-loop {
-    left: 28px;
-    top: 18px;
-    width: 78px;
-    height: 56px;
-    border: 5px solid var(--visual-accent);
-    border-left-color: transparent;
-    border-radius: 999px;
+  .pv-model {
+    fill: var(--color-ink);
   }
-  .pv-loop-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 999px;
-    background: var(--color-ink);
+  .pv-live-pill,
+  .pv-alert circle {
+    fill: var(--color-pink);
   }
-  .pv-loop-dot--a { left: 34px; top: 31px; }
-  .pv-loop-dot--b { left: 88px; top: 58px; }
-  .pv-reward,
-  .pv-model-card,
-  .pv-choice,
-  .pv-live,
-  .pv-viewers,
-  .pv-flag,
-  .pv-insight,
-  .pv-caption,
-  .pv-translate {
-    font-family: var(--font-mono);
-    font-size: 9px;
+  .pv-play,
+  .pv-buffer {
+    fill: none;
+    stroke: var(--visual-accent);
+    stroke-width: 5;
   }
-  .pv-reward { right: 24px; top: 18px; color: var(--color-green); }
-  .pv-model-card {
-    right: 18px;
-    bottom: 18px;
-    border-radius: 6px;
-    padding: 9px 12px;
-    background: var(--color-ink);
-    color: var(--color-ink-inverted);
+  .pv-wave {
+    fill: none;
+    stroke: var(--color-orange-1);
+    stroke-width: 4;
+    stroke-linecap: round;
   }
-  .pv-choice { right: 76px; width: 28px; height: 8px; border-radius: 999px; background: var(--visual-accent); }
-  .pv-choice--a { top: 45px; }
-  .pv-choice--b { top: 60px; opacity: 0.55; }
-  :global(.index-card:hover) .pv-loop { animation: pv-spin 1.4s linear infinite; }
-
-  .pv-screen {
-    left: 18px;
-    top: 16px;
-    right: 18px;
-    bottom: 18px;
-    border-radius: 8px;
-    background: var(--color-ink);
+  .pv-wave--b {
+    opacity: 0.55;
   }
-  .pv-live {
-    left: 28px;
-    top: 26px;
-    border-radius: 999px;
-    padding: 4px 7px;
-    background: var(--color-pink);
-    color: white;
+  .pv-buffer {
+    stroke-dasharray: 18 12;
   }
-  .pv-wave { left: 48px; right: 48px; height: 2px; background: var(--color-orange-2); }
-  .pv-wave--a { top: 58px; }
-  .pv-wave--b { top: 68px; opacity: 0.65; }
-  .pv-viewers { right: 28px; bottom: 28px; color: var(--color-bg-light); }
-  .pv-buffer { left: 50%; top: 50%; width: 18px; height: 18px; border-radius: 999px; border: 3px solid rgba(255,255,255,0.28); border-top-color: var(--color-orange-1); }
-  .pv-buffer--a { transform: translate(-50%, -50%); }
-  .pv-buffer--b { transform: translate(-50%, -50%) scale(1.55); opacity: 0.38; }
-  :global(.index-card:hover) .pv-buffer--a { animation: pv-spin 850ms linear infinite; }
-
-  .pv-survey {
-    left: 22px;
-    top: 14px;
-    width: 94px;
-    height: 68px;
-    border-radius: 8px;
-    background: var(--color-bg-light);
-    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 12%, transparent);
-  }
-  .pv-answer { left: 38px; width: 60px; height: 8px; border-radius: 999px; background: var(--visual-accent); }
-  .pv-answer--a { top: 32px; }
-  .pv-answer--b { top: 48px; }
-  .pv-answer--c { top: 64px; }
-  .pv-flag {
-    right: 30px;
-    top: 34px;
-    display: grid !important;
-    place-items: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 999px;
-    background: var(--color-pink);
-    color: white;
+  .pv-straight-line,
+  .pv-scan {
+    fill: none;
+    stroke: var(--color-pink);
+    stroke-width: 4;
+    stroke-linecap: round;
   }
   .pv-scan {
-    left: 22px;
-    top: 18px;
-    width: 94px;
-    height: 4px;
-    background: rgba(198, 83, 103, 0.58);
+    opacity: 0.62;
   }
-  :global(.index-card:hover) .pv-scan { animation: pv-scan 1.2s ease-in-out infinite; }
-
-  .pv-chain {
-    border: 4px solid var(--color-ink);
-    border-radius: 999px;
-    width: 44px;
-    height: 24px;
+  .pv-container {
+    fill: color-mix(in oklab, var(--color-bg-light) 86%, white);
+    stroke: var(--color-ink);
+    stroke-width: 2;
   }
-  .pv-chain--a { left: 20px; top: 36px; transform: rotate(-18deg); }
-  .pv-chain--b { left: 58px; top: 36px; transform: rotate(18deg); }
-  .pv-chain--c { left: 96px; top: 36px; transform: rotate(-18deg); }
+  .pv-container--b {
+    fill: color-mix(in oklab, var(--visual-accent) 32%, var(--color-bg-light));
+  }
   .pv-shield {
-    right: 24px;
-    bottom: 18px;
-    width: 38px;
-    height: 44px;
-    background: var(--visual-accent);
-    clip-path: polygon(50% 0, 92% 16%, 82% 76%, 50% 100%, 18% 76%, 8% 16%);
+    stroke: color-mix(in oklab, var(--color-ink) 16%, transparent);
+    stroke-width: 1.5;
   }
-  .pv-route { height: 3px; background: color-mix(in oklab, var(--visual-accent) 70%, var(--color-ink)); }
-  .pv-route--a { left: 24px; right: 70px; bottom: 22px; }
-  .pv-route--b { left: 40px; right: 90px; bottom: 34px; opacity: 0.58; }
-  .pv-box { width: 18px; height: 18px; border-radius: 3px; background: var(--color-orange-1); }
-  .pv-box--a { left: 28px; bottom: 15px; }
-  .pv-box--b { left: 82px; bottom: 27px; }
-  :global(.index-card:hover) .pv-box--a { animation: pv-slide-box 1.3s var(--ease-out-soft) infinite alternate; }
-
+  .pv-checkmark {
+    fill: none;
+    stroke: var(--color-ink-inverted);
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
   .pv-watch {
-    left: 28px;
-    top: 18px;
-    width: 54px;
-    height: 66px;
-    border-radius: 18px;
-    background: var(--color-ink);
-    box-shadow: inset 0 10px 0 var(--visual-accent), inset 0 -10px 0 var(--visual-accent);
+    stroke: color-mix(in oklab, var(--color-bg-light) 48%, transparent);
+    stroke-width: 2;
   }
-  .pv-pulse {
-    left: 40px;
-    top: 48px;
-    width: 30px;
-    height: 16px;
-    border-bottom: 3px solid var(--color-bg-light);
-    transform: skewX(-18deg);
+  .pv-pulse-line {
+    stroke: var(--color-bg-light);
+    stroke-width: 4;
   }
-  .pv-task { right: 24px; height: 9px; border-radius: 999px; background: var(--color-bg-light); }
-  .pv-task--a { top: 26px; width: 70px; }
-  .pv-task--b { top: 46px; width: 54px; }
-  .pv-task--c { top: 66px; width: 64px; }
-  .pv-heart {
-    right: 50px;
-    bottom: 12px;
-    width: 18px;
-    height: 18px;
-    background: var(--color-pink);
-    transform: rotate(45deg);
+  .pv-heartline {
+    stroke: var(--visual-accent);
+    stroke-width: 4;
   }
-  .pv-heart::before,
-  .pv-heart::after { content: ""; position: absolute; width: 18px; height: 18px; border-radius: 999px; background: var(--color-pink); }
-  .pv-heart::before { left: -9px; }
-  .pv-heart::after { top: -9px; }
-  :global(.index-card:hover) .pv-pulse { animation: pv-pulse 720ms ease-in-out infinite; }
+  .pv-teams-chat--a {
+    fill: color-mix(in oklab, var(--color-bg-light) 88%, white);
+  }
+  .pv-teams-chat--b {
+    fill: color-mix(in oklab, var(--visual-accent) 72%, white);
+  }
+  .pv-spark {
+    fill: var(--color-orange-1);
+  }
+  .pv-hook,
+  .pv-hook-tip {
+    fill: none;
+    stroke: var(--color-ink);
+    stroke-width: 12;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .pv-hook-tip {
+    stroke-width: 7;
+  }
+  .pv-insight-ray {
+    stroke: var(--visual-accent);
+  }
+  .pv-profile-body {
+    fill: var(--color-ink);
+  }
+  .pv-constellation {
+    stroke: color-mix(in oklab, var(--color-ink) 28%, transparent);
+    stroke-width: 2;
+  }
+  .pv-strength-dot text {
+    font-size: 8px;
+  }
 
-  .pv-chat { border-radius: 12px; background: var(--color-bg-light); }
-  .pv-chat--a { left: 18px; top: 20px; width: 82px; height: 36px; }
-  .pv-chat--b { right: 18px; top: 52px; width: 76px; height: 32px; background: var(--visual-accent); }
-  .pv-caption {
-    left: 26px;
-    top: 32px;
-    color: var(--color-ink);
+  :global(.index-card:hover) .project-visual .pv-route,
+  :global(.index-card:hover) .project-visual .pv-pipeline,
+  :global(.index-card:hover) .project-visual .pv-choice,
+  :global(.index-card:hover) .project-visual .pv-wave,
+  :global(.index-card:hover) .project-visual .pv-scan,
+  :global(.index-card:hover) .project-visual .pv-route-dots,
+  :global(.index-card:hover) .project-visual .pv-translate-arrow {
+    animation: pv-dash 1.1s ease-in-out infinite alternate;
   }
-  .pv-translate {
-    right: 25px;
-    top: 62px;
-    color: var(--color-ink-inverted);
+  :global(.index-card:hover) .project-visual .pv-core,
+  :global(.index-card:hover) .project-visual .pv-agent-node--center,
+  :global(.index-card:hover) .project-visual .pv-learner,
+  :global(.index-card:hover) .project-visual .pv-reward,
+  :global(.index-card:hover) .project-visual .pv-alert,
+  :global(.index-card:hover) .project-visual .pv-teams-ai,
+  :global(.index-card:hover) .project-visual .pv-profile-head {
+    animation: pv-pop 900ms ease-in-out infinite alternate;
+    transform-origin: center;
   }
-  .pv-spark { width: 8px; height: 8px; border-radius: 999px; background: var(--color-orange-1); }
-  .pv-spark--a { left: 110px; top: 24px; }
-  .pv-spark--b { left: 124px; top: 42px; opacity: 0.7; }
-  :global(.index-card:hover) .pv-spark { animation: pv-pulse 620ms ease-in-out infinite alternate; }
+  :global(.index-card:hover) .project-visual .pv-buffer,
+  :global(.index-card:hover) .project-visual .pv-orbit--b,
+  :global(.index-card:hover) .project-visual .pv-snow {
+    animation: pv-spin 1.5s linear infinite;
+    transform-origin: center;
+  }
+  :global(.index-card:hover) .project-visual .pv-container--a,
+  :global(.index-card:hover) .project-visual .pv-bag,
+  :global(.index-card:hover) .project-visual .pv-doc-stack--b {
+    animation: pv-float 850ms ease-in-out infinite alternate;
+  }
+  :global(.index-card:hover) .project-visual .pv-baton {
+    animation: pv-conduct 780ms ease-in-out infinite alternate;
+    transform-origin: 113px 55px;
+  }
 
-  .pv-hook {
-    left: 42px;
-    top: 14px;
-    width: 52px;
-    height: 70px;
-    border: 10px solid var(--color-ink);
-    border-top: 0;
-    border-left: 0;
-    border-radius: 0 0 38px 0;
+  @keyframes pv-dash {
+    to {
+      stroke-dasharray: 8 8;
+      stroke-dashoffset: -18;
+      opacity: 0.74;
+    }
   }
-  .pv-bag {
-    right: 28px;
-    bottom: 14px;
-    width: 44px;
-    height: 38px;
-    border-radius: 6px;
-    background: var(--visual-accent);
+  @keyframes pv-pop {
+    to {
+      transform: scale(1.06);
+    }
   }
-  .pv-bag::before { content: ""; position: absolute; left: 10px; top: -12px; width: 24px; height: 18px; border: 4px solid var(--visual-accent); border-bottom: 0; border-radius: 999px 999px 0 0; }
-  .pv-survey-dot { left: 22px; width: 9px; height: 9px; border-radius: 999px; background: var(--color-orange); }
-  .pv-survey-dot--a { bottom: 18px; }
-  .pv-survey-dot--b { bottom: 34px; opacity: 0.75; }
-  .pv-survey-dot--c { bottom: 50px; opacity: 0.5; }
-  .pv-insight { right: 20px; top: 18px; color: var(--color-ink-dim); }
-  :global(.index-card:hover) .pv-bag { animation: pv-bob 700ms ease-in-out infinite; }
+  @keyframes pv-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes pv-float {
+    to {
+      transform: translateY(-5px);
+    }
+  }
+  @keyframes pv-conduct {
+    to {
+      transform: rotate(-8deg);
+    }
+  }
 
-  .pv-person {
-    left: 50%;
-    top: 52%;
-    width: 44px;
-    height: 52px;
-    border-radius: 18px 18px 10px 10px;
-    background: var(--color-ink);
-    transform: translate(-50%, -50%);
+  @media (prefers-reduced-motion: reduce) {
+    :global(.index-card:hover) .project-visual * {
+      animation: none !important;
+    }
   }
-  .pv-person::before { content: ""; position: absolute; left: 50%; top: -24px; width: 30px; height: 30px; border-radius: 999px; background: var(--visual-accent); transform: translateX(-50%); }
-  .pv-strength {
-    display: grid !important;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 999px;
-    background: var(--color-bg-light);
-    color: var(--color-ink);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-ink) 10%, transparent);
-  }
-  .pv-strength--a { left: 22px; top: 18px; }
-  .pv-strength--b { right: 30px; top: 16px; }
-  .pv-strength--c { left: 26px; bottom: 18px; }
-  .pv-strength--d { right: 26px; bottom: 18px; }
-  .pv-strength--e { left: 50%; top: 10px; transform: translateX(-50%); }
-  :global(.index-card:hover) .pv-strength { animation: pv-bob 900ms ease-in-out infinite alternate; }
-
-  @keyframes pv-slide { to { transform: translateX(8px); } }
-  @keyframes pv-thread-untangle { to { opacity: 0.45; transform: rotate(0deg) scaleX(0.86); } }
-  @keyframes pv-flow { to { opacity: 0.45; translate: 8px 0; } }
-  @keyframes pv-pulse { 50% { transform: translate(-50%, -50%) scale(1.08); } }
-  @keyframes pv-spin { to { rotate: 360deg; } }
-  @keyframes pv-scan { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(56px); } }
-  @keyframes pv-slide-box { to { transform: translateX(42px); } }
-  @keyframes pv-bob { to { transform: translateY(-5px); } }
 </style>
-
