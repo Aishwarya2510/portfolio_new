@@ -2,20 +2,20 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import CustomCursor from "../../components/home/CustomCursor.astro";
 import CaseStudySidebar from "../../components/casestudy/CaseStudySidebar.astro";
+import type { GetStaticPaths } from "astro";
 import { getWorkProject, workProjects } from "../../lib/work-projects";
 import { withBase } from "../../lib/paths";
 
-export function getStaticPaths() {
-  return workProjects.map((project) => ({
+export const getStaticPaths: GetStaticPaths = () =>
+  workProjects.map((project) => ({
     params: { slug: project.slug },
   }));
-}
 
-const { slug } = Astro.params;
+const slug = Astro.params.slug as string | undefined;
 const project = slug ? getWorkProject(slug) : undefined;
 
 if (!project) {
-  return Astro.redirect(withBase("/home"), 302);
+  return Astro.redirect(withBase("/home/"), 302);
 }
 
 const sections = [
@@ -39,7 +39,7 @@ const nextProject = workProjects[currentIndex + 1] ?? workProjects[0];
     <CaseStudySidebar sections={sections} active="overview" />
 
     <main class="work-detail">
-      <a href={withBase("/home")} class="work-detail__back" data-cursor="link">Back to work</a>
+      <a href={withBase("/home/")} class="work-detail__back" data-cursor="link">Back to work</a>
 
       <header class="work-hero" style={`--work-accent: var(--color-${project.accent});`}>
         <p class="work-hero__kicker">{project.status}</p>
@@ -79,7 +79,7 @@ const nextProject = workProjects[currentIndex + 1] ?? workProjects[0];
           {
             project.images.map((image, index) => (
               <figure class="work-image-card">
-                <img src={image} alt="" loading="lazy" decoding="async" />
+                <img src={withBase(image)} alt="" loading="lazy" decoding="async" />
                 <figcaption>Image slot {index + 1}</figcaption>
               </figure>
             ))
@@ -109,7 +109,7 @@ const nextProject = workProjects[currentIndex + 1] ?? workProjects[0];
         <p>{project.takeaway}</p>
       </section>
 
-      <a href={withBase(`/work/${nextProject.slug}`)} class="work-next" data-cursor="case-study">
+      <a href={withBase(`/work/${nextProject.slug}/`)} class="work-next" data-cursor="case-study">
         <span>Next project</span>
         <strong>{nextProject.title}</strong>
       </a>

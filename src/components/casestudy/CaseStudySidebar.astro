@@ -18,13 +18,15 @@ interface SectionLink {
   label: string;
 }
 
-import { withBase } from "../../lib/paths";
-
-const { sections, active } = Astro.props as {
+interface Props {
   sections: SectionLink[];
   /** Initially-active section; scrollspy overrides this once mounted. */
   active?: string;
-};
+}
+
+import { withBase } from "../../lib/paths";
+
+const { sections, active } = Astro.props;
 const initialActive = active ?? sections[0]?.id;
 ---
 
@@ -62,7 +64,7 @@ const initialActive = active ?? sections[0]?.id;
 
   <!-- Top: back to home -->
   <a
-    href={withBase("/home")}
+    href={withBase("/home/")}
     class="cs-home-link group flex items-center gap-2 w-fit font-[family-name:var(--font-mono)] text-base uppercase text-[var(--color-ink)] transition-all duration-[var(--duration-base)] ease-[var(--ease-out-soft)]"
   >
     <span aria-hidden="true" class="cs-home-arrow inline-block transition-transform duration-[var(--duration-base)] ease-[var(--ease-out-soft)]">←</span>

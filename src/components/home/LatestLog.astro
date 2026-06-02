@@ -9,7 +9,7 @@ const { date } = Astro.props;
 <article
   data-latest-log
   data-collapsed="false"
-  class="latest-log group bg-[var(--color-ink)] text-[var(--color-ink-inverted)] rounded-[10px] p-3 flex flex-col gap-1.5 transition-all duration-[var(--duration-base)] ease-[var(--ease-out-soft)]"
+  class="latest-log group bg-[var(--color-ink)] text-[var(--color-ink-inverted)] rounded-[10px] p-2.5 flex flex-col gap-1 transition-all duration-[var(--duration-base)] ease-[var(--ease-out-soft)]"
 >
   <header
     data-toggle
@@ -21,10 +21,10 @@ const { date } = Astro.props;
     class="flex items-center justify-between cursor-pointer select-none"
   >
     <div class="flex items-center gap-2">
-      <p class="font-[family-name:var(--font-mono)] text-sm uppercase">
+      <p class="font-[family-name:var(--font-mono)] text-xs uppercase">
         Latest Log
       </p>
-      <p class="font-[family-name:var(--font-body)] text-xs text-[var(--color-orange-2)]">
+      <p class="font-[family-name:var(--font-body)] text-[11px] text-[var(--color-orange-2)]">
         {date}
       </p>
     </div>
@@ -40,7 +40,7 @@ const { date } = Astro.props;
 
   <div data-body class="latest-log__body grid transition-all duration-[var(--duration-base)] ease-[var(--ease-out-soft)] grid-rows-[1fr] opacity-100">
     <div class="latest-log__clip">
-      <p class="font-[family-name:var(--font-body)] text-sm text-[var(--color-orange-2)] leading-snug">
+      <p class="font-[family-name:var(--font-body)] text-xs text-[var(--color-orange-2)] leading-snug">
         <slot />
       </p>
     </div>

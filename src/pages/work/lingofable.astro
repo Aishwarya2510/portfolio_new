@@ -4,7 +4,10 @@ import CaseStudySidebar from "../../components/casestudy/CaseStudySidebar.astro"
 import CustomCursor from "../../components/home/CustomCursor.astro";
 import Tag from "../../components/ui/Tag.astro";
 import Button from "../../components/ui/Button.astro";
-import { withBase } from "../../lib/paths";
+import { getCurrentVisitor } from "../../lib/visitor-server";
+
+const visitor = await getCurrentVisitor(Astro);
+const cursorColor = visitor?.color ?? "pink";
 
 // Sidebar sections — ids map 1:1 to the section elements below.
 const tocSections = [
@@ -20,33 +23,33 @@ const features = [
   {
     title: "Stories for every interest",
     body: "Explore fantasy, thriller, romance, and more. Always at your level.",
-    video: withBase("/images/work/lingofable/feature-stories.mp4"),
+    video: "/images/work/lingofable/feature-stories.mp4",
   },
   {
     title: "Tap any word, instantly understand",
     body: "Translations appear as you read, so you get to stay in the flow without any interruptions.",
-    video: withBase("/images/work/lingofable/feature-tap.mp4"),
+    video: "/images/work/lingofable/feature-tap.mp4",
   },
   {
     title: "Listen and read at the same time",
     body: "Follow along with audio narration for every fable. Read, listen, or both.",
-    video: withBase("/images/work/lingofable/feature-listen.mp4"),
+    video: "/images/work/lingofable/feature-listen.mp4",
   },
   {
     title: "Watch yourself improve",
     body: "Track your progress: CEFR level, words learned, reading streaks, and more.",
-    video: withBase("/images/work/lingofable/feature-progress.mp4"),
+    video: "/images/work/lingofable/feature-progress.mp4",
   },
 ];
 
 const interactions = [
   {
-    src: withBase("/images/work/lingofable/interaction-word.gif"),
+    src: "/images/work/lingofable/interaction-word.gif",
     alt: "Animation showing how tapping a word reveals its definition",
     caption: "Looking up a word",
   },
   {
-    src: withBase("/images/work/lingofable/interaction-sentence.gif"),
+    src: "/images/work/lingofable/interaction-sentence.gif",
     alt: "Animation showing how a sentence is translated on tap in the reader",
     caption: "Translating a sentence",
   },
@@ -77,7 +80,7 @@ const reflections = [
       <section class="cs-hero-wrap">
         <div class="cs-hero rounded-[24px] overflow-hidden max-h-[360px]">
           <img
-            src={withBase("/images/work/lingofable/hero-banner.png")}
+            src="/images/work/lingofable/hero-banner.png"
             alt="Lingofable — Language learning, one story at a time"
             loading="eager"
             class="block w-full h-full object-cover"
@@ -95,7 +98,7 @@ const reflections = [
           class="font-[family-name:var(--font-display)] font-light text-[28px] sm:text-[34px] md:text-[40px] leading-[1.1] text-[var(--color-ink)] flex items-start gap-3"
         >
           <img
-            src={withBase("/images/work/lingofable/hero-star.svg")}
+            src="/images/work/lingofable/hero-star.svg"
             alt=""
             aria-hidden="true"
             class="w-[22px] h-[22px] flex-shrink-0 self-center"
@@ -213,13 +216,13 @@ const reflections = [
             class="relative w-full aspect-[508/585] md:aspect-[628/580] rounded-[24px] overflow-hidden bg-[var(--color-bg-light)]"
           >
             <img
-              src={withBase("/images/work/lingofable/bento-1-fairy-tales-alt.png")}
+              src="/images/work/lingofable/bento-1-fairy-tales-alt.png"
               alt="From fairy tales to Reddit threads — Pick what you want to read. We'll match it to your level."
               loading="lazy"
               class="md:hidden absolute inset-0 w-full h-full object-contain rounded-[24px]"
             />
             <img
-              src={withBase("/images/work/lingofable/bento-1-fairy-tales.png")}
+              src="/images/work/lingofable/bento-1-fairy-tales.png"
               alt="From fairy tales to Reddit threads — Pick what you want to read. We'll match it to your level."
               loading="lazy"
               class="hidden md:block absolute inset-0 w-full h-full object-contain rounded-[24px] p-[5%]"
@@ -230,7 +233,7 @@ const reflections = [
           <div class="flex flex-col gap-4 md:gap-6">
             <!-- Track your progress -->
             <img
-              src={withBase("/images/work/lingofable/bento-2-track-progress.png")}
+              src="/images/work/lingofable/bento-2-track-progress.png"
               alt="Track your progress — See your CEFR level rise and your vocabulary grow as you read."
               loading="lazy"
               class="w-full h-auto rounded-[24px]"
@@ -238,7 +241,7 @@ const reflections = [
 
             <!-- i+1 difficulty -->
             <img
-              src={withBase("/images/work/lingofable/bento-3-i+1-difficulty.png")}
+              src="/images/work/lingofable/bento-3-i+1-difficulty.png"
               alt="Always at the perfect i+1 difficulty — Stories adapt to your level, never too hard, never too easy."
               loading="lazy"
               class="w-full h-auto rounded-[24px]"
@@ -409,7 +412,7 @@ const reflections = [
         <div class="flex flex-wrap gap-6 justify-center mt-4">
           <div class="cs-phone">
             <img
-              src={withBase("/images/work/lingofable/onboarding-words.png")}
+              src="/images/work/lingofable/onboarding-words.png"
               alt="Onboarding screen: tap the words you know"
               loading="lazy"
               class="w-full h-auto"
@@ -417,7 +420,7 @@ const reflections = [
           </div>
           <div class="cs-phone">
             <img
-              src={withBase("/images/work/lingofable/onboarding-fables.png")}
+              src="/images/work/lingofable/onboarding-fables.png"
               alt="Onboarding screen: pick fables to bookmark"
               loading="lazy"
               class="w-full h-auto"
@@ -425,7 +428,7 @@ const reflections = [
           </div>
           <div class="cs-phone">
             <img
-              src={withBase("/images/work/lingofable/onboarding-commit.png")}
+              src="/images/work/lingofable/onboarding-commit.png"
               alt="Onboarding screen: commit to your goal"
               loading="lazy"
               class="w-full h-auto"
@@ -446,7 +449,7 @@ const reflections = [
         <div class="flex flex-wrap gap-6 justify-center mt-4">
           <div class="cs-phone">
             <img
-              src={withBase("/images/work/lingofable/onboarding-test-1.png")}
+              src="/images/work/lingofable/onboarding-test-1.png"
               alt="Comprehension test screen 1"
               loading="lazy"
               class="w-full h-auto"
@@ -454,7 +457,7 @@ const reflections = [
           </div>
           <div class="cs-phone">
             <img
-              src={withBase("/images/work/lingofable/onboarding-test-2.png")}
+              src="/images/work/lingofable/onboarding-test-2.png"
               alt="Comprehension test screen 2"
               loading="lazy"
               class="w-full h-auto"
@@ -462,7 +465,7 @@ const reflections = [
           </div>
           <div class="cs-phone">
             <img
-              src={withBase("/images/work/lingofable/onboarding-test-3.png")}
+              src="/images/work/lingofable/onboarding-test-3.png"
               alt="Comprehension test screen 3"
               loading="lazy"
               class="w-full h-auto"
@@ -507,7 +510,7 @@ const reflections = [
 
         <figure class="mt-6 rounded-[16px] overflow-hidden cs-reflection-photo-wrap" data-cursor="photo" data-cursor-label="pitching to the ex-CPO of Pinterest">
           <img
-            src={withBase("/images/work/lingofable/reflection-photo.jpg")}
+            src="/images/work/lingofable/reflection-photo.jpg"
             alt="Lingofable presentation on stage"
             loading="lazy"
             class="cs-reflection-photo w-full max-h-[520px] object-cover"
@@ -517,7 +520,7 @@ const reflections = [
     </main>
   </div>
 
-  <CustomCursor color="pink" />
+  <CustomCursor color={cursorColor} />
 </BaseLayout>
 
 <style>

@@ -1,6 +1,7 @@
 ---
-type ActiveKey = "work" | "experience" | "about" | "connect";
 import { withBase } from "../../lib/paths";
+
+type ActiveKey = "work" | "experience" | "about" | "connect";
 
 interface Props {
   active?: ActiveKey;
@@ -9,10 +10,10 @@ interface Props {
 const { active = "work" } = Astro.props;
 
 const items: { key: ActiveKey; label: string; href: string }[] = [
-  { key: "work", label: "01. My Work", href: withBase("/home") },
-  { key: "experience", label: "02. Experience", href: withBase("/experience") },
-  { key: "about", label: "03. About Me", href: withBase("/about") },
-  { key: "connect", label: "04. Connect", href: withBase("/connect") },
+  { key: "work", label: "01. My Work", href: withBase("/home/") },
+  { key: "experience", label: "02. Experience", href: withBase("/experience/") },
+  { key: "about", label: "03. About Me", href: withBase("/about/") },
+  { key: "connect", label: "04. Connect", href: withBase("/connect/") },
 ];
 ---
 
@@ -144,8 +145,10 @@ const items: { key: ActiveKey; label: string; href: string }[] = [
     nav item and escapes the sidebar into the main content area on hover.
     Each preview is a distinct mini-composition that echoes its destination:
 
-      - work       → mini project cards
+      - work       → mini index cards (matches the gallery)
       - about      → sparkle + text lines + color swatches (matches /about)
+      - playground → dark cosmic + stars + "coming soon" chip
+      - gallery    → 2x2 grid of library-card color swatches
   */
   .toc-preview {
     position: absolute;
@@ -174,7 +177,7 @@ const items: { key: ActiveKey; label: string; href: string }[] = [
   }
 
   /* === Work preview ===
-     Mirrors the home page: a dark LatestLog strip at top + a 2x2 grid
+     Mirrors the home gallery: a dark LatestLog strip at top + a 2x2 grid
      of tilted archival index cards below. */
   .toc-preview--work {
     display: flex;
@@ -328,13 +331,84 @@ const items: { key: ActiveKey; label: string; href: string }[] = [
   .tp-exp__line--a { width: 78%; }
   .tp-exp__line--b { width: 52%; }
 
+  /* === Gallery preview ===
+     Mirrors /visitor-gallery: a title strip at top, then a loose 2x2 grid
+     of library-card colors with slight tilt + a faint signature line. */
+  .toc-preview--gallery {
+    background: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+  }
+  .tp-gal__title {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--color-ink);
+    line-height: 1;
+  }
+  .tp-gal__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    flex: 1;
+  }
+  .tp-gcard {
+    position: relative;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 5px;
+    transform: rotate(var(--tp-gcard-tilt, 0deg));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  /* A tiny white signature line at the bottom of each card, mirroring the
+     actual LibraryCard's bottom border "x _______" rhythm. */
+  .tp-gcard::after {
+    content: "";
+    display: block;
+    height: 1px;
+    width: 70%;
+    background: rgba(255, 255, 255, 0.6);
+    margin-left: auto;
+  }
+  .tp-gcard--pink   { background: var(--color-pink); --tp-gcard-tilt: -1.5deg; }
+  .tp-gcard--teal   { background: var(--color-teal); --tp-gcard-tilt: 1deg; }
+  .tp-gcard--orange { background: var(--color-orange); --tp-gcard-tilt: 1.2deg; }
+  .tp-gcard--green  { background: var(--color-green); --tp-gcard-tilt: -1deg; }
+
   /* Hide previews on narrow screens — the sidebar is a drawer there and
      the preview would either overflow the drawer or float over the page. */
   @media (max-width: 1023px) {
     .toc-preview { display: none; }
   }
 
+  /* Pink nudge dot for anonymous visitors on Gallery link. */
+  .toc-gallery-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--color-pink);
+    flex-shrink: 0;
+    transform: translateY(1.5px);
+    animation: toc-dot-pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes toc-dot-pulse {
+    0%, 100% {
+      opacity: 1;
+      box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-pink) 50%, transparent);
+    }
+    50% {
+      opacity: 0.6;
+      box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-pink) 0%, transparent);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
+    .toc-gallery-dot { animation: none; }
     .toc-preview {
       transition: opacity 120ms var(--ease-out-soft);
       transform: translateY(-50%);

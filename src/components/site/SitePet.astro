@@ -881,13 +881,7 @@
     if ((window as any).__sitePetInit) return;
     (window as any).__sitePetInit = true;
 
-    const BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, "");
     const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-
-    function currentPath() {
-      const path = window.location.pathname;
-      return BASE_PATH && path.startsWith(BASE_PATH) ? path.slice(BASE_PATH.length) || "/" : path;
-    }
 
     function el(): HTMLElement | null {
       return document.querySelector<HTMLElement>("[data-site-pet]");
@@ -895,6 +889,7 @@
 
     const PET_W = 44;
     const PET_H = 56;
+    const _MARGIN_R = 12;
     const SPEED = 34; // px / sec
 
     // Quips keyed by event. Picked at random each time.
@@ -912,19 +907,24 @@
       "enough.",
     ];
     const CLICK_PHRASES_DONE = ["rude.", "really?", "ow.", "i'm not a button", "stop!"];
+    const BASE_URL = import.meta.env.BASE_URL.replace(/\/$/, "");
+    const apiPath = (path: string) => `${BASE_URL}${path}`;
+    function appPath(pathname = window.location.pathname) {
+      return BASE_URL && pathname.startsWith(`${BASE_URL}/`)
+        ? pathname.slice(BASE_URL.length)
+        : pathname;
+    }
     function clickPool(count: number): string[] {
       if (count <= 2) return CLICK_PHRASES_MILD;
       if (count <= 4) return CLICK_PHRASES_MEH;
       if (count <= 7) return CLICK_PHRASES_ANNOYED;
       return CLICK_PHRASES_DONE;
     }
-    // Local poke count, kept in the browser for the static GitHub Pages build.
+    // Global poke count — fetched once, incremented optimistically on click.
     let globalPokes = 0;
     let pokeQuipUsed = false;
     let sessionClicks = 0;
-    try {
-      globalPokes = parseInt(localStorage.getItem("sitepet:pokes") ?? "0", 10) || 0;
-    } catch {}
+    fetch(apiPath("/api/pet-pokes")).then((r) => r.json()).then((d) => { globalPokes = d.pokes; }).catch(() => {});
 
     const HOVER_PHRASES = ["what's up?", "hi!", "oh hey", "howdy", "sup?", "hello"];
     const DRAG_PHRASES = [
@@ -980,6 +980,16 @@
       "this is exciting",
       "send the note!",
       "i'll cheer from here",
+    ];
+    const GALLERY_PHRASES = [
+      "so many visitors!",
+      "ooh who's this one",
+      "i wonder who'll\ncome next",
+      "look at all\nthese people",
+      "everyone has\nsuch cool colors",
+      "am i a visitor too?",
+      "it's a party in here",
+      "the gallery is growing!",
     ];
     const LEDGE_LAND_PHRASES = [
       "nice view up here",
@@ -1160,6 +1170,8 @@
     }
     function invalidateLedgeCache() { ledgeCacheDirty = true; }
     document.addEventListener("astro:page-load", invalidateLedgeCache);
+    window.addEventListener("gallery:shuffle", invalidateLedgeCache);
+    window.addEventListener("gallery:cards-added", invalidateLedgeCache);
 
     function getLedgeCandidates(): HTMLElement[] {
       if (ledgeCacheDirty) refreshLedgeCache();
@@ -1364,7 +1376,7 @@
     let fallResumeAt = 0;
     // Cooldown so the pet doesn't immediately re-mount onto a neighboring
     // ledge mid-flight after falling off one — that creates a quip loop on
-    // dense pages.
+    // dense pages like the visitor gallery.
     let lastDismountAt = 0;
     let lastLedgeFallSpokenAt = 0;
 
@@ -1640,7 +1652,7 @@
           // Mid-flight ledge catch — while falling (not on a ledge already),
           // check if the pet's feet cross through a ledge surface this frame.
           // Throttled to every Nth frame to avoid per-frame querySelectorAll on
-          // pages with many ledge candidates.
+          // pages with many ledge candidates (e.g. visitor gallery).
           ledgeScanFrame = (ledgeScanFrame + 1) % LEDGE_SCAN_INTERVAL;
           // Skip the catch for ~700ms after a forced dismount so the pet
           // actually falls instead of grabbing a neighbor and looping
@@ -2034,6 +2046,8 @@
             saySomething(pet, clickPool(clickCount), 1400);
           }
 
+          // Increment server counter (fire-and-forget).
+          fetch(apiPath("/api/pet-pokes"), { method: "POST" }).catch(() => {});
           try {
             const p = parseInt(localStorage.getItem("sitepet:pokes") ?? "0", 10);
             localStorage.setItem("sitepet:pokes", String(p + 1));
@@ -2113,13 +2127,14 @@
       }
       function idlePool(): string[] {
         if (currentLedge) return perchPool();
-        const path = currentPath();
+        const path = appPath();
         if (path.startsWith("/work/")) {
           const extras = CASE_STUDY_PAGE_PHRASES[path] ?? [];
           return extras.length ? [...CASE_STUDY_PHRASES, ...extras] : CASE_STUDY_PHRASES;
         }
         if (path.startsWith("/connect")) return CONTACT_PHRASES;
         if (path.startsWith("/about")) return ABOUT_PHRASES;
+        if (path.startsWith("/visitor-gallery")) return GALLERY_PHRASES;
         return IDLE_PHRASES;
       }
       let lastIdleQuipAt = 0;
@@ -2275,11 +2290,19 @@
       rack.querySelectorAll<HTMLElement>("[data-hat-choice]").forEach((btn) => {
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
+          const prev = readHat();
           const choice = (btn.dataset.hatChoice || "none") as HatKey;
           try {
             localStorage.setItem(HAT_KEY, choice);
           } catch {}
           applyHat(choice);
+          if (prev !== choice) {
+            fetch(apiPath("/api/hat-picks"), {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ from: prev, to: choice }),
+            }).catch(() => {});
+          }
           rack.removeAttribute("data-open");
           rack.setAttribute("data-hat-picked", "");
           // Blur so :focus-within doesn't keep the menu visible.
@@ -2319,7 +2342,7 @@
       measureWalls();
       const pet = el();
       if (pet) {
-        const isContact = currentPath().startsWith("/connect");
+        const isContact = appPath().startsWith("/connect");
         pet.toggleAttribute("data-contact-page", isContact);
         applyMonster(readMonster());
         wire(pet);

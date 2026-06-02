@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Disallow:
+Disallow: /api/
 Disallow: /admin/
 
-Sitemap: https://aishwarya2510.github.io/portfolio_new/sitemap.xml
+Sitemap: https://meganyap.me/sitemap.xml

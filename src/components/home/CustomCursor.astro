@@ -1,9 +1,9 @@
 ---
-type CursorColor = "pink" | "teal" | "green" | "orange" | "neutral";
+import type { CardColor } from "../../lib/visitor";
 
 interface Props {
-  /** Accent color for the cursor. */
-  color?: CursorColor;
+  /** The visitor's selected card color. Defaults to pink for first-timers. */
+  color?: CardColor;
 }
 
 const { color = "pink" } = Astro.props;

@@ -5,6 +5,8 @@ import { withBase } from "../../lib/paths";
 
 interface Props {
   active?: "work" | "experience" | "about" | "connect";
+  anon?: boolean;
+  visitorCard?: unknown;
 }
 
 const { active = "work" } = Astro.props;
@@ -17,7 +19,7 @@ const { active = "work" } = Astro.props;
   transition:animate="none"
   class="site-sidebar site-navbar"
 >
-  <a href={withBase("/home")} aria-label="Home" class="site-navbar__brand" data-cursor="link">
+  <a href={withBase("/home/")} aria-label="Home" class="site-navbar__brand" data-cursor="link">
     <Logo class="site-navbar__logo" />
     <span>
       <strong>Aishwarya</strong>

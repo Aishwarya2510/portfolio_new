@@ -9,6 +9,37 @@ const { slug, title, accent = "teal" } = Astro.props;
 ---
 
 <div class={`project-visual project-visual--${slug}`} style={`--visual-accent: var(--color-${accent});`} aria-label={`${title} project visual`}>
+  {slug === "decision-operating-systems" && (
+    <>
+      <span class="pv-thread pv-thread--a"></span>
+      <span class="pv-thread pv-thread--b"></span>
+      <span class="pv-thread pv-thread--c"></span>
+      <span class="pv-decision-core">5m</span>
+      <span class="pv-thread-time">2d</span>
+      <span class="pv-os-step pv-os-step--a">Own</span>
+      <span class="pv-os-step pv-os-step--b">HITL</span>
+      <span class="pv-os-step pv-os-step--c">Risk</span>
+      <span class="pv-os-route pv-os-route--a"></span>
+      <span class="pv-os-route pv-os-route--b"></span>
+      <span class="pv-os-value">Value</span>
+    </>
+  )}
+
+  {slug === "insight-to-execution-operations" && (
+    <>
+      <span class="pv-signal pv-signal--a">Market</span>
+      <span class="pv-signal pv-signal--b">CRM</span>
+      <span class="pv-signal pv-signal--c">Ops</span>
+      <span class="pv-orchestrator">AI</span>
+      <span class="pv-flow pv-flow--a"></span>
+      <span class="pv-flow pv-flow--b"></span>
+      <span class="pv-flow pv-flow--c"></span>
+      <span class="pv-approval">OK</span>
+      <span class="pv-roi">ROI</span>
+      <span class="pv-execute">Execute</span>
+    </>
+  )}
+
   {slug === "snowflake-cortex-analyst" && (
     <>
       <span class="pv-orb"></span>
@@ -153,6 +184,151 @@ const { slug, title, accent = "teal" } = Astro.props;
       radial-gradient(circle at 72% 24%, color-mix(in oklab, var(--visual-accent) 36%, white), transparent 30%),
       linear-gradient(135deg, color-mix(in oklab, var(--visual-accent) 28%, var(--color-bg-light)), var(--color-bg-neutral));
   }
+
+  .pv-thread {
+    width: 78px;
+    height: 22px;
+    border: 2px solid color-mix(in oklab, var(--color-ink) 38%, transparent);
+    border-radius: 999px;
+    opacity: 0.78;
+  }
+  .pv-thread--a { left: 18px; top: 20px; transform: rotate(-10deg); }
+  .pv-thread--b { left: 34px; top: 44px; transform: rotate(8deg); }
+  .pv-thread--c { left: 16px; top: 68px; transform: rotate(-4deg); }
+  .pv-decision-core,
+  .pv-thread-time,
+  .pv-os-step,
+  .pv-os-value {
+    display: grid !important;
+    place-items: center;
+    font-family: var(--font-mono);
+    line-height: 1;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 12%, transparent);
+  }
+  .pv-decision-core {
+    left: 45%;
+    top: 50%;
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    background: var(--visual-accent);
+    color: var(--color-ink);
+    font-size: 12px;
+    font-weight: 800;
+    transform: translate(-50%, -50%);
+  }
+  .pv-thread-time {
+    left: 23px;
+    bottom: 12px;
+    width: 34px;
+    height: 22px;
+    border-radius: 8px;
+    background: var(--color-ink);
+    color: var(--color-ink-inverted);
+    font-size: 10px;
+  }
+  .pv-os-step {
+    right: 18px;
+    width: 48px;
+    height: 20px;
+    border-radius: 8px;
+    background: var(--color-bg-light);
+    color: var(--color-ink);
+    font-size: 8px;
+  }
+  .pv-os-step--a { top: 15px; }
+  .pv-os-step--b { top: 40px; background: color-mix(in oklab, var(--visual-accent) 36%, var(--color-bg-light)); }
+  .pv-os-step--c { top: 65px; }
+  .pv-os-route {
+    height: 3px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--visual-accent) 72%, var(--color-ink));
+    transform-origin: left center;
+  }
+  .pv-os-route--a { left: 96px; top: 42px; width: 54px; transform: rotate(-16deg); }
+  .pv-os-route--b { left: 96px; top: 60px; width: 54px; transform: rotate(16deg); }
+  .pv-os-value {
+    right: 20px;
+    bottom: 12px;
+    width: 66px;
+    height: 22px;
+    border-radius: 8px;
+    background: var(--color-ink);
+    color: var(--color-ink-inverted);
+    font-size: 8px;
+  }
+  :global(.index-card:hover) .pv-thread { animation: pv-thread-untangle 980ms ease-in-out infinite alternate; }
+  :global(.index-card:hover) .pv-decision-core { animation: pv-pulse 900ms ease-in-out infinite; }
+  :global(.index-card:hover) .pv-os-route { animation: pv-flow 900ms ease-in-out infinite alternate; }
+
+  .pv-signal,
+  .pv-orchestrator,
+  .pv-approval,
+  .pv-roi,
+  .pv-execute {
+    display: grid !important;
+    place-items: center;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    line-height: 1;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 12%, transparent);
+  }
+  .pv-signal {
+    left: 14px;
+    width: 50px;
+    height: 20px;
+    background: var(--color-bg-light);
+    color: var(--color-ink);
+  }
+  .pv-signal--a { top: 14px; }
+  .pv-signal--b { top: 40px; }
+  .pv-signal--c { top: 66px; }
+  .pv-orchestrator {
+    left: 50%;
+    top: 50%;
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    background: var(--visual-accent);
+    color: var(--color-ink);
+    transform: translate(-50%, -50%);
+  }
+  .pv-flow {
+    height: 3px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--visual-accent) 70%, var(--color-ink));
+    transform-origin: left center;
+  }
+  .pv-flow--a { left: 62px; top: 24px; width: 54px; transform: rotate(18deg); }
+  .pv-flow--b { left: 64px; top: 50px; width: 48px; }
+  .pv-flow--c { left: 62px; top: 76px; width: 54px; transform: rotate(-18deg); }
+  .pv-approval {
+    right: 54px;
+    top: 18px;
+    width: 34px;
+    height: 24px;
+    background: var(--color-green-1);
+    color: var(--color-ink);
+  }
+  .pv-roi {
+    right: 18px;
+    top: 46px;
+    width: 34px;
+    height: 24px;
+    background: var(--color-bg-light);
+    color: var(--color-ink);
+  }
+  .pv-execute {
+    right: 20px;
+    bottom: 16px;
+    width: 76px;
+    height: 24px;
+    background: var(--color-ink);
+    color: var(--color-ink-inverted);
+  }
+  :global(.index-card:hover) .pv-flow { animation: pv-flow 900ms ease-in-out infinite alternate; }
+  :global(.index-card:hover) .pv-orchestrator { animation: pv-pulse 900ms ease-in-out infinite; }
 
   .pv-orb {
     right: 18px;
@@ -475,6 +651,8 @@ const { slug, title, accent = "teal" } = Astro.props;
   :global(.index-card:hover) .pv-strength { animation: pv-bob 900ms ease-in-out infinite alternate; }
 
   @keyframes pv-slide { to { transform: translateX(8px); } }
+  @keyframes pv-thread-untangle { to { opacity: 0.45; transform: rotate(0deg) scaleX(0.86); } }
+  @keyframes pv-flow { to { opacity: 0.45; translate: 8px 0; } }
   @keyframes pv-pulse { 50% { transform: translate(-50%, -50%) scale(1.08); } }
   @keyframes pv-spin { to { rotate: 360deg; } }
   @keyframes pv-scan { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(56px); } }

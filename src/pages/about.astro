@@ -423,9 +423,6 @@ const topics = [
     background: var(--color-bg-light);
     box-shadow: 0 20px 42px -24px rgba(36, 36, 36, 0.9), 0 0 4px #999079;
   }
-  .chat-box[hidden] {
-    display: none;
-  }
   .chat-box header {
     display: flex;
     justify-content: space-between;
@@ -528,13 +525,6 @@ const topics = [
   }
 
   @media (max-width: 1180px) {
-    .about-main {
-      grid-template-columns: 1fr;
-      align-items: start;
-    }
-    .about-intro {
-      min-height: auto;
-    }
     .about-intro,
     .game-frame {
       grid-template-columns: 1fr;
@@ -573,95 +563,35 @@ const topics = [
       display: block;
     }
     .about-main {
-      display: block;
-      padding: 10px 10px 112px;
+      padding-inline: 12px;
     }
     .about-intro,
     .game-frame {
       padding: 16px;
     }
     .about-intro h1 {
-      font-size: clamp(2.35rem, 12vw, 3.4rem);
-      line-height: 1;
-    }
-    .about-intro li {
-      font-size: 0.88rem;
-      line-height: 1.4;
-    }
-    .game-shell {
-      margin-top: 12px;
-    }
-    .game-frame {
-      gap: 12px;
-      overflow: visible;
-    }
-    .director {
-      min-height: 170px;
-    }
-    .director-head {
-      top: 22px;
-      width: 58px;
-      height: 58px;
-    }
-    .director-head span {
-      top: 25px;
-    }
-    .director-body {
-      top: 92px;
-      width: 88px;
-      height: 68px;
-    }
-    .director-body::before,
-    .director-body::after,
-    .director-pointer {
-      display: none;
-    }
-    .director-board {
-      right: 12px;
-      bottom: 12px;
-      left: 12px;
-      width: auto;
+      font-size: clamp(3.1rem, 17vw, 4.5rem);
     }
     .topic-arena {
-      min-height: auto;
+      min-height: 360px;
       grid-template-columns: 1fr;
-      gap: 10px;
-      padding: 12px;
     }
     .topic-block {
       width: 100%;
       min-height: 56px;
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       padding: 9px;
     }
-    .info-card {
-      min-height: 150px;
-      align-content: start;
-    }
-    .info-card span {
-      font-size: 1.9rem;
-    }
     .chat-widget {
-      right: 12px;
-      bottom: 12px;
+      right: 14px;
+      bottom: 14px;
     }
     .chat-launcher {
-      width: 68px;
-      height: 68px;
+      width: 76px;
+      height: 76px;
     }
     .chat-box {
-      right: -2px;
-      bottom: 78px;
-      width: calc(100vw - 24px);
-      max-height: min(620px, calc(100dvh - 110px));
-      display: flex;
-      flex-direction: column;
-    }
-    .chat-log {
-      max-height: 32dvh;
-    }
-    .chat-box form {
-      grid-template-columns: 1fr;
+      bottom: 88px;
     }
   }
 
