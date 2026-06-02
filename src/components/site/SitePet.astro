@@ -18,118 +18,6 @@
 */
 ---
 
-<!--
-  Hat rack. The toggle is a small hat sprite that sits on top of the
-  sidebar's "Explore" nav — positioned in JS so it tracks the nav's
-  bounding rect. Clicking it opens a floating menu of hat options.
--->
-<div data-hat-rack transition:persist="site-pet-rack" class="hat-rack" aria-label="Hat rack">
-  <button
-    type="button"
-    data-rack-toggle
-    data-cursor="link"
-    class="hat-rack__toggle"
-    aria-label="Choose a hat"
-  >
-    <svg
-      class="hat-rack__icon hat-rack__icon--default"
-      width="26"
-      height="22"
-      viewBox="0 0 40 34"
-      aria-hidden="true"
-    >
-      <!-- Sprout perched on a hat-stand shelf. Stem base sits on the
-           shelf top; shelf brackets meet the SVG bottom edge (= Explore
-           nav top edge). -->
-      <!-- shelf -->
-      <rect x="2" y="26" width="36" height="2.2" rx="1" fill="#6b6553"></rect>
-      <!-- shelf brackets -->
-      <rect x="5" y="28" width="2" height="6" rx="0.7" fill="#6b6553"></rect>
-      <rect x="33" y="28" width="2" height="6" rx="0.7" fill="#6b6553"></rect>
-      <!-- sprout sitting on the shelf — leaves tilt upward like ^ -->
-      <rect x="19" y="12" width="2" height="14" fill="#2a8f50"></rect>
-      <ellipse cx="13" cy="7" rx="9" ry="4.8" fill="#3ca564" transform="rotate(28 13 7)"></ellipse>
-      <ellipse cx="28" cy="7" rx="9" ry="4.8" fill="#3ca564" transform="rotate(-28 28 7)"></ellipse>
-    </svg>
-    <span data-rack-preview-slot class="hat-rack__preview-slot" aria-hidden="true"></span>
-  </button>
-  <div class="hat-rack__menu" data-rack-options aria-hidden="true">
-    <button
-      type="button"
-      class="hat-rack__opt"
-      data-hat-choice="none"
-      data-cursor="link"
-      aria-label="No hat"
-    >
-      <span class="hat-rack__none">∅</span>
-    </button>
-    <button
-      type="button"
-      class="hat-rack__opt"
-      data-hat-choice="bucket"
-      data-cursor="link"
-      aria-label="Bucket hat"
-    >
-      <svg width="28" height="15" viewBox="-4 -9 48 17" aria-hidden="true">
-        <rect x="10" y="-5" width="24" height="10" rx="3" fill="#e8c84a"></rect>
-        <rect x="-1" y="2" width="46" height="6" rx="3" fill="#e8c84a"></rect>
-      </svg>
-    </button>
-    <button
-      type="button"
-      class="hat-rack__opt"
-      data-hat-choice="top"
-      data-cursor="link"
-      aria-label="Top hat"
-    >
-      <svg width="26" height="18" viewBox="0 -14 44 19" aria-hidden="true">
-        <rect x="13" y="-12" width="18" height="14" rx="2.5" fill="#1a1a1a"></rect>
-        <rect x="4" y="0" width="36" height="5" rx="2.5" fill="#1a1a1a"></rect>
-      </svg>
-    </button>
-    <button
-      type="button"
-      class="hat-rack__opt"
-      data-hat-choice="cap"
-      data-cursor="link"
-      aria-label="Baseball cap"
-    >
-      <svg width="28" height="15" viewBox="0 -6 44 15" aria-hidden="true">
-        <rect x="8" y="-4" width="28" height="10" rx="4" fill="#168b9d"></rect>
-        <rect x="22" y="4" width="20" height="5" rx="2.5" fill="#168b9d"></rect>
-      </svg>
-    </button>
-    <button
-      type="button"
-      class="hat-rack__opt"
-      data-hat-choice="sprout"
-      data-cursor="link"
-      aria-label="Sprout"
-    >
-      <svg width="30" height="22" viewBox="8 -14 26 20" aria-hidden="true">
-        <rect x="21.2" y="-6" width="1.6" height="12" fill="#2a8f50"></rect>
-        <ellipse cx="17" cy="-7" rx="5" ry="2.8" fill="#3ca564" transform="rotate(28 17 -7)"
-        ></ellipse>
-        <ellipse cx="27" cy="-7" rx="5" ry="2.8" fill="#3ca564" transform="rotate(-28 27 -7)"
-        ></ellipse>
-      </svg>
-    </button>
-    <button
-      type="button"
-      class="hat-rack__opt"
-      data-hat-choice="party"
-      data-cursor="link"
-      aria-label="Party hat"
-    >
-      <svg width="26" height="18" viewBox="10 -14 26 16" aria-hidden="true">
-        <polygon points="22.5,-12 14,0 31,0" fill="#bf5a7a"></polygon>
-        <rect x="14" y="0" width="17" height="2" rx="1" fill="#bf5a7a"></rect>
-        <circle cx="22.5" cy="-12" r="2" fill="#168b9d"></circle>
-      </svg>
-    </button>
-  </div>
-</div>
-
 <div data-site-pet transition:persist="site-pet" aria-hidden="true" class="site-pet">
   <div class="site-pet__bubble" data-pet-bubble aria-hidden="true"></div>
   <div class="site-pet__emotes" data-pet-emotes aria-hidden="true"></div>
@@ -226,39 +114,6 @@
           height="9"
           rx="3.5"
           fill="var(--monster-foot)"></rect>
-
-        <!--
-          Hats — every variant is drawn but only the one matching
-          .site-pet[data-hat="<key>"] is visible via CSS. Shapes kept blocky
-          and 1–2 color max to match the mascot's quiet ink aesthetic.
-        -->
-        <g class="pet-hat" data-hat-variant="bucket">
-          <rect x="10" y="-7" width="24" height="10" rx="3" fill="#e8c84a"></rect>
-          <rect x="-1" y="0" width="46" height="6" rx="3" fill="#e8c84a"></rect>
-        </g>
-        <g class="pet-hat" data-hat-variant="top">
-          <rect x="13" y="-11" width="18" height="14" rx="2.5" fill="#1a1a1a"></rect>
-          <rect x="4" y="1" width="36" height="5" rx="2.5" fill="#1a1a1a"></rect>
-        </g>
-        <g class="pet-hat" data-hat-variant="cap">
-          <rect x="8" y="-4" width="28" height="10" rx="4" fill="#168b9d"></rect>
-          <rect x="22" y="4" width="20" height="5" rx="2.5" fill="#168b9d"></rect>
-        </g>
-        <g class="pet-hat" data-hat-variant="sprout">
-          <!-- thin darker stem + two ellipse leaves pivoted so their
-               outer tips point upward like ^ -->
-          <rect x="21.2" y="-6" width="1.6" height="12" fill="#2a8f50"></rect>
-          <ellipse cx="17" cy="-7" rx="5" ry="2.8" fill="#3ca564" transform="rotate(28 17 -7)"
-          ></ellipse>
-          <ellipse cx="27" cy="-7" rx="5" ry="2.8" fill="#3ca564" transform="rotate(-28 27 -7)"
-          ></ellipse>
-        </g>
-        <g class="pet-hat" data-hat-variant="party">
-          <!-- party cone + pom-pom — brim sits flush on the head top -->
-          <polygon points="22.5,-8 14,4 31,4" fill="#bf5a7a"></polygon>
-          <rect x="14" y="4" width="17" height="2" rx="1" fill="#bf5a7a"></rect>
-          <circle cx="22.5" cy="-8" r="2" fill="#168b9d"></circle>
-        </g>
       </svg>
     </span>
   </button>
@@ -393,27 +248,9 @@
   }
   .site-pet__svg {
     display: block;
-    /* Hats extend above the body's viewBox; allow that overflow. */
-    overflow: visible;
   }
 
-  /* Hats — each variant is drawn inline; CSS reveals only the selected one. */
-  .pet-hat {
-    display: none;
-  }
-  .site-pet[data-hat="bucket"] .pet-hat[data-hat-variant="bucket"],
-  .site-pet[data-hat="top"] .pet-hat[data-hat-variant="top"],
-  .site-pet[data-hat="cap"] .pet-hat[data-hat-variant="cap"],
-  .site-pet[data-hat="sprout"] .pet-hat[data-hat-variant="sprout"],
-  .site-pet[data-hat="party"] .pet-hat[data-hat-variant="party"] {
-    display: block;
-  }
-
-  .hat-rack {
-    display: none !important;
-  }
-
-  /* Whole-body idle bob — disabled while hopping or being dragged. */
+  /* Whole-body idle bob - disabled while hopping or being dragged. */
   .site-pet__bob {
     display: block;
     animation: site-pet-bob 0.5s ease-in-out infinite;
@@ -683,14 +520,6 @@
     opacity: 1;
     transform: translate(-50%, 0);
   }
-  /* Raise bubble when wearing a hat so it clears the headwear */
-  .site-pet[data-hat="bucket"] .site-pet__bubble,
-  .site-pet[data-hat="top"] .site-pet__bubble,
-  .site-pet[data-hat="cap"] .site-pet__bubble,
-  .site-pet[data-hat="sprout"] .site-pet__bubble,
-  .site-pet[data-hat="party"] .site-pet__bubble {
-    bottom: calc(100% + 26px);
-  }
   /*
     Bubble tail — a downward CSS triangle sitting flush below the bubble.
     Using borders instead of a rotated square means the tail never
@@ -716,163 +545,6 @@
       animation: none;
     }
   }
-
-  /* ============ Hat rack ============
-     Positioned by JS to sit on top of the sidebar's "Explore" nav —
-     `--rack-x` / `--rack-y` are the left/top anchors in viewport coords.
-  */
-  /*
-    Rack is fixed-positioned so it tracks the sticky sidebar.
-    JS sets --rack-x / --rack-y in viewport coordinates.
-  */
-  .hat-rack {
-    position: fixed;
-    left: var(--rack-x, 40px);
-    top: var(--rack-y, 40px);
-    z-index: 85;
-    pointer-events: none;
-  }
-  /*
-    Toggle — transparent chip, the SVG is the sole visible element.
-    Fixed inline-block sized to the sprite so the stem base always lands
-    on the toggle's bottom edge (deterministic across browsers + zoom
-    levels). ::before extends the hit area without changing layout.
-  */
-  .hat-rack__toggle {
-    all: unset;
-    display: inline-block;
-    position: relative;
-    width: 26px;
-    height: 22px;
-    cursor: pointer;
-    pointer-events: auto;
-    transform-origin: 50% 100%;
-    filter: drop-shadow(0 2px 3px rgba(36, 36, 36, 0.28));
-    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .hat-rack__toggle::before {
-    content: "";
-    position: absolute;
-    inset: -14px -18px;
-  }
-  /*
-    Invisible hover-bridge fanning out below the toggle so users can
-    safely move diagonally toward a menu option without the hover
-    state dropping mid-path. Wider than the menu, short enough that it
-    doesn't sit over page content when the rack is collapsed.
-  */
-  .hat-rack__toggle::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    width: 220px;
-    height: 26px;
-    transform: translateX(-50%);
-    clip-path: polygon(50% 0, 100% 100%, 0 100%);
-    pointer-events: auto;
-  }
-  .hat-rack__toggle:hover {
-    transform: translateY(-2px) scale(1.06);
-  }
-  .hat-rack__toggle svg {
-    display: block;
-  }
-  /*
-    When a hat is selected, hide the default sprout-stand icon and show
-    the worn hat in the preview slot — bottom-aligned to the toggle so
-    the hat's brim sits flush on the Explore nav's top edge, no gap.
-  */
-  .hat-rack__preview-slot {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    display: none;
-    pointer-events: none;
-  }
-  .hat-rack__preview-slot svg {
-    display: block;
-  }
-  .hat-rack[data-has-hat] .hat-rack__icon--default {
-    display: none;
-  }
-  .hat-rack[data-has-hat] .hat-rack__preview-slot {
-    display: block;
-  }
-
-  /* Floating menu panel — pops down from the toggle on click. */
-  .hat-rack__menu {
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 50%;
-    transform: translateX(-50%) translateY(-4px) scale(0.95);
-    display: flex;
-    gap: 4px;
-    padding: 6px;
-    border-radius: 10px;
-    background: rgba(18, 18, 18, 0.88);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    box-shadow: 0 10px 22px -10px rgba(0, 0, 0, 0.55);
-    opacity: 0;
-    pointer-events: none;
-    transition:
-      opacity 200ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
-    white-space: nowrap;
-  }
-  .hat-rack:hover:not([data-hat-picked]) .hat-rack__menu,
-  .hat-rack:focus-within .hat-rack__menu,
-  .hat-rack[data-open] .hat-rack__menu {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0) scale(1);
-    pointer-events: auto;
-  }
-
-  .hat-rack__opt {
-    all: unset;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 30px;
-    padding: 0 3px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition:
-      background 160ms ease-out,
-      transform 180ms var(--ease-out-soft);
-    color: #f3e9d6;
-  }
-  .hat-rack__opt:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-1px);
-  }
-  .hat-rack__opt svg {
-    display: block;
-  }
-  .hat-rack__opt[data-selected] {
-    background: rgba(255, 255, 255, 0.16);
-    box-shadow: inset 0 0 0 1px rgba(243, 233, 214, 0.6);
-  }
-  .hat-rack__none {
-    font-family: var(--font-mono, monospace);
-    font-size: 16px;
-    color: #f3e9d6;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hat-rack__toggle,
-    .hat-rack__menu,
-    .hat-rack__opt {
-      transition: opacity 120ms ease-out;
-      transform: none;
-    }
-    .hat-rack[data-open] .hat-rack__menu {
-      transform: translateX(-50%);
-    }
-  }
 </style>
 
 <script>
@@ -893,7 +565,6 @@
 
     const PET_W = 44;
     const PET_H = 56;
-    const _MARGIN_R = 12;
     const SPEED = 34; // px / sec
 
     // Quips keyed by event. Picked at random each time.
@@ -2204,153 +1875,12 @@
       }
     });
 
-    /*
-      Hat rack wiring. Reads the saved choice from localStorage on every
-      init (so SPA nav doesn't reset the hat), applies it to the pet's
-      data-hat attribute, and re-renders the toggle preview.
-    */
-    const HAT_KEY = "sitepet:hat";
-    const HAT_VALUES = ["none", "bucket", "top", "cap", "sprout", "party"] as const;
-    type HatKey = (typeof HAT_VALUES)[number];
-
-    function readHat(): HatKey {
-      try {
-        const v = localStorage.getItem(HAT_KEY);
-        if (v && (HAT_VALUES as readonly string[]).includes(v)) return v as HatKey;
-      } catch {}
-      return "none";
-    }
-    function applyHat(hat: HatKey) {
-      const pet = el();
-      if (!pet) return;
-      if (hat === "none") pet.removeAttribute("data-hat");
-      else pet.setAttribute("data-hat", hat);
-      const rack = document.querySelector<HTMLElement>("[data-hat-rack]");
-      if (rack) {
-        if (hat === "none") rack.removeAttribute("data-has-hat");
-        else rack.setAttribute("data-has-hat", "");
-        // Mark selected option.
-        rack.querySelectorAll<HTMLElement>("[data-hat-choice]").forEach((btn) => {
-          if (btn.dataset.hatChoice === hat) btn.setAttribute("data-selected", "");
-          else btn.removeAttribute("data-selected");
-        });
-        // Render the current hat as the toggle preview. Clone the
-        // menu option's full SVG so the hat's own viewBox + sizing
-        // travel with it — the slot CSS bottom-aligns the SVG to the
-        // toggle, so each hat's brim sits flush on the Explore nav.
-        const slot = rack.querySelector<HTMLElement>("[data-rack-preview-slot]");
-        if (slot) {
-          slot.innerHTML = "";
-          if (hat !== "none") {
-            const source = rack.querySelector<SVGElement>(`[data-hat-choice="${hat}"] svg`);
-            if (source) {
-              const clone = source.cloneNode(true) as SVGElement;
-              slot.appendChild(clone);
-            }
-          }
-        }
-      }
-    }
-
-    /*
-      Anchor the rack on top of the sidebar "Explore" nav (`[data-toc]`).
-      The toggle rests so that its bottom edge sits on the nav's top
-      edge (half overlapping so the hat looks like it's sitting on the
-      box). Re-measures on resize + page-load.
-    */
-    function positionRack(rack: HTMLElement) {
-      const toc = document.querySelector<HTMLElement>("[data-toc]");
-      if (!toc) {
-        // No Explore nav on this page (e.g. case-study pages use a
-        // different sidebar) — hide the rack entirely.
-        rack.style.display = "none";
-        return;
-      }
-      rack.style.display = "";
-      const r = toc.getBoundingClientRect();
-      if (r.width === 0) return;
-      // Toggle is 26×22 (sprite = sprout on a shelf). Shelf brackets
-      // meet the toggle's bottom edge, so aligning toggle bottom with
-      // the nav top plants the stand flush on the Explore box. Sidebar
-      // is position:sticky so we use viewport coords (fixed positioning).
-      const TOGGLE_W = 26;
-      const TOGGLE_H = 22;
-      const left = r.left + r.width - TOGGLE_W - 12;
-      const top = r.top - TOGGLE_H;
-      rack.style.setProperty("--rack-x", `${Math.round(left)}px`);
-      rack.style.setProperty("--rack-y", `${Math.round(top)}px`);
-    }
-
-    function wireRack() {
-      const rack = document.querySelector<HTMLElement>("[data-hat-rack]");
-      if (!rack) return;
-      positionRack(rack);
-      if (rack.dataset.wired === "1") {
-        applyHat(readHat());
-        return;
-      }
-      rack.dataset.wired = "1";
-      rack.querySelectorAll<HTMLElement>("[data-hat-choice]").forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          const prev = readHat();
-          const choice = (btn.dataset.hatChoice || "none") as HatKey;
-          try {
-            localStorage.setItem(HAT_KEY, choice);
-          } catch {}
-          applyHat(choice);
-          if (prev !== choice) {
-            fetch(apiPath("/api/hat-picks"), {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ from: prev, to: choice }),
-            }).catch(() => {});
-          }
-          rack.removeAttribute("data-open");
-          rack.setAttribute("data-hat-picked", "");
-          // Blur so :focus-within doesn't keep the menu visible.
-          (document.activeElement as HTMLElement)?.blur?.();
-          const pet = el();
-          if (pet && !reduced) {
-            pet.setAttribute("data-hopping", "");
-            window.setTimeout(() => pet.removeAttribute("data-hopping"), 520);
-          }
-        });
-      });
-      const toggle = rack.querySelector<HTMLButtonElement>("[data-rack-toggle]");
-      toggle?.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (rack.hasAttribute("data-open")) rack.removeAttribute("data-open");
-        else rack.setAttribute("data-open", "");
-      });
-      rack.addEventListener("pointerleave", () => rack.removeAttribute("data-hat-picked"));
-      // Click outside closes the menu.
-      document.addEventListener("click", (e) => {
-        if (!rack.hasAttribute("data-open")) return;
-        const target = e.target;
-        if (target instanceof Node && rack.contains(target)) return;
-        rack.removeAttribute("data-open");
-      });
-      // Re-measure on resize and sidebar internal scroll (sticky sidebar
-      // with overflow-y: auto can scroll its content independently).
-      window.addEventListener("resize", () => positionRack(rack), { passive: true });
-      window.addEventListener("scroll", () => positionRack(rack), { passive: true });
-      const sidebar = document.querySelector<HTMLElement>("[data-sidebar]");
-      if (sidebar) sidebar.addEventListener("scroll", () => positionRack(rack), { passive: true });
-      window.setTimeout(() => positionRack(rack), 300);
-      applyHat(readHat());
-    }
-
     function init() {
       measureWalls();
       const pet = el();
       if (pet) {
         const isContact = appPath().startsWith("/connect");
         pet.toggleAttribute("data-contact-page", isContact);
-        pet.removeAttribute("data-hat");
-        try {
-          localStorage.removeItem("sitepet:hat");
-        } catch {}
         applyMonster(readMonster());
         wire(pet);
         if (isContact && pet.dataset.contactGreetedPath !== window.location.pathname) {
