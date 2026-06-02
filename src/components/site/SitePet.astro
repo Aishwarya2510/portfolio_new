@@ -409,6 +409,10 @@
     display: block;
   }
 
+  .hat-rack {
+    display: none !important;
+  }
+
   /* Whole-body idle bob — disabled while hopping or being dragged. */
   .site-pet__bob {
     display: block;
@@ -944,7 +948,6 @@
       "hmm",
       "psst",
       "portfolio patrol\nreporting in",
-      "have you tried putting\na hat on me yet?",
       "i bet i could stand\non one of those...",
       "try dropping me\non something!",
     ];
@@ -2344,6 +2347,10 @@
       if (pet) {
         const isContact = appPath().startsWith("/connect");
         pet.toggleAttribute("data-contact-page", isContact);
+        pet.removeAttribute("data-hat");
+        try {
+          localStorage.removeItem("sitepet:hat");
+        } catch {}
         applyMonster(readMonster());
         wire(pet);
         if (isContact && pet.dataset.contactGreetedPath !== window.location.pathname) {
@@ -2358,7 +2365,6 @@
           }, 700);
         }
       }
-      wireRack();
     }
     init();
     document.addEventListener("astro:page-load", init);
