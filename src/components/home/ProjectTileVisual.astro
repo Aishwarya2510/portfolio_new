@@ -212,6 +212,16 @@ const { slug, title, accent = "teal" } = Astro.props;
     opacity: 0.55;
   }
 
+  .project-visual::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.86;
+    mix-blend-mode: multiply;
+  }
+
   .project-visual svg {
     position: relative;
     z-index: 1;
@@ -237,69 +247,224 @@ const { slug, title, accent = "teal" } = Astro.props;
   }
 
   .project-visual--decision-operating-systems {
-    --visual-bg-a: #fff2df;
-    --visual-bg-b: #dceaf0;
+    --visual-bg-a: #ffe2b8;
+    --visual-bg-b: #f6f0dd;
     --spot-x: 82%;
     --spot-y: 18%;
   }
+  .project-visual--decision-operating-systems::before {
+    opacity: 0;
+  }
+  .project-visual--decision-operating-systems::after {
+    background:
+      radial-gradient(circle at 84% 16%, #ffbf4a 0 12%, transparent 13%),
+      linear-gradient(145deg, transparent 0 45%, rgba(69, 49, 35, 0.16) 46% 52%, transparent 53%),
+      linear-gradient(160deg, transparent 0 58%, rgba(255, 128, 36, 0.34) 59% 63%, transparent 64%),
+      linear-gradient(8deg, transparent 0 66%, rgba(54, 70, 77, 0.16) 67% 100%);
+  }
   .project-visual--insight-to-execution-operations {
-    --visual-bg-a: #fff7df;
-    --visual-bg-b: #e5f2e4;
+    --visual-bg-a: #ffe99d;
+    --visual-bg-b: #cdecc1;
     --spot-x: 54%;
     --spot-y: 54%;
   }
+  .project-visual--insight-to-execution-operations::before {
+    background-image:
+      radial-gradient(circle at 18px 18px, rgba(58, 58, 40, 0.18) 0 4px, transparent 5px),
+      linear-gradient(90deg, rgba(58, 58, 40, 0.13) 1px, transparent 1px);
+    background-size: 36px 36px, 18px 18px;
+    opacity: 0.48;
+  }
+  .project-visual--insight-to-execution-operations::after {
+    background:
+      linear-gradient(90deg, rgba(255,255,255,0.42) 0 32%, transparent 33% 100%),
+      radial-gradient(circle at 52% 50%, rgba(255, 139, 55, 0.42) 0 20%, transparent 21%),
+      linear-gradient(135deg, transparent 0 72%, rgba(39, 120, 68, 0.2) 73% 100%);
+  }
   .project-visual--snowflake-cortex-analyst {
-    --visual-bg-a: #e9fbff;
-    --visual-bg-b: #edf2ff;
+    --visual-bg-a: #0d2840;
+    --visual-bg-b: #dff9ff;
     --grid-size: 18px;
   }
+  .project-visual--snowflake-cortex-analyst::before {
+    background-image:
+      linear-gradient(rgba(180, 238, 255, 0.18) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(180, 238, 255, 0.18) 1px, transparent 1px);
+    opacity: 0.64;
+  }
+  .project-visual--snowflake-cortex-analyst::after {
+    background:
+      radial-gradient(circle at 72% 38%, rgba(160, 241, 255, 0.48) 0 18%, transparent 19%),
+      linear-gradient(90deg, rgba(7, 31, 52, 0.78) 0 42%, transparent 43% 100%),
+      repeating-linear-gradient(0deg, transparent 0 10px, rgba(255,255,255,0.16) 11px 12px);
+    mix-blend-mode: normal;
+  }
   .project-visual--agent-maestro {
-    --visual-bg-a: #f9e4ef;
-    --visual-bg-b: #ebe6ff;
+    --visual-bg-a: #2a1836;
+    --visual-bg-b: #ffd6e5;
     --spot-x: 50%;
     --spot-y: 50%;
   }
+  .project-visual--agent-maestro::before {
+    opacity: 0;
+  }
+  .project-visual--agent-maestro::after {
+    background:
+      radial-gradient(ellipse at 50% 100%, rgba(255, 232, 143, 0.45), transparent 34%),
+      conic-gradient(from 212deg at 50% 66%, transparent 0 22%, rgba(255,255,255,0.22) 23% 31%, transparent 32% 70%, rgba(255,255,255,0.18) 71% 79%, transparent 80%),
+      radial-gradient(circle at 50% 50%, rgba(205, 80, 147, 0.34), transparent 42%);
+    mix-blend-mode: screen;
+  }
   .project-visual--gopractice-ai-for-pms {
-    --visual-bg-a: #eff8dc;
-    --visual-bg-b: #fff1d8;
+    --visual-bg-a: #b7e36f;
+    --visual-bg-b: #fff0a8;
     --spot-x: 82%;
     --spot-y: 72%;
   }
+  .project-visual--gopractice-ai-for-pms::before {
+    background-image:
+      linear-gradient(45deg, rgba(33, 79, 47, 0.14) 25%, transparent 25% 75%, rgba(33, 79, 47, 0.14) 75%),
+      linear-gradient(45deg, rgba(33, 79, 47, 0.14) 25%, transparent 25% 75%, rgba(33, 79, 47, 0.14) 75%);
+    background-position: 0 0, 16px 16px;
+    background-size: 32px 32px;
+    opacity: 0.5;
+  }
+  .project-visual--gopractice-ai-for-pms::after {
+    background:
+      radial-gradient(circle at 80% 72%, rgba(255, 130, 48, 0.42) 0 18%, transparent 19%),
+      linear-gradient(135deg, transparent 0 52%, rgba(74, 126, 52, 0.22) 53% 100%);
+  }
   .project-visual--netflix-live-event-analysis {
-    --visual-bg-a: #261a23;
-    --visual-bg-b: #141823;
+    --visual-bg-a: #09090f;
+    --visual-bg-b: #5b0712;
     --spot-x: 46%;
     --spot-y: 52%;
   }
+  .project-visual--netflix-live-event-analysis::before {
+    background-image:
+      radial-gradient(circle, rgba(255,255,255,0.2) 0 1px, transparent 2px),
+      linear-gradient(rgba(255, 32, 64, 0.15) 1px, transparent 1px);
+    background-size: 18px 18px, 100% 14px;
+    opacity: 0.45;
+  }
+  .project-visual--netflix-live-event-analysis::after {
+    background:
+      radial-gradient(circle at 50% 50%, rgba(255, 28, 64, 0.35) 0 18%, transparent 19%),
+      linear-gradient(90deg, rgba(255, 18, 52, 0.2) 0 8%, transparent 9% 91%, rgba(255, 18, 52, 0.2) 92% 100%);
+    mix-blend-mode: screen;
+  }
   .project-visual--fraudulent-survey-response-detection {
-    --visual-bg-a: #e6fbf7;
-    --visual-bg-b: #fff0f2;
+    --visual-bg-a: #d8fff8;
+    --visual-bg-b: #ffe2e9;
+  }
+  .project-visual--fraudulent-survey-response-detection::before {
+    background-image:
+      repeating-linear-gradient(90deg, rgba(24, 83, 86, 0.22) 0 2px, transparent 2px 8px),
+      linear-gradient(rgba(198, 83, 103, 0.22) 2px, transparent 2px);
+    background-size: 100% 100%, 100% 26px;
+    opacity: 0.42;
+  }
+  .project-visual--fraudulent-survey-response-detection::after {
+    background:
+      linear-gradient(90deg, rgba(255,255,255,0.55) 0 58%, transparent 59%),
+      radial-gradient(circle at 78% 52%, rgba(198, 83, 103, 0.34), transparent 24%);
   }
   .project-visual--supply-chain-resilience {
-    --visual-bg-a: #edf7db;
-    --visual-bg-b: #e8f0ff;
+    --visual-bg-a: #cdeaa9;
+    --visual-bg-b: #c8e6ff;
+  }
+  .project-visual--supply-chain-resilience::before {
+    background-image:
+      radial-gradient(circle at 30px 24px, rgba(32, 89, 69, 0.2) 0 7px, transparent 8px),
+      radial-gradient(circle at 5px 6px, rgba(32, 89, 69, 0.13) 0 2px, transparent 3px);
+    background-size: 62px 44px, 18px 18px;
+    opacity: 0.46;
+  }
+  .project-visual--supply-chain-resilience::after {
+    background:
+      linear-gradient(155deg, transparent 0 32%, rgba(255,255,255,0.36) 33% 43%, transparent 44%),
+      linear-gradient(20deg, rgba(63, 112, 82, 0.28) 0 18%, transparent 19% 100%);
   }
   .project-visual--harmonyhub {
-    --visual-bg-a: #ffe4ef;
-    --visual-bg-b: #eaf7f3;
+    --visual-bg-a: #ffd6ea;
+    --visual-bg-b: #ccf0e7;
     --spot-x: 28%;
     --spot-y: 50%;
   }
+  .project-visual--harmonyhub::before {
+    background-image:
+      radial-gradient(circle at 22px 22px, rgba(197, 83, 142, 0.16) 0 9px, transparent 10px);
+    background-size: 44px 44px;
+    opacity: 0.56;
+  }
+  .project-visual--harmonyhub::after {
+    background:
+      radial-gradient(ellipse at 27% 52%, rgba(36, 36, 36, 0.18) 0 20%, transparent 21%),
+      linear-gradient(90deg, transparent 0 44%, rgba(255,255,255,0.5) 45% 100%);
+  }
   .project-visual--ai-in-microsoft-teams {
-    --visual-bg-a: #e3f7fa;
-    --visual-bg-b: #ece8ff;
+    --visual-bg-a: #dff8ff;
+    --visual-bg-b: #dfd7ff;
+  }
+  .project-visual--ai-in-microsoft-teams::before {
+    opacity: 0;
+  }
+  .project-visual--ai-in-microsoft-teams::after {
+    background:
+      linear-gradient(90deg, rgba(85, 134, 255, 0.34) 0 50%, rgba(122, 80, 224, 0.28) 51%),
+      linear-gradient(0deg, transparent 0 49%, rgba(255,255,255,0.42) 50% 52%, transparent 53%),
+      linear-gradient(90deg, transparent 0 49%, rgba(255,255,255,0.42) 50% 52%, transparent 53%);
+    clip-path: inset(18px 142px 70px 22px round 7px);
+    mix-blend-mode: normal;
   }
   .project-visual--quickhook {
-    --visual-bg-a: #fff0d8;
-    --visual-bg-b: #f0ecdf;
+    --visual-bg-a: #f8e4bf;
+    --visual-bg-b: #d9efe4;
     --spot-x: 70%;
     --spot-y: 70%;
   }
+  .project-visual--quickhook::before {
+    background-image:
+      linear-gradient(rgba(92, 72, 45, 0.18) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(92, 72, 45, 0.18) 1px, transparent 1px);
+    background-size: 14px 14px;
+    opacity: 0.5;
+  }
+  .project-visual--quickhook::after {
+    background:
+      radial-gradient(circle at 63% 64%, rgba(255, 140, 45, 0.36) 0 19%, transparent 20%),
+      linear-gradient(130deg, rgba(255,255,255,0.46) 0 24%, transparent 25% 100%);
+  }
   .project-visual--cliftonstrengths-profile {
-    --visual-bg-a: #ffe8f0;
-    --visual-bg-b: #fff5dc;
+    --visual-bg-a: #2b1730;
+    --visual-bg-b: #ffccdf;
     --spot-x: 50%;
     --spot-y: 20%;
+  }
+  .project-visual--cliftonstrengths-profile::before {
+    background-image:
+      radial-gradient(circle, rgba(255,255,255,0.78) 0 1px, transparent 2px);
+    background-size: 20px 17px;
+    opacity: 0.56;
+  }
+  .project-visual--cliftonstrengths-profile::after {
+    background:
+      radial-gradient(circle at 50% 26%, rgba(255, 213, 102, 0.22) 0 22%, transparent 23%),
+      linear-gradient(180deg, rgba(31, 17, 42, 0.62) 0 46%, transparent 47% 100%);
+    mix-blend-mode: screen;
+  }
+
+  .project-visual--snowflake-cortex-analyst svg,
+  .project-visual--agent-maestro svg,
+  .project-visual--netflix-live-event-analysis svg,
+  .project-visual--cliftonstrengths-profile svg {
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.26));
+  }
+
+  .project-visual--snowflake-cortex-analyst text,
+  .project-visual--agent-maestro text,
+  .project-visual--cliftonstrengths-profile text {
+    fill: var(--color-ink-inverted);
   }
 
   .pv-skyline,
