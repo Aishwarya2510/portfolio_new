@@ -1,120 +1,124 @@
 ---
+import { existsSync, readdirSync } from "node:fs";
+import { extname, join } from "node:path";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Sidebar from "../components/home/Sidebar.astro";
 import CustomCursor from "../components/home/CustomCursor.astro";
+import { withBase } from "../lib/paths";
 
-const topics = [
+const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
+
+function publicImageList(folder: string) {
+  const absoluteFolder = join(process.cwd(), "public", "images", folder);
+  if (!existsSync(absoluteFolder)) return [];
+
+  return readdirSync(absoluteFolder)
+    .filter((file) => imageExtensions.has(extname(file).toLowerCase()))
+    .sort((a, b) => a.localeCompare(b))
+    .map((file) => withBase(`/images/${folder}/${file}`));
+}
+
+const personalPhotos = publicImageList("me");
+const bookPosters = publicImageList("books");
+const seriesPosters = publicImageList("series");
+const moviePosters = publicImageList("movies");
+
+const shelves = [
   {
-    key: "ai",
-    label: "AI Transformation",
-    info: "I help teams move from scattered AI ideas to practical use cases, governance, adoption, and measurable operating value.",
+    label: "On the Nightstand",
+    title: "Books",
+    copy: "Deeply into world-building and sharp narratives. Currently rotating between high-fantasy epics, reflective reads, and deep dives into technology history.",
+    posters: bookPosters,
+    layout: "static",
   },
   {
-    key: "ops",
-    label: "Operations Enablement",
-    info: "I build the playbooks, dashboards, workflows, rituals, and ownership models that help change keep moving.",
+    label: "Binge-Worthy",
+    title: "Series",
+    copy: "I appreciate brilliant storytelling, sharp dialogue, and complex characters. If a show has incredible cinematography or a mind-bending plot twist, I'm hooked.",
+    posters: seriesPosters,
+    layout: "rail",
   },
   {
-    key: "data",
-    label: "Data Trust",
-    info: "I care about clean signals, validation, controls, and decision confidence before scaling any AI or operations work.",
-  },
-  {
-    key: "people",
-    label: "Stakeholder Adoption",
-    info: "I translate technical change into clear stories, training, and team-ready ways of working.",
-  },
-  {
-    key: "delivery",
-    label: "Execution Leadership",
-    info: "I bring structure to ambiguous work: scope, risk, timeline, milestones, communication, and follow-through.",
+    label: "Movie Queue",
+    title: "Movies",
+    copy: "Comfort rewatches, big-screen chaos, clever sci-fi, classic romance, and anything that can make a room collectively gasp.",
+    posters: moviePosters,
+    layout: "rail",
   },
 ];
 ---
 
 <BaseLayout
   title="About - Aishwarya's Portfolio"
-  description="About Aishwarya Choursia, AI transformation lead and operations enablement leader."
+  description="A more personal note about Aishwarya Choursia: Mumbai roots, dancing, technology, stories, and building a life in the US."
 >
   <div class="about-shell">
     <Sidebar active="about" />
 
     <main class="about-main">
       <section class="about-intro">
-        <p class="about-kicker">About me</p>
-        <h1>I'm Aishwarya Choursia.</h1>
-        <ul>
-          <li>AI Transformation Lead focused on turning AI ideas into trusted, usable business systems.</li>
-          <li>Operations Enablement Leader who builds workflows, dashboards, playbooks, and adoption rhythms.</li>
-          <li>I like connecting people, process, data, and technology so change keeps working after launch.</li>
-        </ul>
-      </section>
-
-      <section class="game-shell" data-about-game>
-        <div class="game-frame" data-game-frame>
-          <div class="director" aria-label="Professional woman directing the game">
-            <div class="director-pointer" aria-hidden="true"></div>
-            <div class="director-head" aria-hidden="true">
-              <span></span><span></span><i></i>
-            </div>
-            <div class="director-body" aria-hidden="true"></div>
-            <div class="director-board" aria-hidden="true">Pick a block</div>
-          </div>
-
-          <div class="topic-arena" data-topic-arena aria-label="Choose what you want to know">
-            {
-              topics.map((topic, index) => (
-                <button
-                  type="button"
-                  class="topic-block"
-                  data-topic={topic.key}
-                  data-info={topic.info}
-                  style={`--x: ${18 + index * 12}%; --y: ${18 + (index % 3) * 18}%; --delay: ${index * -0.7}s;`}
-                  data-cursor="link"
-                >
-                  {topic.label}
-                </button>
-              ))
-            }
-          </div>
-
-          <aside class="info-card" aria-live="polite">
-            <span data-info-title>Choose a moving block</span>
-            <p data-info-copy>
-              Click one of the moving blocks to learn about Aishwarya's work style.
+        <div class="about-copy">
+          <p class="about-kicker">About me</p>
+          <h1>I'm Aishwarya Choursia.</h1>
+          <div class="bio-copy">
+            <p>
+              I am from the city of dreams, Mumbai, which probably explains why I have always been
+              drawn to big energy, crowded stories, late-night ideas, and people trying to build
+              something meaningful from scratch.
             </p>
-          </aside>
+            <p>
+              I came to the US in 2023, and I am still enjoying the mix of new places, new routines,
+              new weather opinions, and the quiet thrill of figuring out a life chapter in real
+              time.
+            </p>
+            <p>
+              Outside work, I love dancing, getting way too invested in books and shows, exploring
+              cafes, learning how technology is changing the world, and building things that feel
+              useful, creative, and a little bit ambitious.
+            </p>
+          </div>
         </div>
       </section>
 
-      <div class="chat-widget" data-chat-widget>
-        <button type="button" class="chat-launcher" data-chat-toggle data-cursor="link" aria-expanded="false">
-          <span>Chat</span>
-          <small>Let's chat</small>
-        </button>
+      <section class="photo-strip" aria-label="Candid snapshots">
+        {
+          personalPhotos.slice(0, 3).map((photo, index) => (
+            <figure class={`photo-card photo-card--${index + 1}`}>
+              <img src={photo} alt={`Candid snapshot ${index + 1}`} loading="lazy" />
+            </figure>
+          ))
+        }
+      </section>
 
-        <section class="chat-box" data-chat-box aria-label="About Aishwarya chatbot" hidden>
-          <header>
-            <div>
-              <span>Aishwarya bot</span>
-              <small>Ask about AI, ops, projects, strengths</small>
-            </div>
-            <button type="button" data-chat-close aria-label="Close chat">x</button>
-          </header>
-          <div class="chat-log" data-chat-log>
-            <p class="bot">Hi, I can answer quick questions about Aishwarya.</p>
-          </div>
-          <div class="quick-questions">
-            <button type="button" data-question="What is your focus?">Focus</button>
-            <button type="button" data-question="What are your strengths?">Strengths</button>
-            <button type="button" data-question="What projects should I see?">Projects</button>
-          </div>
-          <form data-chat-form>
-            <input data-chat-input type="text" placeholder="Ask a question..." aria-label="Ask about Aishwarya" />
-            <button type="submit">Send</button>
-          </form>
-        </section>
-      </div>
+      <section class="personal-shelves" aria-label="Personal favorites">
+        {
+          shelves.map((shelf, index) => (
+            <article class={`media-shelf media-shelf--${index + 1}`}>
+              <div class="media-copy">
+                <p class="about-kicker">{shelf.label}</p>
+                <h2>{shelf.title}</h2>
+                <p>{shelf.copy}</p>
+              </div>
+
+              {shelf.layout === "static" ? (
+                <div class="poster-grid" aria-label={`${shelf.title} posters`}>
+                  {shelf.posters.map((poster) => (
+                    <img src={poster} alt="" loading="lazy" />
+                  ))}
+                </div>
+              ) : (
+                <div class="poster-rail" aria-label={`${shelf.title} posters`}>
+                  <div class="poster-track">
+                    {[...shelf.posters, ...shelf.posters].map((poster) => (
+                      <img src={poster} alt="" loading="lazy" />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </article>
+          ))
+        }
+      </section>
     </main>
   </div>
 
@@ -139,15 +143,13 @@ const topics = [
     flex: 1;
     min-width: 0;
     display: grid;
-    grid-template-columns: minmax(260px, 0.34fr) minmax(0, 1fr);
-    align-items: stretch;
-    gap: 14px;
-    min-height: 0;
+    gap: 16px;
     padding: 14px clamp(12px, 3vw, 28px) 18px;
   }
 
   .about-intro,
-  .game-frame {
+  .photo-strip,
+  .media-shelf {
     border-radius: 10px;
     background: var(--color-bg-light);
     box-shadow: 0 0 4px 0 #999079;
@@ -155,11 +157,18 @@ const topics = [
 
   .about-intro {
     display: grid;
-    grid-template-columns: 1fr;
-    align-content: center;
-    gap: 12px;
-    min-height: calc(100vh - 126px);
+    grid-template-columns: minmax(0, 1fr);
     padding: clamp(18px, 3vw, 30px);
+    background:
+      linear-gradient(135deg, color-mix(in oklab, var(--color-teal) 12%, white), transparent 44%),
+      var(--color-bg-light);
+  }
+
+  .about-copy {
+    display: grid;
+    align-content: center;
+    gap: 14px;
+    min-width: 0;
   }
 
   .about-kicker {
@@ -170,528 +179,268 @@ const topics = [
     color: var(--color-ink-dim);
   }
 
-  .about-intro h1 {
+  .about-intro h1,
+  .media-copy h2 {
     margin: 0;
     font-family: var(--font-display);
-    font-size: clamp(2.45rem, 4.4vw, 4.4rem);
     font-weight: 300;
-    line-height: 0.98;
+    color: var(--color-ink);
   }
 
-  .about-intro ul {
+  .about-intro h1 {
+    font-size: clamp(2.9rem, 5.4vw, 5.8rem);
+    line-height: 0.92;
+  }
+
+  .bio-copy {
     display: grid;
-    gap: 7px;
+    gap: 12px;
+    max-width: 74ch;
+  }
+
+  .bio-copy p,
+  .media-copy > p:last-child {
     margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .about-intro li {
-    border-radius: 8px;
-    padding: 8px 10px;
-    background: var(--color-bg-neutral);
     color: var(--color-ink-dim);
-    line-height: 1.28;
-    font-size: 0.9rem;
+    font-size: clamp(0.98rem, 1.25vw, 1.08rem);
+    line-height: 1.55;
   }
 
-  .game-shell {
-    min-height: 0;
-  }
-
-  .game-frame {
-    position: relative;
+  .photo-strip {
     display: grid;
-    grid-template-columns: minmax(160px, 0.32fr) minmax(320px, 1fr) minmax(190px, 0.34fr);
-    gap: 10px;
-    min-height: calc(100vh - 126px);
-    height: 100%;
-    padding: 12px;
+    grid-template-columns: minmax(180px, 0.72fr) minmax(260px, 1.3fr) minmax(180px, 0.7fr);
+    gap: clamp(14px, 3vw, 34px);
+    align-items: center;
+    min-width: 0;
+    padding: clamp(18px, 2.8vw, 28px);
     overflow: hidden;
+    background: color-mix(in oklab, var(--color-bg-light) 86%, white);
   }
 
-  .director {
+  .photo-card {
+    margin: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    background: var(--color-bg-neutral);
+    box-shadow:
+      0 18px 30px -24px rgba(36, 36, 36, 0.86),
+      inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 8%, transparent);
+  }
+
+  .photo-card--1 {
+    aspect-ratio: 0.72;
+    transform: translateY(-14px);
+  }
+
+  .photo-card--2 {
     position: relative;
-    min-height: 100%;
-    border-radius: 12px;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.38), transparent),
-      var(--color-bg-neutral);
+    aspect-ratio: 1.8;
+    transform: translateY(16px);
   }
 
-  .director-head {
-    position: absolute;
-    left: 50%;
-    top: 58px;
-    width: 70px;
-    height: 70px;
-    border-radius: 999px;
-    background: #9a6546;
-    transform: translateX(-50%);
-    box-shadow: 0 -11px 0 6px #2c2522;
-  }
-  .director-head span {
-    position: absolute;
-    top: 30px;
-    width: 7px;
-    height: 7px;
-    border-radius: 999px;
-    background: var(--color-ink);
-  }
-  .director-head span:first-child { left: 22px; }
-  .director-head span:nth-child(2) { right: 22px; }
-  .director-head i {
-    position: absolute;
-    left: 50%;
-    top: 44px;
-    width: 22px;
-    height: 10px;
-    border-bottom: 3px solid var(--color-ink);
-    border-radius: 0 0 999px 999px;
-    transform: translateX(-50%);
-  }
-
-  .director-body {
-    position: absolute;
-    left: 50%;
-    top: 122px;
-    width: 108px;
-    height: 126px;
-    border-radius: 36px 36px 12px 12px;
-    background: var(--color-teal);
-    transform: translateX(-50%);
-  }
-  .director-body::before,
-  .director-body::after {
+  .photo-card--2::before {
     content: "";
     position: absolute;
-    top: 24px;
-    width: 58px;
-    height: 13px;
+    left: -14px;
+    top: 34px;
+    z-index: 2;
+    width: 86px;
+    height: 20px;
     border-radius: 999px;
-    background: var(--color-teal);
-  }
-  .director-body::before {
-    left: -44px;
-    transform: rotate(-22deg);
-  }
-  .director-body::after {
-    right: -44px;
-    transform: rotate(22deg);
-  }
-
-  .director-pointer {
-    position: absolute;
-    right: 18px;
-    top: 174px;
-    width: 54px;
-    height: 6px;
-    border-radius: 999px;
-    background: var(--color-ink);
-    transform-origin: left center;
-    animation: pointer-wave 2.4s ease-in-out infinite;
-    z-index: 3;
-  }
-
-  .director-board {
-    position: absolute;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    border-radius: 10px;
-    padding: 9px;
-    font-size: 0.72rem;
-    background: var(--color-ink);
-    color: var(--color-ink-inverted);
-    font-family: var(--font-mono);
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-  .topic-arena {
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-content: center;
-    gap: 14px;
-    min-width: 0;
-    min-height: 100%;
-    padding: 18px;
-    border: 2px dashed color-mix(in oklab, var(--color-teal) 42%, transparent);
-    border-radius: 12px;
-    background:
-      linear-gradient(color-mix(in oklab, var(--color-ink) 5%, transparent) 1px, transparent 1px),
-      linear-gradient(90deg, color-mix(in oklab, var(--color-ink) 5%, transparent) 1px, transparent 1px),
-      var(--color-bg-neutral);
-    background-size: 32px 32px;
-    overflow: hidden;
-  }
-
-  .topic-block {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
-    min-height: 50px;
-    border: 0;
-    border-radius: 12px;
-    padding: 9px;
-    background: var(--color-bg-light);
-    color: var(--color-ink);
-    box-shadow: 0 7px 16px -12px rgba(36, 36, 36, 0.7), 0 0 3px #999079;
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    line-height: 1.2;
-    text-transform: uppercase;
-    cursor: pointer;
-    transform: translateY(0);
-    animation: float-block 7s ease-in-out infinite;
-    animation-delay: var(--delay);
-    transition:
-      background var(--duration-fast) var(--ease-out-soft),
-      color var(--duration-fast) var(--ease-out-soft),
-      transform var(--duration-fast) var(--ease-out-soft);
-  }
-  .topic-block:hover,
-  .topic-block:focus-visible,
-  .topic-block.is-active {
-    z-index: 4;
     background: var(--color-pink);
-    color: var(--color-ink-inverted);
-    transform: translateY(-2px) scale(1.02);
-    animation-play-state: paused;
   }
 
-  .info-card {
+  .photo-card--3 {
+    aspect-ratio: 0.78;
+    transform: translateY(-4px);
+  }
+
+  .photo-card img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .personal-shelves {
     display: grid;
-    align-content: end;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .media-shelf {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.32fr) minmax(0, 1fr);
+    gap: clamp(16px, 3vw, 36px);
+    align-items: center;
+    min-width: 0;
+    overflow: hidden;
+    padding: clamp(18px, 3vw, 30px);
+  }
+
+  .media-shelf--1 {
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in oklab, var(--color-orange-1) 18%, white),
+        transparent 48%
+      ),
+      var(--color-bg-light);
+  }
+
+  .media-shelf--2 {
+    background:
+      linear-gradient(135deg, rgba(36, 36, 36, 0.94), rgba(36, 36, 36, 0.82)), var(--color-ink);
+  }
+
+  .media-shelf--3 {
+    background:
+      linear-gradient(135deg, color-mix(in oklab, var(--color-teal) 14%, white), transparent 50%),
+      var(--color-bg-light);
+  }
+
+  .media-shelf--2 .about-kicker,
+  .media-shelf--2 .media-copy > p:last-child {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .media-shelf--2 .media-copy h2 {
+    color: var(--color-bg-light);
+  }
+
+  .media-copy {
+    display: grid;
     gap: 10px;
     min-width: 0;
-    border-radius: 12px;
-    padding: 14px;
-    background: var(--color-teal);
-    color: var(--color-ink-inverted);
-  }
-  .info-card span {
-    font-family: var(--font-display);
-    font-size: clamp(1.55rem, 2.4vw, 2.35rem);
-    line-height: 0.95;
-  }
-  .info-card p {
-    margin: 0;
-    color: var(--color-teal-3);
-    line-height: 1.32;
   }
 
-  .chat-widget {
-    position: fixed;
-    right: 18px;
-    bottom: 18px;
-    z-index: 80;
+  .media-copy h2 {
+    font-size: clamp(2.3rem, 5vw, 5.4rem);
+    line-height: 0.9;
   }
 
-  .chat-launcher {
-    display: grid;
-    place-items: center;
-    width: 74px;
-    height: 74px;
-    border: 0;
-    border-radius: 999px;
-    background: var(--color-orange-1);
-    color: var(--color-ink);
-    box-shadow: 0 16px 28px -18px rgba(36, 36, 36, 0.75);
-    cursor: pointer;
-    animation: chat-pulse 2.5s ease-in-out infinite;
-  }
-  .chat-launcher span {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    line-height: 1;
-  }
-  .chat-launcher small {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    text-transform: uppercase;
-  }
-
-  .chat-box {
-    position: absolute;
-    right: 0;
-    bottom: 86px;
-    width: min(330px, calc(100vw - 32px));
-    border-radius: 14px;
-    overflow: hidden;
-    background: var(--color-bg-light);
-    box-shadow: 0 20px 42px -24px rgba(36, 36, 36, 0.9), 0 0 4px #999079;
-  }
-  .chat-box header {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 14px;
-    background: var(--color-ink);
-    color: var(--color-ink-inverted);
-  }
-  .chat-box header span {
-    display: block;
-    font-family: var(--font-display);
-    font-size: 1.45rem;
-    line-height: 1;
-  }
-  .chat-box header small {
-    color: var(--color-starlight);
-  }
-  .chat-box header button {
-    width: 30px;
-    height: 30px;
-    border: 0;
-    border-radius: 999px;
-    background: var(--color-bg-light);
-    color: var(--color-ink);
-    cursor: pointer;
-  }
-  .chat-log {
-    display: grid;
-    gap: 8px;
-    max-height: 260px;
-    overflow: auto;
-    padding: 12px;
-  }
-  .chat-log p {
-    width: fit-content;
-    max-width: 88%;
-    margin: 0;
-    border-radius: 12px;
-    padding: 9px 11px;
-    line-height: 1.35;
-  }
-  .chat-log .bot {
-    background: var(--color-bg-neutral);
-    color: var(--color-ink-dim);
-  }
-  .chat-log .user {
-    justify-self: end;
-    background: var(--color-teal);
-    color: var(--color-ink-inverted);
-  }
-  .quick-questions {
-    display: flex;
-    gap: 6px;
-    padding: 0 12px 10px;
-    overflow-x: auto;
-  }
-  .quick-questions button,
-  .chat-box form button {
-    border: 0;
-    border-radius: 999px;
-    padding: 8px 10px;
-    background: var(--color-bg-neutral);
-    color: var(--color-ink);
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .chat-box form {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 8px;
-    padding: 12px;
-    border-top: 1px solid color-mix(in oklab, var(--color-ink) 10%, transparent);
-  }
-  .chat-box input {
+  .poster-rail {
     min-width: 0;
-    border: 1px solid color-mix(in oklab, var(--color-ink) 12%, transparent);
-    border-radius: 999px;
-    padding: 9px 12px;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, black 7%, black 93%, transparent);
+  }
+
+  .poster-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .poster-track {
+    display: flex;
+    width: max-content;
+    gap: 10px;
+    animation: poster-scroll 38s linear infinite;
+  }
+
+  .media-shelf:nth-child(even) .poster-track {
+    animation-direction: reverse;
+  }
+
+  .poster-track img,
+  .poster-grid img {
+    display: block;
+    width: clamp(88px, 10vw, 148px);
+    aspect-ratio: 2 / 3;
+    flex: 0 0 auto;
+    border-radius: 7px;
     background: var(--color-bg-white);
-  }
-  .chat-box form button {
-    background: var(--color-teal);
-    color: var(--color-ink-inverted);
+    object-fit: cover;
+    box-shadow: 0 14px 26px -20px rgba(36, 36, 36, 0.85);
   }
 
-  @keyframes float-block {
-    0%, 100% { translate: 0 0; }
-    50% { translate: 0 -6px; }
-  }
-  @keyframes pointer-wave {
-    0%, 100% { transform: rotate(-10deg); }
-    50% { transform: rotate(12deg); }
-  }
-  @keyframes chat-pulse {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
+  .poster-grid img {
+    width: 100%;
   }
 
-  @media (max-width: 1180px) {
+  @keyframes poster-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 900px) {
     .about-intro,
-    .game-frame {
+    .media-shelf {
       grid-template-columns: 1fr;
     }
-    .game-frame {
-      min-height: auto;
+
+    .photo-strip {
+      grid-template-columns: 0.75fr 1fr;
     }
-    .director {
-      min-height: 220px;
-    }
-    .director-head {
-      top: 36px;
-    }
-    .director-body {
-      top: 118px;
-      height: 86px;
-    }
-    .director-pointer {
-      top: 156px;
-      right: 26%;
-    }
-    .director-board {
-      left: auto;
-      width: 180px;
-    }
-    .topic-arena {
-      min-height: 390px;
-    }
-    .info-card {
-      min-height: 180px;
+
+    .photo-card--3 {
+      grid-column: 1 / -1;
+      aspect-ratio: 1.8;
+      transform: translateY(0);
     }
   }
 
-  @media (max-width: 760px) {
+  @media (max-width: 640px) {
     .about-shell {
       display: block;
     }
+
     .about-main {
       padding-inline: 12px;
     }
+
     .about-intro,
-    .game-frame {
+    .photo-strip,
+    .media-shelf {
       padding: 16px;
     }
+
     .about-intro h1 {
-      font-size: clamp(3.1rem, 17vw, 4.5rem);
+      font-size: clamp(3rem, 17vw, 4.6rem);
+      overflow-wrap: anywhere;
     }
-    .topic-arena {
-      min-height: 360px;
+
+    .photo-strip {
       grid-template-columns: 1fr;
     }
-    .topic-block {
-      width: 100%;
-      min-height: 56px;
-      font-size: 0.68rem;
-      padding: 9px;
+
+    .photo-card,
+    .photo-card--1,
+    .photo-card--2,
+    .photo-card--3 {
+      aspect-ratio: 1.08;
+      transform: none;
     }
-    .chat-widget {
-      right: 14px;
-      bottom: 14px;
+
+    .photo-card--2::before {
+      left: 16px;
+      top: 14px;
+      width: 72px;
+      height: 16px;
     }
-    .chat-launcher {
-      width: 76px;
-      height: 76px;
+
+    .media-copy h2 {
+      font-size: clamp(2.4rem, 15vw, 4rem);
     }
-    .chat-box {
-      bottom: 88px;
+
+    .poster-track img,
+    .poster-grid img {
+      width: 88px;
+    }
+
+    .poster-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .topic-block,
-    .director-pointer,
-    .chat-launcher {
+    .poster-track {
       animation: none !important;
     }
   }
 </style>
-
-<script>
-  function initAboutInteractions() {
-    const blocks = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-topic]"));
-    const infoTitle = document.querySelector<HTMLElement>("[data-info-title]");
-    const infoCopy = document.querySelector<HTMLElement>("[data-info-copy]");
-
-    blocks.forEach((block) => {
-      if (block.dataset.wired === "1") return;
-      block.dataset.wired = "1";
-      block.addEventListener("click", () => {
-        blocks.forEach((item) => item.classList.toggle("is-active", item === block));
-        if (infoTitle) infoTitle.textContent = block.textContent?.trim() ?? "";
-        if (infoCopy) infoCopy.textContent = block.dataset.info ?? "";
-      });
-    });
-
-    const widget = document.querySelector<HTMLElement>("[data-chat-widget]");
-    const toggle = document.querySelector<HTMLButtonElement>("[data-chat-toggle]");
-    const close = document.querySelector<HTMLButtonElement>("[data-chat-close]");
-    const box = document.querySelector<HTMLElement>("[data-chat-box]");
-    const log = document.querySelector<HTMLElement>("[data-chat-log]");
-    const form = document.querySelector<HTMLFormElement>("[data-chat-form]");
-    const input = document.querySelector<HTMLInputElement>("[data-chat-input]");
-
-    function openChat() {
-      if (!box || !toggle) return;
-      box.hidden = false;
-      toggle.setAttribute("aria-expanded", "true");
-      input?.focus();
-    }
-    function closeChat() {
-      if (!box || !toggle) return;
-      box.hidden = true;
-      toggle.setAttribute("aria-expanded", "false");
-    }
-    function answer(question: string) {
-      const text = question.toLowerCase();
-      if (text.includes("project")) {
-        return "Start with the AI and operations projects: Agent Maestro, Snowflake Cortex Analyst, AI in Teams, Supply Chain Resilience, and HarmonyHub.";
-      }
-      if (text.includes("strength")) {
-        return "Aishwarya's strengths are structure, communication, analytical thinking, stakeholder clarity, and turning messy work into repeatable systems.";
-      }
-      if (text.includes("focus") || text.includes("what")) {
-        return "Her focus is AI transformation and operations enablement: making AI useful, trusted, adopted, and operationally sustainable.";
-      }
-      if (text.includes("experience")) {
-        return "She has worked across QA, business strategy, transformation, product operations, and revenue operations.";
-      }
-      return "Good question. The short version: Aishwarya helps teams make AI change practical through data trust, workflows, adoption, and execution leadership.";
-    }
-    function addMessage(text: string, who: "user" | "bot") {
-      if (!log) return;
-      const p = document.createElement("p");
-      p.className = who;
-      p.textContent = text;
-      log.append(p);
-      log.scrollTop = log.scrollHeight;
-    }
-    function ask(question: string) {
-      const trimmed = question.trim();
-      if (!trimmed) return;
-      addMessage(trimmed, "user");
-      window.setTimeout(() => addMessage(answer(trimmed), "bot"), 180);
-    }
-
-    if (widget && toggle && widget.dataset.chatWired !== "1") {
-      widget.dataset.chatWired = "1";
-      toggle.addEventListener("click", () => {
-        if (box?.hidden) openChat();
-        else closeChat();
-      });
-      close?.addEventListener("click", closeChat);
-      form?.addEventListener("submit", (event) => {
-        event.preventDefault();
-        if (!input) return;
-        ask(input.value);
-        input.value = "";
-      });
-      document.querySelectorAll<HTMLButtonElement>("[data-question]").forEach((button) => {
-        button.addEventListener("click", () => {
-          openChat();
-          ask(button.dataset.question ?? "");
-        });
-      });
-    }
-  }
-
-  initAboutInteractions();
-  document.addEventListener("astro:page-load", initAboutInteractions);
-</script>

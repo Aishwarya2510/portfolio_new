@@ -1,0 +1,1009 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="AI Pilot-to-Scale Control Tower — a portfolio case study in GTM validation, launch readiness, product operations, program governance, and evidence-based scale decisions." />
+  <title>AI Pilot-to-Scale Control Tower | GTM Validation & Launch Readiness</title>
+  <style>
+    :root {
+      --bg: #07111d;
+      --bg-soft: #0a1726;
+      --panel: #101f31;
+      --panel-2: #14283e;
+      --text: #f7f9fc;
+      --muted: #aab8c9;
+      --line: rgba(255,255,255,.105);
+      --blue: #72a7ff;
+      --cyan: #60d7e8;
+      --green: #69e4b2;
+      --amber: #ffd27d;
+      --orange: #ffad73;
+      --red: #ff8e9a;
+      --violet: #b3a0ff;
+      --max: 1180px;
+      --radius: 20px;
+      --shadow: 0 24px 70px rgba(0,0,0,.28);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 0%, rgba(114,167,255,.14), transparent 29%),
+        radial-gradient(circle at 95% 5%, rgba(96,215,232,.11), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(179,160,255,.075), transparent 34%),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+    .container { width: min(var(--max), calc(100% - 36px)); margin: 0 auto; }
+    .muted { color: var(--muted); }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--cyan);
+      font-size: .74rem;
+      font-weight: 850;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 26px; height: 1px; background: currentColor; }
+    h1,h2,h3,h4 { margin: 0; line-height: 1.08; }
+    h1 { margin-top: 18px; font-size: clamp(3.05rem, 7.7vw, 6.8rem); letter-spacing: -.066em; }
+    h2 { font-size: clamp(2rem, 4vw, 3.55rem); letter-spacing: -.045em; }
+    h3 { font-size: 1.23rem; letter-spacing: -.02em; }
+    p { margin: 0; color: var(--muted); }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      border-bottom: 1px solid var(--line);
+      background: rgba(7,17,29,.82);
+      backdrop-filter: blur(18px);
+    }
+    .topbar-inner {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 850; }
+    .brand-mark {
+      width: 36px; height: 36px; border-radius: 11px;
+      display: grid; place-items: center;
+      color: #06111c; font-weight: 950;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+    }
+    nav { display: flex; gap: 19px; color: var(--muted); font-size: .86rem; }
+    nav a:hover { color: var(--text); }
+
+    .hero { padding: 96px 0 78px; }
+    .hero-grid { display: grid; grid-template-columns: 1.12fr .88fr; gap: 54px; align-items: center; }
+    .hero-copy > p { margin-top: 25px; max-width: 790px; font-size: clamp(1.04rem, 1.5vw, 1.25rem); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .btn {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 11px 16px;
+      color: var(--text);
+      background: rgba(255,255,255,.035);
+      cursor: pointer;
+      font-weight: 780;
+      font-size: .86rem;
+    }
+    .btn.primary { color: #06111c; border-color: transparent; background: linear-gradient(135deg, var(--blue), var(--cyan)); }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 23px; }
+    .tag {
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.025);
+      color: var(--muted);
+      font-size: .77rem;
+      font-weight: 760;
+    }
+
+    .hero-card {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 27px;
+      background: linear-gradient(180deg, rgba(20,40,62,.96), rgba(9,22,37,.97));
+      box-shadow: var(--shadow);
+    }
+    .hero-card .label { color: var(--cyan); font-size: .74rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
+    .hero-card h3 { margin: 11px 0 20px; font-size: 1.48rem; }
+    .decision-list { display: grid; gap: 10px; }
+    .decision-chip {
+      display: grid;
+      grid-template-columns: 32px 1fr auto;
+      align-items: center;
+      gap: 11px;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(255,255,255,.025);
+    }
+    .decision-chip i {
+      width: 30px; height: 30px; border-radius: 9px;
+      display: grid; place-items: center; font-style: normal; font-weight: 950;
+      background: rgba(114,167,255,.1); color: var(--blue);
+    }
+    .decision-chip span { color: var(--muted); font-size: .83rem; }
+    .decision-chip strong { font-size: .82rem; }
+    .scale { color: var(--green); }
+    .conditional { color: var(--cyan); }
+    .revise { color: var(--amber); }
+    .pause { color: var(--orange); }
+    .stop { color: var(--red); }
+
+    section { padding: 86px 0; }
+    .section-head { display: grid; grid-template-columns: .82fr 1.18fr; gap: 54px; align-items: end; margin-bottom: 34px; }
+    .section-head p { max-width: 720px; font-size: 1.04rem; }
+    .panel { border: 1px solid var(--line); border-radius: var(--radius); background: rgba(16,31,49,.88); box-shadow: var(--shadow); }
+    .card { padding: 24px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; }
+
+    .problem-card .icon {
+      width: 42px; height: 42px; margin-bottom: 17px;
+      display: grid; place-items: center;
+      border-radius: 13px;
+      color: var(--red);
+      border: 1px solid rgba(255,142,154,.21);
+      background: rgba(255,142,154,.075);
+      font-weight: 950;
+    }
+    .problem-card h3 { margin-bottom: 9px; }
+
+    .current-flow { padding: 26px; overflow-x: auto; }
+    .current-flow-grid { min-width: 1050px; display: grid; grid-template-columns: repeat(11,1fr); gap: 9px; align-items: center; }
+    .flow-node {
+      min-height: 112px;
+      padding: 14px 10px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      display: grid;
+      align-content: center;
+      text-align: center;
+      background: rgba(255,255,255,.025);
+    }
+    .flow-node b { font-size: .84rem; }
+    .flow-node small { margin-top: 6px; color: var(--muted); }
+    .flow-arrow { text-align: center; color: var(--blue); font-size: 1.35rem; }
+    .flow-node.risk { border-color: rgba(255,142,154,.21); }
+    .flow-node.signal { border-color: rgba(96,215,232,.22); }
+
+    .redesign { padding: 27px; overflow-x: auto; }
+    .redesign-grid { min-width: 1080px; display: grid; grid-template-columns: repeat(15,1fr); gap: 8px; align-items: center; }
+    .redesign-node {
+      min-height: 108px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 8px;
+      text-align: center;
+      display: grid;
+      place-content: center;
+      background: rgba(255,255,255,.025);
+    }
+    .redesign-node b { font-size: .8rem; }
+    .redesign-node small { color: var(--muted); margin-top: 5px; }
+    .redesign-node.core { border-color: rgba(96,215,232,.32); background: rgba(96,215,232,.065); }
+    .redesign-node.gate { border-color: rgba(255,210,125,.3); background: rgba(255,210,125,.055); }
+
+    .architecture { padding: 26px; overflow-x: auto; }
+    .architecture-grid { min-width: 1030px; display: grid; grid-template-columns: 1fr 44px 1.3fr 44px 1fr; gap: 12px; align-items: center; }
+    .arch-col { display: grid; gap: 10px; }
+    .arch-title { margin-bottom: 7px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; font-size: .71rem; font-weight: 850; }
+    .arch-box { border: 1px solid var(--line); border-radius: 13px; padding: 13px 14px; background: rgba(255,255,255,.025); }
+    .arch-box b { display: block; font-size: .88rem; }
+    .arch-box small { color: var(--muted); }
+    .arch-core { border: 1px solid rgba(96,215,232,.32); border-radius: 19px; padding: 17px; background: rgba(96,215,232,.055); }
+    .arch-core .arch-box { margin-bottom: 9px; background: rgba(7,17,29,.5); }
+    .arch-arrow { color: var(--blue); text-align: center; font-size: 1.8rem; }
+
+    .dimension-card { padding: 22px; }
+    .dimension-card .num { color: var(--blue); font-weight: 950; font-size: 1.6rem; margin-bottom: 10px; }
+    .dimension-card h3 { margin-bottom: 8px; }
+    .dimension-card .mini { margin-top: 13px; font-size: .78rem; color: var(--cyan); font-weight: 760; }
+
+    .score-shell { display: grid; grid-template-columns: 1.15fr .85fr; gap: 18px; }
+    .score-inputs, .score-output { padding: 27px; }
+    .score-inputs h3, .score-output h3 { margin-bottom: 7px; }
+    .slider-list { display: grid; gap: 15px; margin-top: 22px; }
+    .slider-row { display: grid; grid-template-columns: minmax(170px,1fr) minmax(190px,1.05fr) 56px; gap: 14px; align-items: center; }
+    .slider-label strong { display: block; font-size: .88rem; }
+    .slider-label small { color: var(--muted); }
+    input[type="range"] { width: 100%; accent-color: var(--cyan); }
+    .slider-value { text-align: right; color: var(--cyan); font-weight: 900; }
+
+    .blockers { margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .blocker-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 13px; }
+    .check-card {
+      display: flex; gap: 10px; align-items: flex-start;
+      border: 1px solid var(--line); border-radius: 12px; padding: 11px;
+      background: rgba(255,255,255,.02);
+      color: var(--muted); font-size: .82rem;
+    }
+    .check-card input { margin-top: 4px; accent-color: var(--red); }
+
+    .score-ring {
+      width: 180px; height: 180px; margin: 20px auto 16px;
+      border-radius: 50%; display: grid; place-items: center;
+      background: conic-gradient(var(--cyan) 0deg, var(--cyan) 250deg, rgba(255,255,255,.07) 250deg 360deg);
+      position: relative;
+    }
+    .score-ring::after {
+      content: ""; position: absolute; inset: 14px; border-radius: 50%;
+      background: #0d1c2e; border: 1px solid var(--line);
+    }
+    .score-center { position: relative; z-index: 2; text-align: center; }
+    .score-center strong { display: block; font-size: 3.1rem; letter-spacing: -.055em; }
+    .score-center small { color: var(--muted); }
+    .recommendation {
+      border: 1px solid rgba(255,210,125,.27); border-radius: 15px; padding: 18px;
+      background: rgba(255,210,125,.065); margin-top: 16px;
+    }
+    .recommendation .kicker { text-transform: uppercase; letter-spacing: .1em; color: var(--amber); font-weight: 850; font-size: .7rem; }
+    .recommendation h3 { margin: 8px 0 7px; font-size: 1.34rem; }
+    .gate-list { display: grid; gap: 9px; margin-top: 16px; }
+    .gate-item { display: flex; justify-content: space-between; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .gate-item:last-child { border-bottom: 0; }
+    .gate-item span { color: var(--muted); font-size: .84rem; }
+
+    .matrix-shell { display: grid; grid-template-columns: 1fr .72fr; gap: 18px; }
+    .matrix { position: relative; min-height: 520px; padding: 25px 25px 50px 66px; overflow: hidden; }
+    .matrix-grid {
+      height: 430px;
+      display: grid; grid-template-columns: repeat(2,1fr); grid-template-rows: repeat(2,1fr);
+      border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
+      background: rgba(255,255,255,.018);
+    }
+    .quadrant { padding: 20px; border-right: 1px dashed rgba(255,255,255,.13); border-bottom: 1px dashed rgba(255,255,255,.13); }
+    .quadrant:nth-child(2), .quadrant:nth-child(4) { border-right: 0; }
+    .quadrant:nth-child(3), .quadrant:nth-child(4) { border-bottom: 0; }
+    .quadrant strong { display: block; margin-bottom: 5px; }
+    .quadrant small { color: var(--muted); }
+    .q-stop { background: rgba(255,142,154,.04); }
+    .q-org { background: rgba(255,210,125,.04); }
+    .q-product { background: rgba(114,167,255,.04); }
+    .q-scale { background: rgba(105,228,178,.045); }
+    .axis-y { position: absolute; left: 13px; top: 51%; transform: rotate(-90deg) translateX(-50%); transform-origin: left top; color: var(--muted); font-size: .76rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+    .axis-x { position: absolute; bottom: 17px; left: 50%; transform: translateX(-50%); color: var(--muted); font-size: .76rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+    .matrix-dot {
+      position: absolute; width: 74px; height: 74px; border-radius: 50%; display: grid; place-items: center; text-align: center;
+      border: 2px solid var(--cyan); background: rgba(96,215,232,.14); box-shadow: 0 12px 34px rgba(0,0,0,.3);
+      font-size: .73rem; font-weight: 850; padding: 7px;
+      left: 63%; bottom: 31%; transition: .25s ease;
+    }
+    .matrix-controls { padding: 25px; }
+    .matrix-controls label { display: grid; gap: 8px; margin-top: 19px; color: var(--muted); font-size: .84rem; font-weight: 760; }
+    .matrix-controls .value-line { display: flex; justify-content: space-between; }
+    .matrix-controls .value-line strong { color: var(--cyan); }
+    .matrix-note { margin-top: 20px; border-left: 3px solid var(--cyan); padding: 13px 15px; background: rgba(96,215,232,.05); color: #d9f8fc; }
+
+    .evidence-layout { display: grid; grid-template-columns: .92fr 1.08fr; gap: 18px; }
+    .evidence-stack { padding: 25px; }
+    .evidence-tier {
+      display: grid; grid-template-columns: 48px 1fr auto; gap: 14px; align-items: center;
+      padding: 15px 0; border-bottom: 1px solid var(--line);
+    }
+    .evidence-tier:last-child { border-bottom: 0; }
+    .evidence-tier .rank { width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center; font-weight: 950; color: #07111d; background: linear-gradient(135deg, var(--blue), var(--cyan)); }
+    .evidence-tier strong { display: block; }
+    .evidence-tier small { color: var(--muted); }
+    .evidence-tier .weight { color: var(--cyan); font-weight: 900; }
+
+    .audit-panel { padding: 25px; }
+    .audit-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 11px; margin-top: 18px; }
+    .audit-card { padding: 14px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.022); }
+    .audit-card strong { display: block; font-size: .86rem; margin-bottom: 4px; }
+    .audit-card small { color: var(--muted); }
+    .audit-card.warning { border-color: rgba(255,210,125,.23); }
+
+    .decision-path { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
+    .decision-card { padding: 21px; min-height: 180px; border: 1px solid var(--line); border-radius: 17px; background: rgba(255,255,255,.022); }
+    .decision-card .status { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 900; margin-bottom: 10px; }
+    .decision-card p { margin-top: 8px; font-size: .87rem; }
+    .decision-card ul { margin: 12px 0 0; padding-left: 17px; color: var(--muted); font-size: .8rem; }
+    .decision-card li { margin-bottom: 5px; }
+
+    .metric-card { padding: 23px; }
+    .metric-card .metric-icon { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 15px; background: rgba(105,228,178,.08); color: var(--green); font-weight: 950; }
+    .metric-card p { margin-top: 7px; font-size: .88rem; }
+
+    .stakeholder-table { overflow-x: auto; }
+    table { width: 100%; min-width: 950px; border-collapse: collapse; }
+    th,td { padding: 14px 15px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-size: .73rem; text-transform: uppercase; letter-spacing: .08em; }
+    td { font-size: .87rem; }
+    td span { color: var(--muted); }
+
+    .roadmap { display: grid; grid-template-columns: repeat(4,1fr); gap: 15px; }
+    .phase { padding: 23px; border-top: 3px solid var(--blue); }
+    .phase:nth-child(2) { border-top-color: var(--cyan); }
+    .phase:nth-child(3) { border-top-color: var(--green); }
+    .phase:nth-child(4) { border-top-color: var(--violet); }
+    .phase .phase-tag { color: var(--blue); font-size: .71rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+    .phase h3 { margin: 9px 0; }
+    .phase ul { margin: 13px 0 0; padding-left: 18px; color: var(--muted); font-size: .85rem; }
+    .phase li { margin-bottom: 7px; }
+
+    .industry-card { padding: 22px; }
+    .industry-card .industry-icon { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 15px; color: var(--cyan); background: rgba(96,215,232,.075); font-weight: 950; }
+    .industry-card p { margin-top: 7px; font-size: .86rem; }
+
+    .capability-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+    .capability { padding: 21px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.022); }
+    .capability strong { display: block; margin-bottom: 6px; }
+    .capability p { font-size: .86rem; }
+
+    .closing { padding: 100px 0 112px; }
+    .closing-box {
+      border: 1px solid rgba(96,215,232,.22);
+      border-radius: 30px;
+      padding: 54px;
+      background:
+        radial-gradient(circle at 90% 0%, rgba(96,215,232,.12), transparent 32%),
+        radial-gradient(circle at 0% 100%, rgba(114,167,255,.1), transparent 34%),
+        rgba(16,31,49,.9);
+      box-shadow: var(--shadow);
+    }
+    .closing-box p { max-width: 880px; margin-top: 20px; font-size: 1.08rem; }
+    .closing-line { margin-top: 25px; color: var(--text); font-size: 1.18rem; font-weight: 820; }
+    .closing-line span { color: var(--cyan); }
+
+    footer { padding: 28px 0 42px; border-top: 1px solid var(--line); color: var(--muted); font-size: .8rem; }
+
+    @media (max-width: 980px) {
+      nav { display: none; }
+      .hero-grid, .section-head, .score-shell, .matrix-shell, .evidence-layout { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: repeat(2,1fr); }
+      .grid-3, .capability-grid { grid-template-columns: repeat(2,1fr); }
+      .decision-path { grid-template-columns: repeat(2,1fr); }
+      .roadmap { grid-template-columns: repeat(2,1fr); }
+      .matrix { min-height: 490px; }
+    }
+    @media (max-width: 680px) {
+      .container { width: min(100% - 24px, var(--max)); }
+      .hero { padding-top: 72px; }
+      section { padding: 68px 0; }
+      .grid-2, .grid-3, .grid-4, .capability-grid, .decision-path, .roadmap { grid-template-columns: 1fr; }
+      .slider-row { grid-template-columns: 1fr; gap: 7px; }
+      .slider-value { text-align: left; }
+      .blocker-grid, .audit-grid { grid-template-columns: 1fr; }
+      .closing-box { padding: 33px 25px; }
+      h1 { font-size: clamp(3rem, 16vw, 4.8rem); }
+      .hero-actions { align-items: stretch; }
+      .btn { text-align: center; flex: 1 1 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#top"><span class="brand-mark">PS</span><span>Pilot-to-Scale Control Tower</span></a>
+      <nav aria-label="Page navigation">
+        <a href="#problem">Problem</a>
+        <a href="#redesign">Redesign</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#scorecard">Scorecard</a>
+        <a href="#governance">Governance</a>
+        <a href="#impact">Impact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Flagship Project 03 · AI Transformation & GTM Operations</div>
+          <h1>AI Pilot-to-Scale<br/>Control Tower</h1>
+          <p>
+            An operating framework for deciding whether an AI product or feature is ready to move from experimentation into broader deployment—using customer evidence, workflow outcomes, product quality, economics, launch preparedness, risk, and accountable ownership.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#scorecard">Explore the readiness model</a>
+            <a class="btn" href="#redesign">See the operating redesign</a>
+          </div>
+          <div class="hero-tags">
+            <span class="tag">GTM operations</span>
+            <span class="tag">Product operations</span>
+            <span class="tag">Launch governance</span>
+            <span class="tag">Pilot economics</span>
+            <span class="tag">Customer validation</span>
+            <span class="tag">Program management</span>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="Decision outcomes">
+          <div class="label">Executive decision output</div>
+          <h3>Five decisions, supported by one evidence model.</h3>
+          <div class="decision-list">
+            <div class="decision-chip"><i>01</i><span>Evidence and readiness are strong</span><strong class="scale">Scale</strong></div>
+            <div class="decision-chip"><i>02</i><span>Value is proven; conditions remain</span><strong class="conditional">Scale conditionally</strong></div>
+            <div class="decision-chip"><i>03</i><span>Material gaps are correctable</span><strong class="revise">Revise & retest</strong></div>
+            <div class="decision-chip"><i>04</i><span>Evidence or controls are insufficient</span><strong class="pause">Pause</strong></div>
+            <div class="decision-chip"><i>05</i><span>Economics, risk, or customer value fail</span><strong class="stop">Stop</strong></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="problem">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">The operating problem</div>
+            <h2>Enthusiasm is not launch readiness.</h2>
+          </div>
+          <p>
+            Pilots often produce visible activity before they produce decision-quality evidence. Product teams see usage, customers offer encouraging comments, and executives feel pressure to scale—while support, documentation, economics, controls, and ownership remain unresolved.
+          </p>
+        </div>
+
+        <div class="grid-4">
+          <article class="panel card problem-card"><div class="icon">A</div><h3>Anecdotal success</h3><p>A few enthusiastic users outweigh broader task-completion, retention, and workflow evidence.</p></article>
+          <article class="panel card problem-card"><div class="icon">D</div><h3>Disconnected data</h3><p>Customer calls, spreadsheets, telemetry, defects, and release documents are evaluated separately.</p></article>
+          <article class="panel card problem-card"><div class="icon">R</div><h3>Readiness blind spots</h3><p>Training, support, incident response, documentation, and post-launch ownership are reviewed too late.</p></article>
+          <article class="panel card problem-card"><div class="icon">G</div><h3>Unclear decision gates</h3><p>Teams lack consistent thresholds for scaling, retesting, pausing, or terminating investment.</p></article>
+          <article class="panel card problem-card"><div class="icon">C</div><h3>Context-free adoption</h3><p>Usage is reported without showing whether the intended workflow actually became faster or better.</p></article>
+          <article class="panel card problem-card"><div class="icon">Q</div><h3>Quality ambiguity</h3><p>Product reliability, AI failures, human correction, and customer trust are blended into one headline score.</p></article>
+          <article class="panel card problem-card"><div class="icon">O</div><h3>Ownership gaps</h3><p>The pilot has a sponsor, but no durable owner for support, operations, controls, and benefits realization.</p></article>
+          <article class="panel card problem-card"><div class="icon">E</div><h3>Economic uncertainty</h3><p>Investment grows before the business knows the cost per completed outcome or the value of scale.</p></article>
+        </div>
+
+        <div class="panel current-flow" style="margin-top:20px;">
+          <div class="current-flow-grid" aria-label="Current pilot workflow">
+            <div class="flow-node"><b>Limited pilot</b><small>Selected users</small></div><div class="flow-arrow">→</div>
+            <div class="flow-node"><b>Usage dashboard</b><small>Logins and activity</small></div><div class="flow-arrow">→</div>
+            <div class="flow-node signal"><b>Customer calls</b><small>Qualitative feedback</small></div><div class="flow-arrow">→</div>
+            <div class="flow-node"><b>Product review</b><small>Defects and roadmap</small></div><div class="flow-arrow">→</div>
+            <div class="flow-node risk"><b>Informal executive review</b><small>Scale pressure</small></div><div class="flow-arrow">→</div>
+            <div class="flow-node risk"><b>Launch decision</b><small>Evidence gaps remain</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="redesign">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">AI-enabled redesign</div>
+            <h2>One governed path from pilot hypothesis to scale decision.</h2>
+          </div>
+          <p>
+            The Control Tower brings product, customer, operational, financial, and risk evidence into one decision lifecycle. It does not replace leadership judgment; it makes the evidence, tradeoffs, conditions, and accountabilities explicit.
+          </p>
+        </div>
+
+        <div class="panel redesign">
+          <div class="redesign-grid" aria-label="Future state pilot-to-scale lifecycle">
+            <div class="redesign-node"><b>Use-case intake</b><small>Problem, customer, workflow</small></div><div class="flow-arrow">→</div>
+            <div class="redesign-node"><b>Baseline</b><small>Current time, cost, quality</small></div><div class="flow-arrow">→</div>
+            <div class="redesign-node core"><b>Pilot design</b><small>Cohort, metrics, controls</small></div><div class="flow-arrow">→</div>
+            <div class="redesign-node"><b>Evidence capture</b><small>Telemetry + research</small></div><div class="flow-arrow">→</div>
+            <div class="redesign-node core"><b>Readiness evaluation</b><small>Product + organization</small></div><div class="flow-arrow">→</div>
+            <div class="redesign-node gate"><b>Decision gate</b><small>Scale, revise, pause, stop</small></div><div class="flow-arrow">→</div>
+            <div class="redesign-node"><b>Phased rollout</b><small>Conditions and guardrails</small></div><div class="flow-arrow">→</div>
+            <div class="redesign-node"><b>Post-launch monitoring</b><small>Outcomes, incidents, economics</small></div>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-top:18px;">
+          <article class="panel card"><h3>Customer evidence</h3><p>Activation, repeat usage, task completion, drop-off, qualitative themes, willingness to continue, and segment-level differences.</p></article>
+          <article class="panel card"><h3>Product evidence</h3><p>Reliability, defects, AI failure modes, latency, correction rate, workflow completion, and product-health trends.</p></article>
+          <article class="panel card"><h3>Launch evidence</h3><p>Documentation accuracy, training, support capacity, incident response, rollback, stakeholder ownership, and financial viability.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Control Tower architecture</div>
+            <h2>A decision layer across the pilot ecosystem.</h2>
+          </div>
+          <p>
+            The architecture connects evidence sources with evaluation logic, governance gates, and action systems. The Control Tower coordinates the decision; product, CRM, support, project, and analytics platforms remain systems of record and execution.
+          </p>
+        </div>
+
+        <div class="panel architecture">
+          <div class="architecture-grid">
+            <div class="arch-col">
+              <div class="arch-title">Evidence sources</div>
+              <div class="arch-box"><b>Product analytics</b><small>Activation, usage, funnels, retention</small></div>
+              <div class="arch-box"><b>Customer research</b><small>Interviews, surveys, calls, objections</small></div>
+              <div class="arch-box"><b>Quality systems</b><small>Defects, evals, incidents, correction rates</small></div>
+              <div class="arch-box"><b>Operational systems</b><small>Support, documentation, training, readiness</small></div>
+              <div class="arch-box"><b>Finance and GTM</b><small>Cost, pipeline, pricing, ROI assumptions</small></div>
+            </div>
+
+            <div class="arch-arrow">→</div>
+
+            <div class="arch-core">
+              <div class="arch-title">AI Pilot-to-Scale Control Tower</div>
+              <div class="arch-box"><b>Evidence normalization</b><small>Connect signals to segment, workflow, and pilot objective</small></div>
+              <div class="arch-box"><b>Readiness scorecard</b><small>Weighted product, customer, operational, and economic dimensions</small></div>
+              <div class="arch-box"><b>Contradiction and gap detection</b><small>Find conflicting release, help, support, and product information</small></div>
+              <div class="arch-box"><b>Decision rules and critical blockers</b><small>Thresholds, exceptions, human review, and no-go conditions</small></div>
+              <div class="arch-box"><b>Executive recommendation</b><small>Decision, rationale, conditions, owners, and monitoring plan</small></div>
+            </div>
+
+            <div class="arch-arrow">→</div>
+
+            <div class="arch-col">
+              <div class="arch-title">Decision and execution</div>
+              <div class="arch-box"><b>Portfolio council</b><small>Approve, defer, revise, or stop</small></div>
+              <div class="arch-box"><b>Product roadmap</b><small>Resolve defects and readiness gaps</small></div>
+              <div class="arch-box"><b>GTM and enablement</b><small>Training, messaging, segmentation, launch</small></div>
+              <div class="arch-box"><b>Support and operations</b><small>Ownership, runbooks, service model</small></div>
+              <div class="arch-box"><b>Monitoring and learning</b><small>Outcome tracking, incidents, economics, feedback</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="evaluation">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Evaluation model</div>
+            <h2>Readiness is multi-dimensional.</h2>
+          </div>
+          <p>
+            A high adoption score cannot compensate for severe reliability risk. Positive satisfaction cannot replace workflow impact. The model separates key dimensions so executives can see exactly what is strong, what remains weak, and what conditions must be met before expansion.
+          </p>
+        </div>
+
+        <div class="grid-4">
+          <article class="panel dimension-card"><div class="num">01</div><h3>Activation</h3><p>Did the intended users reach the first meaningful product outcome?</p><div class="mini">Signal: qualified activation rate</div></article>
+          <article class="panel dimension-card"><div class="num">02</div><h3>Repeat usage</h3><p>Did users return because the product became part of the workflow?</p><div class="mini">Signal: retained workflow use</div></article>
+          <article class="panel dimension-card"><div class="num">03</div><h3>Task completion</h3><p>Did users successfully complete the target job with acceptable effort?</p><div class="mini">Signal: end-to-end completion</div></article>
+          <article class="panel dimension-card"><div class="num">04</div><h3>Workflow impact</h3><p>Did the pilot improve cycle time, quality, capacity, or customer outcomes?</p><div class="mini">Signal: baseline delta</div></article>
+          <article class="panel dimension-card"><div class="num">05</div><h3>Customer evidence</h3><p>Are feedback themes consistent across segments and supported by behavior?</p><div class="mini">Signal: evidence convergence</div></article>
+          <article class="panel dimension-card"><div class="num">06</div><h3>Product reliability</h3><p>Are defect, latency, failure, correction, and escalation levels acceptable?</p><div class="mini">Signal: quality threshold</div></article>
+          <article class="panel dimension-card"><div class="num">07</div><h3>Documentation</h3><p>Do release notes, help content, product behavior, and support guidance agree?</p><div class="mini">Signal: contradiction-free content</div></article>
+          <article class="panel dimension-card"><div class="num">08</div><h3>Enablement</h3><p>Can customers, sales, success, and support explain and use the product correctly?</p><div class="mini">Signal: role readiness</div></article>
+          <article class="panel dimension-card"><div class="num">09</div><h3>Support readiness</h3><p>Are capacity, routing, known issues, escalation, and ownership established?</p><div class="mini">Signal: service preparedness</div></article>
+          <article class="panel dimension-card"><div class="num">10</div><h3>Incident and rollback</h3><p>Can the organization detect failure, limit impact, communicate, and recover?</p><div class="mini">Signal: operational resilience</div></article>
+          <article class="panel dimension-card"><div class="num">11</div><h3>Financial viability</h3><p>Do cost, pricing, margin, value, and scale assumptions support investment?</p><div class="mini">Signal: unit economics</div></article>
+          <article class="panel dimension-card"><div class="num">12</div><h3>Ownership</h3><p>Are product, operational, support, risk, and benefits owners explicitly assigned?</p><div class="mini">Signal: accountable operating model</div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="scorecard">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Interactive readiness scorecard</div>
+            <h2>Test the launch decision.</h2>
+          </div>
+          <p>
+            Adjust the illustrative readiness scores and activate critical blockers. The recommendation responds to the combined evidence, while hard no-go conditions can override a strong weighted average.
+          </p>
+        </div>
+
+        <div class="score-shell">
+          <div class="panel score-inputs">
+            <h3>Readiness inputs</h3>
+            <p>Scores are illustrative and designed to demonstrate the governance logic.</p>
+            <div class="slider-list">
+              <div class="slider-row"><div class="slider-label"><strong>Customer evidence</strong><small>Behavior, research, segment consistency · 14%</small></div><input id="sCustomer" type="range" min="0" max="100" value="76"/><div class="slider-value" id="vCustomer">76</div></div>
+              <div class="slider-row"><div class="slider-label"><strong>Workflow impact</strong><small>Cycle time, quality, capacity, outcomes · 13%</small></div><input id="sWorkflow" type="range" min="0" max="100" value="82"/><div class="slider-value" id="vWorkflow">82</div></div>
+              <div class="slider-row"><div class="slider-label"><strong>Adoption and retention</strong><small>Activation, repeat use, task completion · 11%</small></div><input id="sAdoption" type="range" min="0" max="100" value="71"/><div class="slider-value" id="vAdoption">71</div></div>
+              <div class="slider-row"><div class="slider-label"><strong>Product reliability</strong><small>Defects, failures, latency, corrections · 13%</small></div><input id="sReliability" type="range" min="0" max="100" value="64"/><div class="slider-value" id="vReliability">64</div></div>
+              <div class="slider-row"><div class="slider-label"><strong>Documentation accuracy</strong><small>Release, help, behavior alignment · 8%</small></div><input id="sDocs" type="range" min="0" max="100" value="58"/><div class="slider-value" id="vDocs">58</div></div>
+              <div class="slider-row"><div class="slider-label"><strong>Enablement readiness</strong><small>Training, messaging, stakeholder preparedness · 8%</small></div><input id="sEnablement" type="range" min="0" max="100" value="62"/><div class="slider-value" id="vEnablement">62</div></div>
+              <div class="slider-row"><div class="slider-label"><strong>Support readiness</strong><small>Capacity, routing, service model, known issues · 8%</small></div><input id="sSupport" type="range" min="0" max="100" value="55"/><div class="slider-value" id="vSupport">55</div></div>
+              <div class="slider-row"><div class="slider-label"><strong>Incident and rollback</strong><small>Detection, response, containment, recovery · 8%</small></div><input id="sIncident" type="range" min="0" max="100" value="68"/><div class="slider-value" id="vIncident">68</div></div>
+              <div class="slider-row"><div class="slider-label"><strong>Financial viability</strong><small>Cost, margin, value, scalability · 9%</small></div><input id="sFinance" type="range" min="0" max="100" value="73"/><div class="slider-value" id="vFinance">73</div></div>
+              <div class="slider-row"><div class="slider-label"><strong>Ownership and governance</strong><small>Accountability, controls, post-launch model · 8%</small></div><input id="sOwnership" type="range" min="0" max="100" value="61"/><div class="slider-value" id="vOwnership">61</div></div>
+            </div>
+
+            <div class="blockers">
+              <h3>Critical blockers</h3>
+              <p>Any checked item can cap the recommendation at Pause or Stop.</p>
+              <div class="blocker-grid">
+                <label class="check-card"><input class="blocker" id="bSafety" type="checkbox"/>Unresolved safety, privacy, security, legal, or regulatory issue</label>
+                <label class="check-card"><input class="blocker" id="bRollback" type="checkbox"/>No tested rollback, shutdown, or incident-containment path</label>
+                <label class="check-card"><input class="blocker" id="bOwner" type="checkbox"/>No accountable post-launch business and operational owner</label>
+                <label class="check-card"><input class="blocker" id="bCritical" type="checkbox"/>Open critical defect materially affects the target customer workflow</label>
+              </div>
+            </div>
+          </div>
+
+          <aside class="panel score-output">
+            <h3>Executive recommendation</h3>
+            <p>Weighted readiness plus non-negotiable launch gates.</p>
+            <div class="score-ring" id="scoreRing">
+              <div class="score-center"><strong id="totalScore">68</strong><small>/ 100</small></div>
+            </div>
+            <div class="recommendation" id="recommendationBox">
+              <div class="kicker">Current decision</div>
+              <h3 id="recommendationTitle">Revise and retest</h3>
+              <p id="recommendationText">The pilot shows meaningful value, but support, documentation, and operating ownership require remediation before broader deployment.</p>
+            </div>
+            <div class="gate-list">
+              <div class="gate-item"><span>Strongest dimension</span><strong id="strongest">Workflow impact</strong></div>
+              <div class="gate-item"><span>Priority gap</span><strong id="weakest">Support readiness</strong></div>
+              <div class="gate-item"><span>Critical blockers</span><strong id="blockerCount">0 active</strong></div>
+              <div class="gate-item"><span>Suggested next gate</span><strong id="nextGate">Targeted remediation review</strong></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="readiness-matrix">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Two-axis readiness</div>
+            <h2>Product readiness and organizational readiness are different.</h2>
+          </div>
+          <p>
+            A technically strong AI product can still fail when support, enablement, governance, ownership, and incident procedures are weak. Move the controls to see how the recommended posture changes.
+          </p>
+        </div>
+
+        <div class="matrix-shell">
+          <div class="panel matrix">
+            <div class="axis-y">Organizational readiness →</div>
+            <div class="axis-x">Product readiness →</div>
+            <div class="matrix-grid">
+              <div class="quadrant q-org"><strong>Operationally prepared, product weak</strong><small>Keep the organization ready; revise the product and retest customer value.</small></div>
+              <div class="quadrant q-scale"><strong>Scale with governed conditions</strong><small>Both product and organization are prepared for phased expansion.</small></div>
+              <div class="quadrant q-stop"><strong>Pause or stop</strong><small>Insufficient product evidence and insufficient launch capability.</small></div>
+              <div class="quadrant q-product"><strong>Product ready, organization weak</strong><small>Do not scale until support, documentation, ownership, and controls catch up.</small></div>
+            </div>
+            <div class="matrix-dot" id="matrixDot">Pilot</div>
+          </div>
+
+          <aside class="panel matrix-controls">
+            <h3>Readiness positioning</h3>
+            <p>Use the two axes to separate product quality from launch capability.</p>
+            <label>
+              <span class="value-line"><span>Product readiness</span><strong id="productValue">72</strong></span>
+              <input id="productRange" type="range" min="0" max="100" value="72"/>
+            </label>
+            <label>
+              <span class="value-line"><span>Organizational readiness</span><strong id="orgValue">58</strong></span>
+              <input id="orgRange" type="range" min="0" max="100" value="58"/>
+            </label>
+            <div class="matrix-note" id="matrixNote">The product shows promise, but the launch operating model needs strengthening before scale.</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="evidence">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Evidence and launch audit</div>
+            <h2>Different signals deserve different weight.</h2>
+          </div>
+          <p>
+            The Control Tower distinguishes observed behavior from stated preference and distinguishes isolated feedback from repeatable, segment-level evidence. It also audits whether launch materials and operational commitments match the actual product.
+          </p>
+        </div>
+
+        <div class="evidence-layout">
+          <div class="panel evidence-stack">
+            <h3>Evidence hierarchy</h3>
+            <p style="margin-top:7px;">Higher tiers carry more weight in a scale decision.</p>
+            <div class="evidence-tier"><div class="rank">1</div><div><strong>Observed workflow outcomes</strong><small>Completed tasks, quality, cycle time, errors, capacity, customer outcome</small></div><div class="weight">Highest</div></div>
+            <div class="evidence-tier"><div class="rank">2</div><div><strong>Retained behavior</strong><small>Repeat usage, cohort retention, voluntary continued use, workflow penetration</small></div><div class="weight">High</div></div>
+            <div class="evidence-tier"><div class="rank">3</div><div><strong>Structured customer research</strong><small>Segmented interviews, objection themes, jobs, reasons for adoption or abandonment</small></div><div class="weight">Medium</div></div>
+            <div class="evidence-tier"><div class="rank">4</div><div><strong>Satisfaction and stated intent</strong><small>CSAT, NPS, survey preference, willingness to recommend or continue</small></div><div class="weight">Contextual</div></div>
+            <div class="evidence-tier"><div class="rank">5</div><div><strong>Anecdotes and sponsor enthusiasm</strong><small>Useful for discovery, insufficient for a scale decision alone</small></div><div class="weight">Lowest</div></div>
+          </div>
+
+          <div class="panel audit-panel">
+            <h3>Launch-readiness audit</h3>
+            <p style="margin-top:7px;">The auditor searches for contradictions, missing ownership, and unanswered customer questions.</p>
+            <div class="audit-grid">
+              <div class="audit-card warning"><strong>Release notes ↔ product behavior</strong><small>Do stated capabilities match what users can actually do?</small></div>
+              <div class="audit-card warning"><strong>Help content ↔ known limitations</strong><small>Are failure cases, exclusions, and workarounds documented?</small></div>
+              <div class="audit-card"><strong>Sales promise ↔ support model</strong><small>Can customer-facing teams support what is being sold?</small></div>
+              <div class="audit-card"><strong>Training ↔ role expectations</strong><small>Do users know where AI ends and human responsibility begins?</small></div>
+              <div class="audit-card warning"><strong>Incident plan ↔ ownership</strong><small>Who detects, communicates, decides, and restores service?</small></div>
+              <div class="audit-card"><strong>Pricing ↔ unit economics</strong><small>Does commercial packaging reflect operating and support costs?</small></div>
+              <div class="audit-card"><strong>Customer question gap</strong><small>What obvious question will a confused user ask that nobody answered?</small></div>
+              <div class="audit-card warning"><strong>Handoff gap</strong><small>Who owns the product after the pilot team moves on?</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="decisions">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Decision logic</div>
+            <h2>Every outcome creates an explicit management action.</h2>
+          </div>
+          <p>
+            The recommendation is not a label at the end of a dashboard. Each decision defines investment posture, rollout scope, remediation expectations, ownership, and the next evidence gate.
+          </p>
+        </div>
+
+        <div class="decision-path">
+          <article class="decision-card"><div class="status scale">Scale</div><h3>Expand the use case</h3><p>Evidence, readiness, economics, and controls meet the required thresholds.</p><ul><li>Phased cohort expansion</li><li>Confirmed owners and support model</li><li>Production monitoring</li></ul></article>
+          <article class="decision-card"><div class="status conditional">Scale conditionally</div><h3>Expand with gates</h3><p>Business value is proven, but defined conditions must remain visible and time-bound.</p><ul><li>Limited segments or workflows</li><li>Exception approvals</li><li>Specific closure dates</li></ul></article>
+          <article class="decision-card"><div class="status revise">Revise & retest</div><h3>Correct material gaps</h3><p>The core opportunity remains attractive, but current readiness is insufficient.</p><ul><li>Prioritized remediation backlog</li><li>New pilot hypothesis</li><li>Re-test success thresholds</li></ul></article>
+          <article class="decision-card"><div class="status pause">Pause</div><h3>Protect the investment</h3><p>Critical evidence, control, ownership, or reliability gaps prevent responsible expansion.</p><ul><li>Freeze scale spend</li><li>Resolve blocker owners</li><li>Re-enter at decision gate</li></ul></article>
+          <article class="decision-card"><div class="status stop">Stop</div><h3>End the initiative</h3><p>The workflow value, economics, risk profile, or strategic fit does not justify continuation.</p><ul><li>Sunset plan</li><li>Customer and data transition</li><li>Captured lessons</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="impact">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Business impact</div>
+            <h2>Measure launch quality, not launch activity.</h2>
+          </div>
+          <p>
+            The outcome model links portfolio decisions to adoption, customer success, operational readiness, financial exposure, and the cost of scaling the wrong product too early.
+          </p>
+        </div>
+
+        <div class="grid-4">
+          <article class="panel metric-card"><div class="metric-icon">↗</div><h3>Pilot-to-production conversion</h3><p>Share of pilots reaching production because evidence and readiness thresholds were met.</p></article>
+          <article class="panel metric-card"><div class="metric-icon">✓</div><h3>Avoided launch defects</h3><p>Critical issues identified before broader customer or operational exposure.</p></article>
+          <article class="panel metric-card"><div class="metric-icon">T</div><h3>Decision cycle time</h3><p>Time required to assemble evidence, resolve gaps, and make a defensible recommendation.</p></article>
+          <article class="panel metric-card"><div class="metric-icon">S</div><h3>Support demand prevented</h3><p>Tickets and escalations avoided through accurate documentation and enablement.</p></article>
+          <article class="panel metric-card"><div class="metric-icon">A</div><h3>Adoption after launch</h3><p>Activation, retained workflow usage, and segment-level product penetration.</p></article>
+          <article class="panel metric-card"><div class="metric-icon">C</div><h3>Customer task completion</h3><p>Successful completion of the target job without avoidable correction or escalation.</p></article>
+          <article class="panel metric-card"><div class="metric-icon">$</div><h3>Pilot investment protected</h3><p>Low-value or high-risk expansion costs avoided through pause, revision, or stop decisions.</p></article>
+          <article class="panel metric-card"><div class="metric-icon">R</div><h3>Retention and value realization</h3><p>Customer continuity and measurable business outcomes after governed expansion.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="governance">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Stakeholder governance</div>
+            <h2>Scale decisions require an operating coalition.</h2>
+          </div>
+          <p>
+            The Control Tower clarifies who supplies evidence, who owns remediation, who approves exceptions, and who remains accountable after launch. This prevents the pilot team from becoming the permanent operating model by default.
+          </p>
+        </div>
+
+        <div class="panel stakeholder-table">
+          <table>
+            <thead><tr><th>Stakeholder</th><th>Primary question</th><th>Decision responsibility</th><th>Evidence owned</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Business owner</strong></td><td>Is the workflow outcome worth scaling?</td><td><span>Owns benefits, adoption, and operating outcome</span></td><td>Baseline, value, capacity, customer impact</td></tr>
+              <tr><td><strong>Product</strong></td><td>Does the product solve the intended job reliably?</td><td><span>Owns roadmap, defects, product thresholds</span></td><td>Funnels, usage, reliability, feature behavior</td></tr>
+              <tr><td><strong>GTM / Marketing</strong></td><td>Which segment, message, and rollout path are viable?</td><td><span>Owns positioning, launch sequencing, market feedback</span></td><td>Segment response, objections, commercial readiness</td></tr>
+              <tr><td><strong>Customer Success / Support</strong></td><td>Can customers adopt and recover when things go wrong?</td><td><span>Owns enablement, service readiness, escalation</span></td><td>Tickets, known issues, help gaps, adoption friction</td></tr>
+              <tr><td><strong>Engineering / AI</strong></td><td>Can the product meet quality, scale, and reliability needs?</td><td><span>Owns technical performance and remediation</span></td><td>Defects, incidents, latency, evaluation results</td></tr>
+              <tr><td><strong>Finance</strong></td><td>Do unit economics and investment thresholds work?</td><td><span>Owns financial validation and funding conditions</span></td><td>Cost, margin, pricing, forecast, avoided spend</td></tr>
+              <tr><td><strong>Risk / Legal / Security</strong></td><td>Are the controls and residual risks acceptable?</td><td><span>Owns risk disposition and required safeguards</span></td><td>Risk register, privacy, security, policy obligations</td></tr>
+              <tr><td><strong>Executive sponsor</strong></td><td>Should the organization scale, revise, pause, or stop?</td><td><span>Owns the final investment and exception decision</span></td><td>Integrated recommendation and tradeoff view</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="rollout">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Phased operating model</div>
+            <h2>Scale through gates, not one irreversible launch.</h2>
+          </div>
+          <p>
+            Expansion is structured as a sequence of evidence and readiness gates. Each phase increases customer exposure only after the previous stage demonstrates acceptable outcomes, reliability, and operational control.
+          </p>
+        </div>
+
+        <div class="roadmap">
+          <article class="panel phase"><div class="phase-tag">Phase 01</div><h3>Define</h3><p>Frame the workflow and decision before building the pilot.</p><ul><li>Target customer and job</li><li>Current-state baseline</li><li>Success and guardrail metrics</li><li>Owner and risk classification</li></ul></article>
+          <article class="panel phase"><div class="phase-tag">Phase 02</div><h3>Validate</h3><p>Run a bounded pilot and capture behavior, outcomes, and failure patterns.</p><ul><li>Representative pilot cohort</li><li>Customer and product evidence</li><li>Quality and incident tracking</li><li>Economics and support demand</li></ul></article>
+          <article class="panel phase"><div class="phase-tag">Phase 03</div><h3>Prepare</h3><p>Close the gap between a working product and a launchable operating model.</p><ul><li>Documentation and training</li><li>Support and incident model</li><li>Commercial and legal readiness</li><li>Decision conditions and RACI</li></ul></article>
+          <article class="panel phase"><div class="phase-tag">Phase 04</div><h3>Scale and govern</h3><p>Expand by cohort while monitoring outcomes, risk, and financial performance.</p><ul><li>Phased rollout gates</li><li>Rollback thresholds</li><li>Executive portfolio review</li><li>Post-launch learning loop</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="industries">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Cross-industry application</div>
+            <h2>The readiness dimensions stay consistent; the thresholds change.</h2>
+          </div>
+          <p>
+            The same operating framework applies across industries, but acceptable error, evidence, controls, customer exposure, and human-review requirements must reflect the business context.
+          </p>
+        </div>
+
+        <div class="grid-4">
+          <article class="panel industry-card"><div class="industry-icon">S</div><h3>SaaS and AI platforms</h3><p>Product adoption, task completion, support scalability, unit economics, and enterprise readiness.</p></article>
+          <article class="panel industry-card"><div class="industry-icon">F</div><h3>Fintech and insurance</h3><p>Decision accuracy, explainability, controls, regulatory exposure, exceptions, and auditability.</p></article>
+          <article class="panel industry-card"><div class="industry-icon">H</div><h3>Healthcare</h3><p>Workflow burden, privacy, clinical or administrative risk, human oversight, and safe failure.</p></article>
+          <article class="panel industry-card"><div class="industry-icon">R</div><h3>Retail and commerce</h3><p>Conversion, service, merchandising, margin, customer trust, and peak-volume support readiness.</p></article>
+          <article class="panel industry-card"><div class="industry-icon">C</div><h3>Customer service</h3><p>Resolution quality, handle time, escalation, correction rate, satisfaction, and support capacity.</p></article>
+          <article class="panel industry-card"><div class="industry-icon">E</div><h3>Edtech</h3><p>Learning outcome, engagement, recommendation quality, safety, accessibility, and retention.</p></article>
+          <article class="panel industry-card"><div class="industry-icon">M</div><h3>Martech and media</h3><p>Content quality, brand risk, personalization, engagement, production economics, and trust.</p></article>
+          <article class="panel industry-card"><div class="industry-icon">T</div><h3>Enterprise technology</h3><p>Integration, adoption, change readiness, service ownership, security, and measurable productivity.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="positioning">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Portfolio value</div>
+            <h2>What this project demonstrates.</h2>
+          </div>
+          <p>
+            The project positions AI transformation as a business operating challenge: validating the workflow, coordinating stakeholders, defining decision thresholds, preparing the organization, and protecting investment through evidence-based governance.
+          </p>
+        </div>
+
+        <div class="capability-grid">
+          <article class="capability"><strong>GTM operations</strong><p>Connects customer evidence, segmentation, launch sequencing, adoption, enablement, and market readiness.</p></article>
+          <article class="capability"><strong>Product operations</strong><p>Creates shared metrics, decision gates, feedback synthesis, roadmap priorities, and launch accountability.</p></article>
+          <article class="capability"><strong>Business operations</strong><p>Designs the lifecycle, operating rhythm, handoffs, ownership, performance model, and benefits realization.</p></article>
+          <article class="capability"><strong>Program governance</strong><p>Aligns cross-functional work, dependencies, risks, readiness, milestones, exceptions, and executive decisions.</p></article>
+          <article class="capability"><strong>AI transformation judgment</strong><p>Balances adoption, quality, economics, risk, human oversight, organizational capability, and scale.</p></article>
+          <article class="capability"><strong>Executive communication</strong><p>Converts fragmented pilot evidence into a clear recommendation, rationale, conditions, and next action.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="container">
+        <div class="closing-box">
+          <div class="eyebrow">Core operating principle</div>
+          <h2>A successful pilot proves possibility.<br/>A scale decision proves readiness.</h2>
+          <p>
+            AI Pilot-to-Scale Control Tower makes that distinction measurable. It gives leadership a repeatable way to protect customers, focus investment, prepare the operating model, and expand the AI products that have earned the right to scale.
+          </p>
+          <div class="closing-line">The goal is not more pilots. It is <span>better portfolio decisions and stronger launches.</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">AI Pilot-to-Scale Control Tower · GTM Validation, Launch Readiness, and Scale Decisions · Portfolio Case Study</div>
+  </footer>
+
+  <script>
+    const sliders = [
+      { id: 'sCustomer', out: 'vCustomer', name: 'Customer evidence', weight: .14 },
+      { id: 'sWorkflow', out: 'vWorkflow', name: 'Workflow impact', weight: .13 },
+      { id: 'sAdoption', out: 'vAdoption', name: 'Adoption and retention', weight: .11 },
+      { id: 'sReliability', out: 'vReliability', name: 'Product reliability', weight: .13 },
+      { id: 'sDocs', out: 'vDocs', name: 'Documentation accuracy', weight: .08 },
+      { id: 'sEnablement', out: 'vEnablement', name: 'Enablement readiness', weight: .08 },
+      { id: 'sSupport', out: 'vSupport', name: 'Support readiness', weight: .08 },
+      { id: 'sIncident', out: 'vIncident', name: 'Incident and rollback', weight: .08 },
+      { id: 'sFinance', out: 'vFinance', name: 'Financial viability', weight: .09 },
+      { id: 'sOwnership', out: 'vOwnership', name: 'Ownership and governance', weight: .08 }
+    ];
+
+    function calculateScore() {
+      const values = sliders.map(item => ({ ...item, value: Number(document.getElementById(item.id).value) }));
+      values.forEach(item => document.getElementById(item.out).textContent = item.value);
+      const weighted = Math.round(values.reduce((sum,item) => sum + item.value * item.weight, 0));
+      const blockers = [...document.querySelectorAll('.blocker:checked')];
+      const blockerIds = blockers.map(b => b.id);
+      const strongest = [...values].sort((a,b) => b.value - a.value)[0];
+      const weakest = [...values].sort((a,b) => a.value - b.value)[0];
+
+      let title = 'Revise and retest';
+      let text = 'The pilot shows meaningful value, but material readiness gaps should be corrected before broader deployment.';
+      let gate = 'Targeted remediation review';
+      let color = 'var(--amber)';
+
+      const hardStop = blockerIds.includes('bSafety') && (blockerIds.includes('bCritical') || weighted < 50);
+      if (hardStop) {
+        title = 'Stop';
+        text = 'The current risk and product conditions do not support continued deployment. Close the initiative or redesign the use case before new investment.';
+        gate = 'Sunset or redesign review';
+        color = 'var(--red)';
+      } else if (blockers.length > 0) {
+        title = 'Pause';
+        text = 'The weighted evidence may be promising, but one or more critical launch blockers require closure before customer exposure can increase.';
+        gate = 'Critical blocker closure';
+        color = 'var(--orange)';
+      } else if (weighted >= 84 && weakest.value >= 65) {
+        title = 'Scale';
+        text = 'Customer value, product quality, launch preparedness, economics, and ownership meet the threshold for a governed phased rollout.';
+        gate = 'Phased production expansion';
+        color = 'var(--green)';
+      } else if (weighted >= 74 && weakest.value >= 50) {
+        title = 'Scale conditionally';
+        text = 'The opportunity is ready for controlled expansion, with explicit conditions, segment limits, owners, and monitored closure dates.';
+        gate = 'Conditional launch approval';
+        color = 'var(--cyan)';
+      } else if (weighted >= 55) {
+        title = 'Revise and retest';
+        text = 'The pilot demonstrates potential, but material readiness gaps should be addressed and re-evaluated before broader deployment.';
+        gate = 'Targeted remediation review';
+        color = 'var(--amber)';
+      } else if (weighted >= 40) {
+        title = 'Pause';
+        text = 'Evidence and readiness are not strong enough to justify further scale investment. Clarify the use case and resolve foundational gaps.';
+        gate = 'Pilot redesign decision';
+        color = 'var(--orange)';
+      } else {
+        title = 'Stop';
+        text = 'The current business value, product evidence, or operating readiness does not justify continued investment.';
+        gate = 'Sunset or strategic reset';
+        color = 'var(--red)';
+      }
+
+      document.getElementById('totalScore').textContent = weighted;
+      document.getElementById('recommendationTitle').textContent = title;
+      document.getElementById('recommendationText').textContent = text;
+      document.getElementById('strongest').textContent = strongest.name;
+      document.getElementById('weakest').textContent = weakest.name;
+      document.getElementById('blockerCount').textContent = blockers.length + (blockers.length === 1 ? ' active' : ' active');
+      document.getElementById('nextGate').textContent = gate;
+      document.getElementById('recommendationBox').style.borderColor = color;
+      document.getElementById('recommendationBox').style.background = `color-mix(in srgb, ${color} 8%, transparent)`;
+      const deg = Math.max(8, weighted * 3.6);
+      document.getElementById('scoreRing').style.background = `conic-gradient(${color} 0deg, ${color} ${deg}deg, rgba(255,255,255,.07) ${deg}deg 360deg)`;
+    }
+
+    sliders.forEach(item => document.getElementById(item.id).addEventListener('input', calculateScore));
+    document.querySelectorAll('.blocker').forEach(item => item.addEventListener('change', calculateScore));
+
+    const productRange = document.getElementById('productRange');
+    const orgRange = document.getElementById('orgRange');
+    function updateMatrix() {
+      const product = Number(productRange.value);
+      const org = Number(orgRange.value);
+      document.getElementById('productValue').textContent = product;
+      document.getElementById('orgValue').textContent = org;
+      const dot = document.getElementById('matrixDot');
+      const left = 66 + (product / 100) * (100 - 66 - 12);
+      const bottom = 50 + (org / 100) * (100 - 50 - 15);
+      dot.style.left = `calc(${product}% - 6px)`;
+      dot.style.bottom = `calc(${org}% - 8px)`;
+
+      let note = '';
+      if (product >= 65 && org >= 65) note = 'Both the product and operating model support a governed phased expansion.';
+      else if (product >= 65 && org < 65) note = 'The product shows promise, but the launch operating model needs strengthening before scale.';
+      else if (product < 65 && org >= 65) note = 'The organization is prepared, but product value or reliability must improve before expansion.';
+      else note = 'Pause expansion. Both product evidence and organizational readiness require material improvement.';
+      document.getElementById('matrixNote').textContent = note;
+    }
+    productRange.addEventListener('input', updateMatrix);
+    orgRange.addEventListener('input', updateMatrix);
+
+    calculateScore();
+    updateMatrix();
+  </script>
+</body>
+</html>

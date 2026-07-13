@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="AI ValueOps — an executive portfolio case study in AI economics, portfolio governance, business operations, and measurable value realization." />
+  <title>AI ValueOps | AI Economics, Governance & Business Value</title>
+  <style>
+    :root {
+      --bg: #07101c;
+      --bg-soft: #0b1625;
+      --panel: #101d2e;
+      --panel-2: #14243a;
+      --text: #f7f8fb;
+      --muted: #aab6c6;
+      --line: rgba(255,255,255,.105);
+      --violet: #a991ff;
+      --cyan: #66d9ef;
+      --green: #69e4b2;
+      --amber: #ffd27d;
+      --red: #ff8e9a;
+      --max: 1160px;
+      --radius: 20px;
+      --shadow: 0 24px 70px rgba(0,0,0,.28);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 0%, rgba(169,145,255,.15), transparent 28%),
+        radial-gradient(circle at 94% 8%, rgba(102,217,239,.12), transparent 30%),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+    .container { width: min(var(--max), calc(100% - 36px)); margin: 0 auto; }
+    .muted { color: var(--muted); }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--violet);
+      font-size: .74rem;
+      font-weight: 850;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 26px; height: 1px; background: currentColor; }
+    h1,h2,h3,h4 { margin: 0; line-height: 1.08; }
+    h1 { margin-top: 18px; font-size: clamp(3.2rem, 8vw, 7rem); letter-spacing: -.068em; }
+    h2 { font-size: clamp(2rem, 4vw, 3.65rem); letter-spacing: -.045em; }
+    h3 { font-size: 1.22rem; letter-spacing: -.02em; }
+    p { margin: 0; color: var(--muted); }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--line);
+      background: rgba(7,16,28,.80);
+      backdrop-filter: blur(18px);
+    }
+    .topbar-inner {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 850; }
+    .brand-mark {
+      width: 36px; height: 36px; border-radius: 11px;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      color: #06111c; font-weight: 950;
+    }
+    nav { display: flex; gap: 20px; color: var(--muted); font-size: .88rem; }
+    nav a:hover { color: var(--text); }
+
+    .hero { padding: 96px 0 82px; }
+    .hero-grid { display: grid; grid-template-columns: 1.12fr .88fr; gap: 52px; align-items: center; }
+    .hero-copy > p { margin-top: 24px; max-width: 770px; font-size: clamp(1.05rem, 1.55vw, 1.27rem); }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .tag {
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 760;
+    }
+    .hero-card {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 28px;
+      background: linear-gradient(180deg, rgba(20,36,58,.96), rgba(10,22,37,.97));
+      box-shadow: var(--shadow);
+    }
+    .hero-card .label { color: var(--cyan); font-size: .76rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
+    .hero-card h3 { margin: 12px 0 20px; font-size: 1.55rem; }
+    .signal-list { display: grid; gap: 11px; }
+    .signal {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(255,255,255,.025);
+    }
+    .signal span { color: var(--muted); font-size: .87rem; }
+    .signal strong { text-align: right; font-size: .9rem; }
+    .good { color: var(--green); }
+    .warn { color: var(--amber); }
+
+    section { padding: 86px 0; }
+    .section-head { display: grid; grid-template-columns: .83fr 1.17fr; gap: 54px; align-items: end; margin-bottom: 34px; }
+    .section-head p { max-width: 700px; font-size: 1.04rem; }
+    .panel { border: 1px solid var(--line); border-radius: var(--radius); background: rgba(16,29,46,.88); box-shadow: var(--shadow); }
+    .card { padding: 24px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; }
+
+    .problem-card .icon {
+      width: 42px; height: 42px; margin-bottom: 18px;
+      display: grid; place-items: center;
+      border-radius: 13px;
+      border: 1px solid rgba(255,142,154,.2);
+      background: rgba(255,142,154,.09);
+      color: var(--red); font-weight: 950;
+    }
+    .problem-card h3 { margin-bottom: 10px; }
+
+    .workflow { padding: 26px; overflow-x: auto; }
+    .workflow-grid { min-width: 980px; display: grid; grid-template-columns: repeat(11,1fr); gap: 9px; align-items: center; }
+    .step {
+      min-height: 112px; padding: 14px 10px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      display: grid; align-content: center; text-align: center;
+      background: rgba(255,255,255,.025);
+    }
+    .step b { font-size: .86rem; }
+    .step small { margin-top: 6px; color: var(--muted); }
+    .flow-arrow { text-align: center; color: var(--violet); font-size: 1.35rem; }
+
+    .before-after { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 18px; align-items: stretch; }
+    .state { padding: 25px; }
+    .state h3 { margin-bottom: 18px; }
+    .state ul { margin: 0; padding-left: 20px; color: var(--muted); }
+    .state li { margin-bottom: 11px; }
+    .state.current { border-color: rgba(255,142,154,.22); }
+    .state.future { border-color: rgba(105,228,178,.24); }
+    .transform-arrow { display: grid; place-items: center; color: var(--violet); font-size: 2.2rem; }
+
+    .architecture { padding: 25px; overflow-x: auto; }
+    .architecture-grid { min-width: 980px; display: grid; grid-template-columns: 1fr 48px 1.25fr 48px 1fr; align-items: center; gap: 12px; }
+    .arch-col { display: grid; gap: 10px; }
+    .arch-title { margin-bottom: 7px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; font-size: .72rem; font-weight: 850; }
+    .arch-box { border: 1px solid var(--line); border-radius: 13px; padding: 13px 14px; background: rgba(255,255,255,.025); }
+    .arch-box b { display: block; font-size: .89rem; }
+    .arch-box small { color: var(--muted); }
+    .arch-core { border: 1px solid rgba(169,145,255,.35); border-radius: 19px; padding: 17px; background: rgba(169,145,255,.06); }
+    .arch-core .arch-box { margin-bottom: 9px; background: rgba(7,16,28,.48); }
+    .arch-arrow { color: var(--violet); text-align: center; font-size: 1.8rem; }
+
+    .framework-card { padding: 24px; }
+    .framework-card .num { color: var(--violet); font-size: 1.8rem; font-weight: 950; margin-bottom: 12px; }
+    .framework-card p { margin-top: 8px; }
+
+    .score-layout { display: grid; grid-template-columns: .95fr 1.05fr; gap: 18px; }
+    .score-card { padding: 26px; }
+    .score-row { display: grid; grid-template-columns: 1fr 55px; gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+    .score-row:last-child { border-bottom: 0; }
+    .score-row span { color: var(--muted); }
+    .weight { text-align: right; color: var(--violet); font-weight: 900; }
+    .score-bands { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-top: 20px; }
+    .band { padding: 12px 8px; text-align: center; border-radius: 12px; font-size: .78rem; font-weight: 850; border: 1px solid var(--line); }
+    .band.scale { color: #b8f8db; background: rgba(105,228,178,.08); }
+    .band.revise { color: #ffe2a5; background: rgba(255,210,125,.08); }
+    .band.pause { color: #ffc4ca; background: rgba(255,142,154,.08); }
+    .band.retire { color: #fff; background: rgba(255,142,154,.19); border-color: rgba(255,142,154,.34); }
+
+    .decision-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 18px; }
+    .decision {
+      border: 1px solid var(--line); border-radius: 14px; padding: 15px;
+      background: rgba(255,255,255,.025);
+    }
+    .decision strong { display: block; margin-bottom: 5px; }
+    .decision p { font-size: .88rem; }
+    .rule-callout { margin-top: 17px; border-left: 3px solid var(--violet); padding: 13px 15px; color: #ece7ff; background: rgba(169,145,255,.055); }
+
+    .calculator { display: grid; grid-template-columns: .95fr 1.05fr; gap: 18px; }
+    .calc-form, .calc-output { padding: 27px; }
+    .form-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-top: 20px; }
+    label { display: grid; gap: 7px; color: var(--muted); font-size: .82rem; font-weight: 750; }
+    input, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 12px;
+      color: var(--text);
+      background: #091524;
+      outline: none;
+    }
+    input:focus, select:focus { border-color: rgba(169,145,255,.68); box-shadow: 0 0 0 3px rgba(169,145,255,.09); }
+    .calc-note { margin-top: 14px; font-size: .82rem; }
+    .output-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 20px; }
+    .output {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,.025);
+    }
+    .output span { display: block; color: var(--muted); font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; }
+    .output strong { display: block; margin-top: 5px; font-size: 1.22rem; }
+    .output.primary { border-color: rgba(105,228,178,.28); background: rgba(105,228,178,.055); }
+    .output.primary strong { color: var(--green); }
+    .output.negative strong { color: var(--red); }
+
+    .strategy-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+    .tab {
+      border: 1px solid var(--line); border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      color: var(--muted);
+      background: rgba(255,255,255,.025);
+      font-weight: 800;
+    }
+    .tab.active { background: var(--violet); border-color: transparent; color: #08111d; }
+    .strategy-panel { display: none; padding: 26px; }
+    .strategy-panel.active { display: block; }
+    .strategy-panel h3 { margin-bottom: 12px; }
+    .criteria-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 20px; }
+    .criterion { padding: 15px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.025); }
+    .criterion b { display: block; margin-bottom: 5px; }
+    .criterion small { color: var(--muted); }
+
+    .governance { padding: 25px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 830px; }
+    th, td { padding: 14px 13px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--muted); font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; }
+    td { color: #dce4ee; font-size: .9rem; }
+    tr:last-child td { border-bottom: 0; }
+
+    .metric { padding: 22px; }
+    .metric strong { display: block; color: var(--green); font-size: 1.18rem; margin-bottom: 7px; }
+    .metric p { font-size: .9rem; }
+
+    .stakeholders { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
+    .stakeholder { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.025); }
+    .stakeholder b { display: block; margin-bottom: 5px; }
+    .stakeholder small { color: var(--muted); }
+
+    .timeline { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+    .phase { padding: 22px; }
+    .phase .phase-no { color: var(--violet); font-weight: 950; font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; }
+    .phase h3 { margin: 10px 0 8px; }
+    .phase ul { margin: 12px 0 0; padding-left: 18px; color: var(--muted); }
+    .phase li { margin-bottom: 7px; }
+
+    .industry-list { display: flex; flex-wrap: wrap; gap: 10px; }
+    .industry { padding: 10px 13px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.03); color: var(--muted); font-size: .86rem; }
+
+    .capability { padding: 22px; }
+    .capability h3 { margin-bottom: 8px; }
+    .capability p { font-size: .92rem; }
+
+    .closing { padding: 86px 0 100px; }
+    .closing-box {
+      padding: clamp(32px, 6vw, 66px);
+      border: 1px solid rgba(169,145,255,.26);
+      border-radius: 28px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(169,145,255,.09), rgba(102,217,239,.07));
+    }
+    .closing-box h2 { max-width: 900px; margin: 0 auto 18px; }
+    .closing-box p { max-width: 810px; margin: 0 auto; font-size: 1.08rem; }
+
+    footer { border-top: 1px solid var(--line); padding: 28px 0 44px; color: var(--muted); font-size: .84rem; }
+
+    @media (max-width: 920px) {
+      nav { display: none; }
+      .hero-grid, .section-head, .score-layout, .calculator { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: repeat(2,1fr); }
+      .grid-3 { grid-template-columns: repeat(2,1fr); }
+      .before-after { grid-template-columns: 1fr; }
+      .transform-arrow { transform: rotate(90deg); min-height: 44px; }
+      .stakeholders, .timeline { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 640px) {
+      .container { width: min(100% - 24px, var(--max)); }
+      .hero { padding-top: 66px; }
+      section { padding: 68px 0; }
+      .grid-2, .grid-3, .grid-4, .decision-grid, .form-grid, .output-grid, .criteria-grid, .stakeholders, .timeline { grid-template-columns: 1fr; }
+      .score-bands { grid-template-columns: repeat(2,1fr); }
+      .hero-card { padding: 21px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#top"><span class="brand-mark">AV</span><span>AI ValueOps</span></a>
+      <nav aria-label="Page navigation">
+        <a href="#problem">Problem</a>
+        <a href="#redesign">Redesign</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#economics">Economics</a>
+        <a href="#governance">Governance</a>
+        <a href="#value">Value</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Portfolio Case Study · AI Transformation & Business Operations</span>
+          <h1>AI ValueOps</h1>
+          <p><strong style="color:var(--text)">AI Economics, Portfolio Governance, and Business-Value Management.</strong> A proposed operating framework that connects AI spend to workflow outcomes, quality, risk, ownership, and informed scale decisions.</p>
+          <div class="hero-tags">
+            <span class="tag">AI Operating Model</span>
+            <span class="tag">Portfolio Governance</span>
+            <span class="tag">Unit Economics</span>
+            <span class="tag">Benefits Realization</span>
+            <span class="tag">Executive Decision Support</span>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="Executive portfolio view">
+          <div class="label">Executive question</div>
+          <h3>Which AI investments deserve more capital, operational support, and enterprise scale?</h3>
+          <div class="signal-list">
+            <div class="signal"><span>Usage signal</span><strong>Tokens · prompts · active users</strong></div>
+            <div class="signal"><span>Business signal</span><strong class="good">Cost per successful outcome</strong></div>
+            <div class="signal"><span>Governance signal</span><strong>Owner · risk · controls</strong></div>
+            <div class="signal"><span>Decision</span><strong class="warn">Scale · revise · pause · retire</strong></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="problem">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">01 · Operating problem</span><h2>The AI bill arrives before the operating model.</h2></div>
+          <p>Teams can see how much AI is being consumed, yet leadership often lacks a consistent view of which workflow improved, who owns the outcome, what hidden costs remain, and whether the use case should continue.</p>
+        </div>
+
+        <div class="grid-4">
+          <article class="panel problem-card card"><div class="icon">01</div><h3>Activity without value</h3><p>Prompt counts, API calls, and active users measure motion. They do not establish task completion, quality, capacity, revenue, or risk reduction.</p></article>
+          <article class="panel problem-card card"><div class="icon">02</div><h3>Fragmented investment</h3><p>Functions purchase overlapping tools, select different models, and run pilots without a shared portfolio view or common decision criteria.</p></article>
+          <article class="panel problem-card card"><div class="icon">03</div><h3>Hidden operating cost</h3><p>Human review, failed generations, repeated requests, support, integration, security, and change enablement are often excluded from the cost picture.</p></article>
+          <article class="panel problem-card card"><div class="icon">04</div><h3>Weak accountability</h3><p>Finance owns the bill, Technology owns the platform, and business teams use the tool—yet no single owner may be accountable for realized value.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="redesign">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">02 · Operating-model redesign</span><h2>Manage AI as a portfolio of business workflows.</h2></div>
+          <p>AI ValueOps creates a common lifecycle from use-case intake through baseline measurement, cost allocation, value review, optimization, and an explicit scale decision.</p>
+        </div>
+
+        <div class="panel workflow">
+          <div class="workflow-grid">
+            <div class="step"><b>Use-case intake</b><small>Problem, owner, users, decision</small></div><div class="flow-arrow">→</div>
+            <div class="step"><b>Baseline</b><small>Current cost, time, quality, risk</small></div><div class="flow-arrow">→</div>
+            <div class="step"><b>Cost allocation</b><small>Model, platform, people, support</small></div><div class="flow-arrow">→</div>
+            <div class="step"><b>Value measurement</b><small>Outcome, adoption, quality, economics</small></div><div class="flow-arrow">→</div>
+            <div class="step"><b>Optimization</b><small>Routing, caching, workflow redesign</small></div><div class="flow-arrow">→</div>
+            <div class="step"><b>Portfolio decision</b><small>Scale, revise, pause, or retire</small></div>
+          </div>
+        </div>
+
+        <div class="before-after" style="margin-top:18px">
+          <article class="panel state current">
+            <h3>Current management view</h3>
+            <ul>
+              <li>Spend grouped by vendor, account, or model</li>
+              <li>Usage reported without workflow context</li>
+              <li>Pilot success communicated through anecdotes</li>
+              <li>Human review and failure costs remain distributed</li>
+              <li>Business ownership becomes unclear after launch</li>
+              <li>Weak criteria for stopping low-value use cases</li>
+            </ul>
+          </article>
+          <div class="transform-arrow">→</div>
+          <article class="panel state future">
+            <h3>AI ValueOps management view</h3>
+            <ul>
+              <li>Every use case tied to a workflow and accountable owner</li>
+              <li>Total cost connected to completed business outcomes</li>
+              <li>Quality, adoption, risk, and economics reviewed together</li>
+              <li>Optimization actions assigned and tracked</li>
+              <li>Investment decisions follow common thresholds</li>
+              <li>Benefits realization continues after deployment</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">03 · Enterprise architecture</span><h2>A control layer between AI consumption and investment decisions.</h2></div>
+          <p>The framework consolidates financial, technical, operational, product, and risk signals into a portfolio view. Existing platforms remain systems of record; AI ValueOps supplies the governance and value-management logic.</p>
+        </div>
+
+        <div class="panel architecture">
+          <div class="architecture-grid">
+            <div class="arch-col">
+              <div class="arch-title">Data and systems</div>
+              <div class="arch-box"><b>Model and vendor telemetry</b><small>Tokens, requests, latency, failures, model mix</small></div>
+              <div class="arch-box"><b>Finance and procurement</b><small>Invoices, contracts, commitments, cost centers</small></div>
+              <div class="arch-box"><b>Workflow and product data</b><small>Tasks, cycle time, quality, adoption, completion</small></div>
+              <div class="arch-box"><b>Risk and support data</b><small>Incidents, human reviews, escalations, controls</small></div>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-core">
+              <div class="arch-title">AI ValueOps layer</div>
+              <div class="arch-box"><b>Use-case registry and ownership</b><small>Business problem, sponsor, workflow, users, risk tier</small></div>
+              <div class="arch-box"><b>Cost and unit-economics engine</b><small>Total cost, cost per task, cost per successful outcome</small></div>
+              <div class="arch-box"><b>Value and quality scorecard</b><small>Benefits, adoption, quality, risk, strategic fit</small></div>
+              <div class="arch-box"><b>Optimization and decision rules</b><small>Route, cache, redesign, scale, revise, pause, retire</small></div>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-col">
+              <div class="arch-title">Management outcomes</div>
+              <div class="arch-box"><b>Executive portfolio view</b><small>Investment allocation, risk concentration, value forecast</small></div>
+              <div class="arch-box"><b>Business-owner reviews</b><small>Outcome variance, adoption, process changes, next actions</small></div>
+              <div class="arch-box"><b>Finance and chargeback</b><small>Showback, budget accountability, forecast updates</small></div>
+              <div class="arch-box"><b>Governance decisions</b><small>Approval, conditional scale, remediation, retirement</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">04 · Management framework</span><h2>Five dimensions determine whether AI is creating durable value.</h2></div>
+          <p>The portfolio view balances economics with workflow performance, quality, adoption, risk, and strategic importance. Cost reduction alone can weaken the outcome; usage growth alone can hide waste.</p>
+        </div>
+        <div class="grid-3">
+          <article class="panel framework-card"><div class="num">01</div><h3>Workflow outcome</h3><p>Task completion, cycle time, capacity created, customer or employee impact, and measurable improvement against the baseline.</p></article>
+          <article class="panel framework-card"><div class="num">02</div><h3>Total economics</h3><p>Model, infrastructure, vendor, integration, human review, support, failed-run, and change-adoption costs.</p></article>
+          <article class="panel framework-card"><div class="num">03</div><h3>Quality and reliability</h3><p>Accuracy, rework, failure rate, latency, escalation, groundedness, consistency, and outcome success.</p></article>
+          <article class="panel framework-card"><div class="num">04</div><h3>Adoption and behavior</h3><p>Repeat use, workflow penetration, completion, drop-off, manual workarounds, trust, and sustained usage by the intended audience.</p></article>
+          <article class="panel framework-card"><div class="num">05</div><h3>Risk and strategic fit</h3><p>Control maturity, regulatory exposure, vendor concentration, data sensitivity, reversibility, differentiation, and enterprise priority.</p></article>
+          <article class="panel framework-card"><div class="num">06</div><h3>Accountability</h3><p>Named business owner, financial owner, platform owner, risk owner, benefits target, review cadence, and explicit decision authority.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="economics">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">05 · Portfolio decision logic</span><h2>Score value, feasibility, risk, and economics separately.</h2></div>
+          <p>A single ROI figure can hide adoption, quality, or control failures. The framework uses a multi-dimensional score to guide investment while preserving visibility into the underlying tradeoffs.</p>
+        </div>
+
+        <div class="score-layout">
+          <article class="panel score-card">
+            <h3>Illustrative AI investment score</h3>
+            <p style="margin-top:8px">Weights change by industry, use case, and risk tier.</p>
+            <div class="score-row"><span>Business outcome and strategic value</span><div class="weight">25%</div></div>
+            <div class="score-row"><span>Unit economics and benefits realization</span><div class="weight">20%</div></div>
+            <div class="score-row"><span>Quality and task success</span><div class="weight">20%</div></div>
+            <div class="score-row"><span>Adoption and workflow penetration</span><div class="weight">15%</div></div>
+            <div class="score-row"><span>Operational feasibility and ownership</span><div class="weight">10%</div></div>
+            <div class="score-row"><span>Risk and control readiness</span><div class="weight">10%</div></div>
+            <div class="score-bands">
+              <div class="band scale">80–100<br>Scale</div>
+              <div class="band revise">60–79<br>Revise / condition</div>
+              <div class="band pause">40–59<br>Pause / retest</div>
+              <div class="band retire">0–39<br>Retire</div>
+            </div>
+          </article>
+
+          <article class="panel score-card">
+            <h3>Decision interpretation</h3>
+            <div class="decision-grid">
+              <div class="decision"><strong>High value + strong controls</strong><p>Scale through a phased rollout with benefits and risk monitoring.</p></div>
+              <div class="decision"><strong>High value + weak controls</strong><p>Condition scale on control remediation, ownership, and monitoring.</p></div>
+              <div class="decision"><strong>Low value + low cost</strong><p>Redesign the workflow or limit the use case to a narrow segment.</p></div>
+              <div class="decision"><strong>Low value + high cost or risk</strong><p>Pause investment and retire unless new evidence changes the case.</p></div>
+            </div>
+            <div class="rule-callout"><strong>Core principle:</strong> optimization begins with the workflow. Model cost is one lever inside a broader operating decision.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">06 · Interactive unit economics</span><h2>Translate AI consumption into a business outcome view.</h2></div>
+          <p>Use the illustrative calculator to test how model cost, success rate, human review, time saved, and labor value affect the economics of an AI-enabled workflow.</p>
+        </div>
+
+        <div class="calculator">
+          <article class="panel calc-form">
+            <h3>Illustrative monthly use case</h3>
+            <div class="form-grid">
+              <label>Use case
+                <select id="preset">
+                  <option value="custom">Custom assumptions</option>
+                  <option value="support">Customer-support copilot</option>
+                  <option value="knowledge">Enterprise knowledge assistant</option>
+                  <option value="sales">Sales research assistant</option>
+                  <option value="coding">Engineering coding assistant</option>
+                </select>
+              </label>
+              <label>Monthly AI tasks
+                <input id="tasks" type="number" min="1" step="100" value="10000" />
+              </label>
+              <label>Model/platform cost per task ($)
+                <input id="modelCost" type="number" min="0" step="0.001" value="0.12" />
+              </label>
+              <label>Successful outcome rate (%)
+                <input id="successRate" type="number" min="0" max="100" step="1" value="78" />
+              </label>
+              <label>Human review rate (%)
+                <input id="reviewRate" type="number" min="0" max="100" step="1" value="30" />
+              </label>
+              <label>Review time per reviewed task (minutes)
+                <input id="reviewMinutes" type="number" min="0" step="0.5" value="2.5" />
+              </label>
+              <label>Gross minutes saved per successful task
+                <input id="minutesSaved" type="number" min="0" step="0.5" value="6" />
+              </label>
+              <label>Loaded labor value per hour ($)
+                <input id="laborRate" type="number" min="0" step="1" value="55" />
+              </label>
+              <label>Other monthly operating cost ($)
+                <input id="otherCost" type="number" min="0" step="100" value="3500" />
+              </label>
+              <label>Estimated monthly risk/revenue value ($)
+                <input id="otherValue" type="number" min="0" step="100" value="8000" />
+              </label>
+            </div>
+            <p class="calc-note">Illustrative assumptions only. A real business case would use workflow baselines, finance-approved labor values, quality thresholds, and observed outcome data.</p>
+          </article>
+
+          <article class="panel calc-output">
+            <h3>Business economics view</h3>
+            <div class="output-grid">
+              <div class="output"><span>Successful outcomes</span><strong id="successfulOutcomes">—</strong></div>
+              <div class="output"><span>Monthly AI + platform cost</span><strong id="platformCost">—</strong></div>
+              <div class="output"><span>Human-review cost</span><strong id="reviewCost">—</strong></div>
+              <div class="output"><span>Total operating cost</span><strong id="totalCost">—</strong></div>
+              <div class="output"><span>Cost per successful outcome</span><strong id="costPerOutcome">—</strong></div>
+              <div class="output"><span>Gross quantified value</span><strong id="grossValue">—</strong></div>
+              <div class="output primary"><span>Net monthly value</span><strong id="netValue">—</strong></div>
+              <div class="output primary"><span>Illustrative ROI</span><strong id="roi">—</strong></div>
+            </div>
+            <div class="rule-callout" id="calcRecommendation"><strong>Portfolio interpretation:</strong> enter assumptions to evaluate the use case.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">07 · Strategic judgment</span><h2>Optimization choices extend beyond model pricing.</h2></div>
+          <p>Each lever changes cost, quality, speed, ownership, and risk differently. The correct decision depends on the workflow, business criticality, data sensitivity, and ability to reverse the change.</p>
+        </div>
+
+        <div class="strategy-tabs" role="tablist" aria-label="Strategy topics">
+          <button class="tab active" data-tab="routing" type="button">Model routing</button>
+          <button class="tab" data-tab="buildbuy" type="button">Build · buy · partner</button>
+          <button class="tab" data-tab="budget" type="button">Budget model</button>
+          <button class="tab" data-tab="retirement" type="button">Retirement criteria</button>
+        </div>
+
+        <article class="panel strategy-panel active" id="routing">
+          <h3>Use the least expensive architecture that consistently meets the business threshold.</h3>
+          <p>Route simple classification and extraction to smaller models; reserve larger models for ambiguous, high-value reasoning; add retrieval, caching, templates, or deterministic rules where they improve repeatability.</p>
+          <div class="criteria-grid">
+            <div class="criterion"><b>Task complexity</b><small>Reasoning depth, context length, ambiguity, multimodal needs</small></div>
+            <div class="criterion"><b>Quality threshold</b><small>Accuracy, tone, groundedness, task success, rework tolerance</small></div>
+            <div class="criterion"><b>Risk tier</b><small>Customer, financial, legal, privacy, and operational exposure</small></div>
+          </div>
+        </article>
+
+        <article class="panel strategy-panel" id="buildbuy">
+          <h3>Select the sourcing path through strategic differentiation and operating capability.</h3>
+          <p>Buy where the workflow is common and speed matters; build where proprietary data, control, or differentiation creates material advantage; partner when domain expertise or implementation capacity accelerates value.</p>
+          <div class="criteria-grid">
+            <div class="criterion"><b>Differentiation</b><small>Is the capability central to customer or operating advantage?</small></div>
+            <div class="criterion"><b>Control and risk</b><small>What data, security, compliance, and vendor constraints apply?</small></div>
+            <div class="criterion"><b>Total ownership cost</b><small>Include engineering, maintenance, adoption, support, and switching cost.</small></div>
+          </div>
+        </article>
+
+        <article class="panel strategy-panel" id="budget">
+          <h3>Balance central platform leverage with business-unit accountability.</h3>
+          <p>A central team can manage shared infrastructure, standards, contracts, and risk. Business functions remain accountable for use-case demand, workflow adoption, outcome targets, and benefit realization through showback or chargeback.</p>
+          <div class="criteria-grid">
+            <div class="criterion"><b>Central funding</b><small>Shared platform, security, governance, enablement, evaluation</small></div>
+            <div class="criterion"><b>Business funding</b><small>Use-case consumption, process redesign, adoption, benefit target</small></div>
+            <div class="criterion"><b>Review cadence</b><small>Monthly operations, quarterly portfolio, annual contract planning</small></div>
+          </div>
+        </article>
+
+        <article class="panel strategy-panel" id="retirement">
+          <h3>Stopping a weak use case is an operating capability.</h3>
+          <p>Retirement criteria should be defined before scale: sustained failure to reach value thresholds, low adoption after remediation, excessive human correction, control gaps, unfavorable vendor economics, or a stronger alternative.</p>
+          <div class="criteria-grid">
+            <div class="criterion"><b>Value failure</b><small>Outcome improvement remains below the agreed threshold.</small></div>
+            <div class="criterion"><b>Quality or risk failure</b><small>Rework, incidents, or control gaps remain unacceptable.</small></div>
+            <div class="criterion"><b>Portfolio redundancy</b><small>Another tool or workflow delivers the outcome more effectively.</small></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="governance">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">08 · Governance cadence</span><h2>Every use case needs an owner, threshold, review, and decision.</h2></div>
+          <p>The operating cadence turns dashboards into action. Finance, business, product, technology, and risk teams review the same use-case record from different decision perspectives.</p>
+        </div>
+
+        <div class="panel governance">
+          <table>
+            <thead>
+              <tr><th>Cadence</th><th>Primary participants</th><th>Decision focus</th><th>Typical outputs</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Weekly / biweekly operations</td><td>Use-case owner, Product, Engineering, Operations</td><td>Quality, incidents, adoption, workflow blockers, optimization</td><td>Actions, owners, experiments, remediation</td></tr>
+              <tr><td>Monthly value review</td><td>Business owner, Finance, AI platform, Analytics</td><td>Cost per outcome, benefits variance, demand, forecast</td><td>Budget changes, routing changes, value forecast</td></tr>
+              <tr><td>Quarterly portfolio review</td><td>Executive sponsor, Finance, Technology, Risk, Operations</td><td>Scale, revise, pause, retire, vendor concentration</td><td>Investment allocation and portfolio decisions</td></tr>
+              <tr><td>Annual strategy and sourcing</td><td>Executive leadership, Procurement, Architecture, Finance</td><td>Platform strategy, contracts, build-buy choices, capability roadmap</td><td>Operating plan, vendor strategy, transformation priorities</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="stakeholders" style="margin-top:18px">
+          <div class="stakeholder"><b>Business owner</b><small>Owns workflow outcome, adoption, and benefits target.</small></div>
+          <div class="stakeholder"><b>Finance</b><small>Validates costs, value assumptions, budget, and forecast.</small></div>
+          <div class="stakeholder"><b>AI / Technology</b><small>Owns platform, architecture, reliability, and optimization.</small></div>
+          <div class="stakeholder"><b>Risk & Compliance</b><small>Defines controls, thresholds, monitoring, and exceptions.</small></div>
+          <div class="stakeholder"><b>Operations / PMO</b><small>Runs cadence, tracks actions, dependencies, and realization.</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="value">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">09 · Business value</span><h2>Measure the work that changed and the investment decision it supports.</h2></div>
+          <p>Targets should be established against a current-state baseline. The portfolio view then tracks direct economics, operational performance, strategic capacity, and avoided exposure.</p>
+        </div>
+
+        <div class="grid-4">
+          <article class="panel metric"><strong>Cost per successful outcome</strong><p>Connect model and operating cost to a completed, quality-qualified business task.</p></article>
+          <article class="panel metric"><strong>Workflow capacity created</strong><p>Measure productive hours returned and how that capacity is redeployed.</p></article>
+          <article class="panel metric"><strong>AI spend avoided</strong><p>Quantify routing, caching, contract, duplicate-tool, and failure-cost reductions.</p></article>
+          <article class="panel metric"><strong>Benefits realization</strong><p>Track approved financial and operational value against the use-case commitment.</p></article>
+          <article class="panel metric"><strong>Portfolio concentration</strong><p>Expose dependency on models, vendors, workflows, or business units.</p></article>
+          <article class="panel metric"><strong>Low-value pilots stopped</strong><p>Protect capital and operating capacity through clear pause and retirement decisions.</p></article>
+          <article class="panel metric"><strong>Business ownership coverage</strong><p>Measure the percentage of spend tied to a named owner and outcome target.</p></article>
+          <article class="panel metric"><strong>Forecast accuracy</strong><p>Improve AI budget planning through demand, adoption, and cost-driver visibility.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">10 · Implementation approach</span><h2>Start with transparency, then mature into active portfolio management.</h2></div>
+          <p>The operating model can begin with a small number of high-spend or high-impact use cases and expand after ownership, data quality, and review discipline are established.</p>
+        </div>
+        <div class="timeline">
+          <article class="panel phase"><div class="phase-no">Phase 1</div><h3>Inventory</h3><ul><li>Map tools and use cases</li><li>Name owners and workflows</li><li>Identify cost sources</li><li>Define baseline metrics</li></ul></article>
+          <article class="panel phase"><div class="phase-no">Phase 2</div><h3>Measure</h3><ul><li>Connect cost and outcome data</li><li>Set quality thresholds</li><li>Capture review and failure cost</li><li>Create use-case scorecards</li></ul></article>
+          <article class="panel phase"><div class="phase-no">Phase 3</div><h3>Optimize</h3><ul><li>Apply model routing</li><li>Remove duplicate tools</li><li>Redesign weak workflows</li><li>Strengthen adoption and controls</li></ul></article>
+          <article class="panel phase"><div class="phase-no">Phase 4</div><h3>Govern</h3><ul><li>Run portfolio cadence</li><li>Allocate investment</li><li>Scale high-value use cases</li><li>Pause or retire weak use cases</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">11 · Cross-industry relevance</span><h2>The economics vary; the management problem is enterprise-wide.</h2></div>
+          <p>Each industry changes the value model and control threshold. The same operating framework can evaluate service automation, knowledge work, coding, claims, care operations, marketing, risk review, and other AI-enabled workflows.</p>
+        </div>
+        <div class="industry-list">
+          <span class="industry">Enterprise SaaS</span><span class="industry">Financial Services</span><span class="industry">Insurance</span><span class="industry">Healthcare</span><span class="industry">Pharmaceuticals</span><span class="industry">Retail & E-commerce</span><span class="industry">Consulting</span><span class="industry">Customer Service</span><span class="industry">Media</span><span class="industry">Technology</span><span class="industry">Manufacturing</span><span class="industry">Large Enterprises</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">12 · Portfolio value</span><h2>What this project demonstrates about my operating approach.</h2></div>
+          <p>AI ValueOps is designed to show how I connect technology investment with finance, process performance, governance, stakeholder ownership, and executive decisions.</p>
+        </div>
+        <div class="grid-3">
+          <article class="panel capability"><h3>Business operations</h3><p>Translate fragmented AI activity into a managed portfolio with ownership, cadence, thresholds, actions, and benefits tracking.</p></article>
+          <article class="panel capability"><h3>AI transformation</h3><p>Move adoption from experimentation toward repeatable operating models, enterprise governance, and scalable value realization.</p></article>
+          <article class="panel capability"><h3>Financial and strategic judgment</h3><p>Connect total cost, quality, risk, capacity, revenue, strategic fit, and sourcing choices to investment decisions.</p></article>
+          <article class="panel capability"><h3>Process redesign</h3><p>Start with the workflow baseline, identify waste and control gaps, then select the right AI and automation interventions.</p></article>
+          <article class="panel capability"><h3>Cross-functional leadership</h3><p>Align Finance, Technology, Product, Risk, Procurement, Operations, and business owners around common measures and decisions.</p></article>
+          <article class="panel capability"><h3>Executive communication</h3><p>Convert technical consumption and operational detail into concise portfolio recommendations: scale, condition, pause, or retire.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="container">
+        <div class="closing-box">
+          <span class="eyebrow">AI ValueOps</span>
+          <h2>AI investment becomes manageable when every dollar is connected to a workflow, an owner, an outcome, and a decision.</h2>
+          <p>The project positions AI enablement as an enterprise operating discipline—combining economics, process improvement, governance, product judgment, risk, and benefits realization.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">AI ValueOps · Portfolio case study · Illustrative operating framework and assumptions</div>
+  </footer>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const numberInputs = ["tasks","modelCost","successRate","reviewRate","reviewMinutes","minutesSaved","laborRate","otherCost","otherValue"];
+
+    const presets = {
+      support: { tasks: 18000, modelCost: .09, successRate: 82, reviewRate: 26, reviewMinutes: 2.2, minutesSaved: 5.5, laborRate: 42, otherCost: 4200, otherValue: 12000 },
+      knowledge: { tasks: 12000, modelCost: .07, successRate: 74, reviewRate: 12, reviewMinutes: 1.5, minutesSaved: 7, laborRate: 58, otherCost: 3000, otherValue: 4000 },
+      sales: { tasks: 6000, modelCost: .18, successRate: 70, reviewRate: 45, reviewMinutes: 3.5, minutesSaved: 12, laborRate: 75, otherCost: 5200, otherValue: 15000 },
+      coding: { tasks: 9000, modelCost: .32, successRate: 68, reviewRate: 75, reviewMinutes: 4, minutesSaved: 18, laborRate: 95, otherCost: 8500, otherValue: 10000 }
+    };
+
+    const money = (value, digits = 0) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: digits }).format(value);
+    const integer = (value) => new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(value);
+
+    function readNumber(id) {
+      const n = Number($(id).value);
+      return Number.isFinite(n) ? n : 0;
+    }
+
+    function calculate() {
+      const tasks = Math.max(0, readNumber("tasks"));
+      const modelCost = Math.max(0, readNumber("modelCost"));
+      const successRate = Math.min(100, Math.max(0, readNumber("successRate"))) / 100;
+      const reviewRate = Math.min(100, Math.max(0, readNumber("reviewRate"))) / 100;
+      const reviewMinutes = Math.max(0, readNumber("reviewMinutes"));
+      const minutesSaved = Math.max(0, readNumber("minutesSaved"));
+      const laborRate = Math.max(0, readNumber("laborRate"));
+      const otherCost = Math.max(0, readNumber("otherCost"));
+      const otherValue = Math.max(0, readNumber("otherValue"));
+
+      const successfulOutcomes = tasks * successRate;
+      const platformCost = tasks * modelCost;
+      const reviewHours = tasks * reviewRate * reviewMinutes / 60;
+      const reviewCost = reviewHours * laborRate;
+      const totalCost = platformCost + reviewCost + otherCost;
+      const savedHours = successfulOutcomes * minutesSaved / 60;
+      const grossValue = savedHours * laborRate + otherValue;
+      const netValue = grossValue - totalCost;
+      const costPerOutcome = successfulOutcomes > 0 ? totalCost / successfulOutcomes : 0;
+      const roi = totalCost > 0 ? netValue / totalCost * 100 : 0;
+
+      $("successfulOutcomes").textContent = integer(successfulOutcomes);
+      $("platformCost").textContent = money(platformCost);
+      $("reviewCost").textContent = money(reviewCost);
+      $("totalCost").textContent = money(totalCost);
+      $("costPerOutcome").textContent = successfulOutcomes > 0 ? money(costPerOutcome, 2) : "—";
+      $("grossValue").textContent = money(grossValue);
+      $("netValue").textContent = money(netValue);
+      $("roi").textContent = Number.isFinite(roi) ? `${roi.toFixed(0)}%` : "—";
+
+      const netOutput = $("netValue").parentElement;
+      const roiOutput = $("roi").parentElement;
+      netOutput.classList.toggle("negative", netValue < 0);
+      roiOutput.classList.toggle("negative", roi < 0);
+
+      let interpretation = "Review the assumptions and compare the result with quality, risk, adoption, and strategic fit.";
+      if (netValue > 0 && roi >= 50 && successRate >= .75) interpretation = "Economics appear attractive. Validate quality and controls, then consider phased scale.";
+      else if (netValue > 0 && successRate < .75) interpretation = "Value is positive, but task success may require workflow, retrieval, or model-quality improvement before scale.";
+      else if (netValue <= 0 && successRate >= .75) interpretation = "The workflow works, but economics need optimization through routing, caching, process redesign, or demand control.";
+      else if (netValue <= 0) interpretation = "Current assumptions do not support scale. Revise the use case, narrow the segment, or consider retirement.";
+      $("calcRecommendation").innerHTML = `<strong>Portfolio interpretation:</strong> ${interpretation}`;
+    }
+
+    $("preset").addEventListener("change", (event) => {
+      const selected = presets[event.target.value];
+      if (selected) {
+        Object.entries(selected).forEach(([key,value]) => { $(key).value = value; });
+      }
+      calculate();
+    });
+
+    numberInputs.forEach((id) => $(id).addEventListener("input", calculate));
+
+    document.querySelectorAll(".tab").forEach((button) => {
+      button.addEventListener("click", () => {
+        const target = button.dataset.tab;
+        document.querySelectorAll(".tab").forEach((tab) => tab.classList.remove("active"));
+        document.querySelectorAll(".strategy-panel").forEach((panel) => panel.classList.remove("active"));
+        button.classList.add("active");
+        $(target).classList.add("active");
+      });
+    });
+
+    calculate();
+  </script>
+</body>
+</html>

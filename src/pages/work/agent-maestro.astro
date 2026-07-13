@@ -1,0 +1,852 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CustomCursor from "../../components/home/CustomCursor.astro";
+import ProjectNav from "../../components/work/ProjectNav.astro";
+import { withBase } from "../../lib/paths";
+
+const navItems = [
+  { href: "#overview", label: "Overview" },
+  { href: "#problem", label: "Problem" },
+  { href: "#case", label: "Case" },
+  { href: "#model", label: "Model" },
+  { href: "#architecture", label: "Architecture" },
+  { href: "#scoring", label: "Scoring" },
+  { href: "#implementation", label: "Implementation" },
+  { href: "#takeaway", label: "Takeaway" },
+];
+
+const principles = [
+  {
+    label: "Structure ambiguity",
+    body: "Convert loosely framed requests into a consistent decision schema with objective, urgency, evidence needs, affected functions, and desired outcome.",
+  },
+  {
+    label: "Ground judgment",
+    body: "Retrieve current policy, relevant data, prior decisions, contractual obligations, and operational dependencies before options are assessed.",
+  },
+  {
+    label: "Govern risk",
+    body: "Apply thresholds, approvals, exception handling, confidence requirements, and human review based on decision materiality.",
+  },
+  {
+    label: "Close the loop",
+    body: "Translate the decision into owned actions, track outcomes, preserve rationale, and learn which controls were effective.",
+  },
+];
+
+const friction = [
+  [
+    "Decision latency",
+    "Teams lose time locating evidence, interpreting policies, and discovering missing stakeholders.",
+  ],
+  [
+    "Variable judgment",
+    "Different teams apply different criteria, creating uneven outcomes and avoidable rework.",
+  ],
+  [
+    "Policy gaps",
+    "Relevant controls may be missed, outdated, or interpreted without complete business context.",
+  ],
+  [
+    "Ownership drift",
+    "Actions, dependencies, and deadlines are not consistently assigned after approval.",
+  ],
+  [
+    "Late escalation",
+    "Financial, regulatory, customer, or systems impacts emerge after commitment.",
+  ],
+  [
+    "Lost rationale",
+    "Organizations cannot reliably reconstruct why a decision was made or whether assumptions proved correct.",
+  ],
+];
+
+const caseTrace = [
+  ["Scope gate", "Command Operations domain confirmed", "In scope"],
+  ["Classification", "Refund Approval, Billing Issue, and Billing Login", "0.91"],
+  [
+    "Evidence packet",
+    "Refund policy, approval matrix, billing validation, process map",
+    "Grounded",
+  ],
+  [
+    "Risk scoring",
+    "Amount, duplicate billing, customer impact, and multi-team dependency",
+    "96 / 100",
+  ],
+  ["Ownership", "VP Finance and Legal; Billing Operations and Support assist", "Assigned"],
+  [
+    "Approval route",
+    "Validate evidence, eligibility, access issue, and customer communication",
+    "Exec review",
+  ],
+  [
+    "Decision package",
+    "Executive summary, actions, governance note, communication draft, sources",
+    "Ready",
+  ],
+];
+
+const modelSteps = [
+  [
+    "Scope gate",
+    "Reject requests outside approved operational workflows before retrieval or model use.",
+  ],
+  ["Classify", "Identify primary and secondary workflows contained in a messy request."],
+  ["Retrieve", "Assemble the evidence packet from approved operational sources."],
+  [
+    "Score risk",
+    "Convert financial, customer, policy, and governance signals into a consistent tier.",
+  ],
+  ["Assign owner", "Make the accountable next action explicit and identify supporting teams."],
+  [
+    "Route approval",
+    "Apply approval thresholds, validation checks, fallback guidance, and escalation.",
+  ],
+  [
+    "Package",
+    "Produce a leadership-ready artifact with recommendation, risks, owners, and sources.",
+  ],
+  ["Learn", "Capture feedback, overrides, missing context, and improvement backlog signals."],
+];
+
+const roadmap = [
+  [
+    "0-30 days",
+    "Discover",
+    [
+      "Choose decision domain",
+      "Map current workflow",
+      "Define baseline metrics",
+      "Inventory policies and systems",
+    ],
+  ],
+  [
+    "31-60 days",
+    "Design",
+    [
+      "Create intake schema",
+      "Design risk tiers",
+      "Build scoring framework",
+      "Define controls and approvals",
+    ],
+  ],
+  [
+    "61-90 days",
+    "Pilot",
+    ["Connect approved sources", "Run shadow decisions", "Test failure modes", "Train reviewers"],
+  ],
+  [
+    "3-9 months",
+    "Scale",
+    [
+      "Expand use cases",
+      "Integrate execution systems",
+      "Automate reporting",
+      "Track realized value",
+    ],
+  ],
+];
+---
+
+<BaseLayout
+  title="Agent Maestro - Aishwarya's Portfolio"
+  description="Agent Maestro is an AI-native operations decision layer for policy-grounded classification, risk scoring, ownership, approval routing, and auditable execution."
+  image="/images/projects/agent-maestro/hero.png"
+>
+  <main id="top" class="project-page">
+    <ProjectNav title="Agent Maestro" items={navItems} />
+
+    <article class="project-detail">
+      <header class="project-hero">
+        <div class="project-hero__copy">
+          <p class="eyebrow">Enterprise Decision Intelligence</p>
+          <h1>Turn messy operational requests into governed decisions.</h1>
+          <p>
+            Agent Maestro is an AI-native operations decision layer that checks scope, classifies
+            work, retrieves policy evidence, scores risk, assigns ownership, routes approval, and
+            creates an auditable execution package.
+          </p>
+          <dl class="hero-meta">
+            <div><dt>Decision Core</dt><dd>5 governed steps</dd></div>
+            <div><dt>Operating Model</dt><dd>Deterministic + AI</dd></div>
+            <div><dt>Illustrative Case</dt><dd>$75K refund escalation</dd></div>
+          </dl>
+        </div>
+        <figure class="hero-image">
+          <img
+            src={withBase("/images/projects/agent-maestro/hero.png")}
+            alt="Agent Maestro visual concept"
+          />
+        </figure>
+      </header>
+
+      <section id="overview" class="project-section">
+        <div class="section-head">
+          <p class="eyebrow">Case-Study Thesis</p>
+          <h2>AI becomes valuable when it is embedded into the operating model.</h2>
+          <p>
+            The concept is broader than a chatbot. It redesigns how decisions are requested,
+            evaluated, approved, executed, and learned from while preserving human judgment for
+            material or high-risk choices.
+          </p>
+        </div>
+        <div class="principle-grid">
+          {
+            principles.map((item, index) => (
+              <article class="paper-card">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{item.label}</h3>
+                <p>{item.body}</p>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="problem" class="project-section">
+        <div class="section-head">
+          <p class="eyebrow">The Original Workflow</p>
+          <h2>Critical decisions are still assembled manually.</h2>
+          <p>
+            The current state depends on fragmented communication and tacit knowledge. Teams spend
+            more time finding context and aligning stakeholders than evaluating the decision itself.
+          </p>
+        </div>
+        <figure class="wide-figure">
+          <img
+            src={withBase("/images/projects/agent-maestro/original-workflow.png")}
+            alt="Original fragmented workflow diagram"
+          />
+          <figcaption>
+            Original workflow: fragmented handoffs, manual reconciliation, and informal routing.
+          </figcaption>
+        </figure>
+        <div class="friction-grid">
+          {
+            friction.map(([title, body]) => (
+              <article class="paper-card paper-card--small">
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="case" class="project-section">
+        <div class="section-head">
+          <p class="eyebrow">Illustrative Case</p>
+          <h2>One request. Three workflows. Multiple control obligations.</h2>
+          <p>
+            The system must understand that a refund request also contains a billing defect, an
+            access failure, material financial exposure, and customer-risk language.
+          </p>
+        </div>
+        <div class="case-grid">
+          <article class="paper-card case-request">
+            <p class="eyebrow">Raw Business Request</p>
+            <blockquote>
+              "Customer asks for a $75,000 refund after duplicate billing, cannot access the billing
+              portal, and says the issue caused serious business disruption."
+            </blockquote>
+            <div class="signal-grid">
+              <span>Refund Approval</span>
+              <span>Billing Issue + Login</span>
+              <span>$75,000 exposure</span>
+              <span>Critical risk</span>
+            </div>
+          </article>
+          <article class="paper-card">
+            <p class="eyebrow">Decision Trace</p>
+            <ol class="trace-list">
+              {
+                caseTrace.map(([title, body, status]) => (
+                  <li>
+                    <strong>{title}</strong>
+                    <span>{body}</span>
+                    <em>{status}</em>
+                  </li>
+                ))
+              }
+            </ol>
+          </article>
+        </div>
+      </section>
+
+      <section id="model" class="project-section">
+        <div class="section-head">
+          <p class="eyebrow">Operating-Model Overlay</p>
+          <h2>Agent Maestro sits above existing systems and governs the decision between them.</h2>
+          <p>
+            It does not replace Salesforce, Zendesk, ERP, policy repositories, or functional teams.
+            It creates a common decision layer that assembles evidence, applies controls, and routes
+            accountable execution back into those systems.
+          </p>
+        </div>
+        <figure class="wide-figure">
+          <img
+            src={withBase("/images/projects/agent-maestro/operating-model-overlay.png")}
+            alt="Agent Maestro operating model overlay"
+          />
+          <figcaption>
+            Operating model overlay: preserve systems of record, coordinate the decision layer, and
+            return execution through permissioned workflows.
+          </figcaption>
+        </figure>
+        <div class="step-grid">
+          {
+            modelSteps.map(([title, body], index) => (
+              <article>
+                <span>{index + 1}</span>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="architecture" class="project-section">
+        <div class="section-head">
+          <p class="eyebrow">Solution Architecture</p>
+          <h2>A modular decision system, not a black box.</h2>
+          <p>
+            The architecture separates source authority, deterministic controls, optional AI
+            interpretation, auditability, integrations, and observability so the platform is
+            explainable and buildable.
+          </p>
+        </div>
+        <div class="image-pair">
+          <figure>
+            <img
+              src={withBase("/images/projects/agent-maestro/enterprise-architecture.png")}
+              alt="Enterprise architecture diagram for Agent Maestro"
+            />
+            <figcaption>
+              Enterprise architecture: intake, orchestration, governance, evidence, approval, and
+              execution.
+            </figcaption>
+          </figure>
+          <figure>
+            <img
+              src={withBase("/images/projects/agent-maestro/multiagent-architecture.png")}
+              alt="Multi-agent architecture diagram for Agent Maestro"
+            />
+            <figcaption>
+              Multi-agent architecture: bounded agents supporting classification, retrieval, risk,
+              ownership, and evaluation.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="scoring" class="project-section">
+        <div class="section-head">
+          <p class="eyebrow">Scoring And Governance</p>
+          <h2>Make risk, confidence, and tradeoffs visible instead of hiding them.</h2>
+          <p>
+            The project separates risk tier, model confidence, business option value, and learning
+            signals. Confidence never cancels material risk; critical cases remain human-controlled.
+          </p>
+        </div>
+        <div class="scoring-layout">
+          <figure>
+            <img
+              src={withBase("/images/projects/agent-maestro/scoring-framework.png")}
+              alt="Agent Maestro scoring framework diagram"
+            />
+          </figure>
+          <div class="paper-card">
+            <h3>$75,000 refund escalation → 96 / 100</h3>
+            <p>
+              The score is driven by high financial exposure, customer-impact language, a confirmed
+              billing defect, multiple functional dependencies, and an irreversible customer-facing
+              action.
+            </p>
+            <div class="driver-chips">
+              <span>Financial exposure</span>
+              <span>Customer impact</span>
+              <span>Policy control</span>
+              <span>Evidence gaps</span>
+              <span>Dependencies</span>
+              <span>Urgency</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="implementation" class="project-section">
+        <div class="section-head">
+          <p class="eyebrow">Implementation Roadmap</p>
+          <h2>Start with one decision domain, validate control, then scale.</h2>
+          <p>
+            The deployment path prioritizes operating-model clarity, trusted source access, and
+            measurable value before enterprise expansion.
+          </p>
+        </div>
+        <div class="roadmap">
+          {
+            roadmap.map(([time, title, items]) => (
+              <article class="paper-card">
+                <span>{time}</span>
+                <h3>{title}</h3>
+                <ul>
+                  {(items as string[]).map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="takeaway" class="project-section project-section--takeaway">
+        <p class="eyebrow">Portfolio Takeaway</p>
+        <h2>
+          I can turn operational ambiguity into policy-grounded, owner-aligned, auditable execution.
+        </h2>
+        <p>
+          Agent Maestro demonstrates process redesign, AI enablement, decision rights, financial
+          risk, human oversight, enterprise architecture, observability, and measurable operations
+          improvement in one connected system.
+        </p>
+        <a href={withBase("/home/")} data-cursor="link">Return to projects</a>
+      </section>
+    </article>
+  </main>
+
+  <CustomCursor color="teal" />
+</BaseLayout>
+
+<style>
+  .project-page {
+    display: grid;
+    grid-template-columns: minmax(230px, 280px) minmax(0, 1fr);
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 84% 4%, rgba(47, 143, 123, 0.16), transparent 320px),
+      radial-gradient(circle at 8% 92%, rgba(213, 154, 20, 0.13), transparent 340px),
+      var(--color-bg);
+    color: var(--color-ink);
+  }
+
+  .project-section--takeaway a {
+    width: max-content;
+    padding: 10px 13px;
+    border-radius: var(--radius-sm);
+    background: var(--color-ink);
+    color: var(--color-bg);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .eyebrow,
+  .hero-meta dt,
+  figcaption,
+  .paper-card span,
+  .trace-list em {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--color-ink-mute);
+  }
+
+  .project-detail {
+    min-width: 0;
+    padding: clamp(14px, 2vw, 26px);
+  }
+
+  .project-hero,
+  .project-section {
+    border-radius: var(--radius-md);
+    background: var(--color-bg-light);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 9%, transparent),
+      0 18px 50px -44px rgba(23, 41, 74, 0.7);
+  }
+
+  .project-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.75fr);
+    gap: clamp(18px, 3vw, 36px);
+    align-items: center;
+    min-height: calc(100vh - 52px);
+    padding: clamp(20px, 4vw, 48px);
+    background:
+      linear-gradient(135deg, rgba(47, 143, 123, 0.18), transparent 48%), var(--color-bg-light);
+  }
+
+  .project-hero h1,
+  .section-head h2,
+  .project-section--takeaway h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 300;
+    color: var(--color-ink);
+  }
+
+  .project-hero h1 {
+    max-width: 10ch;
+    margin-top: 10px;
+    font-size: clamp(3.6rem, 8vw, 8.2rem);
+    line-height: 0.88;
+  }
+
+  .project-hero__copy > p:not(.eyebrow),
+  .section-head > p,
+  .paper-card p,
+  .project-section--takeaway > p,
+  .trace-list span,
+  .step-grid p,
+  .roadmap li {
+    color: var(--color-ink-dim);
+    font-family: var(--font-body);
+    line-height: 1.55;
+  }
+
+  .project-hero__copy > p:not(.eyebrow) {
+    max-width: 62ch;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  }
+
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  .hero-meta div,
+  .paper-card,
+  .step-grid article {
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.58);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 8%, transparent);
+  }
+
+  .hero-meta div {
+    padding: 14px;
+  }
+
+  .hero-meta dd {
+    margin: 6px 0 0;
+    font-family: var(--font-body);
+    color: var(--color-ink);
+  }
+
+  .hero-image,
+  .wide-figure,
+  .image-pair figure,
+  .scoring-layout figure {
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: white;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 9%, transparent);
+  }
+
+  .hero-image {
+    aspect-ratio: 1;
+  }
+
+  .hero-image img {
+    height: 100%;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .project-section {
+    margin-top: 16px;
+    padding: clamp(20px, 4vw, 42px);
+    scroll-margin-top: 18px;
+  }
+
+  .section-head {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: end;
+    margin-bottom: 22px;
+  }
+
+  .section-head h2 {
+    grid-column: 1;
+    font-size: clamp(2rem, 4vw, 4rem);
+    line-height: 0.96;
+  }
+
+  .section-head > p:last-child {
+    grid-column: 2;
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .principle-grid,
+  .friction-grid,
+  .step-grid,
+  .roadmap {
+    display: grid;
+    gap: 12px;
+  }
+
+  .principle-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .friction-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 14px;
+  }
+
+  .paper-card {
+    padding: 18px;
+  }
+
+  .paper-card span {
+    color: var(--color-teal);
+  }
+
+  .paper-card h3,
+  .step-grid h3 {
+    margin: 8px 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 2.2vw, 2.1rem);
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  .wide-figure {
+    padding: 10px;
+  }
+
+  .wide-figure img {
+    width: 100%;
+    height: auto;
+    max-height: 620px;
+    border-radius: 6px;
+  }
+
+  figcaption {
+    padding: 10px 4px 2px;
+    line-height: 1.35;
+    text-transform: none;
+  }
+
+  .case-grid,
+  .image-pair,
+  .scoring-layout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  blockquote {
+    margin: 14px 0;
+    padding-left: 16px;
+    border-left: 3px solid var(--color-teal);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.5vw, 2.4rem);
+    line-height: 1.08;
+  }
+
+  .signal-grid,
+  .driver-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .signal-grid span,
+  .driver-chips span {
+    padding: 9px 10px;
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklab, var(--color-teal) 13%, white);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  .trace-list {
+    display: grid;
+    gap: 8px;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .trace-list li {
+    display: grid;
+    grid-template-columns: minmax(120px, 0.42fr) minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.55);
+  }
+
+  .trace-list strong {
+    font-family: var(--font-body);
+    color: var(--color-ink);
+  }
+
+  .trace-list em {
+    padding: 6px 8px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-orange-1) 30%, white);
+    color: var(--color-ink);
+    font-style: normal;
+  }
+
+  .step-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .step-grid article {
+    padding: 16px;
+  }
+
+  .step-grid span {
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: var(--color-teal);
+    color: white;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+
+  .image-pair figure,
+  .scoring-layout figure {
+    padding: 10px;
+  }
+
+  .image-pair img {
+    width: 100%;
+    height: auto;
+    max-height: 520px;
+  }
+
+  .scoring-layout {
+    align-items: stretch;
+  }
+
+  .scoring-layout figure img {
+    width: 100%;
+    height: auto;
+    max-height: 560px;
+  }
+
+  .roadmap {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .roadmap ul {
+    margin: 10px 0 0;
+    padding-left: 18px;
+  }
+
+  .project-section--takeaway {
+    background:
+      linear-gradient(135deg, color-mix(in oklab, var(--color-teal) 20%, white), transparent 50%),
+      var(--color-ink);
+    color: var(--color-bg);
+  }
+
+  .project-section--takeaway h2 {
+    max-width: 13ch;
+    margin-top: 12px;
+    color: var(--color-bg);
+    font-size: clamp(2.4rem, 5vw, 5rem);
+    line-height: 0.94;
+  }
+
+  .project-section--takeaway > p {
+    max-width: 72ch;
+    color: var(--color-starlight);
+  }
+
+  .project-section--takeaway a {
+    display: inline-flex;
+    margin-top: 12px;
+    background: var(--color-bg-light);
+    color: var(--color-ink);
+  }
+
+  @media (max-width: 980px) {
+    .project-page {
+      grid-template-columns: 1fr;
+    }
+
+    .project-hero,
+    .section-head,
+    .case-grid,
+    .image-pair,
+    .scoring-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .project-hero {
+      min-height: 0;
+    }
+
+    .section-head h2,
+    .section-head > p:last-child {
+      grid-column: auto;
+    }
+
+    .principle-grid,
+    .friction-grid,
+    .step-grid,
+    .roadmap {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .project-detail {
+      padding: 10px;
+    }
+
+    .project-hero,
+    .project-section {
+      padding: 18px;
+    }
+
+    .project-hero h1 {
+      font-size: clamp(3rem, 16vw, 4rem);
+      overflow-wrap: anywhere;
+    }
+
+    .hero-meta,
+    .principle-grid,
+    .friction-grid,
+    .step-grid,
+    .roadmap {
+      grid-template-columns: 1fr;
+    }
+
+    .trace-list li {
+      grid-template-columns: 1fr;
+    }
+
+    blockquote {
+      font-size: clamp(1.35rem, 7vw, 1.9rem);
+    }
+  }
+</style>

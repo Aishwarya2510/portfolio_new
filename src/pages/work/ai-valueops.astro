@@ -1,0 +1,762 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CustomCursor from "../../components/home/CustomCursor.astro";
+import ProjectNav from "../../components/work/ProjectNav.astro";
+import { withBase } from "../../lib/paths";
+
+const navItems = [
+  { href: "#thesis", label: "Thesis" },
+  { href: "#leakage", label: "Leakage" },
+  { href: "#lifecycle", label: "Lifecycle" },
+  { href: "#scorecard", label: "Scorecard" },
+  { href: "#economics", label: "Economics" },
+  { href: "#decisions", label: "Decisions" },
+  { href: "#governance", label: "Governance" },
+  { href: "#takeaway", label: "Takeaway" },
+];
+
+const problemCards = [
+  [
+    "Activity without value",
+    "Prompt counts, API calls, and active users measure motion, not task completion, quality, capacity, revenue, or risk reduction.",
+  ],
+  [
+    "Fragmented investment",
+    "Functions buy overlapping tools, select different models, and run pilots without a shared portfolio view.",
+  ],
+  [
+    "Hidden operating cost",
+    "Human review, failed generations, support, integration, security, and change enablement are often excluded.",
+  ],
+  [
+    "Weak accountability",
+    "Finance owns the bill, technology owns the platform, and business teams use the tools, but realized value can remain ownerless.",
+  ],
+];
+
+const dimensions = [
+  [
+    "Workflow outcome",
+    "Task completion, cycle time, capacity created, customer or employee impact, and baseline improvement.",
+  ],
+  [
+    "Total economics",
+    "Model, infrastructure, vendor, integration, human review, support, failed-run, and adoption costs.",
+  ],
+  [
+    "Quality and reliability",
+    "Accuracy, rework, failure rate, latency, groundedness, consistency, and outcome success.",
+  ],
+  [
+    "Adoption and behavior",
+    "Repeat use, workflow penetration, completion, drop-off, manual workarounds, and trust.",
+  ],
+  [
+    "Risk and strategic fit",
+    "Control maturity, regulatory exposure, vendor concentration, data sensitivity, reversibility, and enterprise priority.",
+  ],
+  [
+    "Accountability",
+    "Named business owner, financial owner, platform owner, risk owner, benefits target, cadence, and decision authority.",
+  ],
+];
+
+const valueMetrics = [
+  "Cost per successful outcome",
+  "Workflow capacity created",
+  "AI spend avoided",
+  "Benefits realization",
+  "Low-value pilots stopped",
+  "Business ownership coverage",
+  "Forecast accuracy",
+  "Portfolio concentration",
+];
+
+const phases = [
+  [
+    "Inventory",
+    "Map tools and use cases, name owners, identify cost sources, and define baseline metrics.",
+  ],
+  [
+    "Measure",
+    "Connect cost and outcome data, set quality thresholds, capture review cost, and create scorecards.",
+  ],
+  [
+    "Optimize",
+    "Apply model routing, remove duplicate tools, redesign weak workflows, and strengthen adoption controls.",
+  ],
+  [
+    "Govern",
+    "Run portfolio cadence, allocate investment, scale high-value use cases, and pause or retire weak ones.",
+  ],
+];
+---
+
+<BaseLayout
+  title="AI ValueOps - Aishwarya's Portfolio"
+  description="AI ValueOps is an executive portfolio case study in AI economics, portfolio governance, business operations, and measurable value realization."
+  image="/images/projects/ai-valueops/governance-layer.png"
+>
+  <main id="top" class="value-page">
+    <ProjectNav title="AI ValueOps" items={navItems} />
+
+    <article class="value-detail">
+      <header class="value-hero">
+        <section class="hero-ledger">
+          <div class="hero-copy">
+            <p class="eyebrow">Portfolio Case Study · AI Transformation & Business Operations</p>
+            <h1>AI ValueOps</h1>
+            <p>
+              An operating framework that connects AI spend to workflow outcomes, quality, risk,
+              ownership, and informed scale decisions.
+            </p>
+          </div>
+          <aside class="executive-question">
+            <p>Executive question</p>
+            <h2>
+              Which AI investments deserve more capital, operational support, and enterprise scale?
+            </h2>
+            <dl>
+              <div><dt>Operating lens</dt><dd>AI as workflow portfolio</dd></div>
+              <div><dt>Decision output</dt><dd>Scale, optimize, revise, retire</dd></div>
+              <div><dt>Core discipline</dt><dd>Benefits realization</dd></div>
+            </dl>
+          </aside>
+        </section>
+      </header>
+
+      <section id="thesis" class="value-band value-band--hero-image">
+        <div class="band-copy">
+          <p class="eyebrow">From AI Spend To Business Value</p>
+          <h2>The AI bill arrives before the operating model.</h2>
+          <p>
+            Teams can see how much AI is being consumed, yet leadership often lacks a consistent
+            view of which workflow improved, who owns the outcome, what hidden costs remain, and
+            whether the use case should continue.
+          </p>
+        </div>
+        <figure class="image-shell image-shell--featured">
+          <img
+            src={withBase("/images/projects/ai-valueops/governance-layer.png")}
+            alt="AI ValueOps governance layer connecting AI inputs to business outcomes"
+          />
+        </figure>
+      </section>
+
+      <section id="leakage" class="value-band">
+        <div class="band-copy">
+          <p class="eyebrow">Operating Problem</p>
+          <h2>Activity metrics alone cannot explain business value.</h2>
+        </div>
+        <div class="problem-layout">
+          <figure class="image-shell">
+            <img
+              src={withBase("/images/projects/ai-valueops/cost-leakage.png")}
+              alt="Current-state AI cost leakage diagram"
+            />
+          </figure>
+          <div class="problem-stack">
+            {
+              problemCards.map(([title, body], index) => (
+                <article>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section id="lifecycle" class="value-band value-band--split">
+        <div class="band-copy">
+          <p class="eyebrow">Operating-Model Redesign</p>
+          <h2>Manage AI as a portfolio of business workflows.</h2>
+          <p>
+            AI ValueOps creates a common lifecycle from use-case intake through baseline
+            measurement, cost allocation, value review, optimization, and explicit scale decisions.
+          </p>
+        </div>
+        <figure class="image-shell">
+          <img
+            src={withBase("/images/projects/ai-valueops/operating-lifecycle.png")}
+            alt="AI ValueOps operating lifecycle"
+          />
+        </figure>
+      </section>
+
+      <section class="comparison-board" aria-label="Current view versus AI ValueOps view">
+        <article>
+          <p class="eyebrow">Current Management View</p>
+          <ul>
+            <li>Spend grouped by vendor, account, or model.</li>
+            <li>Usage reported without workflow context.</li>
+            <li>Pilot success communicated through anecdotes.</li>
+            <li>Human review and failure costs remain distributed.</li>
+            <li>Weak criteria for stopping low-value use cases.</li>
+          </ul>
+        </article>
+        <article>
+          <p class="eyebrow">AI ValueOps View</p>
+          <ul>
+            <li>Every use case tied to a workflow and accountable owner.</li>
+            <li>Total cost connected to completed business outcomes.</li>
+            <li>Quality, adoption, risk, and economics reviewed together.</li>
+            <li>Optimization actions assigned and tracked.</li>
+            <li>Investment decisions follow common thresholds.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section id="scorecard" class="value-band">
+        <div class="band-copy">
+          <p class="eyebrow">Management Framework</p>
+          <h2>Five dimensions determine whether AI is creating durable value.</h2>
+          <p>
+            The portfolio view balances economics with workflow performance, quality, adoption,
+            risk, and strategic importance. Cost reduction alone can weaken the outcome; usage
+            growth alone can hide waste.
+          </p>
+        </div>
+        <div class="dimension-grid">
+          {
+            dimensions.map(([title, body]) => (
+              <article>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </article>
+            ))
+          }
+        </div>
+        <figure class="image-shell image-shell--wide">
+          <img
+            src={withBase("/images/projects/ai-valueops/investment-scorecard.png")}
+            alt="AI investment scorecard across value, quality, cost, risk, and strategic fit"
+          />
+        </figure>
+      </section>
+
+      <section id="economics" class="value-band economics-band">
+        <div class="band-copy">
+          <p class="eyebrow">Unit Economics</p>
+          <h2>Translate AI consumption into a business outcome view.</h2>
+          <p>
+            A real AI business case needs workflow baselines, finance-approved labor values, quality
+            thresholds, and observed outcome data. The invoice is only one layer of AI economics.
+          </p>
+        </div>
+        <div class="economics-grid">
+          <figure class="image-shell">
+            <img
+              src={withBase("/images/projects/ai-valueops/true-cost.png")}
+              alt="True cost of an AI workflow"
+            />
+          </figure>
+          <figure class="image-shell">
+            <img
+              src={withBase("/images/projects/ai-valueops/usage-to-value-dashboard.png")}
+              alt="Usage dashboard transformed into value dashboard"
+            />
+          </figure>
+        </div>
+        <div class="metric-strip">
+          {valueMetrics.map((metric) => <span>{metric}</span>)}
+        </div>
+      </section>
+
+      <section id="decisions" class="decision-room">
+        <div class="decision-room__copy">
+          <p class="eyebrow">Portfolio Decision Logic</p>
+          <h2>Scale, optimize, revise, or retire with visible tradeoffs.</h2>
+          <p>
+            A single ROI number can hide adoption, quality, or control failures. The portfolio
+            matrix keeps value, cost, risk, and usage visible together.
+          </p>
+        </div>
+        <figure class="image-shell image-shell--matrix">
+          <img
+            src={withBase("/images/projects/ai-valueops/portfolio-matrix.png")}
+            alt="Executive AI portfolio matrix showing scale, optimize, reassess, and retire quadrants"
+          />
+        </figure>
+        <div class="decision-images">
+          <figure class="image-shell">
+            <img
+              src={withBase("/images/projects/ai-valueops/model-routing.png")}
+              alt="Model-routing decision tree for AI workflows"
+            />
+            <figcaption>
+              Optimization begins with the workflow. Model cost is one lever inside a broader
+              operating decision.
+            </figcaption>
+          </figure>
+          <figure class="image-shell">
+            <img
+              src={withBase("/images/projects/ai-valueops/build-buy-partner.png")}
+              alt="Build, buy, or partner AI capability investment framework"
+            />
+            <figcaption>
+              Capability sourcing should reflect strategy, control needs, differentiation, and
+              internal operating capacity.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="governance" class="value-band governance-band">
+        <div class="band-copy">
+          <p class="eyebrow">Governance Cadence</p>
+          <h2>Every use case needs an owner, threshold, review, and decision.</h2>
+          <p>
+            The operating cadence turns dashboards into action. Finance, business, product,
+            technology, and risk teams review the same use-case record from different decision
+            perspectives.
+          </p>
+        </div>
+        <figure class="image-shell image-shell--wide">
+          <img
+            src={withBase("/images/projects/ai-valueops/governance-rhythm.png")}
+            alt="Governance operating rhythm for AI portfolio management"
+          />
+        </figure>
+        <div class="phase-row">
+          {
+            phases.map(([title, body]) => (
+              <article>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="takeaway" class="closing-ledger">
+        <p class="eyebrow">Portfolio Value</p>
+        <h2>
+          AI investment becomes manageable when every dollar is connected to a workflow, an owner,
+          an outcome, and a decision.
+        </h2>
+        <p>
+          AI ValueOps shows how I connect technology investment with finance, process performance,
+          governance, stakeholder ownership, and executive decisions.
+        </p>
+        <a href={withBase("/home/")} data-cursor="link">Return to projects</a>
+      </section>
+    </article>
+  </main>
+
+  <CustomCursor color="orange" />
+</BaseLayout>
+
+<style>
+  .value-page {
+    display: grid;
+    grid-template-columns: minmax(230px, 280px) minmax(0, 1fr);
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 86% 4%, rgba(47, 143, 123, 0.14), transparent 320px),
+      radial-gradient(circle at 10% 16%, rgba(213, 154, 20, 0.16), transparent 300px),
+      var(--color-bg);
+    color: var(--color-ink);
+  }
+
+  .value-detail {
+    min-width: 0;
+    padding: clamp(14px, 2vw, 26px);
+  }
+
+  .value-hero,
+  .value-band,
+  .comparison-board,
+  .decision-room,
+  .closing-ledger {
+    border-radius: var(--radius-md);
+    background: var(--color-bg-light);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 9%, transparent),
+      0 18px 50px -44px rgba(23, 41, 74, 0.72);
+  }
+
+  .value-hero {
+    min-height: calc(100vh - 44px);
+    display: grid;
+    background:
+      linear-gradient(
+        145deg,
+        color-mix(in oklab, var(--color-orange-1) 24%, white),
+        transparent 48%
+      ),
+      var(--color-bg-light);
+  }
+
+  .closing-ledger a {
+    flex: 0 0 auto;
+    padding: 10px 13px;
+    border-radius: var(--radius-sm);
+    background: var(--color-ink);
+    color: var(--color-bg);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .hero-ledger {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.7fr);
+    gap: clamp(18px, 4vw, 54px);
+    align-items: end;
+    padding: clamp(22px, 5vw, 62px);
+  }
+
+  .eyebrow,
+  .executive-question p,
+  figcaption,
+  .problem-stack span {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--color-ink-mute);
+  }
+
+  .hero-copy h1,
+  .band-copy h2,
+  .decision-room__copy h2,
+  .closing-ledger h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 300;
+    color: var(--color-ink);
+  }
+
+  .hero-copy h1 {
+    margin-top: 12px;
+    font-size: clamp(4.4rem, 11vw, 11rem);
+    line-height: 0.82;
+  }
+
+  .hero-copy > p:not(.eyebrow) {
+    max-width: 52ch;
+    margin: 18px 0 0;
+    font-family: var(--font-body);
+    font-size: clamp(1.08rem, 1.8vw, 1.36rem);
+    line-height: 1.45;
+    color: var(--color-ink-dim);
+  }
+
+  .executive-question {
+    padding: clamp(18px, 3vw, 28px);
+    border-radius: var(--radius-md);
+    background: color-mix(in oklab, var(--color-ink) 92%, var(--color-teal));
+    color: var(--color-bg);
+  }
+
+  .executive-question h2 {
+    margin: 10px 0 24px;
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3.2vw, 3.2rem);
+    font-weight: 300;
+    line-height: 0.98;
+  }
+
+  .executive-question dl {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .executive-question div {
+    display: grid;
+    grid-template-columns: 0.7fr 1fr;
+    gap: 10px;
+    padding: 10px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+  }
+
+  .executive-question dt {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-starlight);
+    text-transform: uppercase;
+  }
+
+  .executive-question dd {
+    margin: 0;
+    font-family: var(--font-body);
+  }
+
+  .value-band,
+  .decision-room,
+  .comparison-board,
+  .closing-ledger {
+    margin-top: 16px;
+    padding: clamp(18px, 4vw, 42px);
+    scroll-margin-top: 78px;
+  }
+
+  .value-band {
+    display: grid;
+    gap: 22px;
+  }
+
+  .value-band--hero-image,
+  .value-band--split,
+  .problem-layout,
+  .economics-grid,
+  .decision-images {
+    display: grid;
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr);
+    gap: 22px;
+    align-items: center;
+  }
+
+  .band-copy h2,
+  .decision-room__copy h2,
+  .closing-ledger h2 {
+    max-width: 14ch;
+    margin-top: 9px;
+    font-size: clamp(2.3rem, 5vw, 5.2rem);
+    line-height: 0.92;
+  }
+
+  .band-copy p:not(.eyebrow),
+  .decision-room__copy p,
+  .closing-ledger p,
+  .problem-stack p,
+  .dimension-grid p,
+  .phase-row p,
+  .comparison-board li,
+  figcaption {
+    color: var(--color-ink-dim);
+    font-family: var(--font-body);
+    line-height: 1.52;
+  }
+
+  .band-copy p:not(.eyebrow),
+  .decision-room__copy p,
+  .closing-ledger p {
+    max-width: 68ch;
+    margin: 14px 0 0;
+    font-size: 1.02rem;
+  }
+
+  .image-shell {
+    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: white;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 9%, transparent);
+  }
+
+  .image-shell img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: 680px;
+    object-fit: contain;
+  }
+
+  .image-shell--featured img {
+    max-height: 620px;
+  }
+
+  figcaption {
+    padding: 11px 12px 13px;
+    font-size: 0.86rem;
+  }
+
+  .problem-layout {
+    grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.58fr);
+  }
+
+  .problem-stack,
+  .dimension-grid,
+  .phase-row {
+    display: grid;
+    gap: 10px;
+  }
+
+  .problem-stack article,
+  .dimension-grid article,
+  .phase-row article {
+    padding: 16px;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.58);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 8%, transparent);
+  }
+
+  .problem-stack span {
+    color: var(--color-orange);
+  }
+
+  .problem-stack h3,
+  .dimension-grid h3,
+  .phase-row h3 {
+    margin: 6px 0 7px;
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 2.2vw, 2.05rem);
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  .comparison-board {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    background: var(--color-ink);
+  }
+
+  .comparison-board article {
+    padding: 20px;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .comparison-board ul {
+    margin: 14px 0 0;
+    padding-left: 20px;
+  }
+
+  .comparison-board li {
+    color: var(--color-starlight);
+  }
+
+  .dimension-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .metric-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .metric-strip span {
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklab, var(--color-teal) 14%, white);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--color-ink);
+  }
+
+  .decision-room {
+    display: grid;
+    grid-template-columns: minmax(250px, 0.38fr) minmax(0, 0.62fr);
+    gap: 22px;
+    align-items: start;
+  }
+
+  .decision-room__copy {
+    position: sticky;
+    top: 86px;
+  }
+
+  .image-shell--matrix {
+    align-self: start;
+  }
+
+  .decision-images {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .phase-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .closing-ledger {
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in oklab, var(--color-orange-1) 24%, transparent),
+        transparent 45%
+      ),
+      var(--color-ink);
+    color: var(--color-bg);
+  }
+
+  .closing-ledger h2 {
+    max-width: 18ch;
+    color: var(--color-bg);
+  }
+
+  .closing-ledger p {
+    color: var(--color-starlight);
+  }
+
+  .closing-ledger a {
+    display: inline-flex;
+    margin-top: 18px;
+    background: var(--color-bg-light);
+    color: var(--color-ink);
+  }
+
+  @media (max-width: 980px) {
+    .value-page {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-ledger,
+    .value-band--hero-image,
+    .value-band--split,
+    .problem-layout,
+    .economics-grid,
+    .decision-room,
+    .decision-images {
+      grid-template-columns: 1fr;
+    }
+
+    .comparison-board,
+    .dimension-grid,
+    .phase-row {
+      grid-template-columns: 1fr;
+    }
+
+    .decision-room__copy {
+      position: static;
+    }
+
+    .value-hero {
+      min-height: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .value-detail {
+      padding: 10px;
+    }
+
+    .hero-ledger,
+    .value-band,
+    .comparison-board,
+    .decision-room,
+    .closing-ledger {
+      padding: 18px;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(3.5rem, 18vw, 4.6rem);
+      overflow-wrap: anywhere;
+    }
+
+    .executive-question div {
+      grid-template-columns: 1fr;
+    }
+
+    .band-copy h2,
+    .decision-room__copy h2,
+    .closing-ledger h2 {
+      font-size: clamp(2rem, 12vw, 3.4rem);
+      overflow-wrap: anywhere;
+    }
+  }
+</style>

@@ -1,0 +1,151 @@
+---
+import { withBase } from "../../lib/paths";
+
+interface NavItem {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  title: string;
+  items: NavItem[];
+}
+
+const { title, items } = Astro.props;
+---
+
+<aside class="project-nav" aria-label={`${title} project sections`}>
+  <a class="project-nav__back" href={withBase("/home/")} data-cursor="link">Back to projects</a>
+  <div>
+    <p>Project</p>
+    <h2>{title}</h2>
+  </div>
+  <nav>
+    {items.map((item) => <a href={item.href}>{item.label}</a>)}
+  </nav>
+</aside>
+
+<style>
+  .project-nav {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 22px;
+    min-width: 0;
+    overflow: auto;
+    padding: 18px;
+    border-right: 1px solid color-mix(in oklab, var(--color-ink) 10%, transparent);
+    background: color-mix(in oklab, var(--color-bg-light) 92%, white);
+  }
+
+  .project-nav__back {
+    width: max-content;
+    max-width: 100%;
+    padding: 10px 13px;
+    border-radius: var(--radius-sm);
+    background: var(--color-ink);
+    color: var(--color-bg);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .project-nav p {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--color-ink-mute);
+  }
+
+  .project-nav h2 {
+    margin: 8px 0 0;
+    overflow-wrap: anywhere;
+    font-family: var(--font-display);
+    font-size: 2.1rem;
+    font-weight: 300;
+    line-height: 0.95;
+    color: var(--color-ink);
+  }
+
+  .project-nav nav {
+    display: grid;
+    align-content: start;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .project-nav nav a {
+    min-width: 0;
+    padding: 9px 10px;
+    border-radius: var(--radius-sm);
+    color: var(--color-ink-dim);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    line-height: 1.15;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  .project-nav nav a:hover {
+    background: var(--color-bg-white);
+    color: var(--color-ink);
+  }
+
+  @media (max-width: 980px) {
+    .project-nav {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      height: auto;
+      max-height: 42vh;
+      grid-template-columns: auto minmax(130px, 1fr);
+      grid-template-rows: auto auto;
+      gap: 10px 14px;
+      border-right: 0;
+      border-bottom: 1px solid color-mix(in oklab, var(--color-ink) 10%, transparent);
+      box-shadow: 0 12px 28px -24px rgba(23, 41, 74, 0.45);
+    }
+
+    .project-nav nav {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+
+    .project-nav nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .project-nav nav a {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .project-nav {
+      grid-template-columns: 1fr;
+      max-height: none;
+      padding: 12px;
+    }
+
+    .project-nav__back {
+      width: 100%;
+      text-align: center;
+    }
+
+    .project-nav h2 {
+      font-size: 1.7rem;
+    }
+  }
+</style>

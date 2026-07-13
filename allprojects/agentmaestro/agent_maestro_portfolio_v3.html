@@ -1,0 +1,1404 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Agent Maestro - governed AI-native operations decision layer for policy-grounded classification, risk scoring, ownership, approval routing, and auditable execution." name="description"/>
+<title>Agent Maestro - AI-Native Decision Intelligence Platform</title>
+<style>
+    :root {
+      --bg: #07111d;
+      --bg-2: #0b1726;
+      --panel: rgba(17, 31, 49, 0.88);
+      --panel-2: #13243a;
+      --text: #eef5fb;
+      --muted: #9fb1c5;
+      --line: rgba(169, 198, 225, 0.17);
+      --accent: #63e6be;
+      --accent-2: #7aa7ff;
+      --warn: #ffd166;
+      --danger: #ff7d8b;
+      --success: #6ee7a8;
+      --shadow: 0 20px 70px rgba(0, 0, 0, 0.28);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 5%, rgba(99, 230, 190, 0.10), transparent 30%),
+        radial-gradient(circle at 85% 8%, rgba(122, 167, 255, 0.14), transparent 32%),
+        linear-gradient(180deg, #06101b 0%, #081321 55%, #07111d 100%);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+
+    .container { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--accent);
+      font-weight: 750;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.76rem;
+    }
+    .eyebrow::before { content: ""; width: 24px; height: 1px; background: currentColor; }
+    h1, h2, h3, h4 { line-height: 1.08; margin: 0 0 16px; }
+    h1 { font-size: clamp(3rem, 7vw, 6.8rem); letter-spacing: -0.06em; max-width: 950px; }
+    h2 { font-size: clamp(2rem, 4.4vw, 4rem); letter-spacing: -0.045em; }
+    h3 { font-size: clamp(1.25rem, 2vw, 1.8rem); letter-spacing: -0.02em; }
+    p { color: var(--muted); margin: 0 0 16px; }
+    strong { color: var(--text); }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(18px);
+      background: rgba(6, 16, 27, 0.72);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      gap: 24px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 850; letter-spacing: -0.02em; }
+    .brand-mark {
+      width: 36px; height: 36px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: grid; place-items: center; color: #07111d; font-weight: 950;
+      box-shadow: 0 0 35px rgba(99, 230, 190, 0.26);
+    }
+    .nav { display: flex; gap: 22px; color: var(--muted); font-size: 0.91rem; }
+    .nav a:hover { color: var(--text); }
+    .nav-toggle { display: none; }
+
+    .hero { padding: 86px 0 54px; min-height: calc(100vh - 72px); display: grid; align-items: center; }
+    .hero-grid { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 54px; align-items: center; }
+    .hero p { font-size: clamp(1.05rem, 1.7vw, 1.35rem); max-width: 720px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+    .btn {
+      border: 1px solid var(--line); border-radius: 14px; padding: 13px 18px;
+      background: rgba(255,255,255,0.04); color: var(--text); font-weight: 760;
+      transition: 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.28); }
+    .btn.primary { background: linear-gradient(135deg, var(--accent), #8af0cb); color: #07111d; border: none; }
+    .hero-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 40px; }
+    .meta-card { padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,0.025); }
+    .meta-card span { display: block; color: var(--muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .meta-card strong { display: block; margin-top: 6px; font-size: 1.05rem; }
+
+    .hero-visual {
+      position: relative; min-height: 560px; border: 1px solid var(--line); border-radius: 30px;
+      background: linear-gradient(180deg, rgba(19,36,58,.84), rgba(9,20,35,.92));
+      overflow: hidden; box-shadow: var(--shadow);
+    }
+    .hero-visual::before {
+      content:""; position:absolute; inset:0;
+      background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 42px 42px; mask-image: linear-gradient(to bottom, black, transparent 78%);
+    }
+    .decision-core {
+      position:absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%);
+      width: 180px; height: 180px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,230,190,.38), rgba(99,230,190,.08) 50%, transparent 72%);
+      display:grid; place-items:center; text-align:center; border:1px solid rgba(99,230,190,.32);
+      box-shadow:0 0 70px rgba(99,230,190,.25);
+      z-index:2;
+    }
+    .decision-core strong { font-size: 1.2rem; }
+    .node {
+      position:absolute; z-index:3; min-width: 150px; padding: 14px 16px; border-radius: 16px;
+      background: rgba(10, 24, 41, .90); border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .node b { display:block; font-size:.9rem; }
+    .node small { color: var(--muted); }
+    .node.n1{left:7%;top:12%}.node.n2{right:7%;top:13%}.node.n3{left:3%;bottom:14%}.node.n4{right:4%;bottom:14%}.node.n5{left:34%;top:5%}.node.n6{left:35%;bottom:5%}
+    .connector { position:absolute; height:1px; background:linear-gradient(90deg, transparent, rgba(122,167,255,.7), transparent); transform-origin:left center; z-index:1; }
+    .c1{width:220px;left:26%;top:29%;transform:rotate(28deg)}.c2{width:220px;left:52%;top:29%;transform:rotate(-28deg)}.c3{width:220px;left:26%;top:68%;transform:rotate(-28deg)}.c4{width:220px;left:52%;top:68%;transform:rotate(28deg)}
+    .pulse { position:absolute; width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 18px var(--accent); animation:pulse 2.8s infinite; z-index:4; }
+    .p1{left:31%;top:32%}.p2{right:30%;top:34%;animation-delay:.7s}.p3{left:32%;bottom:31%;animation-delay:1.4s}.p4{right:29%;bottom:30%;animation-delay:2.1s}
+    @keyframes pulse { 0%,100%{transform:scale(.7);opacity:.35}50%{transform:scale(1.45);opacity:1} }
+
+    section { padding: 92px 0; }
+    .section-head { display: grid; grid-template-columns: .8fr 1.2fr; gap: 50px; margin-bottom: 38px; align-items: end; }
+    .section-head p { font-size: 1.06rem; }
+    .panel {
+      border: 1px solid var(--line); background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow);
+    }
+    .grid-2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+    .grid-4 { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+    .card { padding: 24px; }
+    .card .num { font-size: 2rem; color: var(--accent); font-weight: 900; letter-spacing: -.04em; }
+    .card ul { margin: 16px 0 0; padding-left: 20px; color: var(--muted); }
+    .card li { margin-bottom: 8px; }
+    .tag { display:inline-flex; padding:7px 10px; border-radius:999px; background:rgba(99,230,190,.08); border:1px solid rgba(99,230,190,.2); color:var(--accent); font-size:.78rem; font-weight:760; }
+
+    .workflow { overflow-x:auto; padding: 26px; }
+    .workflow-track { min-width: 1050px; display:grid; grid-template-columns:repeat(8,1fr); gap:12px; position:relative; }
+    .workflow-track::before { content:""; position:absolute; top:34px; left:5%; right:5%; height:2px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); opacity:.55; }
+    .step { position:relative; z-index:2; text-align:center; }
+    .step-icon { width:68px;height:68px;border-radius:20px;display:grid;place-items:center;margin:0 auto 14px;background:#0c1e33;border:1px solid var(--line);font-weight:900;color:var(--accent); }
+    .step.active .step-icon { background:linear-gradient(135deg,var(--accent),#8af0cb); color:#07111d; transform:translateY(-4px); box-shadow:0 14px 40px rgba(99,230,190,.23); }
+    .step button { background:none;border:0;color:inherit;padding:0;width:100%; }
+    .step p { font-size:.85rem; }
+    .step-detail { margin-top:22px; padding:24px; border-top:1px solid var(--line); display:grid;grid-template-columns:1fr 1fr;gap:24px; }
+    .detail-list { display:grid;gap:10px; }
+    .detail-item { padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.025);color:var(--muted); }
+
+    .friction-card { position:relative; overflow:hidden; }
+    .friction-card::after { content:""; position:absolute; inset:auto -15% -35% auto; width:140px;height:140px;border-radius:50%; background:radial-gradient(circle,rgba(255,125,139,.18),transparent 70%); }
+    .severity { display:flex;align-items:center;gap:8px;margin-top:14px;color:var(--muted);font-size:.8rem; }
+    .severity-bar { flex:1;height:7px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden; }
+    .severity-bar i { display:block;height:100%;background:linear-gradient(90deg,var(--warn),var(--danger));border-radius:inherit; }
+
+    .simulator { display:grid;grid-template-columns:.92fr 1.08fr; gap:20px; }
+    .form-panel,.result-panel { padding:28px; }
+    .field { margin-bottom:18px; }
+    .field label { display:flex;justify-content:space-between;gap:16px;margin-bottom:8px;font-size:.9rem;color:var(--muted); }
+    select, input[type="range"], input[type="number"] { width:100%; }
+    select, input[type="number"] { background:#0b1a2d;border:1px solid var(--line);color:var(--text);padding:12px 13px;border-radius:12px; }
+    input[type="range"] { accent-color: var(--accent); }
+    .result-score { display:flex;align-items:center;gap:22px;margin:18px 0; }
+    .score-ring { --score:72; width:118px;height:118px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--score)*1%),rgba(255,255,255,.08) 0);display:grid;place-items:center;position:relative; }
+    .score-ring::before { content:""; position:absolute; inset:10px;border-radius:50%;background:#0d1d31; }
+    .score-ring strong { position:relative;font-size:1.8rem; }
+    .result-list { display:grid;gap:10px; }
+    .result-row { display:flex;justify-content:space-between;gap:20px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.025); }
+    .result-row span { color:var(--muted); }
+    .status-high { color:var(--danger)!important; }.status-med{color:var(--warn)!important}.status-low{color:var(--success)!important}
+
+    .arch { padding:26px; overflow:auto; }
+    .arch-grid { min-width: 980px; display:grid; grid-template-columns: 1fr 72px 1.3fr 72px 1.2fr; gap:12px; align-items:center; }
+    .arch-col { display:grid; gap:12px; }
+    .arch-box { padding:16px;border:1px solid var(--line);background:#0d1d31;border-radius:14px; }
+    .arch-box b { display:block; }
+    .arrow { text-align:center;color:var(--accent);font-size:2rem; }
+    .arch-center { border:1px solid rgba(99,230,190,.28); background:linear-gradient(180deg,rgba(99,230,190,.09),rgba(122,167,255,.05));padding:20px;border-radius:20px; }
+    .arch-center .arch-box { margin-bottom:10px; }
+
+    .matrix-wrap { overflow:auto; }
+    table { width:100%; border-collapse:collapse; min-width:850px; }
+    th,td { padding:15px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top; }
+    th { color:var(--text);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;background:rgba(255,255,255,.025); }
+    td { color:var(--muted); }
+    .risk-pill { display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.75rem;font-weight:800; }
+    .risk-pill.high{background:rgba(255,125,139,.12);color:var(--danger)}.risk-pill.medium{background:rgba(255,209,102,.12);color:var(--warn)}.risk-pill.low{background:rgba(110,231,168,.12);color:var(--success)}
+    .filters { display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px; }
+    .filter-btn { padding:9px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted); }
+    .filter-btn.active { color:#07111d;background:var(--accent);border-color:transparent;font-weight:800; }
+
+    .scoring { display:grid;grid-template-columns:1fr 1fr;gap:20px; }
+    .score-controls,.score-output { padding:28px; }
+    .weight-row { display:grid;grid-template-columns:1.2fr 1fr 50px;gap:12px;align-items:center;margin-bottom:14px; }
+    .weight-row span { color:var(--muted); }
+    .option-bars { display:grid;gap:15px;margin-top:20px; }
+    .option-bar .top { display:flex;justify-content:space-between;margin-bottom:7px; }
+    .bar { height:12px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden; }
+    .bar i { display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent-2)); }
+
+    .value-calc { display:grid;grid-template-columns:1fr 1fr;gap:20px; }
+    .calc-inputs,.calc-output { padding:28px; }
+    .money { font-size:clamp(2.4rem,5vw,4.5rem);font-weight:950;letter-spacing:-.055em;margin:10px 0;color:var(--accent); }
+    .kpi-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:24px; }
+    .kpi { padding:15px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025); }
+    .kpi span { display:block;color:var(--muted);font-size:.78rem; }
+    .kpi strong { font-size:1.25rem; }
+
+    .brief { padding:30px; }
+    .brief-head { display:flex;justify-content:space-between;gap:20px;align-items:start;padding-bottom:22px;border-bottom:1px solid var(--line); }
+    .brief-grid { display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:22px; }
+    .brief-block { padding:17px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02); }
+    .brief-block h4 { font-size:.83rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent); }
+.industry-tabs { display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px; }
+    .industry-btn { border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);border-radius:999px;padding:9px 13px; }
+    .industry-btn.active { background:var(--accent-2);color:#07111d;border-color:transparent;font-weight:850; }
+    .industry-content { display:grid;grid-template-columns:1fr 1fr;gap:20px; }
+    .use-case { padding:24px; }
+    .industry-metrics { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px; }
+
+    .timeline { display:grid;grid-template-columns:repeat(4,1fr);gap:16px; }
+    .phase { padding:22px;position:relative; }
+    .phase::before { content:"";position:absolute;top:0;left:22px;right:22px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:999px; }
+    .phase small { color:var(--accent);font-weight:850;text-transform:uppercase;letter-spacing:.08em; }
+
+    .role-map { display:grid;grid-template-columns:repeat(4,1fr);gap:16px; }
+    .role-card { padding:22px; }
+    .role-card .icon { width:44px;height:44px;border-radius:14px;background:rgba(122,167,255,.12);display:grid;place-items:center;margin-bottom:16px;color:var(--accent-2);font-weight:900; }
+
+    .cta { padding: 72px 0 110px; }
+    .cta-box { padding:48px;background:linear-gradient(135deg,rgba(99,230,190,.12),rgba(122,167,255,.12));border:1px solid rgba(99,230,190,.25);border-radius:30px;text-align:center; }
+.reveal { opacity:0; transform:translateY(18px); transition:opacity .55s ease, transform .55s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+
+    @media (max-width: 980px) {
+      .hero-grid,.section-head,.simulator,.scoring,.value-calc,.industry-content { grid-template-columns:1fr; }
+      .hero { min-height:auto; }
+      .hero-visual { min-height:500px; }
+      .grid-4,.role-map,.timeline { grid-template-columns:repeat(2,1fr); }
+      .grid-3 { grid-template-columns:repeat(2,1fr); }
+      .nav { display:none;position:absolute;top:72px;left:0;right:0;background:#07111d;padding:18px 20px;border-bottom:1px solid var(--line);flex-direction:column; }
+      .nav.open { display:flex; }
+      .nav-toggle { display:block;background:none;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:8px 10px; }
+    }
+    @media (max-width: 650px) {
+      .container { width:min(var(--max),calc(100% - 24px)); }
+      section { padding:68px 0; }
+      .hero { padding-top:58px; }
+      .hero-meta,.grid-2,.grid-3,.grid-4,.timeline,.role-map,.brief-grid,.step-detail,.kpi-grid,.industry-metrics { grid-template-columns:1fr; }
+      .hero-visual { min-height:520px; }
+      .node { min-width:125px;padding:11px; }
+      .node.n1{left:3%}.node.n2{right:3%}.node.n3{left:2%}.node.n4{right:2%}.node.n5{left:31%}.node.n6{left:31%}
+      .decision-core { width:140px;height:140px; }
+      .cta-box { padding:30px 20px; }
+      .brief-head { flex-direction:column; }
+    }
+  
+
+    /* Deep project specification additions */
+    .example-case { display:grid; grid-template-columns:.92fr 1.08fr; gap:20px; align-items:stretch; }
+    .case-input, .case-output { padding:28px; }
+    .case-input blockquote { margin:18px 0 0; padding:22px; border-left:3px solid var(--accent); background:rgba(99,230,190,.055); border-radius:0 16px 16px 0; color:var(--text); font-size:1.08rem; }
+    .case-signal-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:18px; }
+    .case-signal { padding:13px; border:1px solid var(--line); border-radius:13px; background:rgba(255,255,255,.025); }
+    .case-signal span { display:block; color:var(--muted); font-size:.76rem; text-transform:uppercase; letter-spacing:.08em; }
+    .case-signal strong { display:block; margin-top:4px; }
+    .decision-trace { display:grid; gap:10px; }
+    .trace-row { display:grid; grid-template-columns:36px 1fr auto; gap:12px; align-items:center; padding:13px 14px; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.025); transition:.2s ease; }
+    .trace-row:hover { transform:translateX(4px); border-color:rgba(99,230,190,.35); }
+    .trace-num { width:32px;height:32px;border-radius:10px;background:rgba(99,230,190,.11);color:var(--accent);display:grid;place-items:center;font-weight:900; }
+    .trace-row small { color:var(--muted); }
+    .trace-status { white-space:nowrap; font-size:.75rem; font-weight:850; padding:5px 8px; border-radius:999px; background:rgba(110,231,168,.10); color:var(--success); }
+
+    .principles-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; }
+    .principle { padding:20px; border:1px solid var(--line); border-radius:18px; background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.015)); }
+    .principle b { display:block; color:var(--accent); font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px; }
+
+    .agent-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; }
+    .agent-card { padding:20px; min-height:250px; position:relative; overflow:hidden; }
+    .agent-card::after { content:""; position:absolute; width:100px;height:100px;border-radius:50%;right:-35px;bottom:-42px;background:radial-gradient(circle,rgba(122,167,255,.15),transparent 70%); }
+    .agent-card .agent-id { width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#07111d;font-weight:950;margin-bottom:16px; }
+    .io-label { display:block; margin-top:14px; color:var(--text); font-size:.75rem; font-weight:850; text-transform:uppercase; letter-spacing:.08em; }
+    .agent-card p { font-size:.88rem; }
+
+    .service-map { display:grid; grid-template-columns:250px 1fr; gap:20px; }
+    .endpoint-list { display:grid; gap:8px; align-content:start; }
+    .endpoint-btn { width:100%; text-align:left; padding:12px 13px; border:1px solid var(--line); border-radius:12px; background:rgba(255,255,255,.025); color:var(--muted); }
+    .endpoint-btn.active { background:rgba(99,230,190,.1); border-color:rgba(99,230,190,.3); color:var(--text); }
+    .endpoint-detail { padding:28px; min-height:370px; }
+    .method { display:inline-flex; padding:5px 8px; border-radius:7px; background:rgba(122,167,255,.12); color:var(--accent-2); font-size:.75rem; font-weight:900; margin-right:8px; }
+    .codebox { margin-top:16px; padding:18px; border:1px solid var(--line); border-radius:14px; background:#06101b; color:#cde5ff; overflow:auto; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.83rem; white-space:pre-wrap; }
+
+    .role-tabs { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+    .role-tab { padding:10px 14px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.025); color:var(--muted); }
+    .role-tab.active { background:var(--accent); color:#07111d; border-color:transparent; font-weight:850; }
+    .role-view { display:grid; grid-template-columns:.85fr 1.15fr; gap:20px; }
+    .role-pane { padding:28px; }
+    .view-list { display:grid; gap:10px; margin-top:18px; }
+
+    .integration-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+    .integration-card { padding:18px; }
+    .integration-card b { display:block; margin-bottom:6px; }
+    .integration-card small { color:var(--muted); }
+    .connector-token { display:inline-flex; margin-top:12px; padding:5px 8px; border:1px solid var(--line); border-radius:8px; color:var(--accent); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.72rem; }
+
+    .observability-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .log-stack { display:grid; gap:10px; }
+    .log-item { padding:14px; border:1px solid var(--line); border-radius:13px; background:rgba(255,255,255,.025); display:grid; grid-template-columns:130px 1fr; gap:12px; }
+    .log-item b { color:var(--accent); }
+    .metric-cloud { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+
+    .boundary-callout { padding:26px; display:grid; grid-template-columns:1fr auto; gap:24px; align-items:center; border-color:rgba(255,209,102,.28); background:linear-gradient(90deg,rgba(255,209,102,.07),rgba(255,255,255,.02)); }
+    .boundary-callout .boundary-rule { font-size:1.25rem; color:var(--text); font-weight:850; }
+
+    @media(max-width:1050px){
+      .principles-grid,.agent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .integration-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media(max-width:820px){
+      .example-case,.service-map,.role-view,.observability-grid{grid-template-columns:1fr}
+      .case-signal-grid{grid-template-columns:1fr}
+      .endpoint-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media(max-width:620px){
+      .principles-grid,.agent-grid,.integration-grid,.endpoint-list{grid-template-columns:1fr}
+      .boundary-callout{grid-template-columns:1fr}
+      .log-item{grid-template-columns:1fr}
+    }
+
+    .overlay-tabs { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px; }
+    .overlay-tab { border:1px solid var(--line); background:rgba(255,255,255,.03); color:var(--muted); border-radius:999px; padding:10px 14px; font-weight:760; }
+    .overlay-tab.active { background:linear-gradient(135deg,var(--accent),#8af0cb); color:#07111d; border-color:transparent; }
+    .overlay-stage { display:grid; grid-template-columns:1.55fr .65fr; min-height:540px; overflow:hidden; }
+    .overlay-canvas { padding:28px; min-width:0; background:linear-gradient(180deg,rgba(10,24,41,.7),rgba(8,20,35,.94)); border-right:1px solid var(--line); }
+    .overlay-explanation { padding:30px; display:flex; flex-direction:column; justify-content:center; }
+    .overlay-explanation h3 { font-size:1.65rem; }
+    .overlay-explanation .callout { margin-top:14px; padding:16px; border-radius:14px; border:1px solid rgba(99,230,190,.22); background:rgba(99,230,190,.06); color:var(--muted); }
+    .overlay-principles { margin-top:20px; }
+    .flow-title { display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:18px; }
+    .flow-title small { color:var(--muted); }
+    .flow-row { display:flex; align-items:stretch; gap:10px; overflow-x:auto; padding:10px 4px 18px; }
+    .flow-node { flex:1 0 128px; min-height:104px; padding:14px; border:1px solid var(--line); border-radius:14px; background:#0d1d31; display:flex; flex-direction:column; justify-content:center; }
+    .flow-node b { display:block; margin-bottom:5px; }
+    .flow-node small { color:var(--muted); line-height:1.35; }
+    .flow-node.friction { border-color:rgba(255,125,139,.25); background:rgba(255,125,139,.05); }
+    .flow-node.control { border-color:rgba(99,230,190,.28); background:linear-gradient(180deg,rgba(99,230,190,.1),rgba(122,167,255,.05)); }
+    .flow-node.output { border-color:rgba(122,167,255,.28); background:rgba(122,167,255,.06); }
+    .flow-arrow-inline { flex:0 0 22px; display:grid; place-items:center; color:var(--accent); font-weight:900; }
+    .system-strip { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; margin-bottom:16px; }
+    .system-chip { padding:10px; border:1px solid var(--line); border-radius:12px; text-align:center; color:var(--muted); background:rgba(255,255,255,.025); font-size:.8rem; }
+    .maestro-layer { padding:18px; border:1px solid rgba(99,230,190,.32); border-radius:18px; background:linear-gradient(135deg,rgba(99,230,190,.10),rgba(122,167,255,.08)); box-shadow:0 18px 55px rgba(0,0,0,.22); }
+    .maestro-layer-head { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:12px; }
+    .decision-pills { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:8px; }
+    .decision-pill { padding:11px 8px; border-radius:12px; text-align:center; border:1px solid rgba(255,255,255,.11); background:rgba(7,17,29,.6); font-size:.78rem; font-weight:780; }
+    .vertical-arrow { text-align:center; color:var(--accent); font-size:1.55rem; line-height:1; padding:8px; }
+    .future-lane { display:grid; grid-template-columns:1fr 45px 1.2fr 45px 1fr 45px 1fr; gap:8px; align-items:stretch; }
+    .future-arrow { display:grid; place-items:center; color:var(--accent); font-size:1.4rem; }
+    .scoring-framework-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+    .framework-card { padding:28px; }
+    .formula { margin:18px 0; padding:14px 16px; border-radius:13px; background:#091827; border:1px solid var(--line); color:var(--accent); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.9rem; }
+    .factor-list { display:grid; gap:9px; }
+    .factor-list > div { display:flex; justify-content:space-between; gap:16px; padding:10px 12px; border-radius:11px; background:rgba(255,255,255,.025); border:1px solid var(--line); color:var(--muted); }
+    .score-bands { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; margin-top:16px; }
+    .score-bands span { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:.8rem; }
+    .band { width:9px; height:9px; border-radius:50%; display:inline-block; }
+    .band.routine{background:var(--success)} .band.controlled{background:var(--accent-2)} .band.high{background:var(--warn)} .band.critical{background:var(--danger)}
+    .confidence-matrix { display:grid; grid-template-columns:95px 1fr 1fr; gap:7px; margin:18px 0; }
+    .matrix-head { padding:9px; color:var(--muted); font-size:.76rem; display:grid; place-items:center; text-align:center; }
+    .matrix-cell { padding:14px; min-height:94px; border-radius:12px; border:1px solid var(--line); display:flex; flex-direction:column; justify-content:center; }
+    .matrix-cell small { color:var(--muted); line-height:1.35; margin-top:5px; }
+    .matrix-cell.good{background:rgba(110,231,168,.07);border-color:rgba(110,231,168,.22)}
+    .matrix-cell.warn{background:rgba(255,209,102,.06);border-color:rgba(255,209,102,.22)}
+    .matrix-cell.danger{background:rgba(255,125,139,.06);border-color:rgba(255,125,139,.22)}
+    .example-score { margin-top:20px; padding:26px; display:grid; grid-template-columns:.8fr 1.2fr; gap:24px; align-items:center; }
+    .driver-chips { display:flex; gap:9px; flex-wrap:wrap; }
+    .driver-chips span { padding:9px 11px; border-radius:999px; background:rgba(255,255,255,.035); border:1px solid var(--line); color:var(--muted); font-size:.8rem; }
+    .justification-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .proof-list { display:grid; gap:10px; margin-top:18px; }
+    .proof-item { padding:14px 15px; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.025); color:var(--muted); }
+    .proof-item b { color:var(--text); }
+    .mermaid-wrap { padding:24px; overflow:auto; }
+    .mermaid-title { display:flex; justify-content:space-between; gap:18px; align-items:flex-start; margin-bottom:18px; }
+    .mermaid-title p { max-width:760px; }
+    .mermaid { min-width:760px; padding:18px; border-radius:16px; background:#081827; border:1px solid var(--line); }
+    .build-grid { display:grid; grid-template-columns:1.05fr .95fr; gap:20px; }
+    .build-stack { display:grid; gap:12px; }
+    .build-row { display:grid; grid-template-columns:150px 1fr; gap:14px; padding:14px; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.025); }
+    .build-row b { color:var(--accent); }
+    .deliverable-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-top:20px; }
+    .deliverable { padding:18px; border:1px solid var(--line); border-radius:16px; background:rgba(255,255,255,.025); }
+    .deliverable span { display:block; color:var(--accent); font-weight:850; font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; margin-bottom:8px; }
+    @media(max-width:900px){.justification-grid,.build-grid{grid-template-columns:1fr}.deliverable-grid{grid-template-columns:1fr}.mermaid{min-width:680px}.build-row{grid-template-columns:1fr}}
+    @media(max-width:900px){.overlay-stage,.scoring-framework-grid,.example-score{grid-template-columns:1fr}.overlay-canvas{border-right:0;border-bottom:1px solid var(--line)}.system-strip{grid-template-columns:repeat(2,1fr)}.decision-pills{grid-template-columns:repeat(3,1fr)}.future-lane{grid-template-columns:1fr}.future-arrow{transform:rotate(90deg)}}
+    @media(max-width:560px){.decision-pills,.score-bands{grid-template-columns:1fr}.confidence-matrix{grid-template-columns:78px 1fr 1fr}.overlay-canvas,.overlay-explanation{padding:20px}}
+
+</style>
+</head>
+<body>
+<header class="topbar">
+<div class="container topbar-inner">
+<a class="brand" href="#top"><span class="brand-mark">AM</span> Agent Maestro</a>
+<button aria-label="Toggle navigation" class="nav-toggle">Menu</button>
+<nav aria-label="Primary navigation" class="nav">
+<a href="#problem">Problem</a>
+<a href="#justification">Why</a>
+<a href="#redesign">Redesign</a>
+<a href="#simulator">Simulator</a>
+<a href="#architecture">Architecture</a>
+<a href="#build">Build</a>
+<a href="#system">System</a><a href="#value">Value</a>
+
+</nav>
+</div>
+</header>
+<main id="top">
+<section class="hero">
+<div class="container hero-grid">
+<div>
+<span class="eyebrow">Enterprise Decision Intelligence</span>
+<h1>Turn messy operational requests into governed decisions.</h1>
+<p>Agent Maestro is an AI-native operations decision layer that checks scope, classifies work, retrieves policy evidence, scores risk, assigns ownership, routes approval, and creates an auditable execution package.</p>
+<div class="hero-actions">
+<a class="btn primary" href="#simulator">Run a decision simulation</a>
+<a class="btn" href="#architecture">View architecture diagrams</a>
+</div>
+<div class="hero-meta">
+<div class="meta-card"><span>Decision core</span><strong>5 governed steps</strong></div>
+<div class="meta-card"><span>Operating model</span><strong>Deterministic + AI</strong></div>
+<div class="meta-card"><span>Illustrative case</span><strong>$75K refund escalation</strong></div>
+</div>
+</div>
+<div aria-label="Agent Maestro decision system visualization" class="hero-visual">
+<div class="connector c1"></div><div class="connector c2"></div><div class="connector c3"></div><div class="connector c4"></div>
+<span class="pulse p1"></span><span class="pulse p2"></span><span class="pulse p3"></span><span class="pulse p4"></span>
+<div class="decision-core"><div><strong>Decision<br/>Intelligence</strong><br/><small>Evidence -> Judgment -> Action</small></div></div>
+<div class="node n1"><b>Policies &amp; controls</b><small>Rules, thresholds, exceptions</small></div>
+<div class="node n2"><b>Business evidence</b><small>Data, context, precedents</small></div>
+<div class="node n3"><b>Risk &amp; dependencies</b><small>Financial, operational, regulatory</small></div>
+<div class="node n4"><b>Owners &amp; approvals</b><small>RACI, decision rights, SLAs</small></div>
+<div class="node n5"><b>Request intake</b><small>Intent, urgency, scope</small></div>
+<div class="node n6"><b>Execution &amp; learning</b><small>Actions, outcomes, audit trail</small></div>
+</div>
+</div>
+</section>
+<section>
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Case-study thesis</span><h2>AI becomes valuable when it is embedded into the operating model.</h2></div>
+<p>The concept is deliberately broader than a chatbot. It redesigns how decisions are requested, evaluated, approved, executed, and learned from while preserving human judgment for material or high-risk choices.</p>
+</div>
+<div class="grid-4">
+<article class="panel card reveal"><div class="num">01</div><h3>Structure ambiguity</h3><p>Convert loosely framed requests into a consistent decision schema with objective, urgency, evidence needs, affected functions, and desired outcome.</p></article>
+<article class="panel card reveal"><div class="num">02</div><h3>Ground judgment</h3><p>Retrieve the current policy, relevant data, prior decisions, contractual obligations, and operational dependencies before options are assessed.</p></article>
+<article class="panel card reveal"><div class="num">03</div><h3>Govern risk</h3><p>Apply thresholds, approvals, exception handling, confidence requirements, and human review based on decision materiality.</p></article>
+<article class="panel card reveal"><div class="num">04</div><h3>Close the loop</h3><p>Translate the decision into owned actions, track outcomes, preserve the rationale, and learn which assumptions or controls were effective.</p></article>
+</div>
+</div>
+</section>
+<section id="principles">
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Product operating principles</span><h2>Business logic first. Language enhancement second.</h2></div>
+<p>The system is deliberately bounded. Core decisions remain explainable, permissioned, and auditable; generative AI improves interpretation and communication only after the decision logic is established.</p>
+</div>
+<div class="principles-grid">
+<article class="principle reveal"><b>01 - Bound</b><h3>Clear domain scope</h3><p>Reject requests outside approved operational workflows before retrieval or model use.</p></article>
+<article class="principle reveal"><b>02 - Ground</b><h3>Policy-backed evidence</h3><p>Use current SOPs, matrices, process maps, known issues, and templates as the evidence packet.</p></article>
+<article class="principle reveal"><b>03 - Control</b><h3>Deterministic governance</h3><p>Keep risk tiers, approval thresholds, ownership rules, and exceptions reviewable.</p></article>
+<article class="principle reveal"><b>04 - Enhance</b><h3>Optional LLM layer</h3><p>Use AI to classify ambiguity and improve narrative quality without surrendering decision rights.</p></article>
+<article class="principle reveal"><b>05 - Learn</b><h3>Operational memory</h3><p>Capture confidence, feedback, overrides, failures, and backlog signals after every decision run.</p></article>
+</div>
+</div>
+</section>
+<section id="problem">
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">The original workflow</span><h2>Critical decisions are still assembled manually.</h2></div>
+<p>The current state depends on fragmented communication and tacit knowledge. Teams spend more time finding context and aligning stakeholders than evaluating the decision itself.</p>
+</div>
+<div class="panel workflow reveal">
+<div class="workflow-track">
+<div class="step"><div class="step-icon">1</div><h4>Request</h4><p>Email, Slack, meeting</p></div>
+<div class="step"><div class="step-icon">2</div><h4>Interpret</h4><p>Clarify the real ask</p></div>
+<div class="step"><div class="step-icon">3</div><h4>Search</h4><p>Policies and precedent</p></div>
+<div class="step"><div class="step-icon">4</div><h4>Collect</h4><p>Data and opinions</p></div>
+<div class="step"><div class="step-icon">5</div><h4>Compare</h4><p>Options and tradeoffs</p></div>
+<div class="step"><div class="step-icon">6</div><h4>Escalate</h4><p>Find approvers</p></div>
+<div class="step"><div class="step-icon">7</div><h4>Decide</h4><p>Communicate rationale</p></div>
+<div class="step"><div class="step-icon">8</div><h4>Follow up</h4><p>Track execution manually</p></div>
+</div>
+</div>
+<div class="grid-3" style="margin-top:20px">
+<article class="panel card friction-card reveal"><span class="tag">Speed</span><h3>Decision latency</h3><p>Approvals stall while teams locate evidence, interpret policies, and discover missing stakeholders.</p><div class="severity"><span>Impact</span><div class="severity-bar"><i style="width:88%"></i></div><b>High</b></div></article>
+<article class="panel card friction-card reveal"><span class="tag">Consistency</span><h3>Variable judgment</h3><p>Different teams use different criteria, creating uneven outcomes and avoidable rework.</p><div class="severity"><span>Impact</span><div class="severity-bar"><i style="width:80%"></i></div><b>High</b></div></article>
+<article class="panel card friction-card reveal"><span class="tag">Governance</span><h3>Policy gaps</h3><p>Relevant controls may be missed, outdated, or interpreted without complete business context.</p><div class="severity"><span>Impact</span><div class="severity-bar"><i style="width:92%"></i></div><b>Critical</b></div></article>
+<article class="panel card friction-card reveal"><span class="tag">Execution</span><h3>Ownership drift</h3><p>The decision is approved, but actions, dependencies, and deadlines are not consistently assigned.</p><div class="severity"><span>Impact</span><div class="severity-bar"><i style="width:76%"></i></div><b>High</b></div></article>
+<article class="panel card friction-card reveal"><span class="tag">Risk</span><h3>Late escalation</h3><p>Downstream financial, regulatory, customer, or systems impacts emerge after commitment.</p><div class="severity"><span>Impact</span><div class="severity-bar"><i style="width:90%"></i></div><b>Critical</b></div></article>
+<article class="panel card friction-card reveal"><span class="tag">Learning</span><h3>Lost rationale</h3><p>Organizations cannot reliably reconstruct why a decision was made or whether assumptions proved correct.</p><div class="severity"><span>Impact</span><div class="severity-bar"><i style="width:72%"></i></div><b>Medium</b></div></article>
+</div>
+</div>
+</section>
+<section id="justification">
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Project justification</span><h2>This project exists because operational decisions are rarely owned by one system.</h2></div>
+<p>Agent Maestro is justified by a practical enterprise gap: teams have tools, documents, experts, and workflows, but no shared decision layer that connects evidence, risk, ownership, approval, and execution into one auditable run.</p>
+</div>
+<div class="justification-grid">
+<article class="panel card reveal">
+<span class="tag">Why it matters</span>
+<h3>AI alone does not solve cross-functional operations.</h3>
+<p>A chatbot can summarize a ticket, but it cannot prove which policy applies, who owns the decision, what approval threshold was triggered, which evidence is missing, or how execution should be tracked. Agent Maestro is designed around that operating gap.</p>
+<div class="proof-list">
+<div class="proof-item"><b>Evidence is scattered:</b> policies, SOPs, approval matrices, account history, invoices, Slack context, and prior decisions live in separate places.</div>
+<div class="proof-item"><b>Risk is inconsistent:</b> materiality, customer impact, regulatory exposure, and policy conflict are judged differently by different teams.</div>
+<div class="proof-item"><b>Ownership is unclear:</b> requests stall when Finance, Legal, Support, Product, and Operations each own only part of the answer.</div>
+<div class="proof-item"><b>Learning is lost:</b> after a decision is made, the rationale, overrides, and outcome rarely become reusable operating memory.</div>
+</div>
+</article>
+<article class="panel card reveal">
+<span class="tag">What the project proves</span>
+<h3>A governed decision layer can be designed, measured, and built.</h3>
+<p>The project demonstrates how to move from an ambiguous business request to a controlled decision package using intake structure, retrieval, scoring, approval routing, execution ownership, and feedback loops.</p>
+<div class="proof-list">
+<div class="proof-item"><b>Business design:</b> maps current-state friction into a future-state operating model.</div>
+<div class="proof-item"><b>System design:</b> separates source systems, orchestration logic, AI interpretation, governance controls, and audit storage.</div>
+<div class="proof-item"><b>Risk design:</b> keeps risk, confidence, and option value as separate concepts instead of one opaque score.</div>
+<div class="proof-item"><b>Implementation design:</b> defines APIs, roles, logs, evaluation signals, connectors, and a rollout plan.</div>
+</div>
+</article>
+</div>
+<div class="panel mermaid-wrap reveal" style="margin-top:20px">
+<div class="mermaid-title"><div><span class="tag">Decision-flow diagram</span><h3 style="margin-top:12px">From ambiguous request to governed execution</h3></div><p>The value is not only the recommendation. The value is the controlled path that proves how the recommendation was created, who approved it, and what happened afterward.</p></div>
+<pre class="mermaid">
+flowchart LR
+    A[Messy operational request] --> B[Scope gate]
+    B -->|In scope| C[Classify workflow]
+    B -->|Out of scope| Z[Reject with reason]
+    C --> D[Retrieve governed evidence]
+    D --> E{Evidence complete?}
+    E -->|No| F[Request missing context]
+    F --> D
+    E -->|Yes| G[Score risk and confidence]
+    G --> H{Material risk?}
+    H -->|Low| I[Route to process owner]
+    H -->|High| J[Escalate to required approvers]
+    I --> K[Generate decision package]
+    J --> K
+    K --> L[Create execution tasks]
+    L --> M[Log outcome and feedback]
+    M --> N[Update improvement backlog]
+</pre>
+</div>
+</div>
+</section>
+<section id="operating-overlay">
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Operating-model overlay</span><h2>Agent Maestro sits above existing systems and governs the decision between them.</h2></div>
+<p>It does not replace Salesforce, Zendesk, ERP, policy repositories, or functional teams. It creates a common decision layer that interprets the request, assembles evidence, applies controls, and routes accountable execution back into those systems.</p>
+</div>
+<div aria-label="Operating model views" class="overlay-tabs reveal" id="overlayTabs" role="tablist">
+<button class="overlay-tab active" data-overlay="current" role="tab">1 - Current process</button>
+<button class="overlay-tab" data-overlay="maestro" role="tab">2 - Agent Maestro overlay</button>
+<button class="overlay-tab" data-overlay="future" role="tab">3 - Governed future state</button>
+</div>
+<div class="panel overlay-stage reveal">
+<div aria-live="polite" class="overlay-canvas" id="overlayCanvas"></div>
+<aside class="overlay-explanation" id="overlayExplanation"></aside>
+</div>
+<div class="grid-3 overlay-principles">
+<article class="panel card reveal"><span class="tag">Preserve</span><h3>Systems of record remain authoritative</h3><p>Customer, invoice, policy, approval, and task data stay in their governed source systems.</p></article>
+<article class="panel card reveal"><span class="tag">Coordinate</span><h3>The decision layer resolves cross-system ambiguity</h3><p>Agent Maestro creates one evidence packet and one trace across workflows that normally fragment between functions.</p></article>
+<article class="panel card reveal"><span class="tag">Control</span><h3>Execution returns through permissioned workflows</h3><p>The platform recommends and routes. Approved systems and authorized humans complete material business actions.</p></article>
+</div>
+</div>
+</section>
+
+<section id="example-case">
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Illustrative case - refund escalation</span><h2>One request. Three workflows. Multiple control obligations.</h2></div>
+<p>This example makes the project tangible: the system must understand that a refund request also contains a billing defect, an access failure, material financial exposure, and customer-risk language.</p>
+</div>
+<div class="example-case">
+<article class="panel case-input reveal">
+<span class="tag">Raw business request</span>
+<blockquote>"Customer asks for a $75,000 refund after duplicate billing, cannot access the billing portal, and says the issue caused serious business disruption."</blockquote>
+<div class="case-signal-grid">
+<div class="case-signal"><span>Primary workflow</span><strong>Refund Approval</strong></div>
+<div class="case-signal"><span>Secondary workflows</span><strong>Billing Issue + Login</strong></div>
+<div class="case-signal"><span>Financial exposure</span><strong>$75,000</strong></div>
+<div class="case-signal"><span>Risk level</span><strong style="color:var(--danger)">Critical</strong></div>
+<div class="case-signal"><span>Primary owner</span><strong>VP Finance + Legal</strong></div>
+<div class="case-signal"><span>Operating rule</span><strong>Manual review before execution</strong></div>
+</div>
+</article>
+<article class="panel case-output reveal">
+<span class="tag">Decision trace</span>
+<div class="decision-trace" style="margin-top:18px">
+<div class="trace-row"><div class="trace-num">1</div><div><strong>Scope gate</strong><br/><small>Command Operations domain confirmed</small></div><span class="trace-status">IN SCOPE</span></div>
+<div class="trace-row"><div class="trace-num">2</div><div><strong>Classification</strong><br/><small>Refund Approval - Billing Issue - Billing Login</small></div><span class="trace-status">0.91</span></div>
+<div class="trace-row"><div class="trace-num">3</div><div><strong>Evidence packet</strong><br/><small>Refund policy, approval matrix, billing validation, process map</small></div><span class="trace-status">GROUNDED</span></div>
+<div class="trace-row"><div class="trace-num">4</div><div><strong>Risk scoring</strong><br/><small>Amount + duplicate billing + customer impact + multi-team dependency</small></div><span class="trace-status" style="color:var(--danger);background:rgba(255,125,139,.1)">96 / 100</span></div>
+<div class="trace-row"><div class="trace-num">5</div><div><strong>Ownership</strong><br/><small>VP Finance + Legal; Billing Operations and Support assist</small></div><span class="trace-status">ASSIGNED</span></div>
+<div class="trace-row"><div class="trace-num">6</div><div><strong>Approval route</strong><br/><small>Validate evidence, eligibility, access issue, and customer communication</small></div><span class="trace-status">EXEC REVIEW</span></div>
+<div class="trace-row"><div class="trace-num">7</div><div><strong>Decision package</strong><br/><small>Executive summary, actions, governance note, communication draft, sources</small></div><span class="trace-status">READY</span></div>
+</div>
+</article>
+</div>
+<div class="panel boundary-callout reveal" style="margin-top:20px">
+<div><span class="eyebrow">Why this is different</span><div class="boundary-rule">A chatbot drafts a response. Agent Maestro governs the work required before a response can be approved.</div></div>
+<span class="tag">Decision layer != answer generator</span>
+</div>
+</div>
+</section>
+<section id="redesign">
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">AI-enabled redesign</span><h2>A bounded decision run from intake to learning.</h2></div>
+<p>The five-step decision core-classification, risk, ownership, and approval-sits behind a hard scope gate, policy retrieval, a decision package, and evaluation logging.</p>
+</div>
+<div class="panel workflow reveal">
+<div class="workflow-track" id="redesignSteps">
+<div class="step active" data-step="0"><button><div class="step-icon">1</div><h4>Scope gate</h4><p>Bound the domain</p></button></div>
+<div class="step" data-step="1"><button><div class="step-icon">2</div><h4>Classify</h4><p>Split the workflows</p></button></div>
+<div class="step" data-step="2"><button><div class="step-icon">3</div><h4>Retrieve</h4><p>Build evidence packet</p></button></div>
+<div class="step" data-step="3"><button><div class="step-icon">4</div><h4>Score risk</h4><p>Materiality + confidence</p></button></div>
+<div class="step" data-step="4"><button><div class="step-icon">5</div><h4>Assign owner</h4><p>Accountable next action</p></button></div>
+<div class="step" data-step="5"><button><div class="step-icon">6</div><h4>Route approval</h4><p>Thresholds + fallback</p></button></div>
+<div class="step" data-step="6"><button><div class="step-icon">7</div><h4>Package</h4><p>Executable output</p></button></div>
+<div class="step" data-step="7"><button><div class="step-icon">8</div><h4>Learn</h4><p>Logs + backlog</p></button></div>
+</div>
+<div class="step-detail" id="stepDetail"></div>
+</div>
+</div>
+</section>
+<section id="simulator">
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Interactive decision studio</span><h2>See how governance changes with risk and evidence.</h2></div>
+<p>Adjust the decision profile. Agent Maestro recommends a governance path, review depth, and expected turnaround based on materiality and uncertainty.</p>
+</div>
+<div class="simulator">
+<div class="panel form-panel reveal">
+<h3>Decision profile</h3>
+<div class="field"><label>Decision type</label><select id="decisionType"><option value="2">Operational process change</option><option value="3">Customer or pricing exception</option><option value="4">Financial commitment</option><option value="5">Regulated or compliance-sensitive action</option><option value="3">Product launch decision</option></select></div>
+<div class="field"><label>Financial exposure <b id="financialLabel">$500K</b></label><input id="financial" max="5" min="1" type="range" value="3"/></div>
+<div class="field"><label>Evidence completeness <b id="evidenceLabel">60%</b></label><input id="evidence" max="5" min="1" type="range" value="3"/></div>
+<div class="field"><label>Policy conflict <b id="policyLabel">Moderate</b></label><input id="policy" max="5" min="1" type="range" value="3"/></div>
+<div class="field"><label>Customer / regulatory impact <b id="impactLabel">Medium</b></label><input id="impact" max="5" min="1" type="range" value="3"/></div>
+<div class="field"><label>Urgency <b id="urgencyLabel">48 hours</b></label><input id="urgency" max="5" min="1" type="range" value="3"/></div>
+</div>
+<div class="panel result-panel reveal">
+<span class="tag">Recommended governance path</span>
+<div class="result-score"><div class="score-ring" id="scoreRing"><strong id="riskScore">68</strong></div><div><h3 id="riskTitle">Elevated review</h3><p id="riskSummary">Cross-functional validation and documented approval are recommended before execution.</p></div></div>
+<div class="result-list">
+<div class="result-row"><span>Decision tier</span><strong id="tierOutput">Tier 3 - Controlled</strong></div>
+<div class="result-row"><span>Required approvers</span><strong id="approverOutput">Business owner + Finance + Risk</strong></div>
+<div class="result-row"><span>Evidence standard</span><strong id="evidenceOutput">Source-backed decision memo</strong></div>
+<div class="result-row"><span>Human review</span><strong id="humanOutput">Mandatory</strong></div>
+<div class="result-row"><span>Target SLA</span><strong id="slaOutput">24-48 hours</strong></div>
+<div class="result-row"><span>Fallback</span><strong id="fallbackOutput">Pause and escalate unresolved conflicts</strong></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="architecture">
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Solution architecture</span><h2>A modular decision system-not a black box.</h2></div>
+<p>The architecture places a governed coordination layer between existing systems of record and the teams that approve and execute work. Source authority, deterministic controls, optional AI interpretation, and auditability remain separable.</p>
+</div>
+<div class="panel arch reveal">
+<div class="arch-grid">
+<div class="arch-col">
+<div class="arch-box"><b>Enterprise sources</b><small>Policies, SOPs, contracts, prior decisions</small></div>
+<div class="arch-box"><b>Operational systems</b><small>ERP, CRM, HRIS, ticketing, BI, finance</small></div>
+<div class="arch-box"><b>Human context</b><small>Intake forms, meeting notes, expert input</small></div>
+</div>
+<div class="arrow">-></div>
+<div class="arch-center">
+<div class="arch-box"><b>1. Intake &amp; classification</b><small>Intent, decision type, urgency, materiality</small></div>
+<div class="arch-box"><b>2. Retrieval &amp; grounding</b><small>Permissions, freshness, source authority, citations</small></div>
+<div class="arch-box"><b>3. Decision engine</b><small>Option generation, scoring, tradeoffs, confidence</small></div>
+<div class="arch-box"><b>4. Governance engine</b><small>Rules, thresholds, approvals, exceptions, HITL</small></div>
+<div class="arch-box"><b>5. Orchestration</b><small>Tasks, notifications, workflows, escalation</small></div>
+</div>
+<div class="arrow">-></div>
+<div class="arch-col">
+<div class="arch-box"><b>Executive decision brief</b><small>Recommendation, evidence, risks, tradeoffs</small></div>
+<div class="arch-box"><b>Approval workspace</b><small>Comments, decisions, exceptions, sign-off</small></div>
+<div class="arch-box"><b>Execution system</b><small>Owners, due dates, dependencies, status</small></div>
+<div class="arch-box"><b>Audit &amp; analytics</b><small>Decision history, outcomes, control effectiveness</small></div>
+</div>
+</div>
+</div>
+<div class="grid-3" style="margin-top:20px">
+<article class="panel card reveal"><span class="tag">Data</span><h3>Grounded retrieval</h3><p>Every recommendation traces back to approved sources with version, owner, timestamp, and access context.</p></article>
+<article class="panel card reveal"><span class="tag">Control</span><h3>Policy-as-workflow</h3><p>Thresholds, approval rules, fallback paths, and exceptions are encoded as reviewable governance logic.</p></article>
+<article class="panel card reveal"><span class="tag">Learning</span><h3>Outcome feedback</h3><p>Results are compared with assumptions so scoring, policy interpretation, and escalation logic improve over time.</p></article>
+</div>
+<div class="panel mermaid-wrap reveal" style="margin-top:20px">
+<div class="mermaid-title"><div><span class="tag">Mermaid architecture</span><h3 style="margin-top:12px">Technical system layout</h3></div><p>This view separates channels, orchestration, agents, deterministic controls, data stores, integrations, and observability so the platform is explainable and buildable.</p></div>
+<pre class="mermaid">
+flowchart TB
+    subgraph Channels[Request channels]
+        Portal[Internal portal]
+        Slack[Slack or Teams]
+        Ticket[Zendesk or ServiceNow]
+        CRM[Salesforce]
+    end
+
+    subgraph Core[Agent Maestro application layer]
+        Intake[Intake API]
+        Orchestrator[Decision orchestrator]
+        Policy[Policy and workflow engine]
+        AgentRouter[Agent router]
+        HITL[Human review workspace]
+    end
+
+    subgraph Agents[Bounded agents]
+        Knowledge[Knowledge agent]
+        Audit[Audit agent]
+        Workflow[Workflow agent]
+        Risk[Finance risk agent]
+        Summary[Executive summary agent]
+    end
+
+    subgraph Data[Governed data layer]
+        Vector[(Vector index)]
+        SQL[(Decision database)]
+        AuditLog[(Audit log)]
+        Eval[(Evaluation and feedback logs)]
+    end
+
+    subgraph Systems[Enterprise systems]
+        Policies[Policy repository]
+        Billing[Billing or ERP]
+        CaseSys[Case system]
+        Approvals[Approval service]
+        Tasks[Task and notification tools]
+    end
+
+    Portal --> Intake
+    Slack --> Intake
+    Ticket --> Intake
+    CRM --> Intake
+    Intake --> Orchestrator
+    Orchestrator --> Policy
+    Policy --> AgentRouter
+    AgentRouter --> Knowledge
+    AgentRouter --> Audit
+    AgentRouter --> Workflow
+    AgentRouter --> Risk
+    AgentRouter --> Summary
+    Knowledge --> Vector
+    Knowledge --> Policies
+    Audit --> SQL
+    Risk --> Billing
+    Workflow --> Approvals
+    Workflow --> Tasks
+    Summary --> HITL
+    HITL --> SQL
+    HITL --> AuditLog
+    SQL --> Eval
+    Eval --> Policy
+    CaseSys --> SQL
+</pre>
+</div>
+<div class="panel mermaid-wrap reveal" style="margin-top:20px">
+<div class="mermaid-title"><div><span class="tag">Sequence diagram</span><h3 style="margin-top:12px">Critical refund request walkthrough</h3></div><p>The refund example becomes a repeatable decision run with evidence retrieval, risk controls, approver routing, and closed-loop logging.</p></div>
+<pre class="mermaid">
+sequenceDiagram
+    actor Analyst
+    participant UI as Agent Maestro UI
+    participant API as Decision API
+    participant K as Knowledge Agent
+    participant R as Risk Engine
+    participant A as Approval Service
+    participant H as Human Reviewer
+    participant G as Governance Log
+
+    Analyst->>UI: Submit refund escalation
+    UI->>API: Create decision run
+    API->>K: Retrieve policy, invoice, and SOP evidence
+    K-->>API: Evidence packet with sources and gaps
+    API->>R: Score risk, confidence, and materiality
+    R-->>API: Critical tier with drivers
+    API->>A: Resolve required approvers
+    A-->>API: Finance + Legal approval path
+    API->>H: Send decision package for review
+    H-->>API: Approve, revise, or reject
+    API->>G: Log rationale, evidence, owner, and outcome
+    API-->>UI: Return executable next steps
+</pre>
+</div>
+</div>
+</section>
+<section id="system">
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Multi-agent operating architecture</span><h2>Five specialized agents, one governed decision core.</h2></div>
+<p>Each agent has a bounded responsibility. Deterministic rules control scope, risk, ownership, and approval; AI is used where interpretation or synthesis adds value.</p>
+</div>
+<div class="agent-grid">
+<article class="panel agent-card reveal"><div class="agent-id">K</div><h3>Knowledge Agent</h3><p>Retrieves policy, SOP, known-issue, process-map, and template context.</p><span class="io-label">Produces</span><p>Relevant snippets, source list, versions, contradictions, and missing-context flags.</p></article>
+<article class="panel agent-card reveal"><div class="agent-id">A</div><h3>Audit Agent</h3><p>Tests the request and evidence for control gaps, failure patterns, and root causes.</p><span class="io-label">Produces</span><p>Audit findings, evidence gaps, control issues, and improvement opportunities.</p></article>
+<article class="panel agent-card reveal"><div class="agent-id">W</div><h3>Workflow Agent</h3><p>Converts findings into an executable sequence with owners and dependencies.</p><span class="io-label">Produces</span><p>Next steps, accountable owner, timeline, escalation path, and handoffs.</p></article>
+<article class="panel agent-card reveal"><div class="agent-id">R</div><h3>Finance Risk Agent</h3><p>Evaluates amount, customer impact, policy conflict, and approval thresholds.</p><span class="io-label">Produces</span><p>Risk tier, score, approval owner, manual-review requirement, and governance note.</p></article>
+<article class="panel agent-card reveal"><div class="agent-id">E</div><h3>Executive Summary Agent</h3><p>Turns the governed outputs into leadership-ready communication.</p><span class="io-label">Produces</span><p>Recommendation, rationale, decision brief, stakeholder update, and source trace.</p></article>
+</div>
+<div class="section-head reveal" style="margin-top:74px">
+<div><span class="eyebrow">Service blueprint</span><h2>The internal APIs make every decision step observable.</h2></div>
+<p>Requests can enter from Salesforce, Zendesk, Slack, ServiceNow, or an internal portal. A common service layer keeps classification, retrieval, routing, and logging consistent across channels.</p>
+</div>
+<div class="service-map">
+<div class="endpoint-list panel" id="endpointList" style="padding:14px"></div>
+<article class="panel endpoint-detail" id="endpointDetail"></article>
+</div>
+<div class="section-head reveal" style="margin-top:74px">
+<div><span class="eyebrow">Role-based operations console</span><h2>The same decision, translated for the work each role owns.</h2></div>
+<p>Role-based views reduce cognitive overload while preserving one underlying source of truth and decision trace.</p>
+</div>
+<div class="role-tabs" id="roleTabs"></div>
+<div class="role-view" id="roleView"></div>
+</div>
+</section>
+
+<section id="build">
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Build and development plan</span><h2>How Agent Maestro can be implemented as a real product.</h2></div>
+<p>The portfolio page shows the operating model, but the underlying build can be delivered in small, testable slices: intake, retrieval, risk scoring, approval routing, decision packaging, and evaluation.</p>
+</div>
+<div class="build-grid">
+<article class="panel card reveal">
+<span class="tag">Suggested implementation stack</span>
+<h3>Practical enterprise architecture</h3>
+<div class="build-stack">
+<div class="build-row"><b>Frontend</b><span>React or Next.js dashboard for intake, reviewer workspace, role-based queues, and decision briefs.</span></div>
+<div class="build-row"><b>Backend</b><span>Node/NestJS, Python/FastAPI, or Django service layer with typed API contracts and workflow orchestration.</span></div>
+<div class="build-row"><b>Data</b><span>PostgreSQL for decision runs, audit logs, approvals, users, roles, and outcome tracking.</span></div>
+<div class="build-row"><b>Retrieval</b><span>Vector index over approved policies, SOPs, process maps, templates, and known issues with source metadata.</span></div>
+<div class="build-row"><b>AI layer</b><span>LLM only for classification, synthesis, drafting, and explanation after deterministic gates pass.</span></div>
+<div class="build-row"><b>Controls</b><span>Rules engine for thresholds, role permissions, approval routing, confidence requirements, and fallback behavior.</span></div>
+</div>
+</article>
+<article class="panel card reveal">
+<span class="tag">MVP build slices</span>
+<h3>Build the control path before broad automation.</h3>
+<p>The first version should focus on one high-value domain, such as refund approvals, pricing exceptions, policy escalations, or customer remediation decisions.</p>
+<div class="proof-list">
+<div class="proof-item"><b>Slice 1:</b> Structured intake form and decision-run record.</div>
+<div class="proof-item"><b>Slice 2:</b> Workflow classifier and scope gate.</div>
+<div class="proof-item"><b>Slice 3:</b> Retrieval over approved policies and SOPs with citations.</div>
+<div class="proof-item"><b>Slice 4:</b> Risk tier, confidence mapping, and approver routing.</div>
+<div class="proof-item"><b>Slice 5:</b> Decision package generator with human review.</div>
+<div class="proof-item"><b>Slice 6:</b> Evaluation log, override capture, and improvement backlog.</div>
+</div>
+</article>
+</div>
+<div class="deliverable-grid">
+<article class="deliverable reveal"><span>Built artifact</span><h3>Interactive portfolio app</h3><p>Single-page HTML prototype with decision simulator, scoring model, operating overlay, role views, endpoint browser, value calculator, and roadmap.</p></article>
+<article class="deliverable reveal"><span>System artifact</span><h3>API and architecture model</h3><p>Defines request lifecycle, internal services, bounded agents, connectors, audit logs, and evaluation signals.</p></article>
+<article class="deliverable reveal"><span>Business artifact</span><h3>Executive-ready case study</h3><p>Explains the problem, operating-model redesign, governance logic, measurable value, implementation phases, and interview-ready positioning.</p></article>
+</div>
+<div class="panel mermaid-wrap reveal" style="margin-top:20px">
+<div class="mermaid-title"><div><span class="tag">Development roadmap</span><h3 style="margin-top:12px">From prototype to enterprise pilot</h3></div><p>The build sequence keeps scope narrow first, validates business controls, then expands integrations after the decision model is trusted.</p></div>
+<pre class="mermaid">
+gantt
+    title Agent Maestro Build Roadmap
+    dateFormat  YYYY-MM-DD
+    section Foundation
+    Decision domain and data model      :done,    a1, 2026-07-01, 5d
+    Intake schema and API contracts     :done,    a2, after a1, 5d
+    Policy and SOP source inventory     :active,  a3, after a2, 6d
+    section MVP
+    Scope gate and classifier           :         b1, after a3, 6d
+    Retrieval with citations            :         b2, after b1, 7d
+    Risk scoring and approval routing   :         b3, after b2, 6d
+    Decision package workspace          :         b4, after b3, 7d
+    section Pilot
+    Human review and override capture   :         c1, after b4, 5d
+    Execution task integration          :         c2, after c1, 6d
+    Evaluation dashboard                :         c3, after c2, 6d
+</pre>
+</div>
+<div class="panel mermaid-wrap reveal" style="margin-top:20px">
+<div class="mermaid-title"><div><span class="tag">Data model</span><h3 style="margin-top:12px">Core entities for the decision system</h3></div><p>The data model preserves one trace from request to evidence, recommendation, approval, execution, and measured outcome.</p></div>
+<pre class="mermaid">
+erDiagram
+    DECISION_RUN ||--o{ EVIDENCE_ITEM : uses
+    DECISION_RUN ||--o{ RISK_SCORE : receives
+    DECISION_RUN ||--o{ APPROVAL_STEP : requires
+    DECISION_RUN ||--o{ EXECUTION_TASK : creates
+    DECISION_RUN ||--o{ FEEDBACK_EVENT : learns_from
+    USER ||--o{ DECISION_RUN : submits
+    USER ||--o{ APPROVAL_STEP : reviews
+    POLICY_SOURCE ||--o{ EVIDENCE_ITEM : provides
+
+    DECISION_RUN {
+        string decision_run_id
+        string workflow_type
+        string status
+        string owner_id
+        datetime created_at
+    }
+
+    EVIDENCE_ITEM {
+        string evidence_id
+        string source_id
+        string version
+        string citation
+        string confidence
+    }
+
+    RISK_SCORE {
+        string score_id
+        int risk_score
+        string risk_tier
+        string drivers
+        string required_action
+    }
+
+    APPROVAL_STEP {
+        string approval_id
+        string approver_role
+        string status
+        string rationale
+    }
+
+    FEEDBACK_EVENT {
+        string feedback_id
+        string event_type
+        string reviewer_note
+        string backlog_status
+    }
+</pre>
+</div>
+</div>
+</section>
+
+<section id="scoring-logic">
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Scoring design</span><h2>Risk, confidence, and option value answer different questions.</h2></div>
+<p>The system avoids one blended "AI score." Risk determines governance, confidence determines how much evidence or review is required, and option scoring supports the business tradeoff after minimum controls are satisfied.</p>
+</div>
+<div class="scoring-framework-grid">
+<article class="panel framework-card reveal">
+<span class="tag">Framework 1 - Governance routing</span>
+<h3>Risk score</h3>
+<p>Converts the material signals in a request into a consistent review tier. The weights are configurable by workflow and policy owner.</p>
+<div class="formula">Risk = Sum (signal severity x approved weight)</div>
+<div class="factor-list">
+<div><span>Financial exposure</span><b>25%</b></div>
+<div><span>Customer / regulatory sensitivity</span><b>20%</b></div>
+<div><span>Policy conflict</span><b>15%</b></div>
+<div><span>Evidence gap</span><b>15%</b></div>
+<div><span>Multi-team dependency</span><b>15%</b></div>
+<div><span>Urgency / irreversibility</span><b>10%</b></div>
+</div>
+<div class="score-bands">
+<span><i class="band routine"></i>0-29 - Routine</span>
+<span><i class="band controlled"></i>30-54 - Controlled</span>
+<span><i class="band high"></i>55-79 - High review</span>
+<span><i class="band critical"></i>80-100 - Critical</span>
+</div>
+</article>
+<article class="panel framework-card reveal">
+<span class="tag">Framework 2 - Automation boundary</span>
+<h3>Confidence-to-action mapping</h3>
+<p>Confidence is kept separate from risk. A confident answer can still be too material to automate, while a low-risk request can still require more evidence.</p>
+<div class="confidence-matrix">
+<div class="matrix-head"></div><div class="matrix-head">Lower risk</div><div class="matrix-head">Higher risk</div>
+<div class="matrix-head">High confidence</div><div class="matrix-cell good"><b>Route</b><small>Recommend, log, lightweight approval</small></div><div class="matrix-cell warn"><b>Escalate</b><small>Recommend with mandatory human approval</small></div>
+<div class="matrix-head">Low confidence</div><div class="matrix-cell warn"><b>Clarify</b><small>Request missing evidence or expert input</small></div><div class="matrix-cell danger"><b>Block</b><small>Manual queue; no automated action</small></div>
+</div>
+<div class="brief-block"><h4>Critical rule</h4><p>Confidence never cancels material risk. Any critical-risk case remains human-controlled regardless of model certainty.</p></div>
+</article>
+<article class="panel framework-card reveal">
+<span class="tag">Framework 3 - Business tradeoffs</span>
+<h3>Option value score</h3>
+<p>Compares feasible options only after policy, evidence, and minimum-control gates are satisfied.</p>
+<div class="formula">Option score = Sum (criterion weight x option performance) / total weights</div>
+<div class="detail-list">
+<div class="detail-item">Financial value and cost-to-serve</div>
+<div class="detail-item">Customer impact and service continuity</div>
+<div class="detail-item">Operational feasibility and dependency load</div>
+<div class="detail-item">Risk-adjusted exposure</div>
+<div class="detail-item">Speed to value and reversibility</div>
+</div>
+</article>
+<article class="panel framework-card reveal">
+<span class="tag">Framework 4 - Governed learning</span>
+<h3>Outcome and override signals</h3>
+<p>The platform learns through controlled review rather than silently changing business rules after each decision.</p>
+<div class="detail-list">
+<div class="detail-item">Compare recommended versus approved path</div>
+<div class="detail-item">Capture override reason and decision authority</div>
+<div class="detail-item">Measure outcome against original assumptions</div>
+<div class="detail-item">Create a policy, taxonomy, or workflow backlog item</div>
+<div class="detail-item">Require owner approval before logic changes</div>
+</div>
+</article>
+</div>
+<div class="panel example-score reveal">
+<div><span class="tag">Illustrative refund case</span><h3>$75,000 refund escalation -> 96 / 100</h3><p>The score is driven by high financial exposure, customer-impact language, a confirmed billing defect, multiple functional dependencies, and an irreversible customer-facing action.</p></div>
+<div class="driver-chips"><span>Financial - 25</span><span>Customer impact - 20</span><span>Policy / control - 15</span><span>Evidence gap - 11</span><span>Dependencies - 15</span><span>Urgency - 10</span></div>
+</div>
+</div>
+</section>
+<section>
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Decision scoring</span><h2>Make tradeoffs visible instead of hiding them.</h2></div>
+<p>Leaders can adjust the weighting based on context. The system explains how each option performs rather than presenting a single opaque answer.</p>
+</div>
+<div class="scoring">
+<div class="panel score-controls reveal">
+<h3>Weight the decision criteria</h3>
+<div class="weight-row"><span>Financial value</span><input class="weight" data-key="financial" max="100" min="0" type="range" value="70"/><b>70</b></div>
+<div class="weight-row"><span>Customer impact</span><input class="weight" data-key="customer" max="100" min="0" type="range" value="80"/><b>80</b></div>
+<div class="weight-row"><span>Operational feasibility</span><input class="weight" data-key="ops" max="100" min="0" type="range" value="65"/><b>65</b></div>
+<div class="weight-row"><span>Risk exposure</span><input class="weight" data-key="risk" max="100" min="0" type="range" value="90"/><b>90</b></div>
+<div class="weight-row"><span>Speed to value</span><input class="weight" data-key="speed" max="100" min="0" type="range" value="55"/><b>55</b></div>
+<p><strong>Interpretation:</strong> Higher risk weighting rewards options with lower exposure. The model remains explainable and editable by the decision owner.</p>
+</div>
+<div class="panel score-output reveal">
+<span class="tag">Scenario: launch a customer-facing AI feature</span>
+<h3 style="margin-top:16px">Weighted option comparison</h3>
+<div class="option-bars" id="optionBars"></div>
+<div class="brief-block" style="margin-top:20px"><h4>System recommendation</h4><p id="optionRecommendation"></p></div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Risk and control matrix</span><h2>Governance scales with decision materiality.</h2></div>
+<p>Filter the control model by domain. Each control is mapped to a specific failure mode, owner, and evidence requirement.</p>
+</div>
+<div class="filters reveal" id="riskFilters">
+<button class="filter-btn active" data-filter="all">All controls</button>
+<button class="filter-btn" data-filter="policy">Policy</button>
+<button class="filter-btn" data-filter="data">Data</button>
+<button class="filter-btn" data-filter="model">Model</button>
+<button class="filter-btn" data-filter="execution">Execution</button>
+</div>
+<div class="panel matrix-wrap reveal">
+<table>
+<thead><tr><th>Risk</th><th>Domain</th><th>Control</th><th>Owner</th><th>Residual risk</th></tr></thead>
+<tbody id="riskTable">
+<tr data-domain="policy"><td>Conflicting or outdated policy</td><td>Policy</td><td>Source authority hierarchy, version checks, mandatory conflict escalation</td><td>Policy owner / Legal</td><td><span class="risk-pill medium">Medium</span></td></tr>
+<tr data-domain="data"><td>Incomplete evidence</td><td>Data</td><td>Evidence completeness threshold and explicit uncertainty disclosure</td><td>Business owner</td><td><span class="risk-pill medium">Medium</span></td></tr>
+<tr data-domain="model"><td>Unsupported recommendation</td><td>Model</td><td>Citations, confidence threshold, evidence-to-claim validation</td><td>AI product owner</td><td><span class="risk-pill low">Low</span></td></tr>
+<tr data-domain="execution"><td>Decision approved without owner</td><td>Execution</td><td>Block completion until accountable owner and due date are assigned</td><td>Program lead</td><td><span class="risk-pill low">Low</span></td></tr>
+<tr data-domain="policy"><td>Human override without rationale</td><td>Policy</td><td>Mandatory reason code, approver identity, and post-decision review</td><td>Decision authority</td><td><span class="risk-pill medium">Medium</span></td></tr>
+<tr data-domain="data"><td>Unauthorized source access</td><td>Data</td><td>Role-based access, field masking, source-level permissions</td><td>Security / Data owner</td><td><span class="risk-pill low">Low</span></td></tr>
+<tr data-domain="model"><td>Historical bias in precedent</td><td>Model</td><td>Precedent diversity checks and fairness review for sensitive use cases</td><td>Risk / Compliance</td><td><span class="risk-pill medium">Medium</span></td></tr>
+<tr data-domain="execution"><td>Downstream dependency missed</td><td>Execution</td><td>Dependency map, stakeholder checklist, system-impact validation</td><td>Process owner</td><td><span class="risk-pill high">High</span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="value">
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Business value model</span><h2>Translate governance into measurable operating impact.</h2></div>
+<p>Use the calculator to model time and rework savings. Values are illustrative and should be replaced with client or pilot data during implementation.</p>
+</div>
+<div class="value-calc">
+<div class="panel calc-inputs reveal">
+<h3>Operational assumptions</h3>
+<div class="field"><label>Decisions per month</label><input id="decisionsPerMonth" min="1" type="number" value="120"/></div>
+<div class="field"><label>Current hours per decision</label><input id="currentHours" min="0" step="0.5" type="number" value="9"/></div>
+<div class="field"><label>Future hours per decision</label><input id="futureHours" min="0" step="0.5" type="number" value="4.5"/></div>
+<div class="field"><label>Blended hourly cost</label><input id="hourlyCost" min="1" type="number" value="95"/></div>
+<div class="field"><label>Current rework rate (%)</label><input id="reworkRate" max="100" min="0" type="number" value="18"/></div>
+<div class="field"><label>Expected rework reduction (%)</label><input id="reworkReduction" max="100" min="0" type="number" value="40"/></div>
+</div>
+<div class="panel calc-output reveal">
+<span class="tag">Illustrative annual impact</span>
+<div class="money" id="annualSavings">$688,608</div>
+<p>Estimated labor and rework savings from faster evidence gathering, standardized review, and earlier dependency identification.</p>
+<div class="kpi-grid">
+<div class="kpi"><span>Hours returned</span><strong id="hoursSaved">6,480</strong></div>
+<div class="kpi"><span>Decision cycle reduction</span><strong id="cycleReduction">50%</strong></div>
+<div class="kpi"><span>Rework avoided</span><strong id="reworkAvoided">10 cases/mo</strong></div>
+<div class="kpi"><span>Capacity equivalent</span><strong id="fteEquivalent">3.1 FTE</strong></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Executive decision brief</span><h2>Turn analysis into an action-ready recommendation.</h2></div>
+<p>This sample output shows how Agent Maestro communicates the decision, evidence, risk, ownership, and next steps in a format leadership can use immediately.</p>
+</div>
+<article class="panel brief reveal">
+<div class="brief-head"><div><span class="tag">Illustrative output</span><h3 style="margin-top:14px">Approve a limited AI-assisted collections pilot</h3><p>Decision ID: AM-2026-041 - Owner: VP, Revenue Operations - Status: Conditional approval</p></div><span class="risk-pill medium">Tier 3 review</span></div>
+<div class="brief-grid">
+<div class="brief-block"><h4>Recommendation</h4><p>Proceed with a 90-day pilot for low-risk customer segments, subject to human review, approved message templates, and weekly outcome monitoring.</p></div>
+<div class="brief-block"><h4>Business rationale</h4><p>The workflow has high manual effort, measurable cycle-time opportunity, and sufficient historical data for controlled evaluation.</p></div>
+<div class="brief-block"><h4>Evidence</h4><p>12 months of contact outcomes, collections policy, customer segmentation, legal-approved communication standards, and baseline agent handling time.</p></div>
+<div class="brief-block"><h4>Material risks</h4><p>Incorrect customer treatment, unapproved language, weak escalation, sensitive data exposure, and inconsistent exception handling.</p></div>
+<div class="brief-block"><h4>Required controls</h4><p>Role-based access, approved templates, confidence threshold, human approval, opt-out process, audit logs, and daily exception review.</p></div>
+<div class="brief-block"><h4>Success criteria</h4><p>20% handling-time reduction, no increase in complaints, 95% policy adherence, and fewer than 5% human corrections by pilot end.</p></div>
+<div class="brief-block"><h4>Owners</h4><p>Business: Revenue Operations - Risk: Legal/Compliance - Technical: AI Product - Delivery: Program Management.</p></div>
+<div class="brief-block"><h4>Next actions</h4><p>Finalize pilot population, approve evaluation dataset, complete red-team scenarios, train users, and conduct readiness review.</p></div>
+</div>
+</article>
+</div>
+</section>
+<section id="operations-layer">
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Observability and continuous improvement</span><h2>Every decision creates evidence for a better operating model.</h2></div>
+<p>The platform does not learn silently. Feedback and overrides become governed review signals for policy owners, process leaders, and the AI product team.</p>
+</div>
+<div class="observability-grid">
+<article class="panel card reveal">
+<h3>Operational logs</h3>
+<div class="log-stack">
+<div class="log-item"><b>Evaluation log</b><span>Classification quality, risk accuracy, confidence, completeness, and task success.</span></div>
+<div class="log-item"><b>Feedback log</b><span>Reviewer comments, missing stakeholders, poor explanations, and usability signals.</span></div>
+<div class="log-item"><b>Override log</b><span>What the human changed, why it changed, and whether the rule or policy needs review.</span></div>
+<div class="log-item"><b>Agent performance</b><span>Failures by agent, retrieval gaps, latency, unresolved contradictions, and fallback use.</span></div>
+<div class="log-item"><b>Improvement backlog</b><span>Policy changes, workflow redesigns, taxonomy updates, and automation opportunities.</span></div>
+</div>
+</article>
+<article class="panel card reveal">
+<h3>Value and control metrics</h3>
+<div class="metric-cloud">
+<div class="kpi"><span>Speed</span><strong>Intake-to-routing time</strong></div>
+<div class="kpi"><span>Productivity</span><strong>Manual SOP lookup saved</strong></div>
+<div class="kpi"><span>Quality</span><strong>Approval routing accuracy</strong></div>
+<div class="kpi"><span>Control</span><strong>Risk detection accuracy</strong></div>
+<div class="kpi"><span>Execution</span><strong>First-pass resolution</strong></div>
+<div class="kpi"><span>Governance</span><strong>Human override rate</strong></div>
+<div class="kpi"><span>Knowledge</span><strong>Policy conflicts found</strong></div>
+<div class="kpi"><span>Audit</span><strong>Decision trace completeness</strong></div>
+</div>
+<div class="brief-block" style="margin-top:18px"><h4>Learning governance</h4><p>An override is not automatically treated as truth. It becomes a review signal until an authorized owner updates the policy, workflow, or scoring logic.</p></div>
+</article>
+</div>
+<div class="section-head reveal" style="margin-top:74px">
+<div><span class="eyebrow">Enterprise integration architecture</span><h2>Reason across systems; execute through permissioned tools.</h2></div>
+<p>Connectors supply context and carry out approved actions. The agent can recommend across systems, but business actions remain logged, permissioned, and reversible.</p>
+</div>
+<div class="integration-grid">
+<article class="panel integration-card reveal"><b>Salesforce</b><small>Account, case, opportunity, and billing context.</small><span class="connector-token">salesforce.search_cases</span></article>
+<article class="panel integration-card reveal"><b>Zendesk</b><small>Ticket history and customer conversation.</small><span class="connector-token">zendesk.get_ticket</span></article>
+<article class="panel integration-card reveal"><b>Billing / ERP</b><small>Invoice, payment, credit, and duplicate-charge validation.</small><span class="connector-token">billing.lookup_invoice</span></article>
+<article class="panel integration-card reveal"><b>Policy repository</b><small>Current SOPs, policies, approval matrices, and versions.</small><span class="connector-token">policy.search_docs</span></article>
+<article class="panel integration-card reveal"><b>Approval service</b><small>Current financial thresholds and decision rights.</small><span class="connector-token">approval.get_matrix</span></article>
+<article class="panel integration-card reveal"><b>Slack / Teams</b><small>Owner notification, escalation, and status updates.</small><span class="connector-token">slack.post_update</span></article>
+<article class="panel integration-card reveal"><b>ServiceNow</b><small>Execution task and formal approval creation.</small><span class="connector-token">servicenow.create_task</span></article>
+<article class="panel integration-card reveal"><b>Governance store</b><small>Decision trace, feedback, override, and evidence retention.</small><span class="connector-token">governance.log_decision</span></article>
+</div>
+</div>
+</section>
+
+<section>
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Industry adaptability</span><h2>One operating pattern, multiple regulated and complex environments.</h2></div>
+<p>The decision model is horizontal, but the evidence, controls, approval thresholds, and success metrics change by industry.</p>
+</div>
+<div class="industry-tabs reveal" id="industryTabs"></div>
+<div class="industry-content" id="industryContent"></div>
+</div>
+</section>
+<section>
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">Implementation roadmap</span><h2>Start with one decision domain, validate control, then scale.</h2></div>
+<p>The deployment path prioritizes operating-model clarity, trusted source access, and measurable value before enterprise expansion.</p>
+</div>
+<div class="timeline">
+<article class="panel phase reveal"><small>Phase 1 - Discover</small><h3>0-30 days</h3><ul><li>Choose decision domain</li><li>Map current workflow</li><li>Define baseline metrics</li><li>Inventory policies and systems</li><li>Confirm decision rights</li></ul></article>
+<article class="panel phase reveal"><small>Phase 2 - Design</small><h3>31-60 days</h3><ul><li>Create intake schema</li><li>Design risk tiers</li><li>Build scoring framework</li><li>Define controls and approvals</li><li>Prototype executive brief</li></ul></article>
+<article class="panel phase reveal"><small>Phase 3 - Pilot</small><h3>61-90 days</h3><ul><li>Connect approved sources</li><li>Run shadow decisions</li><li>Test failure modes</li><li>Train reviewers</li><li>Measure cycle time and quality</li></ul></article>
+<article class="panel phase reveal"><small>Phase 4 - Scale</small><h3>3-9 months</h3><ul><li>Expand use cases</li><li>Integrate execution systems</li><li>Automate reporting</li><li>Establish governance cadence</li><li>Track realized value</li></ul></article>
+</div>
+</div>
+</section>
+<section>
+<div class="container">
+<div class="section-head reveal">
+<div><span class="eyebrow">What this demonstrates</span><h2>A portfolio project built for operations and transformation roles.</h2></div>
+<p>Agent Maestro shows the full arc from ambiguous business problem to governed AI-enabled process, measurable impact, and executive-ready implementation.</p>
+</div>
+<div class="role-map">
+<article class="panel role-card reveal"><div class="icon">BO</div><h3>Business Operations</h3><p>Process discovery, operating cadence, ownership, KPIs, decision rights, and cross-functional execution.</p></article>
+<article class="panel role-card reveal"><div class="icon">AI</div><h3>AI Transformation</h3><p>Use-case design, human-in-the-loop controls, retrieval, evaluation, adoption, and value realization.</p></article>
+<article class="panel role-card reveal"><div class="icon">S&amp;O</div><h3>Strategy &amp; Operations</h3><p>Option analysis, tradeoffs, financial impact, prioritization, risk, and executive recommendations.</p></article>
+<article class="panel role-card reveal"><div class="icon">PMO</div><h3>Program Leadership</h3><p>Stakeholder mapping, RACI, roadmap, dependencies, governance, change management, and delivery planning.</p></article>
+</div>
+</div>
+</section>
+<section class="cta">
+<div class="container">
+<div class="cta-box reveal">
+<span class="eyebrow">Portfolio takeaway</span>
+<h2 style="margin-top:14px">I can turn operational ambiguity into policy-grounded, owner-aligned, auditable execution.</h2>
+<p style="max-width:780px;margin:0 auto 26px">Agent Maestro demonstrates process redesign, AI enablement, decision rights, financial risk, human oversight, enterprise architecture, observability, and measurable operations improvement in one connected system.</p>
+<a class="btn primary" href="#top">Return to top</a>
+</div>
+</div>
+</section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    if (window.mermaid) {
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'dark',
+        themeVariables: {
+          background: '#081827',
+          primaryColor: '#13243a',
+          primaryTextColor: '#eef5fb',
+          primaryBorderColor: '#63e6be',
+          lineColor: '#7aa7ff',
+          secondaryColor: '#0d1d31',
+          tertiaryColor: '#091827',
+          fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif'
+        }
+      });
+    }
+
+    const stepData = [
+      {title:'Hard scope gate',summary:'Confirm that the request belongs to an approved operations domain before retrieval or model use.',items:['Supported workflow and domain check','Out-of-scope refusal reason','Source channel and request identity','Minimum intake fields'],control:'Unapproved requests are blocked before they reach enterprise knowledge or generative AI.'},
+      {title:'Workflow classification',summary:'Identify the primary and secondary operational workflows contained in a messy request.',items:['Primary workflow type','Secondary workflow split','Matched reasons and entities','Classification confidence'],control:'Classification determines which policies, owners, controls, and approval rules can be used.'},
+      {title:'Knowledge retrieval',summary:'Assemble the evidence packet from approved operational sources.',items:['SOP and policy snippets','Approval matrix and thresholds','Known issues and process maps','Versions, contradictions, and missing context'],control:'The system does not rely on generic model knowledge for enterprise decisions.'},
+      {title:'Risk scoring',summary:'Convert financial, customer, policy, and governance signals into a consistent decision tier.',items:['Amount and financial exposure','Customer-impact or legal language','Policy conflict and evidence gaps','Confidence and multi-team dependency'],control:'High and critical scores require manual escalation before execution.'},
+      {title:'Ownership assignment',summary:'Make the accountable next action explicit and identify supporting teams.',items:['Primary accountable owner','Supporting owners and handoffs','Ownership rationale','Expected response timeline'],control:'Clear accountability prevents information-rich cases from stalling between functions.'},
+      {title:'Approval routing',summary:'Apply the approval matrix and establish pre-approval checks, escalation, and fallback.',items:['Required approver','Approval reason','Pre-approval validation checks','Fallback for incomplete evidence'],control:'Approval logic remains deterministic, explainable, and tied to current policy thresholds.'},
+      {title:'Decision package',summary:'Produce a usable business artifact rather than a generic answer.',items:['Leadership-ready summary','Executable workflow steps','Risk and governance note','Stakeholder communication and sources'],control:'Recommendations are separated from approved actions; execution begins only after required approval.'},
+      {title:'Evaluation and backlog',summary:'Capture quality, feedback, overrides, and agent failures for governed improvement.',items:['Confidence and quality score','Human feedback and overrides','Missing-context signal','Policy or process backlog item'],control:'Learning signals are reviewed by owners before changing future decision logic.'}
+    ];
+
+    const stepDetail = document.getElementById('stepDetail');
+    function renderStep(i){
+      document.querySelectorAll('#redesignSteps .step').forEach((el,idx)=>el.classList.toggle('active',idx===i));
+      const s=stepData[i];
+      stepDetail.innerHTML=`<div><span class="tag">Stage ${i+1}</span><h3 style="margin-top:14px">${s.title}</h3><p>${s.summary}</p><div class="brief-block"><h4>Governance principle</h4><p>${s.control}</p></div></div><div class="detail-list">${s.items.map(x=>`<div class="detail-item">${x}</div>`).join('')}</div>`;
+    }
+    document.querySelectorAll('#redesignSteps .step').forEach((el)=>el.addEventListener('click',()=>renderStep(Number(el.dataset.step))));
+    renderStep(0);
+
+    const labels={financial:['<$25K','$25K-$100K','$100K-$500K','$500K-$2M','$2M+'],evidence:['20%','40%','60%','80%','95%'],policy:['None','Low','Moderate','High','Direct conflict'],impact:['Low','Limited','Medium','High','Critical'],urgency:['2+ weeks','1 week','48 hours','24 hours','Immediate']};
+    const inputs=['financial','evidence','policy','impact','urgency'];
+    function updateSimulator(){
+      inputs.forEach(id=>document.getElementById(id+'Label').textContent=labels[id][document.getElementById(id).value-1]);
+      const type=Number(document.getElementById('decisionType').value);
+      const financial=Number(document.getElementById('financial').value);
+      const evidence=Number(document.getElementById('evidence').value);
+      const policy=Number(document.getElementById('policy').value);
+      const impact=Number(document.getElementById('impact').value);
+      const urgency=Number(document.getElementById('urgency').value);
+      let raw=(type*1.2)+(financial*1.4)+((6-evidence)*1.25)+(policy*1.35)+(impact*1.55)+(urgency*.65);
+      let score=Math.max(18,Math.min(96,Math.round(raw/36*100)));
+      const ring=document.getElementById('scoreRing');ring.style.setProperty('--score',score);document.getElementById('riskScore').textContent=score;
+      let config;
+      if(score>=78) config={title:'High-control review',summary:'Executive and risk approval are required. Unresolved policy conflicts or missing evidence should block execution.',tier:'Tier 4 - High control',approvers:'Executive owner + Finance + Legal/Risk',evidence:'Validated source package + scenario analysis',human:'Mandatory, multi-function',sla:'24-72 hours',fallback:'Pause, narrow scope, or escalate'};
+      else if(score>=55) config={title:'Elevated review',summary:'Cross-functional validation and documented approval are recommended before execution.',tier:'Tier 3 - Controlled',approvers:'Business owner + Finance + Risk',evidence:'Source-backed decision memo',human:'Mandatory',sla:'24-48 hours',fallback:'Pause and escalate unresolved conflicts'};
+      else if(score>=35) config={title:'Standard review',summary:'Business-owner approval with documented evidence and control checks is sufficient.',tier:'Tier 2 - Standard',approvers:'Business owner + Process owner',evidence:'Standard evidence checklist',human:'Required at approval',sla:'Same business day',fallback:'Request missing evidence'};
+      else config={title:'Low-risk workflow',summary:'The system may recommend and route the decision through a lightweight approval path.',tier:'Tier 1 - Routine',approvers:'Process owner',evidence:'Minimum source validation',human:'Exception-based',sla:'Under 4 hours',fallback:'Route exceptions to Tier 2'};
+      document.getElementById('riskTitle').textContent=config.title;document.getElementById('riskSummary').textContent=config.summary;document.getElementById('tierOutput').textContent=config.tier;document.getElementById('approverOutput').textContent=config.approvers;document.getElementById('evidenceOutput').textContent=config.evidence;document.getElementById('humanOutput').textContent=config.human;document.getElementById('slaOutput').textContent=config.sla;document.getElementById('fallbackOutput').textContent=config.fallback;
+    }
+    [...inputs,'decisionType'].forEach(id=>document.getElementById(id).addEventListener('input',updateSimulator));updateSimulator();
+
+    const options={
+      'Option A - Enterprise launch':{financial:90,customer:82,ops:48,risk:35,speed:72},
+      'Option B - Controlled pilot':{financial:72,customer:78,ops:84,risk:82,speed:68},
+      'Option C - Delay and redesign':{financial:45,customer:55,ops:70,risk:92,speed:28}
+    };
+    function renderScores(){
+      const weights={};document.querySelectorAll('.weight').forEach(el=>{weights[el.dataset.key]=Number(el.value);el.nextElementSibling.textContent=el.value});
+      const totals=Object.entries(options).map(([name,scores])=>{const denom=Object.values(weights).reduce((a,b)=>a+b,0)||1;const total=Object.keys(weights).reduce((sum,k)=>sum+weights[k]*scores[k],0)/denom;return{name,total:Math.round(total)}}).sort((a,b)=>b.total-a.total);
+      document.getElementById('optionBars').innerHTML=totals.map((o,i)=>`<div class="option-bar"><div class="top"><b>${o.name}</b><strong>${o.total}/100</strong></div><div class="bar"><i style="width:${o.total}%"></i></div></div>`).join('');
+      document.getElementById('optionRecommendation').textContent=`${totals[0].name} currently ranks highest because it best balances the selected value, customer, feasibility, risk, and speed priorities. Leadership can inspect the component scores before accepting the recommendation.`;
+    }
+    document.querySelectorAll('.weight').forEach(el=>el.addEventListener('input',renderScores));renderScores();
+
+    document.querySelectorAll('#riskFilters .filter-btn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('#riskFilters .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const f=btn.dataset.filter;document.querySelectorAll('#riskTable tr').forEach(r=>r.style.display=(f==='all'||r.dataset.domain===f)?'':'none')}));
+
+    function updateValue(){
+      const d=Number(document.getElementById('decisionsPerMonth').value)||0,c=Number(document.getElementById('currentHours').value)||0,f=Number(document.getElementById('futureHours').value)||0,h=Number(document.getElementById('hourlyCost').value)||0,r=Number(document.getElementById('reworkRate').value)||0,rr=Number(document.getElementById('reworkReduction').value)||0;
+      const monthlyHours=Math.max(0,d*(c-f));const annualHours=monthlyHours*12;const baseSavings=annualHours*h;const reworkCases=d*(r/100)*(rr/100);const reworkSavings=reworkCases*Math.max(c,1)*h*12;const total=baseSavings+reworkSavings;const cycle=c>0?Math.round((c-f)/c*100):0;const fte=annualHours/2080;
+      document.getElementById('annualSavings').textContent=total.toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});document.getElementById('hoursSaved').textContent=Math.round(annualHours).toLocaleString();document.getElementById('cycleReduction').textContent=Math.max(0,cycle)+'%';document.getElementById('reworkAvoided').textContent=Math.round(reworkCases)+' cases/mo';document.getElementById('fteEquivalent').textContent=fte.toFixed(1)+' FTE';
+    }
+    ['decisionsPerMonth','currentHours','futureHours','hourlyCost','reworkRate','reworkReduction'].forEach(id=>document.getElementById(id).addEventListener('input',updateValue));updateValue();
+
+
+    const industries={
+      'Banking & Fintech':{use:'Govern pricing exceptions, credit-policy overrides, payment-risk responses, product approvals, and customer remediation decisions.',controls:['Segregation of duties','Regulatory evidence','Approval thresholds'],metrics:['Decision SLA','Exception rate','Loss avoided']},
+      'Healthcare & Pharma':{use:'Support formulary, capacity, vendor, patient-service, clinical-operations, and regulated process decisions without automating clinical judgment.',controls:['Privacy and consent','Clinical/quality review','Validated source hierarchy'],metrics:['Cycle time','Compliance','Service continuity']},
+      'SaaS & Technology':{use:'Prioritize roadmap exceptions, customer commitments, launch decisions, security exceptions, pricing approvals, and AI-use-case governance.',controls:['Product ownership','Security review','Customer-impact analysis'],metrics:['Time to decision','Launch risk','Retention impact']},
+      'Manufacturing & Semiconductors':{use:'Evaluate supplier substitutions, production tradeoffs, capacity allocation, quality deviations, capital decisions, and disruption responses.',controls:['Quality sign-off','Dependency mapping','Change control'],metrics:['Downtime avoided','Yield impact','Lead-time reduction']},
+      'Retail & CPG':{use:'Govern markdowns, inventory transfers, assortment changes, campaign exceptions, supplier actions, and customer remediation.',controls:['Margin threshold','Brand policy','Inventory guardrails'],metrics:['Margin protected','Stockout risk','Decision speed']},
+      'Energy & Government':{use:'Structure infrastructure, procurement, service continuity, public-impact, emergency response, and policy-sensitive decisions.',controls:['Public accountability','Procurement rules','Audit retention'],metrics:['Response time','Policy adherence','Public impact']}
+    };
+    const tabs=document.getElementById('industryTabs'),content=document.getElementById('industryContent');
+    tabs.innerHTML=Object.keys(industries).map((k,i)=>`<button class="industry-btn ${i===0?'active':''}" data-industry="${k}">${k}</button>`).join('');
+    function renderIndustry(k){const d=industries[k];content.innerHTML=`<article class="panel use-case reveal visible"><span class="tag">Illustrative use case</span><h3 style="margin-top:14px">${k}</h3><p>${d.use}</p><h4>Control emphasis</h4><div class="detail-list">${d.controls.map(x=>`<div class="detail-item">${x}</div>`).join('')}</div></article><article class="panel use-case reveal visible"><span class="tag">Value lens</span><h3 style="margin-top:14px">How success is measured</h3><p>The operating model remains consistent, while the evidence and control requirements change by industry.</p><div class="industry-metrics">${d.metrics.map((x,i)=>`<div class="kpi"><span>Metric ${i+1}</span><strong>${x}</strong></div>`).join('')}</div></article>`;}
+    tabs.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>{tabs.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderIndustry(btn.dataset.industry)}));renderIndustry(Object.keys(industries)[0]);
+
+    document.querySelector('.nav-toggle').addEventListener('click',()=>document.querySelector('.nav').classList.toggle('open'));
+    document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>document.querySelector('.nav').classList.remove('open')));
+
+    const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
+    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+    const endpoints = [
+      {name:'Submit request',method:'POST',path:'/api/v1/requests',purpose:'Create a controlled decision run from any intake channel.',body:'{\n  "request_text": "Customer requests a $75,000 refund...",\n  "source_channel": "support_ticket",\n  "customer_id": "CUST-10492"\n}',output:'decision_run_id - status - next_step'},
+      {name:'Scope check',method:'POST',path:'/api/v1/requests/{id}/scope-check',purpose:'Block requests outside the approved operations domain.',body:'{\n  "in_scope": true,\n  "scope": "Command Ops",\n  "matched_keywords": ["refund", "billing"]\n}',output:'scope decision - matched signals - blocked reason'},
+      {name:'Classify',method:'POST',path:'/api/v1/requests/{id}/classify',purpose:'Select the primary workflow and split secondary workflows.',body:'{\n  "workflow_type": "Refund Approval",\n  "confidence": 0.91,\n  "secondary_workflows": ["Billing Issue", "Billing Login"]\n}',output:'workflow - confidence - reasons - secondary work'},
+      {name:'Knowledge',method:'POST',path:'/api/v1/requests/{id}/knowledge',purpose:'Retrieve the governed evidence packet and source metadata.',body:'{\n  "sources": ["refund_policy.md", "approval_matrix.csv"],\n  "missing_context": false,\n  "contradictions": []\n}',output:'sources - snippets - versions - missing context'},
+      {name:'Risk score',method:'POST',path:'/api/v1/requests/{id}/risk-score',purpose:'Translate business signals into risk tier and required action.',body:'{\n  "risk_level": "Critical",\n  "risk_score": 96,\n  "required_action": "Manual escalation before execution"\n}',output:'risk score - drivers - confidence - action'},
+      {name:'Assign owner',method:'POST',path:'/api/v1/requests/{id}/owner',purpose:'Make accountable ownership and supporting roles explicit.',body:'{\n  "primary_owner": "Finance Director",\n  "supporting_owners": ["Billing Operations", "Legal"]\n}',output:'primary owner - support roles - rationale'},
+      {name:'Approval route',method:'POST',path:'/api/v1/requests/{id}/approval-route',purpose:'Apply thresholds, validation checks, and fallback guidance.',body:'{\n  "approval_owner": "VP Finance + Legal",\n  "pre_approval_checks": ["Validate billing evidence"],\n  "fallback": "Manual review queue"\n}',output:'approval owner - checks - reason - fallback'},
+      {name:'Decision package',method:'POST',path:'/api/v1/requests/{id}/decision-package',purpose:'Generate the complete business-facing execution artifact.',body:'{\n  "summary": "Critical refund escalation...",\n  "workflow_steps": ["Validate evidence", "Escalate"],\n  "sources_used": ["refund_policy.md"]\n}',output:'summary - workflow - risk note - draft - sources'},
+      {name:'Evaluation',method:'POST',path:'/api/v1/evaluations',purpose:'Log quality, human feedback, overrides, and improvement signals.',body:'{\n  "decision_run_id": "run_20260707_001",\n  "human_feedback": "Add Customer Success owner",\n  "override_applied": false\n}',output:'logged status - backlog creation - learning reason'}
+    ];
+    const endpointList=document.getElementById('endpointList');
+    const endpointDetail=document.getElementById('endpointDetail');
+    function renderEndpoint(i){
+      if(!endpointList||!endpointDetail)return;
+      endpointList.querySelectorAll('.endpoint-btn').forEach((b,j)=>b.classList.toggle('active',i===j));
+      const e=endpoints[i];
+      endpointDetail.innerHTML=`<span class="method">${e.method}</span><strong>${e.path}</strong><h3 style="margin-top:20px">${e.name}</h3><p>${e.purpose}</p><div class="brief-block"><h4>Returns</h4><p>${e.output}</p></div><div class="codebox">${e.body.replace(/</g,'&lt;')}</div>`;
+    }
+    if(endpointList){endpointList.innerHTML=endpoints.map((e,i)=>`<button class="endpoint-btn ${i===0?'active':''}" data-endpoint="${i}">${e.name}</button>`).join('');endpointList.addEventListener('click',e=>{const b=e.target.closest('[data-endpoint]');if(b)renderEndpoint(Number(b.dataset.endpoint));});renderEndpoint(0);}
+
+    const roleData={
+      Analyst:{mission:'Resolve the request correctly on the first pass.',items:['Structured intake and workflow classification','Relevant SOP and policy snippets','Required validation checklist','Recommended next action and owner','Source trace and missing-context flags']},
+      Manager:{mission:'Control workload, exceptions, and service performance.',items:['Risk-prioritized queue','Ownership and SLA exceptions','Approval bottlenecks','Human overrides and quality trends','Recurring policy or process gaps']},
+      Director:{mission:'Govern exposure, value, and operating-model improvement.',items:['Critical decisions requiring approval','Financial and customer exposure','Policy contradictions and control failures','Cycle time, accuracy, and productivity trends','Improvement backlog and realized value']}
+    };
+    const roleTabs=document.getElementById('roleTabs'), roleView=document.getElementById('roleView');
+    function renderRole(k){if(!roleTabs||!roleView)return;roleTabs.querySelectorAll('.role-tab').forEach(b=>b.classList.toggle('active',b.dataset.role===k));const d=roleData[k];roleView.innerHTML=`<article class="panel role-pane reveal visible"><span class="tag">${k} view</span><h3 style="margin-top:14px">${d.mission}</h3><p>Information is prioritized around the decisions and actions this role owns.</p></article><article class="panel role-pane reveal visible"><h3>What the console surfaces</h3><div class="view-list">${d.items.map(x=>`<div class="detail-item">${x}</div>`).join('')}</div></article>`;}
+    if(roleTabs){roleTabs.innerHTML=Object.keys(roleData).map((k,i)=>`<button class="role-tab ${i===0?'active':''}" data-role="${k}">${k}</button>`).join('');roleTabs.addEventListener('click',e=>{const b=e.target.closest('[data-role]');if(b)renderRole(b.dataset.role);});renderRole('Analyst');}
+
+
+
+    const overlayViews={
+      current:{
+        title:'The request moves through people before the business understands the whole problem.',
+        text:'Each function sees only its portion of the case. Evidence is copied between tools, policies are checked manually, and the approval path is discovered through escalation.',
+        callout:'Primary operating risk: the organization has systems and experts, but no shared decision trace joining them.',
+        diagram:`<div class="flow-title"><div><span class="tag">Current-state illustration</span><h3 style="margin-top:12px">Fragmented handoffs</h3></div><small>Multiple tools - informal routing - manual reconciliation</small></div><div class="system-strip"><div class="system-chip">Zendesk ticket</div><div class="system-chip">Slack thread</div><div class="system-chip">Billing / ERP</div><div class="system-chip">Policy folder</div><div class="system-chip">Spreadsheet tracker</div></div><div class="flow-row"><div class="flow-node friction"><b>Customer Support</b><small>Receives a refund request and forwards the case.</small></div><div class="flow-arrow-inline">-></div><div class="flow-node friction"><b>Billing Operations</b><small>Investigates duplicate billing and portal access.</small></div><div class="flow-arrow-inline">-></div><div class="flow-node friction"><b>Finance</b><small>Searches policy and determines approval threshold.</small></div><div class="flow-arrow-inline">-></div><div class="flow-node friction"><b>Legal / Risk</b><small>Joins after sensitive customer language is noticed.</small></div><div class="flow-arrow-inline">-></div><div class="flow-node friction"><b>Manual follow-up</b><small>Decision, response, owner, and evidence are tracked separately.</small></div></div>`
+      },
+      maestro:{
+        title:'Agent Maestro becomes the coordination and control layer across the existing process.',
+        text:'All source systems remain in place. Agent Maestro reads only permissioned context, creates one governed interpretation, and returns recommendations, approval tasks, and communications to the teams that own execution.',
+        callout:'Architectural boundary: the layer can recommend, route, and log; only authorized people and systems execute material actions.',
+        diagram:`<div class="flow-title"><div><span class="tag">Overlay illustration</span><h3 style="margin-top:12px">A governed layer above systems of record</h3></div><small>Bounded reasoning - deterministic controls - permissioned execution</small></div><div class="system-strip"><div class="system-chip">CRM / Cases</div><div class="system-chip">Ticketing</div><div class="system-chip">Billing / ERP</div><div class="system-chip">Policies / SOPs</div><div class="system-chip">Approval matrix</div></div><div class="vertical-arrow">&darr; permissioned context</div><div class="maestro-layer"><div class="maestro-layer-head"><div><b>Agent Maestro decision layer</b><small style="display:block;color:var(--muted)">One evidence packet - one governance path - one audit trace</small></div><span class="tag">Human controlled</span></div><div class="decision-pills"><div class="decision-pill">Scope gate</div><div class="decision-pill">Classify</div><div class="decision-pill">Retrieve</div><div class="decision-pill">Score risk</div><div class="decision-pill">Assign owner</div><div class="decision-pill">Route approval</div></div></div><div class="vertical-arrow">&darr; governed outputs</div><div class="system-strip"><div class="system-chip">Support action</div><div class="system-chip">Billing validation</div><div class="system-chip">Finance approval</div><div class="system-chip">Legal review</div><div class="system-chip">ServiceNow / Slack tasks</div></div>`
+      },
+      future:{
+        title:'The future state turns the same request into an executable, measurable decision run.',
+        text:'The operating model becomes faster because teams share the same evidence, risk tier, accountable owner, approval path, and decision rationale. Exceptions remain visible rather than hidden in conversations.',
+        callout:'The transformation outcome is a shorter and more consistent decision cycle-not automation for its own sake.',
+        diagram:`<div class="flow-title"><div><span class="tag">Future-state illustration</span><h3 style="margin-top:12px">Governed decision-to-execution flow</h3></div><small>Shared evidence - explicit decision rights - closed-loop learning</small></div><div class="future-lane"><div class="flow-node output"><b>1 - Structured intake</b><small>Request, workflows, entities, urgency, and required evidence.</small></div><div class="future-arrow">-></div><div class="flow-node control"><b>2 - Decision package</b><small>Policy context, risk score, options, owner, checks, and recommendation.</small></div><div class="future-arrow">-></div><div class="flow-node output"><b>3 - Human approval</b><small>Authorized reviewer accepts, revises, overrides, or requests evidence.</small></div><div class="future-arrow">-></div><div class="flow-node control"><b>4 - Execution + learning</b><small>Tasks are created, outcomes measured, and exceptions added to a governed backlog.</small></div></div>`
+      }
+    };
+    const overlayTabs=document.getElementById('overlayTabs'), overlayCanvas=document.getElementById('overlayCanvas'), overlayExplanation=document.getElementById('overlayExplanation');
+    function renderOverlay(key){
+      if(!overlayTabs||!overlayCanvas||!overlayExplanation)return;
+      overlayTabs.querySelectorAll('.overlay-tab').forEach(b=>b.classList.toggle('active',b.dataset.overlay===key));
+      const d=overlayViews[key];
+      overlayCanvas.innerHTML=d.diagram;
+      overlayExplanation.innerHTML=`<span class="tag">What changes</span><h3 style="margin-top:14px">${d.title}</h3><p>${d.text}</p><div class="callout">${d.callout}</div>`;
+    }
+    if(overlayTabs){overlayTabs.addEventListener('click',e=>{const b=e.target.closest('[data-overlay]');if(b)renderOverlay(b.dataset.overlay)});renderOverlay('current');}
+
+</script>
+</body>
+</html>
+
+
