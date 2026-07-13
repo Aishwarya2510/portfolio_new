@@ -150,15 +150,16 @@ const num = String(number).padStart(2, "0");
       linear-gradient(180deg, color-mix(in oklab, var(--card-accent) 12%, transparent), transparent 42%),
       var(--color-bg-light);
     color: var(--color-ink);
-    border-radius: 10px;
-    padding: 8px;
+    border-radius: 12px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
     transform: rotate(var(--card-tilt, 0deg));
     transform-origin: 50% 40%;
     box-shadow:
       inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 8%, transparent),
+      0 14px 32px -26px rgba(94, 55, 22, 0.52),
       0 0 4px 0 rgba(124, 86, 48, 0.34);
     transition:
       transform 320ms var(--ease-out-soft),
@@ -182,8 +183,8 @@ const num = String(number).padStart(2, "0");
     position: absolute;
     left: 8px;
     right: 8px;
-    top: 29px;
-    height: 3px;
+    top: 36px;
+    height: 4px;
     border-radius: 999px;
     background: var(--card-accent);
     opacity: 0.78;
@@ -227,12 +228,12 @@ const num = String(number).padStart(2, "0");
     display: inline-grid;
     place-items: center;
     min-width: 48px;
-    height: 19px;
+    height: 24px;
     border-radius: 999px;
     background: color-mix(in oklab, var(--card-accent) 26%, var(--color-bg));
     box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 10%, transparent);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 11px;
     line-height: 1;
     text-transform: uppercase;
     color: var(--color-ink);
@@ -315,10 +316,9 @@ const num = String(number).padStart(2, "0");
   }
 
   .index-card__header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 9px;
   }
 
   /* Title locked to a single size across default + expanded so the card
@@ -328,7 +328,7 @@ const num = String(number).padStart(2, "0");
     min-width: 0;
     font-family: var(--font-display);
     font-weight: 300;
-    font-size: 15px;
+    font-size: clamp(1.6rem, 2.4vw, 2.15rem);
     line-height: 1.08;
     color: var(--color-ink);
     margin: 0;
@@ -341,32 +341,33 @@ const num = String(number).padStart(2, "0");
   .index-card__tags {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 6px;
     flex-shrink: 0;
-    max-width: 45%;
-    justify-content: flex-end;
+    max-width: none;
+    justify-content: flex-start;
   }
 
   .index-card__description {
     margin: 0;
     font-family: var(--font-body);
-    font-size: 10px;
-    line-height: 1.25;
+    font-size: 0.94rem;
+    line-height: 1.38;
     color: #6b6553;
     display: -webkit-box;
     overflow: hidden;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
 
   .index-card__action {
-    margin-top: 5px;
+    margin-top: 9px;
     display: inline-flex;
     align-items: center;
     gap: 6px;
     width: max-content;
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: 11px;
     line-height: 1;
     text-transform: uppercase;
     color: var(--color-ink);
@@ -417,7 +418,7 @@ const num = String(number).padStart(2, "0");
     width: 100%;
     height: 1px;
     margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='1'><line x1='0' y1='0.5' x2='3' y2='0.5' stroke='%23242424' stroke-opacity='0.22' stroke-width='1' stroke-linecap='round'/></svg>");
     background-repeat: repeat-x;
     background-position: left center;
@@ -453,7 +454,7 @@ const num = String(number).padStart(2, "0");
     display: grid;
     grid-template-columns: 64px 1fr;
     column-gap: 12px;
-    font-size: 10px;
+    font-size: 12px;
     /* line-height must leave room for descenders (g/y/p) — otherwise the
        parent's `overflow: hidden` clips the tail of the last row. */
     line-height: 1.25;

@@ -33,18 +33,14 @@ import { withBase } from "../lib/paths";
         <section class="work-hero" aria-labelledby="work-title">
           <div class="work-hero__copy">
             <p class="work-hero__eyebrow">Projects</p>
-            <h1 id="work-title">Project pages are being rebuilt.</h1>
-            <p>
-              The old project section has been cleared. New project pages will be rebuilt from the
-              source folders in <code>allprojects/</code>.
-            </p>
+            <h1 id="work-title">More projects coming!!</h1>
           </div>
 
-          <div class="work-hero__signals" aria-label="Work focus areas">
-            <span>Images</span>
-            <span>Diagrams</span>
-            <span>Raw Notes</span>
-            <span>Case Pages</span>
+          <div class="work-hero__signals" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
         </section>
 
@@ -59,7 +55,7 @@ import { withBase } from "../lib/paths";
             description="An AI-native operations decision layer for policy-grounded classification, risk scoring, ownership, approval routing, and auditable execution."
             accent="teal"
             image={withBase("/images/projects/agent-maestro/hero.png")}
-            imageHeight={78}
+            imageHeight={190}
             href={withBase("/work/agent-maestro/")}
             tilt={0}
           />
@@ -73,7 +69,7 @@ import { withBase } from "../lib/paths";
             description="An operating framework that connects AI spend to workflow outcomes, ownership, governance cadence, and scale decisions."
             accent="orange"
             image={withBase("/images/projects/ai-valueops/governance-layer.png")}
-            imageHeight={78}
+            imageHeight={190}
             href={withBase("/work/ai-valueops/")}
             tilt={0}
           />
@@ -87,14 +83,52 @@ import { withBase } from "../lib/paths";
             description="A control-tower model for validating AI pilots, launch readiness, GTM gates, and evidence-based scale decisions."
             accent="teal"
             image={withBase("/images/projects/ai-pilot-to-scale/ai-pilot.png")}
-            imageHeight={78}
+            imageHeight={190}
             href={withBase("/work/ai-pilot-to-scale/")}
             tilt={0}
           />
+          <article class="coming-project-card" aria-labelledby="coming-projects-title">
+            <div class="coming-project-card__top">
+              <span class="coming-project-card__hole" aria-hidden="true"></span>
+              <span class="coming-project-card__num">No. 04</span>
+            </div>
+
+            <div class="coming-project-card__stage" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <div class="coming-project-card__body">
+              <p class="coming-project-card__kicker">Next batch</p>
+              <h3 id="coming-projects-title">More projects coming.</h3>
+              <p>Stay tuned!!</p>
+            </div>
+          </article>
         </div>
 
-        <section class="project-reset" aria-label="Project rebuild source folder">
-          <p>More project pages will be rebuilt from <code>allprojects/</code>.</p>
+        <section class="coming-banner" aria-label="More projects coming soon">
+          <div class="coming-banner__track">
+            <span>More projects coming, stay tuned</span>
+            <span>More projects coming, stay tuned</span>
+            <span>More projects coming, stay tuned</span>
+            <span>More projects coming, stay tuned</span>
+          </div>
+        </section>
+
+        <section class="project-sparks" aria-label="More projects coming">
+          <div class="project-sparks__copy">
+            <p>Stay tuned</p>
+            <h2>More projects coming!!</h2>
+          </div>
+          <div class="project-sparks__art" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </section>
       </div>
     </main>
@@ -180,6 +214,12 @@ import { withBase } from "../lib/paths";
       background-size: cover;
       background-position: center top;
       background-color: var(--color-bg-neutral);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .coming-banner__track {
+        animation: none !important;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -285,66 +325,402 @@ import { withBase } from "../lib/paths";
       gap: 6px;
     }
     .work-hero__signals span {
-      min-height: 28px;
-      display: grid;
-      place-items: center;
+      position: relative;
+      min-height: 46px;
       border-radius: 8px;
-      background: color-mix(in oklab, var(--color-bg) 86%, var(--color-orange-1));
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, color-mix(in oklab, var(--color-bg) 86%, var(--color-orange-1)), white),
+        var(--color-bg);
       box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 10%, transparent);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      line-height: 1;
-      text-transform: uppercase;
-      color: var(--color-ink);
-      text-align: center;
+    }
+    .work-hero__signals span::before,
+    .work-hero__signals span::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+    }
+    .work-hero__signals span::before {
+      inset: 12px auto auto 12px;
+      width: 28px;
+      height: 6px;
+      background: var(--color-teal);
+    }
+    .work-hero__signals span::after {
+      right: 10px;
+      bottom: 9px;
+      width: 16px;
+      height: 16px;
+      background: var(--color-orange);
+      box-shadow: -18px -12px 0 color-mix(in oklab, var(--color-pink) 78%, white);
+    }
+    .work-hero__signals span:nth-child(2)::before {
+      width: 6px;
+      height: 28px;
+      background: var(--color-pink);
+    }
+    .work-hero__signals span:nth-child(3)::after {
+      width: 24px;
+      height: 24px;
+      background: transparent;
+      border: 2px solid var(--color-teal);
+      box-shadow: none;
+    }
+    .work-hero__signals span:nth-child(4)::before {
+      width: 42px;
+      background: var(--color-orange);
     }
 
     .work-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: clamp(14px, 2vw, 22px);
       align-items: stretch;
     }
 
-    .project-reset {
-      display: grid;
-      gap: 8px;
-      min-height: 190px;
-      align-content: center;
-      padding: clamp(18px, 3vw, 30px);
-      border-radius: 12px;
-      background: var(--color-bg-light);
-      box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 10%, transparent);
+    .coming-project-card {
+      position: relative;
+      isolation: isolate;
+      min-height: 100%;
+      overflow: hidden;
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background:
+        linear-gradient(
+          180deg,
+          color-mix(in oklab, var(--color-orange) 14%, transparent),
+          transparent 42%
+        ),
+        var(--color-bg-light);
+      color: var(--color-ink);
+      box-shadow:
+        inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 8%, transparent),
+        0 0 4px 0 rgba(124, 86, 48, 0.34);
     }
 
-    .project-reset p {
+    .coming-project-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(
+          90deg,
+          transparent 0 18px,
+          color-mix(in oklab, var(--color-orange) 24%, transparent) 18px 20px,
+          transparent 20px
+        ),
+        radial-gradient(
+          circle at 82% 16%,
+          color-mix(in oklab, var(--color-teal) 32%, transparent),
+          transparent 30%
+        );
+      background-size: 38px 100%, auto;
+      opacity: 0.42;
+    }
+
+    .coming-project-card__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .coming-project-card__hole {
+      width: 13px;
+      height: 13px;
+      border-radius: 9999px;
+      background: var(--color-bg);
+      box-shadow:
+        inset 0 1px 1.5px rgba(36, 36, 36, 0.35),
+        inset 0 -0.5px 0.5px rgba(255, 255, 255, 0.4),
+        0 0 0 1px color-mix(in oklab, var(--color-ink) 14%, transparent);
+    }
+
+    .coming-project-card__num {
+      display: inline-grid;
+      place-items: center;
+      min-width: 48px;
+      height: 24px;
+      border-radius: 999px;
+      background: color-mix(in oklab, var(--color-orange) 24%, var(--color-bg));
+      box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 10%, transparent);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1;
+      text-transform: uppercase;
+      color: var(--color-ink);
+    }
+
+    .coming-project-card__stage {
+      position: relative;
+      min-height: 190px;
+      overflow: hidden;
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, color-mix(in oklab, var(--color-teal) 72%, #242424), #242424 74%);
+      box-shadow:
+        inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 8%, transparent),
+        0 8px 18px -16px rgba(36, 36, 36, 0.52);
+    }
+
+    .coming-project-card__stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 18px 18px;
+      mask-image: linear-gradient(to bottom, black, transparent 82%);
+    }
+
+    .coming-project-card__stage span {
+      position: absolute;
+      display: block;
+      border-radius: 999px;
+      background: color-mix(in oklab, var(--color-orange) 78%, white);
+      box-shadow: 0 0 18px color-mix(in oklab, var(--color-orange) 50%, transparent);
+    }
+
+    .coming-project-card__stage span:nth-child(1) {
+      left: 18px;
+      bottom: 18px;
+      width: 42px;
+      height: 5px;
+    }
+
+    .coming-project-card__stage span:nth-child(2) {
+      left: 74px;
+      bottom: 28px;
+      width: 68px;
+      height: 5px;
+    }
+
+    .coming-project-card__stage span:nth-child(3) {
+      right: 46px;
+      top: 22px;
+      width: 32px;
+      height: 32px;
+      background: transparent;
+      border: 1px solid color-mix(in oklab, var(--color-bg-light) 68%, transparent);
+      box-shadow: none;
+    }
+
+    .coming-project-card__stage span:nth-child(4) {
+      right: 18px;
+      bottom: 17px;
+      width: 22px;
+      height: 22px;
+      background: var(--color-bg-light);
+    }
+
+    .coming-project-card__body {
+      display: grid;
+      gap: 5px;
+      margin-top: 2px;
+    }
+
+    .coming-project-card__kicker {
       margin: 0;
-      max-width: 72ch;
-      font-family: var(--font-body);
-      font-size: clamp(1rem, 1.6vw, 1.18rem);
-      line-height: 1.5;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1;
+      text-transform: uppercase;
       color: var(--color-ink-dim);
     }
 
-    .work-hero code,
-    .project-reset code {
-      padding: 0.12em 0.34em;
-      border-radius: 4px;
-      background: color-mix(in oklab, var(--color-orange-1) 24%, white);
+    .coming-project-card h3 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(1.85rem, 3vw, 2.75rem);
+      line-height: 1;
       color: var(--color-ink);
+    }
+
+    .coming-project-card__body p:last-child {
+      margin: 0;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      line-height: 1.38;
+      color: #6b6553;
+    }
+
+    .coming-banner {
+      overflow: hidden;
+      border-radius: 10px;
+      background: var(--color-ink);
+      color: var(--color-bg-light);
+      box-shadow:
+        inset 0 0 0 1px color-mix(in oklab, var(--color-bg-light) 12%, transparent),
+        0 0 4px 0 rgba(124, 86, 48, 0.34);
+    }
+
+    .coming-banner__track {
+      display: flex;
+      width: max-content;
+      gap: 18px;
+      padding: 10px 0;
+      animation: coming-banner-roll 22s linear infinite;
+      will-change: transform;
+    }
+
+    .coming-banner__track span {
+      position: relative;
+      flex: 0 0 auto;
+      padding-left: 18px;
       font-family: var(--font-mono);
-      font-size: 0.9em;
+      font-size: clamp(0.76rem, 1.3vw, 0.95rem);
+      line-height: 1;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .coming-banner__track span::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--color-orange);
+      transform: translateY(-50%);
+    }
+
+    @keyframes coming-banner-roll {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .project-sparks {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      min-height: 190px;
+      display: grid;
+      grid-template-columns: minmax(0, 0.62fr) minmax(240px, 1fr);
+      align-items: center;
+      gap: clamp(16px, 4vw, 44px);
+      padding: clamp(18px, 3vw, 30px);
+      background:
+        linear-gradient(135deg, color-mix(in oklab, var(--color-teal) 13%, white), transparent 50%),
+        var(--color-bg-light);
+      box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 10%, transparent);
+    }
+
+    .project-sparks::before {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border-radius: 10px;
+      border: 1px dashed color-mix(in oklab, var(--color-ink) 18%, transparent);
+      pointer-events: none;
+    }
+
+    .project-sparks__copy,
+    .project-sparks__art {
+      position: relative;
+      z-index: 1;
+    }
+
+    .project-sparks__copy {
+      display: grid;
+      gap: 6px;
+    }
+
+    .project-sparks__copy p {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      line-height: 1;
+      text-transform: uppercase;
+      color: var(--color-ink-dim);
+    }
+
+    .project-sparks__copy h2 {
+      margin: 0;
+      max-width: 10ch;
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(2.6rem, 6vw, 5.6rem);
+      line-height: 0.9;
+      color: var(--color-ink);
+    }
+
+    .project-sparks__art {
+      min-height: 132px;
+    }
+
+    .project-sparks__art span {
+      position: absolute;
+      display: block;
+      border-radius: 999px;
+      background: var(--color-teal);
+      box-shadow: 0 18px 38px -26px rgba(36, 36, 36, 0.62);
+    }
+
+    .project-sparks__art span:nth-child(1) {
+      left: 5%;
+      top: 12%;
+      width: 38%;
+      height: 12px;
+      background: var(--color-orange);
+      transform: rotate(-8deg);
+    }
+
+    .project-sparks__art span:nth-child(2) {
+      left: 20%;
+      bottom: 10%;
+      width: 64%;
+      height: 18px;
+      background: var(--color-teal);
+      transform: rotate(4deg);
+    }
+
+    .project-sparks__art span:nth-child(3) {
+      right: 10%;
+      top: 16%;
+      width: 74px;
+      height: 74px;
+      background: transparent;
+      border: 2px solid var(--color-pink);
+      box-shadow: none;
+    }
+
+    .project-sparks__art span:nth-child(4) {
+      left: 4%;
+      bottom: 28%;
+      width: 44px;
+      height: 44px;
+      background: var(--color-bg-neutral-2);
+    }
+
+    .project-sparks__art span:nth-child(5) {
+      right: 32%;
+      top: 48%;
+      width: 18px;
+      height: 18px;
+      background: var(--color-pink);
     }
 
     @media (min-width: 1180px) {
       .work-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
 
     @media (min-width: 860px) and (max-width: 1179px) {
       .work-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -358,6 +734,12 @@ import { withBase } from "../lib/paths";
       }
       .work-hero__signals {
         width: 100%;
+      }
+      .project-sparks {
+        grid-template-columns: 1fr;
+      }
+      .project-sparks__art {
+        min-height: 110px;
       }
     }
   </style>

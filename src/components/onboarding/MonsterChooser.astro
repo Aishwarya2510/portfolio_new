@@ -28,7 +28,7 @@ const monsters: Monster[] = [
   <div class="monster-chooser__header">
     <p class="monster-chooser__eyebrow">choose your monster</p>
     <h1 id="monster-title">Who should run around the website?</h1>
-    <a href={withBase("/home/")} class="monster-chooser__skip" data-skip-monster data-cursor="link">
+    <a href={withBase("/about/")} class="monster-chooser__skip" data-skip-monster data-cursor="link">
       Skip for now
     </a>
   </div>
@@ -313,7 +313,7 @@ const monsters: Monster[] = [
   import { navigate } from "astro:transitions/client";
 
   const MONSTER_KEY = "sitepet:monster";
-  const HOME_URL = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/home/`;
+  const LANDING_URL = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/about/`;
 
   function wireMonsterChooser() {
     const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-monster-choice]"));
@@ -326,7 +326,7 @@ const monsters: Monster[] = [
         try {
           sessionStorage.setItem("wallet:arrival", "1");
         } catch {}
-        navigate(HOME_URL);
+        navigate(LANDING_URL);
       });
     }
     if (!cards.length) return;
@@ -348,7 +348,7 @@ const monsters: Monster[] = [
         } catch {}
         window.dispatchEvent(new CustomEvent("sitepet:monster-change", { detail: { monster: choice } }));
         await new Promise((resolve) => window.setTimeout(resolve, 180));
-        navigate(HOME_URL);
+        navigate(LANDING_URL);
       });
     });
   }

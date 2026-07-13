@@ -380,7 +380,6 @@ const phases = [
   }
 
   .value-hero {
-    min-height: calc(100vh - 34px);
     display: grid;
     background:
       linear-gradient(
@@ -408,8 +407,9 @@ const phases = [
     display: grid;
     grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.7fr);
     gap: clamp(18px, 4vw, 54px);
-    align-items: end;
-    padding: clamp(18px, 3vw, 38px);
+    align-items: center;
+    min-height: clamp(520px, 68vh, 660px);
+    padding: clamp(24px, 4vw, 48px);
   }
 
   .eyebrow,
