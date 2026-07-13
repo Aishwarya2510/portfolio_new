@@ -1,7 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Sidebar from "../components/home/Sidebar.astro";
-import CustomCursor from "../components/home/CustomCursor.astro";`r`nimport { withBase } from "../lib/paths";
+import CustomCursor from "../components/home/CustomCursor.astro";
+import { withBase } from "../lib/paths";
 
 const formspreeEndpoint =
   import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? "https://formspree.io/f/your-form-id";
@@ -35,37 +36,33 @@ const tags = [
   "REVOPS BROWNBAG",
   "LEAN SIX SIGMA",
   "DATA COMPLIANCE",
-  "JUST SAYING HI ??",
+  "JUST SAYING HI 👋",
   "PRODUCT DEMO",
 ];
 
 const channels = [
   {
-    label: "Not Instagram",
-    href: "#",
-    note: "Plot twist: I am not handing over the scroll vortex today",
-    logo: withBase("/images/connectlogos/insta.jpg"),
-    action: "joke",
-  },
-  {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/aishwarya-chourasia-65b381151/",
-    note: "work, ideas, collaborations",
     logo: withBase("/images/connectlogos/linkeidn.png"),
   },
   {
     label: "GitHub",
     href: "https://github.com/Aishwarya2510",
-    note: "projects, repos, experiments",
     logo: withBase("/images/connectlogos/git.png"),
   },
   {
     label: "Email",
     href: "mailto:aisharya7uiuc@gmail.com",
-    note: "direct note, no ceremony",
     logo: withBase("/images/connectlogos/gmail.png"),
   },
-];---
+  {
+    label: "Not Instagram",
+    href: withBase("/not-instagram/"),
+    logo: withBase("/images/connectlogos/insta.jpg"),
+  },
+];
+---
 
 <BaseLayout
   title="Connect - Aishwarya's Portfolio"
@@ -108,7 +105,7 @@ const channels = [
                 </p>
                 <div class="postcard__stamp" aria-label="Energy stamp">
                   <span>STAMP</span>
-                  <strong data-postcard-stamp>🤖</strong>
+                  <strong data-postcard-stamp>&#x1F916;</strong>
                 </div>
               </header>
 
@@ -131,6 +128,15 @@ const channels = [
                   <ul data-postcard-tags>
                     <li>-> AI STRATEGY</li>
                   </ul>
+                </div>
+
+                <div class="postcard__typed">
+                  <p>Typed note:</p>
+                  <p>
+                    <span data-postcard-note
+                      >Let's build something useful. Put your thoughts here...</span
+                    ><i aria-hidden="true"></i>
+                  </p>
                 </div>
 
                 <p>
@@ -158,10 +164,8 @@ const channels = [
             </div>
             <span
               class="hidden rounded-full bg-[var(--color-bg-neutral)] px-3 py-2 font-mono text-[0.65rem] uppercase text-[var(--color-ink-dim)] sm:inline-flex"
-              data-energy-badge
+              data-energy-badge>&#x1F916; product mode</span
             >
-              🤖 product mode
-            </span>
           </div>
 
           <div class="grid gap-5">
@@ -316,15 +320,16 @@ const channels = [
                 channels.map((channel) => (
                   <a
                     href={channel.href}
-                    class="group grid gap-1 rounded-lg bg-white/8 p-4 text-inherit no-underline transition duration-200 hover:-translate-y-1 hover:bg-white/14"
+                    class="channel-link group grid place-items-center rounded-lg bg-white/8 p-4 text-inherit no-underline transition duration-200 hover:-translate-y-1 hover:bg-white/14"
+                    aria-label={channel.label}
+                    title={channel.label}
+                    target="_blank"
+                    rel="noreferrer"
                     data-cursor="link"
                   >
-                    <span class="font-display text-2xl font-light leading-none">
-                      {channel.label}
+                    <span class="channel-logo">
+                      <img src={channel.logo} alt="" loading="lazy" />
                     </span>
-                    <small class="font-mono text-[0.68rem] uppercase text-[var(--color-starlight)]">
-                      {channel.note}
-                    </small>
                   </a>
                 ))
               }
@@ -340,6 +345,7 @@ const channels = [
 
 <style>
   .postcard-wrap {
+    position: relative;
     border-radius: 18px;
     padding: clamp(10px, 2vw, 18px);
     background:
@@ -357,15 +363,30 @@ const channels = [
     border-radius: 14px;
     padding: clamp(18px, 3vw, 30px);
     background:
+      radial-gradient(
+        circle at 88% 18%,
+        color-mix(in oklab, var(--color-orange) 22%, transparent) 0 2px,
+        transparent 2.4px
+      ),
+      radial-gradient(
+        circle at 92% 22%,
+        color-mix(in oklab, var(--color-teal) 22%, transparent) 0 2px,
+        transparent 2.4px
+      ),
       linear-gradient(
         90deg,
         transparent calc(100% - 132px),
         color-mix(in oklab, var(--color-ink) 8%, transparent) calc(100% - 131px),
         transparent calc(100% - 130px)
       ),
+      repeating-linear-gradient(0deg, rgba(36, 36, 36, 0.025) 0 1px, transparent 1px 9px),
       radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.78), transparent 180px), #fffdf4;
+    background-size: auto, auto, auto, auto, auto;
     color: var(--color-ink);
     font-family: var(--font-mono);
+    box-shadow:
+      0 24px 54px -42px rgba(36, 36, 36, 0.78),
+      inset 0 0 0 7px rgba(255, 255, 255, 0.42);
   }
 
   .postcard::before {
@@ -399,6 +420,7 @@ const channels = [
   }
 
   .postcard__stamp {
+    position: relative;
     display: grid;
     place-items: center;
     width: 92px;
@@ -406,6 +428,20 @@ const channels = [
     border: 2px solid color-mix(in oklab, var(--color-ink) 52%, transparent);
     border-radius: 8px;
     transform: rotate(2deg);
+  }
+
+  .postcard__stamp::after {
+    content: "";
+    position: absolute;
+    left: -74px;
+    top: 18px;
+    width: 62px;
+    height: 34px;
+    border: 2px solid color-mix(in oklab, var(--color-ink) 30%, transparent);
+    border-left: 0;
+    border-right: 0;
+    border-radius: 999px;
+    opacity: 0.7;
   }
 
   .postcard__stamp span {
@@ -437,6 +473,46 @@ const channels = [
     gap: 3px;
     padding: 0;
     list-style: none;
+  }
+
+  .postcard__typed {
+    display: grid;
+    gap: 5px;
+    border-left: 4px solid color-mix(in oklab, var(--color-orange) 70%, white);
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.48);
+  }
+
+  .postcard__typed p:last-child {
+    min-height: 1.55em;
+    color: var(--color-ink);
+  }
+
+  .postcard__typed i {
+    display: inline-block;
+    width: 0.64ch;
+    height: 1.1em;
+    margin-left: 2px;
+    translate: 0 0.18em;
+    background: var(--color-teal);
+    animation: caret-blink 900ms steps(2, start) infinite;
+  }
+
+  .channel-logo {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  .channel-logo img {
+    display: block;
+    width: 72%;
+    height: 72%;
+    object-fit: contain;
   }
 
   .vibe-slider {
@@ -497,6 +573,12 @@ const channels = [
     }
   }
 
+  @keyframes caret-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
   @media (max-width: 640px) {
     .postcard {
       min-height: 0;
@@ -515,6 +597,7 @@ const channels = [
   @media (prefers-reduced-motion: reduce) {
     .tag-pill,
     .particle,
+    .postcard__typed i,
     [data-send-button] {
       animation: none !important;
       transition: none !important;
@@ -539,6 +622,7 @@ const channels = [
     const postcardCollaboration = root.querySelector<HTMLElement>("[data-postcard-collaboration]");
     const postcardStamp = root.querySelector<HTMLElement>("[data-postcard-stamp]");
     const postcardTags = root.querySelector<HTMLElement>("[data-postcard-tags]");
+    const postcardNote = root.querySelector<HTMLElement>("[data-postcard-note]");
     const energyBadge = root.querySelector<HTMLElement>("[data-energy-badge]");
     const hiddenMessage = root.querySelector<HTMLInputElement>("[data-generated-message]");
     const status = root.querySelector<HTMLElement>("[data-form-status]");
@@ -568,9 +652,9 @@ const channels = [
     }
 
     function energyStamp(value: number) {
-      if (value < 34) return "☕";
-      if (value < 72) return "🤖";
-      return "🚀";
+      if (value < 34) return "\u2615";
+      if (value < 72) return "\uD83E\uDD16";
+      return "\uD83D\uDE80";
     }
 
     function renderTags() {
@@ -621,6 +705,10 @@ const channels = [
       if (postcardCollaboration)
         postcardCollaboration.textContent = collaborationText(collaboration);
       if (postcardStamp) postcardStamp.textContent = stamp;
+      if (postcardNote) {
+        postcardNote.textContent =
+          messageInput?.value.trim() || "Let's build something useful. Put your thoughts here...";
+      }
       if (energyBadge) energyBadge.textContent = `${stamp} product mode`;
       if (hiddenMessage) hiddenMessage.value = postcardText();
       renderTags();
@@ -657,7 +745,14 @@ const channels = [
 
     function burst() {
       if (!particleLayer) return;
-      const particles = ["🚀", "⚡", "✨", "🎉", "🤖", "💡"];
+      const particles = [
+        "\uD83D\uDE80",
+        "\u26A1",
+        "\u2728",
+        "\uD83C\uDF89",
+        "\uD83E\uDD16",
+        "\uD83D\uDCA1",
+      ];
       particleLayer.replaceChildren();
       particles.forEach((particle, index) => {
         const span = document.createElement("span");
@@ -675,7 +770,7 @@ const channels = [
       event.preventDefault();
       syncPreview();
       burst();
-      if (sendButton) sendButton.textContent = "Message Transmitted! 🎉";
+      if (sendButton) sendButton.textContent = "Message Transmitted! \uD83C\uDF89";
       if (status) status.textContent = "Transmission staged. Your postcard is ready.";
 
       const action = form.getAttribute("action") ?? "";

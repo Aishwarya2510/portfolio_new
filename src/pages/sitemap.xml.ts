@@ -11,6 +11,7 @@ const routes = [
   { path: "/experience/", priority: "0.9" },
   { path: "/about/", priority: "0.9" },
   { path: "/connect/", priority: "0.8" },
+  { path: "/not-instagram/", priority: "0.2" },
   { path: "/work/agent-maestro/", priority: "0.9" },
   { path: "/work/ai-valueops/", priority: "0.9" },
 ];
