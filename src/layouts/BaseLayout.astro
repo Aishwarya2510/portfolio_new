@@ -61,6 +61,16 @@ const ogImageUrl = new URL(withBase(image), Astro.site).href;
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600&display=swap"
     />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZ0QC0HJ28"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-TZ0QC0HJ28");
+    </script>
     <title>{title}</title>
     <ClientRouter />
     {darkHtml && <style set:html="html { background: var(--color-cosmos-2) !important; }" />}

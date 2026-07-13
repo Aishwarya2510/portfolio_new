@@ -11,10 +11,10 @@ const routes = [
   { path: "/experience/", priority: "0.9" },
   { path: "/about/", priority: "0.9" },
   { path: "/connect/", priority: "0.8" },
-  { path: "/work/decision-operating-systems/", priority: "0.9" },
-  { path: "/work/insight-to-execution-operations/", priority: "0.9" },
-  { path: "/work/lingofable/", priority: "0.8" },
-  { path: "/work/splunk/", priority: "0.8" },
+  { path: "/not-instagram/", priority: "0.2" },
+  { path: "/work/agent-maestro/", priority: "0.9" },
+  { path: "/work/ai-valueops/", priority: "0.9" },
+  { path: "/work/ai-pilot-to-scale/", priority: "0.9" },
 ];
 
 export const GET: APIRoute = () => {
