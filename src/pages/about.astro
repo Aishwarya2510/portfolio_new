@@ -57,6 +57,16 @@ const shelves = [
 
     <main class="about-main">
       <section class="about-intro">
+        <section class="photo-strip" aria-label="Candid snapshots">
+          {
+            personalPhotos.slice(0, 3).map((photo, index) => (
+              <figure class={`photo-card photo-card--${index + 1}`}>
+                <img src={photo} alt={`Candid snapshot ${index + 1}`} loading="lazy" />
+              </figure>
+            ))
+          }
+        </section>
+
         <div class="about-copy">
           <p class="about-kicker">About me</p>
           <h1>I'm Aishwarya Choursia.</h1>
@@ -78,16 +88,6 @@ const shelves = [
             </p>
           </div>
         </div>
-      </section>
-
-      <section class="photo-strip" aria-label="Candid snapshots">
-        {
-          personalPhotos.slice(0, 3).map((photo, index) => (
-            <figure class={`photo-card photo-card--${index + 1}`}>
-              <img src={photo} alt={`Candid snapshot ${index + 1}`} loading="lazy" />
-            </figure>
-          ))
-        }
       </section>
 
       <section class="personal-shelves" aria-label="Personal favorites">
@@ -157,8 +157,10 @@ const shelves = [
 
   .about-intro {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    padding: clamp(18px, 3vw, 30px);
+    grid-template-columns: minmax(420px, 1.08fr) minmax(300px, 0.72fr);
+    gap: clamp(16px, 3vw, 34px);
+    align-items: center;
+    padding: clamp(16px, 2.4vw, 26px);
     background:
       linear-gradient(135deg, color-mix(in oklab, var(--color-teal) 12%, white), transparent 44%),
       var(--color-bg-light);
@@ -167,7 +169,7 @@ const shelves = [
   .about-copy {
     display: grid;
     align-content: center;
-    gap: 14px;
+    gap: 12px;
     min-width: 0;
   }
 
@@ -188,14 +190,14 @@ const shelves = [
   }
 
   .about-intro h1 {
-    font-size: clamp(2.9rem, 5.4vw, 5.8rem);
-    line-height: 0.92;
+    font-size: clamp(2.7rem, 4.5vw, 5.1rem);
+    line-height: 0.9;
   }
 
   .bio-copy {
     display: grid;
     gap: 12px;
-    max-width: 74ch;
+    max-width: 58ch;
   }
 
   .bio-copy p,
@@ -209,10 +211,10 @@ const shelves = [
   .photo-strip {
     display: grid;
     grid-template-columns: minmax(180px, 0.72fr) minmax(260px, 1.3fr) minmax(180px, 0.7fr);
-    gap: clamp(14px, 3vw, 34px);
+    gap: clamp(10px, 2vw, 22px);
     align-items: center;
     min-width: 0;
-    padding: clamp(18px, 2.8vw, 28px);
+    padding: 0;
     overflow: hidden;
     background: color-mix(in oklab, var(--color-bg-light) 86%, white);
   }
@@ -229,13 +231,13 @@ const shelves = [
 
   .photo-card--1 {
     aspect-ratio: 0.72;
-    transform: translateY(-14px);
+    transform: translateY(-8px);
   }
 
   .photo-card--2 {
     position: relative;
     aspect-ratio: 1.8;
-    transform: translateY(16px);
+    transform: translateY(14px);
   }
 
   .photo-card--2::before {
@@ -376,6 +378,7 @@ const shelves = [
 
     .photo-strip {
       grid-template-columns: 0.75fr 1fr;
+      padding: 0;
     }
 
     .photo-card--3 {

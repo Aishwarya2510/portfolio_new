@@ -1,0 +1,337 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProjectNav from "../../components/work/ProjectNav.astro";
+import CustomCursor from "../../components/home/CustomCursor.astro";
+import { withBase } from "../../lib/paths";
+
+const navItems = [
+  { href: "#overview", label: "Overview" },
+  { href: "#problem", label: "Problem" },
+  { href: "#redesign", label: "Redesign" },
+  { href: "#control", label: "Control Tower" },
+  { href: "#takeaway", label: "Takeaway" },
+];
+
+const metrics = ["Pilot evidence", "Launch readiness", "GTM gates", "Scale decision"];
+const signals = [
+  ["Customer proof", "Clear target users, adoption signal, and workflow fit."],
+  ["Operational readiness", "Owners, support paths, controls, training, and launch rituals."],
+  ["Economic case", "Value hypothesis, cost-to-serve, implementation effort, and risk."],
+  ["Decision path", "Scale, revise, pause, or stop based on evidence instead of excitement."],
+];
+---
+
+<BaseLayout
+  title="AI Pilot-to-Scale Control Tower - Aishwarya's Portfolio"
+  description="A compact product operations case study for moving AI pilots into evidence-based scale decisions."
+  image="/images/projects/ai-pilot-to-scale/ai-pilot.png"
+>
+  <main class="pilot-page">
+    <ProjectNav title="AI Pilot-to-Scale" items={navItems} />
+
+    <article class="pilot-detail">
+      <header id="overview" class="pilot-hero">
+        <div>
+          <p class="eyebrow">GTM Validation & Launch Readiness</p>
+          <h1>Move AI pilots from demo energy to scale decisions.</h1>
+          <p>
+            A control-tower operating model for validating AI pilots, finding readiness gaps, and
+            deciding when a use case deserves launch, revision, or retirement.
+          </p>
+          <div class="metric-strip">
+            {metrics.map((metric) => <span>{metric}</span>)}
+          </div>
+        </div>
+        <figure class="image-card">
+          <img
+            src={withBase("/images/projects/ai-pilot-to-scale/ai-pilot.png")}
+            alt="AI pilot-to-scale control tower visual"
+          />
+        </figure>
+      </header>
+
+      <section id="problem" class="pilot-section split">
+        <div>
+          <p class="eyebrow">Operating Problem</p>
+          <h2>Pilots look successful before the business is ready to scale them.</h2>
+          <p>
+            Teams often celebrate model demos, early user interest, or executive excitement without
+            a consistent view of adoption evidence, process ownership, data controls, support load,
+            compliance needs, and launch economics.
+          </p>
+        </div>
+        <div class="signal-grid">
+          {
+            signals.map(([title, body]) => (
+              <article>
+                <>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="redesign" class="pilot-section">
+        <div class="section-head">
+          <p class="eyebrow">Current Vs New</p>
+          <h2>Replace pilot theater with an evidence-based scale system.</h2>
+        </div>
+        <figure class="image-card image-card--wide">
+          <img
+            src={withBase("/images/projects/ai-pilot-to-scale/current-vs-new.png")}
+            alt="Current pilot process compared with redesigned scale governance"
+          />
+        </figure>
+      </section>
+
+      <section id="control" class="pilot-section control-grid">
+        <article>
+          <span>01</span>
+          <h3>Readiness gates</h3>
+          <p>Validate value, data, workflow, risk, and owner readiness before scaling.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Launch cockpit</h3>
+          <p>Track blockers, decision dates, support paths, and adoption evidence in one place.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Scale recommendation</h3>
+          <p>Make scale decisions explicit: scale, conditional scale, revise, pause, or stop.</p>
+        </article>
+      </section>
+
+      <section id="takeaway" class="pilot-section takeaway">
+        <p class="eyebrow">Portfolio Takeaway</p>
+        <h2>AI scale is a product operations decision, not just a model milestone.</h2>
+        <p>
+          This project shows how I connect GTM validation, product readiness, governance, and
+          operational execution into a practical launch decision system.
+        </p>
+        <a href={withBase("/home/")} data-cursor="link">Return to projects</a>
+      </section>
+    </article>
+  </main>
+
+  <CustomCursor color="teal" />
+</BaseLayout>
+
+<style>
+  .pilot-page {
+    display: grid;
+    grid-template-columns: minmax(200px, 244px) minmax(0, 1fr);
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 86% 8%, rgba(96, 215, 232, 0.14), transparent 320px),
+      radial-gradient(circle at 10% 88%, rgba(114, 167, 255, 0.15), transparent 300px),
+      var(--color-bg);
+    color: var(--color-ink);
+  }
+
+  .pilot-detail {
+    min-width: 0;
+    padding: clamp(10px, 1.5vw, 18px);
+  }
+
+  .pilot-hero,
+  .pilot-section {
+    border-radius: var(--radius-md);
+    background: var(--color-bg-light);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 9%, transparent),
+      0 18px 50px -44px rgba(23, 41, 74, 0.72);
+  }
+
+  .pilot-hero {
+    min-height: calc(100vh - 34px);
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.72fr);
+    gap: clamp(18px, 3vw, 34px);
+    align-items: center;
+    padding: clamp(18px, 3vw, 34px);
+    background:
+      linear-gradient(135deg, rgba(179, 208, 213, 0.28), transparent 52%), var(--color-bg-light);
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: var(--color-ink-mute);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-weight: 300;
+  }
+
+  h1 {
+    max-width: 11ch;
+    margin-top: 12px;
+    font-size: clamp(3rem, 6.4vw, 6.2rem);
+    line-height: 0.88;
+  }
+
+  h2 {
+    max-width: 15ch;
+    margin-top: 10px;
+    font-size: clamp(1.9rem, 3.6vw, 3.5rem);
+    line-height: 0.94;
+  }
+
+  h3 {
+    margin-top: 8px;
+    font-size: clamp(1.35rem, 2vw, 1.85rem);
+    line-height: 1;
+  }
+
+  p {
+    color: var(--color-ink-dim);
+    font-family: var(--font-body);
+    line-height: 1.52;
+  }
+
+  .pilot-hero > div > p:not(.eyebrow) {
+    max-width: 58ch;
+    font-size: clamp(0.98rem, 1.25vw, 1.1rem);
+  }
+
+  .metric-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 22px;
+  }
+
+  .metric-strip span,
+  .control-grid span {
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklab, var(--color-teal) 14%, white);
+    padding: 8px 10px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+  }
+
+  .image-card {
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: white;
+    padding: 10px;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 9%, transparent);
+  }
+
+  .image-card img {
+    display: block;
+    width: 100%;
+    max-height: 430px;
+    object-fit: contain;
+  }
+
+  .image-card--wide img {
+    max-height: 480px;
+  }
+
+  .pilot-section {
+    display: grid;
+    gap: 18px;
+    margin-top: 14px;
+    padding: clamp(16px, 3vw, 30px);
+    scroll-margin-top: 78px;
+  }
+
+  .split {
+    grid-template-columns: minmax(240px, 0.62fr) minmax(0, 1fr);
+  }
+
+  .signal-grid,
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .signal-grid article,
+  .control-grid article {
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.58);
+    padding: 16px;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 8%, transparent);
+  }
+
+  .control-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .takeaway {
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in oklab, var(--color-teal) 20%, transparent),
+        transparent 48%
+      ),
+      var(--color-ink);
+    color: var(--color-bg);
+  }
+
+  .takeaway h2 {
+    color: var(--color-bg);
+  }
+
+  .takeaway p {
+    color: var(--color-starlight);
+  }
+
+  .takeaway a {
+    width: max-content;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-light);
+    color: var(--color-ink);
+    padding: 10px 13px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 980px) {
+    .pilot-page,
+    .pilot-hero,
+    .split,
+    .signal-grid,
+    .control-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .pilot-hero {
+      min-height: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .pilot-detail {
+      padding: 10px;
+    }
+
+    .pilot-hero,
+    .pilot-section {
+      padding: 18px;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 16vw, 4rem);
+      overflow-wrap: anywhere;
+    }
+  }
+</style>

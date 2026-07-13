@@ -14,6 +14,7 @@ const routes = [
   { path: "/not-instagram/", priority: "0.2" },
   { path: "/work/agent-maestro/", priority: "0.9" },
   { path: "/work/ai-valueops/", priority: "0.9" },
+  { path: "/work/ai-pilot-to-scale/", priority: "0.9" },
 ];
 
 export const GET: APIRoute = () => {
