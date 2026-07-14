@@ -18,19 +18,19 @@ const navItems = [
 const principles = [
   {
     label: "Structure ambiguity",
-    body: "Convert loosely framed requests into a consistent decision schema with objective, urgency, evidence needs, affected functions, and desired outcome.",
+    body: "I started by forcing every messy request into the same basic shape: what is being asked, why now, what evidence is missing, who is affected, and what decision has to be made.",
   },
   {
     label: "Ground judgment",
-    body: "Retrieve current policy, relevant data, prior decisions, contractual obligations, and operational dependencies before options are assessed.",
+    body: "Before any recommendation, I wanted the system to pull the boring but necessary context: policy, source data, prior decisions, contracts, and operational dependencies.",
   },
   {
     label: "Govern risk",
-    body: "Apply thresholds, approvals, exception handling, confidence requirements, and human review based on decision materiality.",
+    body: "I separated confidence from risk because a model can sound sure and still be touching money, customers, compliance, or irreversible actions.",
   },
   {
     label: "Close the loop",
-    body: "Translate the decision into owned actions, track outcomes, preserve rationale, and learn which controls were effective.",
+    body: "The build only felt complete when the decision turned into owned work, preserved its rationale, and created feedback for the next version.",
   },
 ];
 
@@ -160,12 +160,13 @@ const roadmap = [
     <article class="project-detail">
       <header class="project-hero">
         <div class="project-hero__copy">
-          <p class="eyebrow">Enterprise Decision Intelligence</p>
-          <h1>Turn messy operational requests into governed decisions.</h1>
+          <p class="eyebrow">Build Story - Decision Operations</p>
+          <h1>How I turned a messy request into a governed decision flow.</h1>
           <p>
-            Agent Maestro is an AI-native operations decision layer that checks scope, classifies
-            work, retrieves policy evidence, scores risk, assigns ownership, routes approval, and
-            creates an auditable execution package.
+            I designed Agent Maestro as if I were the person responsible for making the request
+            usable: first check whether it belongs in scope, then classify the work, gather the
+            right evidence, score risk, name owners, route approval, and leave behind a clear audit
+            trail.
           </p>
           <dl class="hero-meta">
             <div><dt>Decision Core</dt><dd>5 governed steps</dd></div>
@@ -183,12 +184,13 @@ const roadmap = [
 
       <section id="overview" class="project-section">
         <div class="section-head">
-          <p class="eyebrow">Case-Study Thesis</p>
-          <h2>AI becomes valuable when it is embedded into the operating model.</h2>
+          <p class="eyebrow">Why I Built It This Way</p>
+          <h2>I did not want another chatbot layer. I wanted the operating model to change.</h2>
           <p>
-            The concept is broader than a chatbot. It redesigns how decisions are requested,
-            evaluated, approved, executed, and learned from while preserving human judgment for
-            material or high-risk choices.
+            My core assumption was that AI is useful only when it changes how work moves. So I
+            designed the case study around the full decision path: request, evidence, evaluation,
+            approval, execution, and learning. Human judgment stays in the moments where the risk is
+            material.
           </p>
         </div>
         <div class="principle-grid">
@@ -206,11 +208,13 @@ const roadmap = [
 
       <section id="problem" class="project-section">
         <div class="section-head">
-          <p class="eyebrow">The Original Workflow</p>
-          <h2>Critical decisions are still assembled manually.</h2>
+          <p class="eyebrow">Where I Started</p>
+          <h2>The first problem was not intelligence. It was scattered context.</h2>
           <p>
-            The current state depends on fragmented communication and tacit knowledge. Teams spend
-            more time finding context and aligning stakeholders than evaluating the decision itself.
+            I pictured the current state as a chain of Slack messages, policy links, spreadsheet
+            checks, approvals, and half-remembered exceptions. The work is not hard because people
+            lack judgment; it is hard because the judgment is assembled too late and from too many
+            places.
           </p>
         </div>
         <figure class="wide-figure">
@@ -236,11 +240,12 @@ const roadmap = [
 
       <section id="case" class="project-section">
         <div class="section-head">
-          <p class="eyebrow">Illustrative Case</p>
+          <p class="eyebrow">The Test Case I Used</p>
           <h2>One request. Three workflows. Multiple control obligations.</h2>
           <p>
-            The system must understand that a refund request also contains a billing defect, an
-            access failure, material financial exposure, and customer-risk language.
+            I used a refund escalation because it refuses to stay in one lane. It looks like a
+            finance request, but it also contains a billing defect, an access failure, customer-risk
+            language, and a material-dollar decision.
           </p>
         </div>
         <div class="case-grid">
@@ -276,12 +281,12 @@ const roadmap = [
 
       <section id="model" class="project-section">
         <div class="section-head">
-          <p class="eyebrow">Operating-Model Overlay</p>
-          <h2>Agent Maestro sits above existing systems and governs the decision between them.</h2>
+          <p class="eyebrow">Design Choice</p>
+          <h2>I kept the source systems in place and designed the decision layer above them.</h2>
           <p>
-            It does not replace Salesforce, Zendesk, ERP, policy repositories, or functional teams.
-            It creates a common decision layer that assembles evidence, applies controls, and routes
-            accountable execution back into those systems.
+            My decision here was to avoid pretending one new tool should replace Salesforce,
+            Zendesk, ERP, policy repositories, or functional teams. The layer I designed coordinates
+            the decision, then sends execution back through the systems that already own the work.
           </p>
         </div>
         <figure class="wide-figure">
@@ -309,12 +314,12 @@ const roadmap = [
 
       <section id="architecture" class="project-section">
         <div class="section-head">
-          <p class="eyebrow">Solution Architecture</p>
-          <h2>A modular decision system, not a black box.</h2>
+          <p class="eyebrow">Architecture Thinking</p>
+          <h2>I broke the system into parts so each decision could be questioned.</h2>
           <p>
-            The architecture separates source authority, deterministic controls, optional AI
-            interpretation, auditability, integrations, and observability so the platform is
-            explainable and buildable.
+            I separated source authority, deterministic controls, AI interpretation, auditability,
+            integrations, and observability. That made the concept easier to build, but more
+            importantly, it made each recommendation easier to challenge.
           </p>
         </div>
         <div class="image-pair">
@@ -343,11 +348,12 @@ const roadmap = [
 
       <section id="scoring" class="project-section">
         <div class="section-head">
-          <p class="eyebrow">Scoring And Governance</p>
+          <p class="eyebrow">How I Handled Risk</p>
           <h2>Make risk, confidence, and tradeoffs visible instead of hiding them.</h2>
           <p>
-            The project separates risk tier, model confidence, business option value, and learning
-            signals. Confidence never cancels material risk; critical cases remain human-controlled.
+            I treated the score as a conversation starter, not the decision itself. Risk tier,
+            model confidence, option value, and learning signals sit next to each other so a high
+            confidence answer cannot quietly override a high-risk situation.
           </p>
         </div>
         <div class="scoring-layout">
@@ -378,11 +384,12 @@ const roadmap = [
 
       <section id="implementation" class="project-section">
         <div class="section-head">
-          <p class="eyebrow">Implementation Roadmap</p>
-          <h2>Start with one decision domain, validate control, then scale.</h2>
+          <p class="eyebrow">How I Would Build It</p>
+          <h2>I would start narrow, prove the controls, then earn the right to scale.</h2>
           <p>
-            The deployment path prioritizes operating-model clarity, trusted source access, and
-            measurable value before enterprise expansion.
+            My implementation path begins with one decision domain because governance gets messy
+            fast. I would map the workflow, test shadow decisions, learn where the controls fail,
+            and only then expand the surface area.
           </p>
         </div>
         <div class="roadmap">
@@ -408,9 +415,9 @@ const roadmap = [
           I can turn operational ambiguity into policy-grounded, owner-aligned, auditable execution.
         </h2>
         <p>
-          Agent Maestro demonstrates process redesign, AI enablement, decision rights, financial
-          risk, human oversight, enterprise architecture, observability, and measurable operations
-          improvement in one connected system.
+          This project shows how I think through an ambiguous operational problem: find the
+          decision, make the evidence visible, keep humans responsible for the risky moments, and
+          design the system so the next decision is easier than the last one.
         </p>
         <a href={withBase("/home/")} data-cursor="link">Return to projects</a>
       </section>

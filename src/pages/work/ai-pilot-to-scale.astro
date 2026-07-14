@@ -14,10 +14,22 @@ const navItems = [
 
 const metrics = ["Pilot evidence", "Launch readiness", "GTM gates", "Scale decision"];
 const signals = [
-  ["Customer proof", "Clear target users, adoption signal, and workflow fit."],
-  ["Operational readiness", "Owners, support paths, controls, training, and launch rituals."],
-  ["Economic case", "Value hypothesis, cost-to-serve, implementation effort, and risk."],
-  ["Decision path", "Scale, revise, pause, or stop based on evidence instead of excitement."],
+  [
+    "Customer proof",
+    "I looked for target users, repeated need, adoption signals, and whether the pilot fit a real workflow.",
+  ],
+  [
+    "Operational readiness",
+    "I treated owners, support paths, controls, training, and launch rituals as part of the product, not afterthoughts.",
+  ],
+  [
+    "Economic case",
+    "I wanted the value hypothesis next to cost-to-serve, implementation effort, and risk so the tradeoff stayed visible.",
+  ],
+  [
+    "Decision path",
+    "The end state had to be a clear scale, revise, pause, or stop decision based on evidence instead of excitement.",
+  ],
 ];
 ---
 
@@ -32,11 +44,12 @@ const signals = [
     <article class="pilot-detail">
       <header id="overview" class="pilot-hero">
         <div>
-          <p class="eyebrow">GTM Validation & Launch Readiness</p>
-          <h1>Move AI pilots from demo energy to scale decisions.</h1>
+          <p class="eyebrow">Build Story - Product Ops & GTM</p>
+          <h1>How I moved AI pilots from demo energy to scale decisions.</h1>
           <p>
-            A control-tower operating model for validating AI pilots, finding readiness gaps, and
-            deciding when a use case deserves launch, revision, or retirement.
+            I built this around the moment where a pilot looks exciting, but the business has not
+            proven it can launch, support, govern, and measure it. The goal was a practical control
+            tower for evidence, readiness gaps, and scale decisions.
           </p>
           <div class="metric-strip">
             {metrics.map((metric) => <span>{metric}</span>)}
@@ -52,12 +65,12 @@ const signals = [
 
       <section id="problem" class="pilot-section split">
         <div>
-          <p class="eyebrow">Operating Problem</p>
+          <p class="eyebrow">Where Pilots Get Tricky</p>
           <h2>Pilots look successful before the business is ready to scale them.</h2>
           <p>
-            Teams often celebrate model demos, early user interest, or executive excitement without
-            a consistent view of adoption evidence, process ownership, data controls, support load,
-            compliance needs, and launch economics.
+            I started from a pattern I have seen in product and operations work: a demo can be
+            genuinely promising and still not be ready. Adoption evidence, process ownership, data
+            controls, support load, compliance needs, and launch economics all have to catch up.
           </p>
         </div>
         <div class="signal-grid">
@@ -76,8 +89,8 @@ const signals = [
 
       <section id="redesign" class="pilot-section">
         <div class="section-head">
-          <p class="eyebrow">Current Vs New</p>
-          <h2>Replace pilot theater with an evidence-based scale system.</h2>
+          <p class="eyebrow">My Redesign</p>
+          <h2>I replaced pilot theater with an evidence-based scale system.</h2>
         </div>
         <figure class="image-card image-card--wide">
           <img
@@ -91,26 +104,36 @@ const signals = [
         <article>
           <span>01</span>
           <h3>Readiness gates</h3>
-          <p>Validate value, data, workflow, risk, and owner readiness before scaling.</p>
+          <p>
+            I made each gate answer a specific question: is the value real, is the data usable, is
+            the workflow ready, is the risk understood, and does an owner exist?
+          </p>
         </article>
         <article>
           <span>02</span>
           <h3>Launch cockpit</h3>
-          <p>Track blockers, decision dates, support paths, and adoption evidence in one place.</p>
+          <p>
+            I grouped blockers, decision dates, support paths, and adoption evidence because launch
+            work falls apart when those signals live in different places.
+          </p>
         </article>
         <article>
           <span>03</span>
           <h3>Scale recommendation</h3>
-          <p>Make scale decisions explicit: scale, conditional scale, revise, pause, or stop.</p>
+          <p>
+            I wanted the output to be uncomfortable in a useful way: scale, conditional scale,
+            revise, pause, or stop. No vague "keep exploring" by default.
+          </p>
         </article>
       </section>
 
       <section id="takeaway" class="pilot-section takeaway">
-        <p class="eyebrow">Portfolio Takeaway</p>
+        <p class="eyebrow">What This Shows</p>
         <h2>AI scale is a product operations decision, not just a model milestone.</h2>
         <p>
-          This project shows how I connect GTM validation, product readiness, governance, and
-          operational execution into a practical launch decision system.
+          This project shows how I think when a concept moves toward launch: I look for evidence,
+          name the missing operating pieces, make the tradeoffs visible, and turn enthusiasm into a
+          decision the team can act on.
         </p>
         <a href={withBase("/home/")} data-cursor="link">Return to projects</a>
       </section>
