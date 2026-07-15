@@ -2,7 +2,7 @@
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import SitePet from "../components/site/SitePet.astro";
-import { withBase } from "../lib/paths";
+import { basePath, withBase } from "../lib/paths";
 
 interface Props {
   title?: string;
@@ -19,14 +19,18 @@ interface Props {
 const {
   title = "Aishwarya's Portfolio",
   description = "Portfolio of Aishwarya.",
-  image = "/og.png",
+  image = "/og-aishwarya.png",
   bodyClass = "",
   darkHtml = false,
   showPet = true,
   canonical,
 } = Astro.props;
 
-const canonicalPath = canonical ?? Astro.url.pathname;
+const currentPath =
+  basePath && Astro.url.pathname.startsWith(`${basePath}/`)
+    ? Astro.url.pathname.slice(basePath.length)
+    : Astro.url.pathname;
+const canonicalPath = canonical ?? currentPath;
 const canonicalUrl = new URL(withBase(canonicalPath), Astro.site).href;
 const ogImageUrl = new URL(withBase(image), Astro.site).href;
 ---
