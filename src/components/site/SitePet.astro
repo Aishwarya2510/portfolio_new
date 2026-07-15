@@ -119,6 +119,38 @@
   </button>
 </div>
 
+<div class="monster-switcher" data-monster-switcher>
+  <button
+    type="button"
+    class="monster-switcher__trigger"
+    data-monster-switcher-trigger
+    data-cursor="link"
+    aria-expanded="false"
+    aria-controls="monster-switcher-panel"
+  >
+    Change monster
+  </button>
+  <div
+    id="monster-switcher-panel"
+    class="monster-switcher__panel"
+    data-monster-switcher-panel
+    hidden
+  >
+    <div class="monster-switcher__grid" aria-label="Choose monster">
+      <button type="button" class="monster-switcher__choice" data-monster-switch-choice="spark" style="--swatch-body:#b8ffe7;--swatch-accent:#ffeb6e;">Spark</button>
+      <button type="button" class="monster-switcher__choice" data-monster-switch-choice="moss" style="--swatch-body:#7db592;--swatch-accent:#d7f27a;">Moss</button>
+      <button type="button" class="monster-switcher__choice" data-monster-switch-choice="orbit" style="--swatch-body:#9fa8ff;--swatch-accent:#73f3ff;">Orbit</button>
+      <button type="button" class="monster-switcher__choice" data-monster-switch-choice="byte" style="--swatch-body:#8ad7ff;--swatch-accent:#ff7bd3;">Byte</button>
+      <button type="button" class="monster-switcher__choice" data-monster-switch-choice="bloom" style="--swatch-body:#ff9bd0;--swatch-accent:#ffe16b;">Bloom</button>
+      <button type="button" class="monster-switcher__choice" data-monster-switch-choice="ember" style="--swatch-body:#ff955c;--swatch-accent:#ffd36a;">Ember</button>
+      <button type="button" class="monster-switcher__choice" data-monster-switch-choice="luna" style="--swatch-body:#d9e3ff;--swatch-accent:#9bb4ff;">Luna</button>
+      <button type="button" class="monster-switcher__choice" data-monster-switch-choice="prism" style="--swatch-body:#f3c8ff;--swatch-accent:#77ffd8;">Prism</button>
+      <button type="button" class="monster-switcher__choice" data-monster-switch-choice="reef" style="--swatch-body:#65d6c7;--swatch-accent:#6ee7ff;">Reef</button>
+      <button type="button" class="monster-switcher__choice" data-monster-switch-choice="nova" style="--swatch-body:#f8f1b5;--swatch-accent:#ff8ab3;">Nova</button>
+    </div>
+  </div>
+</div>
+
 <style is:global>
   .site-pet {
     position: fixed;
@@ -334,6 +366,51 @@
     transform: scale(0.7);
   }
 
+  .site-pet[data-rocket] .site-pet__bob {
+    animation: site-pet-rocket-wiggle 0.22s ease-in-out infinite;
+  }
+
+  .site-pet[data-rocket] .site-pet__leg {
+    animation-duration: 0.12s;
+  }
+
+  .site-pet[data-rocket] .site-pet__shadow {
+    opacity: 0.04;
+    transform: scale(0.45);
+  }
+
+  .site-pet[data-angry] .site-pet__bob {
+    animation: site-pet-angry-shake 0.16s linear infinite;
+  }
+
+  .site-pet[data-angry] .site-pet__body {
+    fill: #ff6f6f;
+  }
+
+  .site-pet[data-angry] .site-pet__eye {
+    transform: scaleY(0.45);
+  }
+
+  @keyframes site-pet-rocket-wiggle {
+    0%,
+    100% {
+      transform: translateY(0) rotate(-8deg);
+    }
+    50% {
+      transform: translateY(-5px) rotate(8deg);
+    }
+  }
+
+  @keyframes site-pet-angry-shake {
+    0%,
+    100% {
+      transform: translateX(-1px) rotate(-2deg);
+    }
+    50% {
+      transform: translateX(1px) rotate(2deg);
+    }
+  }
+
   /* Lean on bump — quick squash + rotate when hitting a wall. */
   .site-pet[data-bump] .site-pet__bob {
     animation: site-pet-bump 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -539,9 +616,147 @@
     border-bottom: 0;
   }
 
+  [data-pet-guided] {
+    outline: 2px solid rgba(218, 204, 157, 0.78) !important;
+    outline-offset: 4px;
+    box-shadow: 0 0 0 6px rgba(218, 204, 157, 0.14) !important;
+    transition:
+      outline-color 180ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .monster-switcher {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 90;
+    font-family: var(--font-mono, "Source Code Pro", monospace);
+  }
+
+  .monster-switcher__trigger,
+  .monster-switcher__choice {
+    border: 1px solid rgba(36, 36, 36, 0.16);
+    border-radius: 8px;
+    background: rgba(243, 241, 235, 0.92);
+    color: #242424;
+    box-shadow: 0 12px 32px -22px rgba(0, 0, 0, 0.55);
+    cursor: pointer;
+  }
+
+  .monster-switcher__trigger {
+    min-height: 38px;
+    padding: 9px 12px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition:
+      transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+      background 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .monster-switcher__trigger:hover,
+  .monster-switcher__trigger:focus-visible {
+    transform: translateY(-1px);
+    background: #f3f1eb;
+  }
+
+  .monster-switcher__panel {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 8px);
+    width: min(286px, calc(100vw - 32px));
+    padding: 10px;
+    border: 1px solid rgba(36, 36, 36, 0.16);
+    border-radius: 8px;
+    background: rgba(243, 241, 235, 0.96);
+    box-shadow: 0 18px 44px -24px rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .monster-switcher__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .monster-switcher__choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 34px;
+    padding: 7px 8px;
+    font-size: 12px;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.46);
+    box-shadow: none;
+    transition:
+      border-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
+      background 160ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .monster-switcher__choice::before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    border: 2px solid var(--swatch-accent);
+    border-radius: 999px;
+    background: var(--swatch-body);
+    box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  .monster-switcher__choice:hover,
+  .monster-switcher__choice:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(36, 36, 36, 0.34);
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  .monster-switcher__choice[aria-current="true"] {
+    border-color: var(--swatch-accent);
+    background: rgba(255, 255, 255, 0.82);
+  }
+
+  @media (max-width: 640px) {
+    .monster-switcher {
+      right: 10px;
+      bottom: 10px;
+    }
+
+    .monster-switcher__trigger {
+      width: 42px;
+      min-height: 42px;
+      overflow: hidden;
+      padding: 0;
+      color: transparent;
+    }
+
+    .monster-switcher__trigger::before {
+      content: "";
+      display: block;
+      width: 18px;
+      height: 18px;
+      margin: 0 auto;
+      border: 2px solid #dacc9d;
+      border-radius: 999px;
+      background: #b8ffe7;
+      box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.14);
+    }
+
+    .monster-switcher__panel {
+      width: min(286px, calc(100vw - 20px));
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .site-pet__bob,
-    .site-pet__leg {
+    .site-pet__leg,
+    .site-pet[data-rocket] .site-pet__bob,
+    .site-pet[data-angry] .site-pet__bob {
       animation: none;
     }
   }
@@ -582,6 +797,9 @@
       "enough.",
     ];
     const CLICK_PHRASES_DONE = ["rude.", "really?", "ow.", "i'm not a button", "stop!"];
+    const ROCKET_PHRASES = ["rocket mode!!", "blast off!", "too many pokes!", "zoom zoom zoom"];
+    const ANGRY_PHRASES = ["I AM HUGE NOW", "tiny rage mode", "you did this.", "hmph."];
+    const GUIDE_PHRASES = ["tour guide mode", "lemme show you", "look over here", "field trip!"];
     const BASE_URL = import.meta.env.BASE_URL.replace(/\/$/, "");
     const apiPath = (path: string) => `${BASE_URL}${path}`;
     function appPath(pathname = window.location.pathname) {
@@ -694,6 +912,15 @@
           "which page next?",
           "navigation assistant\nreporting for duty",
           "pick a page, any page",
+        ],
+      },
+      {
+        match: "a[href], button, [role='button'], [data-cursor]",
+        phrases: [
+          "this is clickable",
+          "press this to continue",
+          "interactive thingy",
+          "this one does stuff",
         ],
       },
       {
@@ -811,6 +1038,11 @@
     let dizzyUntil = 0;
     let clickCount = 0;
     let lastClickAt = 0;
+    let rocketUntil = 0;
+    let angryUntil = 0;
+    let guideTarget: HTMLElement | null = null;
+    let guideTargetTimer = 0;
+    let lastGuideHopAt = 0;
     let freeRoam = false; // unlocked after the user first drags the pet into
     // the main content area
     let shakeSamples: number[] = []; // timestamps of direction flips
@@ -821,6 +1053,8 @@
 
     // Ledge system — pet can be dropped onto DOM elements and walk on them.
     const LEDGE_SELECTORS = [
+      // Interactive controls
+      "a[href], button, [role='button'], [data-cursor]",
       // Home
       "[data-toc], .index-card, [data-latest-log]",
       // About
@@ -839,7 +1073,11 @@
     const LEDGE_SCAN_INTERVAL = 4; // only scan for ledges every Nth frame
 
     function refreshLedgeCache() {
-      ledgeCache = Array.from(document.querySelectorAll<HTMLElement>(LEDGE_SELECTORS));
+      ledgeCache = Array.from(document.querySelectorAll<HTMLElement>(LEDGE_SELECTORS)).filter(
+        (candidate) =>
+          !candidate.closest("[data-site-pet], [data-monster-switcher], [data-pet-hit]") &&
+          candidate.getAttribute("aria-hidden") !== "true",
+      );
       ledgeCacheDirty = false;
     }
     function invalidateLedgeCache() { ledgeCacheDirty = true; }
@@ -1156,6 +1394,115 @@
       bubbleTimer = window.setTimeout(() => bubble.removeAttribute("data-show"), ms);
     }
 
+    function clearGuideTarget() {
+      if (guideTarget) guideTarget.removeAttribute("data-pet-guided");
+      guideTarget = null;
+      if (guideTargetTimer) window.clearTimeout(guideTargetTimer);
+      guideTargetTimer = 0;
+    }
+
+    function targetLabel(target: HTMLElement) {
+      const aria = target.getAttribute("aria-label")?.trim();
+      if (aria) return aria;
+      const title = target.getAttribute("title")?.trim();
+      if (title) return title;
+      const text = target.textContent?.replace(/\s+/g, " ").trim();
+      if (text) return text.slice(0, 42);
+      if (target.matches("a[href]")) return "link";
+      if (target.matches("button, [role='button']")) return "button";
+      return "section";
+    }
+
+    function guidePhraseFor(target: HTMLElement) {
+      if (target.matches(".index-card")) return "project card:\nopen the case study";
+      if (target.matches("[data-toc]")) return "map of the site:\npick a page";
+      if (target.matches("[data-latest-log]")) return "latest log:\nrecent updates live here";
+      if (target.matches("[data-portrait]")) return "portrait spot:\nmeet Aishwarya";
+      if (target.matches("[data-community-card]")) return "community card:\npeople + impact";
+      if (target.matches("[data-fave]")) return "favorites shelf:\nher taste archive";
+      if (target.matches("[data-mini-card-wrap]")) return "visitor card:\nsomeone stopped by";
+      if (target.matches(".cs-hero")) return "case study hero:\nthe big idea";
+      if (target.matches(".cs-solution-card, .cs-feature-tile")) return "feature block:\nwhat changed";
+      if (target.matches(".cs-phone")) return "mobile preview:\nproduct in motion";
+      if (target.matches(".cs-reflection-tile")) return "reflection tile:\nwhat she learned";
+      if (target.matches("a[href]")) return `link:\n${targetLabel(target)}`;
+      if (target.matches("button, [role='button']")) return `button:\n${targetLabel(target)}`;
+      return `${targetLabel(target)}\nright here`;
+    }
+
+    function visibleGuideTargets() {
+      return getLedgeCandidates().filter((candidate) => {
+        if (candidate === currentLedge) return false;
+        if (candidate.closest("[data-monster-switcher], [data-site-pet]")) return false;
+        const r = candidate.getBoundingClientRect();
+        return r.width >= 28 && r.height >= 20 && r.bottom > 20 && r.top < window.innerHeight - 20;
+      });
+    }
+
+    function guideToTarget(target?: HTMLElement | null) {
+      const pet = el();
+      if (!pet || dragging || dizzy || reduced) return false;
+      const candidates = target ? [target] : visibleGuideTargets();
+      const pick = candidates[Math.floor(Math.random() * candidates.length)];
+      if (!pick) return false;
+      const r = pick.getBoundingClientRect();
+      if (r.width === 0 || r.height === 0) return false;
+
+      clearGuideTarget();
+      guideTarget = pick;
+      guideTarget.setAttribute("data-pet-guided", "");
+      guideTargetTimer = window.setTimeout(clearGuideTarget, 4200);
+
+      if (currentLedge) currentLedge = null;
+      groundOffset = 0;
+      x = clamp(r.left + r.width / 2 - PET_W / 2, 8, window.innerWidth - PET_W - 8);
+      y = Math.max(0, window.innerHeight - r.top);
+      xVel = 0;
+      yVel = 0;
+      mountLedge(pick);
+      y = 0;
+      freeRoam = true;
+      try {
+        localStorage.setItem("sitepet:freeRoam", "1");
+      } catch {}
+      measureWalls();
+      pet.setAttribute("data-hopping", "");
+      window.setTimeout(() => pet.removeAttribute("data-hopping"), 520);
+      saySomething(pet, [guidePhraseFor(pick)], 3600);
+      lastGuideHopAt = performance.now();
+      return true;
+    }
+
+    function maybeGuideFromIdle() {
+      if (dragging || hovered || dizzy || currentLedge || reduced) return false;
+      if (performance.now() - lastGuideHopAt < 18000) return false;
+      if (Math.random() > 0.28) return false;
+      return guideToTarget();
+    }
+
+    function startRocketMode(pet: HTMLElement) {
+      clearGuideTarget();
+      if (currentLedge) dismountLedge();
+      rocketUntil = performance.now() + 5200;
+      angryUntil = 0;
+      pet.setAttribute("data-rocket", "");
+      pet.removeAttribute("data-angry");
+      xVel = 0;
+      yVel = 0;
+      saySomething(pet, ROCKET_PHRASES, 2200);
+    }
+
+    function startAngryMode(pet: HTMLElement) {
+      clearGuideTarget();
+      angryUntil = performance.now() + 6500;
+      rocketUntil = 0;
+      pet.setAttribute("data-angry", "");
+      pet.removeAttribute("data-rocket");
+      xVel = 0;
+      yVel = 0;
+      saySomething(pet, ANGRY_PHRASES, 2600);
+    }
+
     // Tracks whether the pet has already "met" each wall — the first
     // bump always speaks, subsequent bumps speak rarely so the pet
     // doesn't become a chatterbox every time it paces the sidebar.
@@ -1225,14 +1572,52 @@
       pet.style.setProperty("--pet-ground", `${groundOffset}px`);
       const now2 = now;
       const inDizzy = dizzy && now2 < dizzyUntil;
+      const rocketActive = rocketUntil > now2 && !dragging && !reduced;
+      const angryActive = angryUntil > now2 && !dragging;
       if (dizzy && now2 >= dizzyUntil) {
         dizzy = false;
         pet.removeAttribute("data-dizzy");
         const emotesLayer = pet.querySelector<HTMLElement>("[data-pet-emotes]");
         emotesLayer?.querySelectorAll(".site-pet-spin-star").forEach((s) => s.remove());
       }
+      if (!rocketActive && pet.hasAttribute("data-rocket")) {
+        pet.removeAttribute("data-rocket");
+        rocketUntil = 0;
+        y = Math.min(y, 120);
+        yVel = -80;
+      }
+      if (!angryActive && pet.hasAttribute("data-angry")) {
+        pet.removeAttribute("data-angry");
+        angryUntil = 0;
+        pet.style.removeProperty("--pet-scale");
+      }
 
-      if (!hovered && !dragging && !reduced && !inDizzy) {
+      if (rocketActive) {
+        if (currentLedge) {
+          currentLedge = null;
+          ledgeGroundY = 0;
+          groundOffset = 0;
+          pet.removeAttribute("data-on-clickable");
+        }
+        const t = now2 / 1000;
+        const margin = 38;
+        const span = Math.max(1, window.innerWidth - PET_W - margin * 2);
+        const sweep = (Math.sin(t * 2.8) + 1) / 2;
+        x = margin + sweep * span;
+        y = 96 + Math.abs(Math.sin(t * 5.2)) * Math.max(90, window.innerHeight * 0.42);
+        dir = Math.cos(t * 2.8) >= 0 ? 1 : -1;
+        xVel = 0;
+        yVel = 0;
+      }
+
+      if (angryActive) {
+        const remaining = Math.max(0, angryUntil - now2);
+        const progress = remaining / 6500;
+        const scale = 1 + progress * 1.65;
+        pet.style.setProperty("--pet-scale", scale.toFixed(2));
+      }
+
+      if (!rocketActive && !hovered && !dragging && !reduced && !inDizzy) {
         const step = SPEED * (dt / 1000);
         // Use ledge walls when perched, otherwise normal walls.
         const wL = currentLedge ? ledgeLeftWall : leftWall;
@@ -1306,7 +1691,7 @@
         spring, and makes both scroll-jolts and post-drag drops land
         convincingly.
       */
-      if (!dragging) {
+      if (!dragging && !rocketActive) {
         // Hang time after ledge fall — freeze in air briefly, then kick.
         if (fallSuspended) {
           if (now >= fallResumeAt) {
@@ -1712,8 +2097,21 @@
           lastClickAt = nowT;
           triggerHop();
 
+          let handledSpecial = false;
+          if (clickCount === 10) {
+            startAngryMode(pet);
+            handledSpecial = true;
+          } else if (clickCount === 5) {
+            startRocketMode(pet);
+            handledSpecial = true;
+          } else if (clickCount === 3 && guideToTarget()) {
+            handledSpecial = true;
+          }
+
           // First poke of the session always shows the global count fact.
-          if (!pokeQuipUsed && globalPokes > 0) {
+          if (handledSpecial) {
+            // combo already spoke
+          } else if (!pokeQuipUsed && globalPokes > 0) {
             pokeQuipUsed = true;
             saySomething(pet, [`this is the ${globalPokes}${globalPokes === 1 ? "st" : globalPokes === 2 ? "nd" : globalPokes === 3 ? "rd" : "th"} time\nsomeone has poked me :(`], 2400);
           } else {
@@ -1818,7 +2216,7 @@
         idleTimeoutId = window.setTimeout(() => {
           const now = Date.now();
           if (!hovered && !dragging && !dizzy && now - lastIdleQuipAt >= 15_000) {
-            saySomething(pet, idlePool(), 2200);
+            if (!maybeGuideFromIdle()) saySomething(pet, idlePool(), 2200);
             lastIdleQuipAt = now;
           }
           scheduleIdle();
@@ -1827,7 +2225,7 @@
       if (idleFirstTimeoutId) window.clearTimeout(idleFirstTimeoutId);
       idleFirstTimeoutId = window.setTimeout(() => {
         if (!hovered && !dragging && !dizzy) {
-          saySomething(pet, idlePool(), 2200);
+          if (!maybeGuideFromIdle()) saySomething(pet, idlePool(), 2200);
           lastIdleQuipAt = Date.now();
         }
         scheduleIdle();
@@ -1866,6 +2264,63 @@
       const pet = el();
       if (!pet) return;
       pet.setAttribute("data-monster", monster);
+      syncMonsterSwitcher(monster);
+    }
+
+    function syncMonsterSwitcher(monster = readMonster()) {
+      document.querySelectorAll<HTMLElement>("[data-monster-switch-choice]").forEach((choice) => {
+        const isSelected = choice.dataset.monsterSwitchChoice === monster;
+        choice.toggleAttribute("data-selected", isSelected);
+        choice.setAttribute("aria-current", isSelected ? "true" : "false");
+      });
+    }
+
+    function wireMonsterSwitcher() {
+      const switcher = document.querySelector<HTMLElement>("[data-monster-switcher]");
+      const trigger = document.querySelector<HTMLButtonElement>("[data-monster-switcher-trigger]");
+      const panel = document.querySelector<HTMLElement>("[data-monster-switcher-panel]");
+      const choices = Array.from(
+        document.querySelectorAll<HTMLButtonElement>("[data-monster-switch-choice]"),
+      );
+      if (!switcher || !trigger || !panel || !choices.length) return;
+
+      const setOpen = (open: boolean) => {
+        panel.hidden = !open;
+        trigger.setAttribute("aria-expanded", open ? "true" : "false");
+      };
+
+      syncMonsterSwitcher();
+
+      if (switcher.dataset.wired === "1") return;
+      switcher.dataset.wired = "1";
+
+      trigger.addEventListener("click", () => {
+        setOpen(panel.hidden);
+      });
+
+      choices.forEach((choice) => {
+        choice.addEventListener("click", () => {
+          const monster = choice.dataset.monsterSwitchChoice;
+          if (!monster || !(MONSTER_VALUES as readonly string[]).includes(monster)) return;
+          try {
+            localStorage.setItem(MONSTER_KEY, monster);
+          } catch {}
+          window.dispatchEvent(new CustomEvent("sitepet:monster-change", { detail: { monster } }));
+          setOpen(false);
+        });
+      });
+
+      document.addEventListener("click", (event) => {
+        if (panel.hidden) return;
+        if (event.target instanceof Node && switcher.contains(event.target)) return;
+        setOpen(false);
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape" || panel.hidden) return;
+        setOpen(false);
+        trigger.focus();
+      });
     }
 
     window.addEventListener("sitepet:monster-change", (e) => {
@@ -1877,6 +2332,7 @@
 
     function init() {
       measureWalls();
+      wireMonsterSwitcher();
       const pet = el();
       if (pet) {
         const isContact = appPath().startsWith("/connect");
