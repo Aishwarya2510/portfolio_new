@@ -1,0 +1,797 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CustomCursor from "../../components/home/CustomCursor.astro";
+import ProjectNav from "../../components/work/ProjectNav.astro";
+import { withBase } from "../../lib/paths";
+
+const navItems = [
+  { href: "#overview", label: "Overview" },
+  { href: "#problem", label: "Problem" },
+  { href: "#evidence", label: "Evidence" },
+  { href: "#framework", label: "Framework" },
+  { href: "#routing", label: "Routing" },
+  { href: "#scorecard", label: "Scorecard" },
+  { href: "#roadmap", label: "Roadmap" },
+  { href: "#takeaway", label: "Takeaway" },
+];
+
+const arc = [
+  ["Situation", "AI adoption is broad; deep integration is rare."],
+  ["Complication", "Activity is visible; value is not."],
+  ["Resolution", "Five-part operating discipline framework."],
+  ["Outcome", "Governed capability layer, not a cost line."],
+];
+
+const friction = [
+  [
+    "Usage outruns attribution",
+    "Teams can see tokens, seats, prompts, and tool usage before they can prove which workflow improved.",
+  ],
+  [
+    "Spend scales before controls",
+    "Budgets, routing rules, access policies, and review thresholds often arrive after adoption widens.",
+  ],
+  [
+    "Pilots lack owners",
+    "Promising experiments stall when no one owns the workflow, baseline, exception path, or business KPI.",
+  ],
+  [
+    "Value hides inside rework",
+    "Cycle time may improve while review burden, error correction, escalation, or customer trust gets worse.",
+  ],
+];
+
+const evidenceCards = [
+  {
+    company: "MIT Project NANDA",
+    metric: "95%",
+    label: "of organizations saw no measurable return",
+    body: "The gap was not model quality. It tracked with workflow integration, ownership, and process discipline.",
+  },
+  {
+    company: "Uber",
+    metric: "2 days -> 10 min",
+    label: "financial pacing report cycle",
+    body: "Reported wins came after teams redesigned the workflow around AI, not after simply increasing usage.",
+  },
+  {
+    company: "Meta",
+    metric: "2027",
+    label: "formal token budgets planned",
+    body: "The response to internal cost pressure was a structural governance layer: dashboards, budgets, and visibility.",
+  },
+  {
+    company: "Razorpay Slash",
+    metric: "63%",
+    label: "merge rate with no rework",
+    body: "A governed AI platform tied value to pull-request outcomes, scoped permissions, and tiered human review.",
+  },
+];
+
+const framework = [
+  [
+    "Workflow selection",
+    "Start with repeatable, painful workflows that already have a legible before-state, baseline, and owner.",
+  ],
+  [
+    "Model routing",
+    "Match model tier to ambiguity, consequence, and value at risk instead of defaulting every task to the strongest model.",
+  ],
+  [
+    "Ownership and review",
+    "Name an accountable workflow owner, define review thresholds, and create escalation paths before scale.",
+  ],
+  [
+    "Agent readiness",
+    "Clean up documentation, handoffs, test coverage, access boundaries, and validation paths before automation expands.",
+  ],
+  [
+    "Workflow-level measurement",
+    "Measure cycle time, rework, first-pass quality, cost per task, escalation, adoption, and business impact.",
+  ],
+];
+
+const routingRows = [
+  ["Repetitive, high-volume, low ambiguity", "Lower-cost model", "Sampled QA review"],
+  ["Moderate complexity, internal-facing", "Mid-tier model", "Owner review before use"],
+  ["High-stakes or regulated, low customer exposure", "Stronger model + sampled review", "KPI tracking and periodic audit"],
+  ["Customer, finance, legal, or health impact", "Strongest available model", "Mandatory human review + audit trail"],
+];
+
+const scorecard = [
+  ["Cycle time per workflow", "Measured pre-pilot", "-20% to -50%", "Workflow owner", "Weekly"],
+  ["Rework rate", "Measured pre-pilot", "Downward trend", "Operations lead", "Weekly"],
+  ["First-pass quality", "Measured pre-pilot", "Upward trend", "QA / process owner", "Weekly"],
+  ["Cost per task", "Measured pre-pilot", "Downward trend", "Finance partner", "Monthly"],
+  ["Escalation rate", "Measured pre-pilot", "Stable or down", "Manager", "Weekly"],
+  ["Adoption rate", "Measured pre-pilot", "Up, with support", "Enablement lead", "Monthly"],
+  ["Customer / revenue impact", "Measured pre-pilot", "Upward trend", "Functional leader", "Monthly"],
+  ["Risk incidents", "Zero-tolerance threshold", "Zero", "Security / compliance", "Continuous"],
+];
+
+const roadmap = [
+  ["Months 1-2", "Diagnose", "Workflow inventory, baseline metrics, risk map"],
+  ["Months 2-3", "Design", "Routing rules, review paths, owner map, pilot design"],
+  ["Months 3-5", "Pilot", "Limited rollout, KPI instrumentation, user feedback"],
+  ["Months 4-6", "Govern", "Spend controls, RBAC, audit logs, reporting"],
+  ["Months 6-9", "Scale", "Additional workflows, playbooks, enablement"],
+  ["Months 9-12", "Optimize", "Portfolio dashboard, quarterly review, retirement of low-value use cases"],
+];
+---
+
+<BaseLayout
+  title="AI Operating Discipline - Aishwarya's Portfolio"
+  description="A portfolio case study for turning enterprise AI adoption into measurable business value through workflow routing, ownership, review design, and KPI discipline."
+>
+  <main id="top" class="discipline-page">
+    <ProjectNav title="AI Operating Discipline" items={navItems} />
+
+    <article class="discipline-detail">
+      <header id="overview" class="discipline-hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Case Study - Enterprise AI Operating Model</p>
+          <h1>Turning enterprise AI adoption into measurable business value.</h1>
+          <p>
+            I built this case study around a simple operating question: once AI is available
+            everywhere, what discipline keeps adoption from becoming uncontrolled spend?
+          </p>
+          <div class="hero-actions">
+            <span>Workflow-first governance</span>
+            <span>Human review thresholds</span>
+            <span>Business KPI instrumentation</span>
+          </div>
+        </div>
+
+        <aside class="hero-board" aria-label="Operating discipline recommendation">
+          <p>Executive recommendation</p>
+          <h2>
+            Route AI by workflow value and risk, then attach every scaled workflow to an owner,
+            review path, and KPI.
+          </h2>
+          <dl>
+            <div><dt>Operating lens</dt><dd>AI as capability layer</dd></div>
+            <div><dt>Decision output</dt><dd>Scale, route, review, retire</dd></div>
+            <div><dt>Core discipline</dt><dd>Value attribution</dd></div>
+          </dl>
+        </aside>
+      </header>
+
+      <section class="arc-strip" aria-label="Case study arc">
+        {
+          arc.map(([title, body]) => (
+            <article>
+              <p>{title}</p>
+              <h2>{body}</h2>
+            </article>
+          ))
+        }
+      </section>
+
+      <section id="problem" class="case-section split-section">
+        <div class="section-copy">
+          <p class="eyebrow">The Management Problem</p>
+          <h2>AI activity is easier to measure than AI value.</h2>
+          <p>
+            The strongest enterprise AI programs do not just ask whether a model can complete a
+            task. They ask which workflow deserves automation, what risk the work carries, who owns
+            the exception path, and which metric proves the business outcome improved.
+          </p>
+        </div>
+        <div class="friction-grid">
+          {
+            friction.map(([title, body], index) => (
+              <article class="paper-card">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="evidence" class="case-section">
+        <div class="section-head">
+          <p class="eyebrow">Evidence Base</p>
+          <h2>The divide is not access to AI. It is operating discipline.</h2>
+          <p>
+            I used current enterprise examples to separate empty activity from durable value:
+            adoption without attribution, spend without controls, and workflow redesign with
+            measurable outcomes.
+          </p>
+        </div>
+        <div class="evidence-grid">
+          {
+            evidenceCards.map((item) => (
+              <article>
+                <p>{item.company}</p>
+                <strong>{item.metric}</strong>
+                <h3>{item.label}</h3>
+                <span>{item.body}</span>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="framework" class="case-section framework-section">
+        <div class="section-head">
+          <p class="eyebrow">My Resolution</p>
+          <h2>A five-part operating layer sits above whichever model the company licenses.</h2>
+          <p>
+            The framework turns AI from a tool rollout into a managed business capability: select
+            the right workflows, route models by consequence, design ownership and review, check
+            agent readiness, and measure value at the workflow level.
+          </p>
+        </div>
+        <div class="framework-flow">
+          {
+            framework.map(([title, body], index) => (
+              <article>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="routing" class="case-section table-section">
+        <div class="section-copy">
+          <p class="eyebrow">Routing Logic</p>
+          <h2>Model strength and review intensity should follow workflow risk.</h2>
+          <p>
+            I designed the routing table to avoid two weak defaults: using the strongest model for
+            every task, or removing human review simply because the model performs well in demos.
+          </p>
+        </div>
+        <div class="case-table" role="table" aria-label="Illustrative AI routing logic">
+          <div class="case-table__head" role="row">
+            <span role="columnheader">Workflow profile</span>
+            <span role="columnheader">Routing decision</span>
+            <span role="columnheader">Review requirement</span>
+          </div>
+          {
+            routingRows.map((row) => (
+              <div class="case-table__row" role="row">
+                {row.map((cell) => <span role="cell">{cell}</span>)}
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="scorecard" class="case-section scorecard-section">
+        <div class="section-head">
+          <p class="eyebrow">Measurement System</p>
+          <h2>Activity becomes value only when it attaches to the work itself.</h2>
+          <p>
+            The scorecard anchors the pilot before it starts. Every metric needs a baseline, target
+            band, owner, and cadence so leadership can tell whether the workflow improved or merely
+            consumed more AI.
+          </p>
+        </div>
+        <div class="scorecard-table" role="table" aria-label="Workflow-level AI value scorecard">
+          <div class="scorecard-table__head" role="row">
+            <span role="columnheader">KPI</span>
+            <span role="columnheader">Baseline</span>
+            <span role="columnheader">Target</span>
+            <span role="columnheader">Owner</span>
+            <span role="columnheader">Cadence</span>
+          </div>
+          {
+            scorecard.map((row) => (
+              <div class="scorecard-table__row" role="row">
+                {row.map((cell) => <span role="cell">{cell}</span>)}
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="roadmap" class="case-section roadmap-section">
+        <div class="section-head">
+          <p class="eyebrow">Implementation Roadmap</p>
+          <h2>Governance should wrap a real pilot, not a hypothetical program.</h2>
+          <p>
+            I sequenced the rollout so diagnosis and workflow design happen before enterprise
+            scaling. The operating layer gets built around live evidence, then expands through
+            playbooks, controls, enablement, and portfolio review.
+          </p>
+        </div>
+        <div class="roadmap-grid">
+          {
+            roadmap.map(([time, title, body]) => (
+              <article>
+                <span>{time}</span>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="takeaway" class="case-section takeaway-section">
+        <p class="eyebrow">Portfolio Takeaway</p>
+        <h2>
+          AI scale becomes credible when every workflow has a routing decision, accountable owner,
+          review design, and value metric.
+        </h2>
+        <p>
+          This case study shows how I think about enterprise AI: the hard work is not just choosing
+          models. It is building the operating discipline that turns model capability into governed,
+          measurable business value.
+        </p>
+        <a href={withBase("/home/")} data-cursor="link">Return to projects</a>
+      </section>
+    </article>
+  </main>
+
+  <CustomCursor color="orange" />
+</BaseLayout>
+
+<style>
+  .discipline-page {
+    display: grid;
+    grid-template-columns: minmax(200px, 244px) minmax(0, 1fr);
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 88% 6%, rgba(213, 154, 20, 0.18), transparent 330px),
+      radial-gradient(circle at 8% 84%, rgba(47, 143, 123, 0.16), transparent 340px),
+      var(--color-bg);
+    color: var(--color-ink);
+  }
+
+  .discipline-detail {
+    min-width: 0;
+    padding: clamp(10px, 1.5vw, 18px);
+  }
+
+  .discipline-hero,
+  .arc-strip,
+  .case-section {
+    border-radius: var(--radius-md);
+    background: var(--color-bg-light);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 9%, transparent),
+      0 18px 50px -44px rgba(23, 41, 74, 0.72);
+  }
+
+  .discipline-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+    gap: clamp(18px, 4vw, 48px);
+    align-items: center;
+    min-height: calc(100vh - 34px);
+    padding: clamp(22px, 4vw, 48px);
+    background:
+      linear-gradient(135deg, color-mix(in oklab, var(--color-orange-1) 26%, white), transparent 48%),
+      linear-gradient(18deg, transparent 0 58%, color-mix(in oklab, var(--color-teal) 12%, transparent) 59%),
+      var(--color-bg-light);
+  }
+
+  .eyebrow,
+  .hero-board p,
+  .arc-strip p,
+  .paper-card span,
+  .evidence-grid p,
+  .framework-flow span,
+  .roadmap-grid span {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--color-ink-mute);
+  }
+
+  .hero-copy h1,
+  .hero-board h2,
+  .arc-strip h2,
+  .section-copy h2,
+  .section-head h2,
+  .takeaway-section h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 300;
+    color: var(--color-ink);
+  }
+
+  .hero-copy h1 {
+    max-width: 12ch;
+    margin-top: 12px;
+    font-size: clamp(3rem, 6.9vw, 6.8rem);
+    line-height: 0.84;
+  }
+
+  .hero-copy > p:not(.eyebrow),
+  .section-copy p:not(.eyebrow),
+  .section-head p:not(.eyebrow),
+  .paper-card p,
+  .framework-flow p,
+  .roadmap-grid p,
+  .evidence-grid span,
+  .takeaway-section p {
+    color: var(--color-ink-dim);
+    font-family: var(--font-body);
+    line-height: 1.55;
+  }
+
+  .hero-copy > p:not(.eyebrow) {
+    max-width: 58ch;
+    font-size: clamp(1rem, 1.25vw, 1.12rem);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .hero-actions span,
+  .case-table span,
+  .scorecard-table span {
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.25;
+    text-transform: uppercase;
+  }
+
+  .hero-actions span {
+    padding: 9px 11px;
+    background: color-mix(in oklab, var(--color-teal) 14%, white);
+  }
+
+  .hero-board {
+    padding: clamp(18px, 3vw, 28px);
+    border-radius: var(--radius-md);
+    background: color-mix(in oklab, var(--color-ink) 92%, var(--color-orange));
+    color: var(--color-bg);
+  }
+
+  .hero-board h2 {
+    margin-top: 10px;
+    color: var(--color-bg);
+    font-size: clamp(1.9rem, 3.2vw, 3.15rem);
+    line-height: 0.98;
+  }
+
+  .hero-board dl {
+    display: grid;
+    gap: 8px;
+    margin: 24px 0 0;
+  }
+
+  .hero-board div {
+    display: grid;
+    grid-template-columns: 0.74fr 1fr;
+    gap: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+  }
+
+  .hero-board dt {
+    color: var(--color-starlight);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+  }
+
+  .hero-board dd {
+    margin: 0;
+    font-family: var(--font-body);
+  }
+
+  .arc-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin-top: 16px;
+    overflow: hidden;
+    background: color-mix(in oklab, var(--color-ink) 12%, var(--color-bg-light));
+  }
+
+  .arc-strip article {
+    min-height: 150px;
+    padding: 18px;
+    background: var(--color-bg-light);
+  }
+
+  .arc-strip h2 {
+    max-width: 13ch;
+    margin-top: 14px;
+    font-size: clamp(1.45rem, 2.5vw, 2.2rem);
+    line-height: 0.98;
+  }
+
+  .case-section {
+    display: grid;
+    gap: 22px;
+    margin-top: 16px;
+    padding: clamp(16px, 3vw, 30px);
+    scroll-margin-top: 78px;
+  }
+
+  .split-section {
+    grid-template-columns: minmax(240px, 0.58fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .section-copy h2,
+  .section-head h2,
+  .takeaway-section h2 {
+    max-width: 15ch;
+    margin-top: 10px;
+    font-size: clamp(1.9rem, 3.6vw, 3.65rem);
+    line-height: 0.93;
+  }
+
+  .section-copy p:not(.eyebrow),
+  .section-head p:not(.eyebrow),
+  .takeaway-section p {
+    max-width: 70ch;
+    margin: 14px 0 0;
+    font-size: 1rem;
+  }
+
+  .section-head {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.58fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: end;
+  }
+
+  .section-head h2 {
+    grid-column: 1;
+  }
+
+  .section-head p:last-child {
+    grid-column: 2;
+    margin: 0;
+  }
+
+  .friction-grid,
+  .framework-flow,
+  .roadmap-grid {
+    display: grid;
+    gap: 12px;
+  }
+
+  .friction-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .paper-card,
+  .framework-flow article,
+  .roadmap-grid article {
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.58);
+    padding: 18px;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 8%, transparent);
+  }
+
+  .paper-card span,
+  .framework-flow span,
+  .roadmap-grid span {
+    color: var(--color-orange);
+  }
+
+  .paper-card h3,
+  .framework-flow h3,
+  .roadmap-grid h3,
+  .evidence-grid h3 {
+    margin: 8px 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.38rem, 2.1vw, 2rem);
+    font-weight: 300;
+    line-height: 1;
+    color: var(--color-ink);
+  }
+
+  .paper-card p,
+  .framework-flow p,
+  .roadmap-grid p {
+    margin: 0;
+  }
+
+  .evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .evidence-grid article {
+    min-height: 250px;
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: 18px;
+    border-radius: var(--radius-md);
+    background:
+      linear-gradient(180deg, color-mix(in oklab, var(--color-orange) 12%, transparent), transparent 48%),
+      var(--color-bg-white);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 8%, transparent);
+  }
+
+  .evidence-grid strong {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 4vw, 4rem);
+    font-weight: 300;
+    line-height: 0.9;
+    color: var(--color-teal);
+  }
+
+  .evidence-grid h3 {
+    margin: 0;
+  }
+
+  .evidence-grid span {
+    font-size: 0.94rem;
+  }
+
+  .framework-flow {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .table-section {
+    grid-template-columns: minmax(240px, 0.42fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .case-table,
+  .scorecard-table {
+    min-width: 0;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-white);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 9%, transparent);
+  }
+
+  .case-table__head,
+  .case-table__row {
+    display: grid;
+    grid-template-columns: 1.25fr 0.78fr 1fr;
+  }
+
+  .scorecard-table__head,
+  .scorecard-table__row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 0.86fr 1fr 0.72fr;
+  }
+
+  .case-table__head,
+  .scorecard-table__head {
+    background: var(--color-ink);
+    color: var(--color-bg-light);
+  }
+
+  .case-table__head span,
+  .scorecard-table__head span {
+    color: inherit;
+  }
+
+  .case-table span,
+  .scorecard-table span {
+    padding: 13px 14px;
+    border-right: 1px solid color-mix(in oklab, var(--color-ink) 8%, transparent);
+    border-bottom: 1px solid color-mix(in oklab, var(--color-ink) 8%, transparent);
+    color: var(--color-ink-dim);
+    text-transform: none;
+  }
+
+  .case-table__row span:first-child,
+  .scorecard-table__row span:first-child {
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+  }
+
+  .roadmap-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .takeaway-section {
+    background:
+      linear-gradient(135deg, color-mix(in oklab, var(--color-orange-1) 22%, transparent), transparent 48%),
+      var(--color-ink);
+    color: var(--color-bg);
+  }
+
+  .takeaway-section h2 {
+    max-width: 17ch;
+    color: var(--color-bg);
+  }
+
+  .takeaway-section p {
+    color: var(--color-starlight);
+  }
+
+  .takeaway-section a {
+    display: inline-flex;
+    width: max-content;
+    margin-top: 14px;
+    padding: 10px 13px;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-light);
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 1120px) {
+    .arc-strip,
+    .evidence-grid,
+    .framework-flow {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 980px) {
+    .discipline-page,
+    .discipline-hero,
+    .split-section,
+    .section-head,
+    .table-section {
+      grid-template-columns: 1fr;
+    }
+
+    .discipline-hero {
+      min-height: 0;
+    }
+
+    .section-head h2,
+    .section-head p:last-child {
+      grid-column: auto;
+    }
+
+    .scorecard-table {
+      overflow-x: auto;
+    }
+
+    .scorecard-table__head,
+    .scorecard-table__row {
+      min-width: 780px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .discipline-detail {
+      padding: 10px;
+    }
+
+    .discipline-hero,
+    .case-section {
+      padding: 18px;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(3rem, 16vw, 4rem);
+      overflow-wrap: anywhere;
+    }
+
+    .hero-board div,
+    .arc-strip,
+    .friction-grid,
+    .evidence-grid,
+    .framework-flow,
+    .roadmap-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .case-table {
+      overflow-x: auto;
+    }
+
+    .case-table__head,
+    .case-table__row {
+      min-width: 650px;
+    }
+  }
+</style>

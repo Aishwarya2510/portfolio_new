@@ -87,25 +87,20 @@ import { withBase } from "../lib/paths";
             href={withBase("/work/ai-pilot-to-scale/")}
             tilt={0}
           />
-          <article class="coming-project-card" aria-labelledby="coming-projects-title">
-            <div class="coming-project-card__top">
-              <span class="coming-project-card__hole" aria-hidden="true"></span>
-              <span class="coming-project-card__num">No. 04</span>
-            </div>
-
-            <div class="coming-project-card__stage" aria-hidden="true">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-
-            <div class="coming-project-card__body">
-              <p class="coming-project-card__kicker">Next batch</p>
-              <h3 id="coming-projects-title">More build notes coming.</h3>
-              <p>I am adding the projects that best show how I think, decide, and make tradeoffs.</p>
-            </div>
-          </article>
+          <ProjectIndexCard
+            title="AI Operating Discipline"
+            slug="ai-operating-discipline"
+            number={4}
+            role="Enterprise AI Strategy"
+            team="Portfolio case study"
+            shipped="July 2026"
+            status={["Case Study", "AI Governance"]}
+            description="I turned a research-backed AI adoption problem into a workflow-first operating model for routing, ownership, review, and value measurement."
+            accent="orange"
+            imageHeight={190}
+            href={withBase("/work/ai-operating-discipline/")}
+            tilt={0}
+          />
         </div>
 
         <section class="coming-banner" aria-label="More projects coming soon">
