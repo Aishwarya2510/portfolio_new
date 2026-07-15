@@ -85,14 +85,14 @@ const { slug, title, accent = "teal" } = Astro.props;
     <svg viewBox="0 0 240 132" aria-hidden="true">
       <path class="pv-discipline-loop" d="M35 69c0-30 24-51 57-51h56c33 0 57 21 57 51s-24 51-57 51H92c-33 0-57-21-57-51Z" />
       <path class="pv-discipline-route" d="M45 72h39l18-26 30 52 22-37h41" />
+      <circle class="pv-discipline-dot" cx="84" cy="72" r="5" />
+      <circle class="pv-discipline-dot" cx="140" cy="82" r="5" />
+      <circle class="pv-discipline-dot" cx="154" cy="61" r="5" />
       <g class="pv-discipline-gate"><rect x="26" y="45" width="46" height="42" rx="10" /><text x="49" y="69">Risk</text></g>
       <g class="pv-discipline-gate pv-discipline-gate--b"><rect x="97" y="23" width="48" height="42" rx="10" /><text x="121" y="47">Route</text></g>
       <g class="pv-discipline-gate pv-discipline-gate--c"><rect x="166" y="45" width="48" height="42" rx="10" /><text x="190" y="69">KPI</text></g>
-      <rect class="pv-discipline-owner" x="82" y="88" width="78" height="25" rx="9" />
-      <text x="121" y="105">Owner + review</text>
-      <circle class="pv-discipline-dot" cx="84" cy="72" r="5" />
-      <circle class="pv-discipline-dot" cx="132" cy="98" r="5" />
-      <circle class="pv-discipline-dot" cx="154" cy="61" r="5" />
+      <rect class="pv-discipline-owner" x="76" y="88" width="90" height="25" rx="9" />
+      <text class="pv-discipline-owner-text" x="121" y="104">Owner / review</text>
     </svg>
   )}
 
@@ -725,12 +725,16 @@ const { slug, title, accent = "teal" } = Astro.props;
   .pv-discipline-dot {
     fill: var(--visual-accent);
   }
-  .pv-discipline-gate text,
-  .pv-discipline-owner + text {
+  .pv-discipline-gate text {
     font-size: 8px;
   }
+
+  .pv-discipline-owner-text {
+    font-size: 7px;
+  }
+
   .pv-discipline-gate--b text,
-  .pv-discipline-owner + text {
+  .pv-discipline-owner-text {
     fill: var(--color-ink-inverted);
   }
   .pv-pulse-line {

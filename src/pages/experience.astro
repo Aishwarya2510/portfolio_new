@@ -22,11 +22,12 @@ const experiences = [
     setting: "Engineering quality floor, validation cycles, and release checkpoints.",
     summary:
       "Reduced production defects, strengthened data validation, and translated business requirements into reliable test coverage across multiple systems.",
-    work: [
-      "Reduced production defects across 3 releases by analyzing defect trends and implementing corrective actions.",
-      "Validated 10,000+ data records during testing cycles to ensure reporting accuracy and downstream data integrity.",
-      "Translated 100+ business requirements into test scenarios aligned with reporting, validation, and system performance needs.",
-    ],
+    roleStory:
+      "This is where I learned to treat quality as a system, not a final checkpoint. I worked close to requirements, test design, reporting validation, and release cycles, turning business asks into scenarios that could catch issues before customers or downstream teams felt them.",
+    impactStory:
+      "The highest-impact work came from noticing patterns in defects instead of treating each bug as isolated. By analyzing trend data, tightening scenarios, and validating more than 10,000 records across testing cycles, I helped reduce production defects across 3 releases and improved confidence in reporting accuracy.",
+    growthStory:
+      "This chapter gave me the habit I still use in product and operations work: understand the process deeply, make risk visible early, and build enough evidence that release decisions feel grounded.",
     artifacts: ["Defect analysis", "Data validation", "Test scenarios"],
   },
   {
@@ -42,11 +43,12 @@ const experiences = [
     setting: "Strategy room, reporting desk, SQL pipelines, and KPI operating rhythms.",
     summary:
       "Led reporting automation, KPI frameworks, and data-driven transformation work across business strategy and operations.",
-    work: [
-      "Reduced reporting turnaround by 3 days by automating recurring reports using SQL pipelines and structured data workflows.",
-      "Saved 400 analyst hours annually by streamlining data collection, validation, and reporting workflows.",
-      "Built KPI tracking frameworks for 25 processes and generated forecasting insights from 10,000+ records.",
-    ],
+    roleStory:
+      "I stepped into work where business teams needed faster, cleaner visibility into performance. My role sat between strategy, reporting operations, and analyst enablement, so I had to understand the decision people were trying to make before touching the data pipeline.",
+    impactStory:
+      "The story here is operational leverage. I automated recurring reports with SQL workflows, reduced reporting turnaround by 3 days, and removed enough manual collection and validation effort to save roughly 400 analyst hours a year. The reporting work became less about chasing files and more about reading the business.",
+    growthStory:
+      "Building KPI frameworks for 25 processes taught me how much transformation depends on rhythm: shared definitions, reliable baselines, clean handoffs, and a cadence where insights actually reach the people making decisions.",
     artifacts: ["SQL reporting", "KPI frameworks", "Forecasting insights"],
   },
   {
@@ -62,11 +64,12 @@ const experiences = [
     setting: "Commercial real estate workflows, transaction data, and product operations.",
     summary:
       "Analyzed operational and transaction datasets to improve process visibility, reporting quality, and product decision-making.",
-    work: [
-      "Analyzed operational and transaction datasets to identify inefficiencies across 20 business processes and reporting workflows.",
-      "Validated 5,000+ monthly transaction records for accuracy, consistency, and reporting reliability.",
-      "Supported product strategy and operations teams with clean analysis for decision-making and workflow improvement.",
-    ],
+    roleStory:
+      "I entered Market Maker CRE through the data and process side of product operations. The work was practical and messy in the best way: transaction records, operational gaps, reporting inconsistencies, and teams trying to understand where the workflow was slowing down.",
+    impactStory:
+      "I analyzed operational and transaction datasets across 20 business processes, then used the patterns to make inefficiencies visible. Validating more than 5,000 monthly transaction records improved reporting reliability and gave product and operations teams cleaner evidence for workflow decisions.",
+    growthStory:
+      "This role sharpened my product sense because the data was never just data. Each discrepancy pointed to a user need, a process gap, or a product decision that needed more context before the team could move well.",
     artifacts: ["Transaction QA", "Process analysis", "Reporting workflows"],
   },
   {
@@ -82,11 +85,12 @@ const experiences = [
     setting: "Commercial real estate workflows, product modules, and stakeholder dashboards.",
     summary:
       "Owned product visibility, KPI tracking, and feature prioritization across product modules and stakeholder reporting workflows.",
-    work: [
-      "Improved product visibility by tracking 12 KPIs through Tableau dashboards used by 8 cross-functional stakeholders.",
-      "Drove feature prioritization across 3 product modules using user behavior, engagement, and transaction datasets.",
-      "Generated 20 ad hoc reports monthly supporting roadmap decisions, stakeholder requests, and product performance analysis.",
-    ],
+    roleStory:
+      "My work expanded from analysis into ownership. I was closer to roadmap conversations, stakeholder questions, product modules, and the tradeoffs behind what should be prioritized next.",
+    impactStory:
+      "I improved product visibility by building Tableau tracking around 12 KPIs for 8 cross-functional stakeholders. That visibility changed the conversation: feature prioritization across 3 product modules could be grounded in behavior, engagement, and transaction evidence instead of only urgency or opinion.",
+    growthStory:
+      "The most useful part of this chapter was learning how to translate ambiguity into a product operating view. The monthly ad hoc reporting load became a listening system for roadmap needs, stakeholder friction, and performance questions that deserved a clearer answer.",
     artifacts: ["Tableau dashboards", "Feature prioritization", "KPI scorecards"],
   },
   {
@@ -102,12 +106,12 @@ const experiences = [
     setting: "Revenue operations cloud, global enablement, and governed workflow rollout.",
     summary:
       "Delivered cross-functional revenue operations initiatives, improved workflow governance, and enabled scalable process adoption across global teams.",
-    work: [
-      "Delivered 8+ cross-functional initiatives by managing project plans, tracking 50+ milestones, and coordinating 10+ stakeholders.",
-      "Built KPI dashboards and weekly reports tracking 15+ metrics across risks, dependencies, deliverables, and project health.",
-      "Consolidated 80 fragmented artifacts into 27 standardized assets and facilitated 25+ workshops for process alignment.",
-      "Supported rollout readiness by training 50+ users and developing structured enablement materials.",
-    ],
+    roleStory:
+      "At Salesforce, my work sat inside revenue operations, where process changes affect many teams at once. I helped turn scattered inputs, stakeholder needs, project plans, and enablement requirements into a governed rollout motion.",
+    impactStory:
+      "I delivered 8+ cross-functional initiatives by coordinating 10+ stakeholders, tracking more than 50 milestones, and making project health visible through dashboards and weekly reporting across 15+ metrics. The biggest shift was reducing fragmentation: 80 separate artifacts became 27 standardized assets that teams could actually use.",
+    growthStory:
+      "The work was high leverage because adoption depended on clarity, not just execution. Facilitating 25+ workshops and training 50+ users taught me how to make process change feel usable at scale: clear ownership, clean materials, visible risks, and enough structure for global teams to move together.",
     artifacts: ["Revenue operations", "KPI dashboards", "Process governance", "Enablement"],
   },
 ].sort((a, b) => b.startDate.localeCompare(a.startDate));
@@ -205,34 +209,24 @@ const experiences = [
 
                 <div class="panel-grid">
                   <section class="detail-block detail-block--role">
-                    <p class="detail-block__label">My Role</p>
+                    <p class="detail-block__label">Role Story</p>
                     <h3>{item.role}</h3>
-                    <p>
-                      Placeholder for the expanded role story: ownership, day-to-day scope,
-                      operating rhythm, tools used, and the type of decisions this role supported.
-                    </p>
+                    <p>{item.roleStory}</p>
                   </section>
 
                   <section class="detail-block">
-                    <p class="detail-block__label">My Team</p>
+                    <p class="detail-block__label">Operating Context</p>
+                    <h3>Where the work lived</h3>
                     <p>{item.team}</p>
-                    <p>
-                      Placeholder for collaborators, cross-functional partners, reporting lines,
-                      stakeholder groups, and how work moved across the team.
-                    </p>
                   </section>
 
                   <section class="detail-block detail-block--wide">
-                    <p class="detail-block__label">Impact</p>
-                    <ul>
-                      {item.work.map((line) => (
-                        <li>{line}</li>
-                      ))}
-                    </ul>
+                    <p class="detail-block__label">High-Impact Story</p>
+                    <p class="impact-story">{item.impactStory}</p>
                   </section>
 
                   <section class="detail-block">
-                    <p class="detail-block__label">Artifacts</p>
+                    <p class="detail-block__label">Proof Points</p>
                     <div class="artifact-list">
                       {item.artifacts.map((artifact) => (
                         <span>{artifact}</span>
@@ -241,11 +235,8 @@ const experiences = [
                   </section>
 
                   <section class="detail-block">
-                    <p class="detail-block__label">Next Content Slot</p>
-                    <p>
-                      {item.setting} Placeholder for tools, screenshots, process notes, dashboards,
-                      case-study links, lessons learned, or a short reflection from this experience.
-                    </p>
+                    <p class="detail-block__label">What It Taught Me</p>
+                    <p>{item.growthStory}</p>
                   </section>
                 </div>
               </article>
@@ -634,8 +625,7 @@ const experiences = [
   }
 
   .panel-summary p,
-  .detail-block p,
-  .detail-block li {
+  .detail-block p {
     margin: 0;
     font-family: var(--font-body);
     font-size: 0.98rem;
@@ -673,35 +663,17 @@ const experiences = [
   .detail-block h3 {
     margin: 0;
     font-family: var(--font-display);
-    font-size: clamp(1.7rem, 2.8vw, 2.5rem);
+    font-size: clamp(1.45rem, 2.3vw, 2.18rem);
     font-weight: 300;
     line-height: 1;
-    color: var(--color-ink)
-    ;
+    color: var(--color-ink);
   }
 
-  .detail-block ul {
-    display: grid;
-    gap: 11px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .detail-block li {
-    position: relative;
-    padding-left: 20px;
-  }
-
-  .detail-block li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.68em;
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: var(--tab-accent);
+  .impact-story {
+    max-width: 86ch;
+    font-size: clamp(1.02rem, 1.45vw, 1.18rem) !important;
+    line-height: 1.58 !important;
+    color: var(--color-ink) !important;
   }
 
   .artifact-list {
