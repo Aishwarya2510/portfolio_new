@@ -1188,6 +1188,9 @@ const experiences = [
     }
 
     .experience-nav {
+      position: sticky;
+      top: 146px;
+      z-index: 20;
       height: auto;
       max-height: none;
       overflow: visible;
@@ -1258,8 +1261,91 @@ const experiences = [
       padding-inline: 10px;
     }
 
+    .experience-nav {
+      gap: 8px;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+    }
+
+    .experience-nav__intro {
+      display: none;
+    }
+
+    .experience-nav__intro h1 {
+      font-size: clamp(1.9rem, 11vw, 2.6rem);
+      line-height: 1;
+    }
+
+    .experience-line {
+      gap: 8px;
+      padding-bottom: 0;
+    }
+
+    .experience-tab {
+      display: grid;
+      grid-template-columns: 1fr;
+      place-items: center;
+      flex: 0 0 58px;
+      width: 58px;
+      min-height: 58px;
+      padding: 7px;
+    }
+
+    .experience-tab__logo {
+      width: 44px;
+      height: 44px;
+    }
+
+    .experience-tab__copy {
+      display: none;
+    }
+
+    .experience-panel {
+      overflow: visible;
+    }
+
+    .panel-header {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .panel-header__logo {
+      width: 54px;
+      height: 54px;
+      justify-self: start;
+    }
+
+    .panel-header h2 {
+      font-size: clamp(2rem, 11vw, 2.7rem);
+      line-height: 1;
+    }
+
+    .panel-header p {
+      grid-column: auto;
+      font-size: 0.7rem;
+      line-height: 1.35;
+    }
+
+    .panel-summary p,
+    .detail-block p,
+    .case-list li {
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
     .panel-grid {
       grid-template-columns: 1fr;
+    }
+
+    .panel-grid--case-study {
+      grid-template-columns: 1fr;
+    }
+
+    .panel-grid--case-study .case-intro,
+    .panel-grid--case-study .case-leverage,
+    .panel-grid--case-study .comparison-block,
+    .panel-grid--case-study .case-card.detail-block--wide {
+      grid-column: auto;
     }
 
     .detail-block--wide,
@@ -1338,6 +1424,12 @@ const experiences = [
     }
   }
 
+  @media (max-width: 520px) {
+    .experience-nav {
+      top: 140px;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .experience-tab,
     .experience-panel--active {
@@ -1355,7 +1447,23 @@ const experiences = [
 
     const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-experience-tab]"));
     const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-experience-panel]"));
-    function selectExperience(id: string) {
+    function scrollActivePanelToStart(panel: HTMLElement) {
+      const siteNav = document.querySelector<HTMLElement>(".site-navbar");
+      const chapterNav = root.querySelector<HTMLElement>(".experience-nav");
+      const isMobile = window.matchMedia("(max-width: 980px)").matches;
+      const offset =
+        (isMobile ? (siteNav?.getBoundingClientRect().height ?? 0) + (chapterNav?.getBoundingClientRect().height ?? 0) : 0) +
+        14;
+
+      window.scrollTo({
+        top: panel.getBoundingClientRect().top + window.scrollY - offset,
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      });
+    }
+
+    function selectExperience(id: string, shouldScroll = false) {
+      let activePanel: HTMLElement | undefined;
+
       tabs.forEach((tab) => {
         const isActive = tab.dataset.target === id;
         tab.classList.toggle("experience-tab--active", isActive);
@@ -1366,12 +1474,17 @@ const experiences = [
         const isActive = panel.dataset.panel === id;
         panel.hidden = !isActive;
         panel.classList.toggle("experience-panel--active", isActive);
+        if (isActive) activePanel = panel;
       });
+
+      if (shouldScroll && activePanel) {
+        requestAnimationFrame(() => scrollActivePanelToStart(activePanel));
+      }
     }
 
     tabs.forEach((tab) => {
       tab.addEventListener("click", () => {
-        if (tab.dataset.target) selectExperience(tab.dataset.target);
+        if (tab.dataset.target) selectExperience(tab.dataset.target, true);
       });
     });
   }

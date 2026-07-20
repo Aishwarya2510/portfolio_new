@@ -108,10 +108,11 @@ const { title, items } = Astro.props;
 
   @media (max-width: 980px) {
     .project-nav {
-      position: sticky;
+      position: fixed;
       top: 0;
-      left: auto;
-      width: auto;
+      left: 0;
+      right: 0;
+      width: 100%;
       z-index: 30;
       height: auto;
       max-height: 42vh;
@@ -143,6 +144,7 @@ const { title, items } = Astro.props;
 
     :global(.project-nav + *) {
       grid-column: 1;
+      padding-top: 154px;
     }
   }
 
@@ -160,6 +162,10 @@ const { title, items } = Astro.props;
 
     .project-nav h2 {
       font-size: 1.7rem;
+    }
+
+    :global(.project-nav + *) {
+      padding-top: 196px;
     }
   }
 </style>

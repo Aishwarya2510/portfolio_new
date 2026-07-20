@@ -157,7 +157,16 @@ const { active = "work" } = Astro.props;
   }
 
   @media (max-width: 900px) {
+    :global(body:has(.site-navbar)) {
+      padding-top: 142px;
+    }
+
     .site-navbar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 60;
       grid-template-columns: 1fr;
       justify-items: stretch;
       gap: 10px;
@@ -194,6 +203,10 @@ const { active = "work" } = Astro.props;
   }
 
   @media (max-width: 520px) {
+    :global(body:has(.site-navbar)) {
+      padding-top: 136px;
+    }
+
     .site-navbar {
       padding-inline: 10px;
     }
