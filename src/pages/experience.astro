@@ -269,7 +269,7 @@ const experiences = [
 ].sort((a, b) => b.startDate.localeCompare(a.startDate));
 ---
 
-<BaseLayout title="Experience - Aishwarya's Portfolio" description="Experience and selected work.">
+<BaseLayout title="Experience - Aishwarya's Portfolio" description="Experience and selected work." showPet={false}>
   <div class="experience-root flex flex-col min-h-screen">
     <Sidebar
       active="experience"
@@ -460,14 +460,14 @@ const experiences = [
 
 <style>
   .experience-root {
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    overflow: visible;
   }
 
   .experience-page {
-    height: 100%;
+    height: auto;
     min-height: 0;
-    overflow: hidden;
+    overflow: visible;
     padding: 14px clamp(12px, 2vw, 24px) 18px;
     background:
       radial-gradient(circle at 88% 10%, rgba(190, 89, 105, 0.13), transparent 290px),
@@ -480,7 +480,7 @@ const experiences = [
     grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
     align-items: start;
     gap: clamp(16px, 2.4vw, 30px);
-    height: 100%;
+    height: auto;
     min-height: 0;
   }
 
@@ -488,9 +488,9 @@ const experiences = [
     display: grid;
     grid-template-rows: auto 1fr;
     gap: 20px;
-    height: 100%;
+    height: auto;
     min-height: 0;
-    overflow: auto;
+    overflow: visible;
     padding: clamp(18px, 2vw, 26px);
     border-radius: var(--radius-md);
     background: var(--color-bg-light);
@@ -644,8 +644,8 @@ const experiences = [
   .experience-content {
     min-width: 0;
     min-height: 0;
-    height: 100%;
-    overflow-y: auto;
+    height: auto;
+    overflow: visible;
     padding-right: 4px;
     scrollbar-color: color-mix(in oklab, var(--color-ink) 22%, transparent) transparent;
   }
@@ -674,6 +674,7 @@ const experiences = [
   .panel-place {
     position: absolute;
     inset: 0;
+    z-index: 0;
     overflow: hidden;
     pointer-events: none;
     opacity: 0.42;
@@ -797,7 +798,7 @@ const experiences = [
 
   .panel-header {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
     gap: 18px;
     padding-bottom: clamp(18px, 3vw, 30px);
@@ -812,18 +813,21 @@ const experiences = [
 
   .panel-header h2 {
     margin: 0;
+    min-width: 0;
     font-family: var(--font-display);
-    font-size: clamp(2.4rem, 5.8vw, 5.5rem);
+    font-size: clamp(2.35rem, 5vw, 4.9rem);
     font-weight: 300;
-    line-height: 0.92;
-    text-align: center;
+    line-height: 0.98;
+    text-align: left;
+    overflow-wrap: anywhere;
     color: var(--color-ink);
   }
 
   .panel-header p {
-    justify-self: end;
-    max-width: 16ch;
-    text-align: right;
+    grid-column: 2;
+    justify-self: start;
+    max-width: none;
+    text-align: left;
     color: var(--color-ink);
   }
 
@@ -1165,6 +1169,18 @@ const experiences = [
   }
 
   @media (max-width: 980px) {
+    .experience-root {
+      height: auto;
+      min-height: 100vh;
+      overflow: visible;
+    }
+
+    .experience-page {
+      height: auto;
+      min-height: 100vh;
+      overflow: visible;
+    }
+
     .experience-shell {
       grid-template-columns: 1fr;
       height: auto;
@@ -1189,6 +1205,16 @@ const experiences = [
       display: none;
     }
 
+    .experience-content {
+      height: auto;
+      overflow: visible;
+      padding-right: 0;
+    }
+
+    .panel-place {
+      display: none;
+    }
+
     .experience-tab {
       grid-template-columns: 44px minmax(0, 1fr);
       flex: 0 0 min(290px, 82vw);
@@ -1205,6 +1231,7 @@ const experiences = [
 
     .panel-header h2 {
       text-align: left;
+      overflow-wrap: anywhere;
     }
 
     .panel-header p {
@@ -1229,12 +1256,6 @@ const experiences = [
 
     .experience-page {
       padding-inline: 10px;
-    }
-
-    .experience-content {
-      height: auto;
-      overflow: visible;
-      padding-right: 0;
     }
 
     .panel-grid {

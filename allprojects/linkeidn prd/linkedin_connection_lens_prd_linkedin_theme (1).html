@@ -39,6 +39,7 @@ html{scroll-behavior:smooth;overflow-x:hidden}
 img,svg,canvas,video{max-width:100%}
 body{
   margin:0;
+  padding-top:52px;
   background:var(--li-bg);
   color:var(--li-text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -52,7 +53,7 @@ button{cursor:pointer}
 .skip{position:absolute;left:-999px;top:8px}
 .skip:focus{left:8px;z-index:1000;background:var(--li-card);padding:10px;border:1px solid var(--li-line);border-radius:8px}
 .nav{
-  position:sticky;top:0;z-index:100;
+  position:fixed;top:0;left:0;right:0;z-index:100;
   background:var(--li-card);
   border-bottom:1px solid var(--li-line);
   transition:box-shadow .2s;
@@ -426,6 +427,7 @@ footer{padding:30px 0 50px;border-top:1px solid var(--li-line);background:var(--
   .nav-links{gap:0}
   .nav-me a .me-caret{display:none}
   .hero{padding-top:18px}
+  body{padding-top:52px}
   main > section .container{padding:18px;border-radius:10px}
   section{padding:12px 0}
   h1{font-size:clamp(1.95rem,9vw,2.4rem)}
