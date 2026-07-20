@@ -15,6 +15,11 @@ const routes = [
   { path: "/work/agent-maestro/", priority: "0.9" },
   { path: "/work/ai-valueops/", priority: "0.9" },
   { path: "/work/ai-pilot-to-scale/", priority: "0.9" },
+  { path: "/work/ai-operating-discipline/", priority: "0.9" },
+  { path: "/work/spotify-feature-breakdown/", priority: "0.9" },
+  { path: "/work/duolingo-growth-experiment/", priority: "0.9" },
+  { path: "/work/notion-onboarding-audit/", priority: "0.9" },
+  { path: "/work/linkedin-prd/", priority: "0.9" },
 ];
 
 export const GET: APIRoute = () => {

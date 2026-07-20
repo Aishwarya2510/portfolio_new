@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Independent product strategy teardown of Spotify AI DJ, including user research, metrics, proposed Discovery Dial, system architecture, experimentation, roadmap, and interactive prototype." />
+  <meta name="author" content="Aishwarya Chourasia" />
+  <title>Spotify AI DJ — Product Strategy Teardown | Aishwarya Chourasia</title>
+  <style>
+    :root {
+      --bg: #07100c;
+      --bg-2: #0a1711;
+      --surface: rgba(18, 35, 26, 0.76);
+      --surface-solid: #10221a;
+      --surface-2: #142a20;
+      --text: #f4fff8;
+      --muted: #a9c0b2;
+      --faint: #749080;
+      --line: rgba(184, 255, 208, 0.14);
+      --green: #1ed760;
+      --green-2: #87f6ad;
+      --amber: #ffc96b;
+      --red: #ff8e8e;
+      --blue: #7cc8ff;
+      --purple: #c5a3ff;
+      --shadow: 0 24px 70px rgba(0,0,0,.35);
+      --radius: 22px;
+      --radius-sm: 14px;
+      --max: 1180px;
+      --nav-h: 68px;
+    }
+
+    html[data-theme="light"] {
+      --bg: #f3f8f4;
+      --bg-2: #e8f2eb;
+      --surface: rgba(255,255,255,.86);
+      --surface-solid: #ffffff;
+      --surface-2: #eef7f1;
+      --text: #0b1c12;
+      --muted: #476052;
+      --faint: #6e8175;
+      --line: rgba(15, 68, 35, 0.13);
+      --shadow: 0 24px 70px rgba(17, 73, 37, .13);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% -10%, rgba(30,215,96,.22), transparent 34%),
+        radial-gradient(circle at 90% 8%, rgba(124,200,255,.09), transparent 25%),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    ::selection { background: rgba(30,215,96,.3); }
+
+    .skip-link {
+      position: fixed;
+      left: 12px;
+      top: -80px;
+      z-index: 9999;
+      padding: 10px 14px;
+      background: var(--green);
+      color: #06120b;
+      border-radius: 10px;
+      font-weight: 800;
+      transition: top .2s ease;
+    }
+    .skip-link:focus { top: 12px; }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0;
+      z-index: 1000;
+      background: linear-gradient(90deg, var(--green), var(--blue));
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      height: var(--nav-h);
+      backdrop-filter: blur(18px);
+      background: color-mix(in srgb, var(--bg) 76%, transparent);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      max-width: var(--max);
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: max-content;
+      font-weight: 850;
+      letter-spacing: -.02em;
+    }
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--green);
+      color: #06120b;
+      box-shadow: 0 0 0 6px rgba(30,215,96,.09);
+    }
+    .brand small {
+      display: block;
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .nav-links a { text-decoration: none; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-actions { display: flex; gap: 9px; }
+
+    .icon-btn, .button {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+    }
+    .icon-btn:hover, .button:hover { transform: translateY(-2px); border-color: rgba(30,215,96,.45); }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 11px 16px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .button.primary {
+      background: var(--green);
+      color: #07140b;
+      border-color: transparent;
+    }
+    .button.ghost { background: transparent; }
+
+    main { overflow: hidden; }
+    .container { max-width: var(--max); margin: 0 auto; padding: 0 22px; }
+    .section { padding: 96px 0; position: relative; }
+    .section.compact { padding: 70px 0; }
+    .section + .section { border-top: 1px solid var(--line); }
+
+    .hero {
+      min-height: calc(100vh - var(--nav-h));
+      display: flex;
+      align-items: center;
+      padding: 80px 0 64px;
+      position: relative;
+    }
+    .hero:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.75), transparent 85%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 58px;
+      align-items: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--green-2);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .eyebrow:before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--green);
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      margin: 18px 0 20px;
+      font-size: clamp(46px, 7vw, 88px);
+      line-height: .95;
+      letter-spacing: -.065em;
+      max-width: 900px;
+    }
+    .hero h1 span { color: var(--green); }
+    .hero-lede {
+      max-width: 710px;
+      font-size: clamp(17px, 2vw, 21px);
+      color: var(--muted);
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 30px 0 26px; }
+    .proof-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .pill {
+      border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--surface) 82%, transparent);
+      border-radius: 999px;
+      padding: 8px 11px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+    }
+    .pill.green { color: var(--green-2); border-color: rgba(30,215,96,.27); }
+
+    .player-shell {
+      position: relative;
+      width: min(450px, 100%);
+      margin-left: auto;
+      border: 1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(30,215,96,.3), transparent 46%),
+        linear-gradient(165deg, #173528, #07110c 64%);
+      border-radius: 34px;
+      box-shadow: 0 40px 120px rgba(0,0,0,.5);
+      padding: 18px;
+      transform: rotate(1.5deg);
+    }
+    .player-shell:after {
+      content: "";
+      position: absolute;
+      inset: 11px;
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 26px;
+      pointer-events: none;
+    }
+    .player-top { display: flex; justify-content: space-between; color: #d7ebde; font-size: 12px; padding: 4px 6px 12px; }
+    .album-art {
+      aspect-ratio: 1;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      position: relative;
+      background:
+        radial-gradient(circle at 35% 32%, #70ff9d 0 7%, transparent 8%),
+        radial-gradient(circle at 63% 56%, #154a2b 0 14%, transparent 15%),
+        repeating-radial-gradient(circle at center, #0b1e12 0 18px, #153b25 19px 30px, #092014 31px 44px);
+    }
+    .album-art .disc {
+      width: 56%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle, #1ed760 0 8%, #07110c 9% 15%, #1b3f28 16% 19%, #09120d 20% 100%);
+      box-shadow: 0 20px 50px rgba(0,0,0,.45);
+      animation: spin 15s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .now-playing { padding: 20px 8px 6px; }
+    .now-playing .label { color: #91b39d; font-size: 11px; font-weight: 850; letter-spacing: .13em; text-transform: uppercase; }
+    .now-playing h3 { font-size: 24px; margin: 6px 0 2px; }
+    .now-playing p { color: #aac0b0; margin-bottom: 0; }
+    .wave {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin: 14px 8px;
+    }
+    .wave i { width: 4px; border-radius: 5px; background: var(--green); animation: pulse 1.2s ease-in-out infinite; }
+    .wave i:nth-child(2n) { animation-delay: -.3s; }
+    .wave i:nth-child(3n) { animation-delay: -.6s; }
+    @keyframes pulse { 0%,100% { height: 7px; opacity:.45; } 50% { height: 30px; opacity:1; } }
+    .dial-mini {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      padding: 9px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 999px;
+      margin: 8px;
+    }
+    .dial-mini span { text-align: center; padding: 8px 5px; border-radius: 999px; font-size: 11px; font-weight: 800; color: #a9bdb0; }
+    .dial-mini span.active { background: var(--green); color: #07110c; }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 36px; }
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      background: var(--surface);
+      backdrop-filter: blur(12px);
+    }
+    .stat strong { display: block; font-size: 27px; letter-spacing: -.04em; }
+    .stat span { color: var(--muted); font-size: 12px; }
+    .stat small { color: var(--faint); display: block; margin-top: 7px; font-size: 10px; }
+
+    .section-head { max-width: 820px; margin-bottom: 38px; }
+    .section-head h2 { font-size: clamp(34px, 5vw, 58px); line-height: 1.03; letter-spacing: -.045em; margin: 12px 0 16px; }
+    .section-head p { font-size: 18px; color: var(--muted); }
+    .kicker { color: var(--green); font-size: 12px; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 12px 38px rgba(0,0,0,.08);
+    }
+    .card h3 { font-size: 20px; margin-bottom: 9px; letter-spacing: -.025em; }
+    .card p { color: var(--muted); margin-bottom: 0; }
+    .card .tag { margin-bottom: 14px; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 9px;
+      border-radius: 9px;
+      background: rgba(30,215,96,.1);
+      color: var(--green-2);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+    .tag.amber { background: rgba(255,201,107,.1); color: var(--amber); }
+    .tag.red { background: rgba(255,142,142,.1); color: var(--red); }
+    .tag.blue { background: rgba(124,200,255,.1); color: var(--blue); }
+    .tag.purple { background: rgba(197,163,255,.1); color: var(--purple); }
+
+    .bluf {
+      border-left: 4px solid var(--green);
+      padding: 26px 28px;
+      background: linear-gradient(90deg, rgba(30,215,96,.10), transparent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: clamp(21px, 3vw, 31px);
+      line-height: 1.3;
+      letter-spacing: -.025em;
+    }
+    .bluf strong { color: var(--green-2); }
+
+    .persona {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .avatar {
+      width: 88px;
+      aspect-ratio: 1;
+      border-radius: 26px;
+      display: grid;
+      place-items: center;
+      font-size: 35px;
+      background: linear-gradient(145deg, rgba(30,215,96,.24), rgba(124,200,255,.10));
+      border: 1px solid var(--line);
+    }
+    .list { padding: 0; margin: 14px 0 0; list-style: none; }
+    .list li { position: relative; padding-left: 20px; margin: 8px 0; color: var(--muted); }
+    .list li:before { content: "↳"; position: absolute; left: 0; color: var(--green); }
+
+    .quote {
+      display: flex;
+      flex-direction: column;
+      min-height: 235px;
+    }
+    .quote blockquote { margin: 0; font-size: 18px; line-height: 1.45; letter-spacing: -.01em; }
+    .quote blockquote:before { content: "“"; color: var(--green); font-size: 42px; line-height: .7; display: block; }
+    .quote footer { margin-top: auto; padding-top: 20px; color: var(--faint); font-size: 12px; }
+    .quote .signal { margin-top: 14px; color: var(--green-2); font-size: 12px; font-weight: 800; }
+
+    .diagram-wrap {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      overflow-x: auto;
+      box-shadow: var(--shadow);
+    }
+    .diagram-wrap svg { display: block; min-width: 920px; width: 100%; height: auto; }
+    .svg-box { fill: var(--surface-solid); stroke: color-mix(in srgb, var(--green) 35%, var(--line)); stroke-width: 1.4; }
+    .svg-box-muted { fill: var(--surface-2); stroke: var(--line); stroke-width: 1.2; }
+    .svg-box-proposed { fill: color-mix(in srgb, var(--green) 12%, var(--surface-solid)); stroke: var(--green); stroke-width: 1.5; }
+    .svg-text { fill: var(--text); font: 700 13px Inter, system-ui, sans-serif; }
+    .svg-sub { fill: var(--muted); font: 500 10.5px Inter, system-ui, sans-serif; }
+    .svg-line { stroke: color-mix(in srgb, var(--green) 60%, var(--line)); stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    .svg-line-muted { stroke: var(--faint); stroke-width: 1.5; fill: none; marker-end: url(#arrowMuted); stroke-dasharray: 5 5; }
+    .legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 14px 3px 0; color: var(--muted); font-size: 11px; }
+    .legend span { display: inline-flex; align-items: center; gap: 7px; }
+    .legend i { width: 13px; height: 13px; border-radius: 4px; border: 1px solid var(--line); background: var(--surface-2); }
+    .legend i.proposed { border-color: var(--green); background: rgba(30,215,96,.14); }
+
+    .journey {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(160px, 1fr));
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .step {
+      position: relative;
+      min-height: 190px;
+      padding: 20px;
+      border-radius: 18px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+    }
+    .step:not(:last-child):after {
+      content: "→";
+      position: absolute;
+      right: -11px;
+      top: 50%;
+      z-index: 2;
+      color: var(--green);
+      font-weight: 900;
+    }
+    .step .num { color: var(--green); font-size: 11px; font-weight: 900; letter-spacing: .12em; }
+    .step h3 { font-size: 16px; margin: 12px 0 8px; }
+    .step p { font-size: 12px; color: var(--muted); }
+    .step .risk { color: var(--amber); font-size: 11px; margin-top: 12px; font-weight: 750; }
+
+    .metrics-tree {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    .north-star {
+      text-align: center;
+      padding: 30px;
+      border: 1px solid rgba(30,215,96,.45);
+      border-radius: var(--radius);
+      background: radial-gradient(circle at 50% 0%, rgba(30,215,96,.17), transparent 65%), var(--surface);
+    }
+    .north-star strong { display: block; font-size: clamp(30px, 4vw, 48px); letter-spacing: -.05em; }
+    .north-star p { color: var(--muted); max-width: 760px; margin: 10px auto 0; }
+    .metric-card { min-height: 180px; }
+    .formula {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 8px 10px;
+      border-radius: 9px;
+      background: rgba(0,0,0,.16);
+      color: var(--green-2);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+    }
+
+    .diagnosis {
+      display: grid;
+      grid-template-columns: 1fr 52px 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+    .arrow-col { text-align: center; color: var(--green); font-size: 30px; font-weight: 900; }
+    .cause-stack { display: grid; gap: 10px; }
+    .cause {
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .cause strong { display: block; margin-bottom: 4px; }
+    .cause small { color: var(--muted); }
+
+    .solution-hero {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+    .solution-copy {
+      padding: 34px;
+      border-radius: 28px;
+      border: 1px solid rgba(30,215,96,.38);
+      background: linear-gradient(145deg, rgba(30,215,96,.13), var(--surface));
+    }
+    .solution-copy h3 { font-size: clamp(32px, 4vw, 52px); margin: 12px 0; letter-spacing: -.045em; }
+    .solution-copy p { color: var(--muted); font-size: 17px; }
+    .solution-copy .big-quote { color: var(--text); font-size: 22px; margin: 25px 0 0; }
+
+    .prototype {
+      border-radius: 28px;
+      padding: 22px;
+      background: #07110c;
+      color: #f7fff9;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      min-height: 100%;
+    }
+    .prototype .proto-top { display: flex; justify-content: space-between; align-items: center; color: #9db4a5; font-size: 12px; }
+    .proto-title { margin: 24px 0 8px; font-size: 28px; }
+    .proto-copy { color: #9fb6a7; font-size: 13px; }
+    .segmented {
+      margin: 20px 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.07);
+    }
+    .segmented button {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 7px;
+      background: transparent;
+      color: #9fb6a7;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 850;
+    }
+    .segmented button.active { background: #1ed760; color: #06120a; }
+    .mix-bar { height: 11px; display: flex; overflow: hidden; border-radius: 999px; margin: 10px 0 6px; background: rgba(255,255,255,.08); }
+    .mix-bar span:first-child { background: #1ed760; }
+    .mix-bar span:last-child { background: #7cc8ff; }
+    .mix-labels { display: flex; justify-content: space-between; color: #9fb6a7; font-size: 11px; }
+    .tracks { margin-top: 20px; display: grid; gap: 9px; }
+    .track {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      gap: 11px;
+      align-items: center;
+      padding: 10px;
+      background: rgba(255,255,255,.055);
+      border-radius: 13px;
+    }
+    .track-art { width: 42px; height: 42px; border-radius: 9px; background: linear-gradient(145deg, #1ed760, #173b25); display: grid; place-items: center; font-weight: 900; color:#06120a; }
+    .track strong { display: block; font-size: 13px; }
+    .track small { color: #8ea99a; }
+    .track .why { color: #83eaa5; font-size: 10px; text-align: right; }
+    .proto-note { color: #708979; font-size: 10px; margin-top: 15px; }
+
+    .scope-list { display: grid; gap: 10px; }
+    .scope-item { display: flex; gap: 11px; align-items: flex-start; padding: 13px; background: var(--surface); border: 1px solid var(--line); border-radius: 13px; }
+    .scope-item i { flex: 0 0 24px; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; background: rgba(30,215,96,.12); color: var(--green); font-style: normal; font-weight: 900; }
+    .scope-item.no i { background: rgba(255,142,142,.12); color: var(--red); }
+    .scope-item strong { display: block; font-size: 14px; }
+    .scope-item small { color: var(--muted); }
+
+    .logic {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      align-items: stretch;
+      overflow-x: auto;
+    }
+    .logic-node {
+      min-width: 138px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--surface);
+      position: relative;
+    }
+    .logic-node:not(:last-child):after { content: "→"; position:absolute; right:-9px; top:50%; color:var(--green); font-weight:900; }
+    .logic-node strong { font-size: 13px; display: block; }
+    .logic-node small { color: var(--muted); font-size: 10px; }
+
+    .code-block {
+      border-radius: 17px;
+      background: #050b08;
+      color: #b9d9c5;
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 20px;
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      white-space: pre;
+    }
+    .code-block .g { color: #74f59e; }
+    .code-block .b { color: #7cc8ff; }
+    .code-block .a { color: #ffc96b; }
+
+    .experiment-table, .data-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 780px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+    .table-wrap { overflow-x: auto; border-radius: 16px; }
+    th, td { padding: 15px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: var(--surface-2); color: var(--green-2); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    td { background: var(--surface); color: var(--muted); font-size: 13px; }
+    tr:last-child td { border-bottom: 0; }
+    td strong { color: var(--text); }
+    .winner td { background: color-mix(in srgb, var(--green) 7%, var(--surface)); }
+
+    .calc {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 20px;
+    }
+    .controls { display: grid; gap: 16px; }
+    .field label { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--muted); margin-bottom: 7px; }
+    .field output { color: var(--green-2); font-weight: 850; }
+    input[type="range"] { width: 100%; accent-color: var(--green); }
+    .impact-results { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .impact-result { padding: 18px; border-radius: 16px; background: var(--surface-2); border: 1px solid var(--line); }
+    .impact-result strong { display: block; font-size: 28px; letter-spacing: -.04em; }
+    .impact-result span { color: var(--muted); font-size: 11px; }
+
+    .risk-matrix { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .risk-item { padding: 18px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); }
+    .risk-item .risk-head { display:flex; justify-content:space-between; gap:10px; align-items:center; }
+    .risk-item .severity { font-size: 10px; font-weight: 900; border-radius: 999px; padding: 5px 8px; }
+    .severity.high { background: rgba(255,142,142,.12); color: var(--red); }
+    .severity.med { background: rgba(255,201,107,.12); color: var(--amber); }
+    .severity.low { background: rgba(124,200,255,.12); color: var(--blue); }
+    .risk-item p { color: var(--muted); font-size: 13px; margin: 11px 0 0; }
+
+    .timeline { display: grid; grid-template-columns: repeat(6, 1fr); gap: 9px; overflow-x: auto; }
+    .week { min-width: 160px; padding: 18px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+    .week strong { color: var(--green); font-size: 12px; letter-spacing: .1em; }
+    .week h3 { font-size: 15px; margin: 8px 0; }
+    .week p { color: var(--muted); font-size: 11px; }
+
+    .talk-track {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .talk-time { font-size: 36px; color: var(--green); font-weight: 900; letter-spacing: -.04em; }
+    .talk-track blockquote { margin: 0; font-size: 20px; line-height: 1.5; }
+
+    .source-card { padding: 18px; }
+    .source-card a { color: var(--green-2); text-decoration: none; font-weight: 800; }
+    .source-card a:hover { text-decoration: underline; }
+    .source-card p { font-size: 12px; }
+
+    .closing {
+      padding: 96px 0 110px;
+      text-align: center;
+    }
+    .closing-box {
+      padding: 55px 30px;
+      border-radius: 34px;
+      border: 1px solid rgba(30,215,96,.34);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(30,215,96,.19), transparent 58%),
+        var(--surface);
+    }
+    .closing h2 { max-width: 900px; margin: 14px auto; font-size: clamp(34px, 5vw, 64px); line-height: 1.05; letter-spacing: -.05em; }
+    .closing p { color: var(--muted); max-width: 740px; margin: 0 auto 25px; font-size: 17px; }
+
+    footer.site-footer { border-top: 1px solid var(--line); padding: 28px 0 48px; color: var(--faint); font-size: 12px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    .note {
+      padding: 14px 16px;
+      border-radius: 13px;
+      border: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      background: color-mix(in srgb, var(--surface) 70%, transparent);
+    }
+    .note strong { color: var(--text); }
+
+    @media (max-width: 980px) {
+      .nav-links { display: none; }
+      .hero-grid, .solution-hero, .calc { grid-template-columns: 1fr; }
+      .player-shell { margin: 28px auto 0; }
+      .stat-grid, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: 1fr 1fr; }
+      .diagnosis { grid-template-columns: 1fr; }
+      .arrow-col { transform: rotate(90deg); }
+    }
+
+    @media (max-width: 680px) {
+      :root { --nav-h: 60px; }
+      .container { padding: 0 16px; }
+      .nav-inner { padding: 0 16px; }
+      .brand span:last-child { display: none; }
+      .section { padding: 72px 0; }
+      .hero { padding-top: 52px; }
+      h1 { font-size: 48px; }
+      .stat-grid, .grid-2, .grid-3, .grid-4, .impact-results, .risk-matrix { grid-template-columns: 1fr; }
+      .talk-track { grid-template-columns: 1fr; }
+      .talk-time { font-size: 26px; }
+      .hero-actions .button { width: 100%; }
+      .card { padding: 20px; }
+      .solution-copy { padding: 25px; }
+    }
+
+    @media print {
+      :root {
+        --bg: #fff; --bg-2: #fff; --surface: #fff; --surface-solid:#fff; --surface-2:#f4f7f5;
+        --text:#111; --muted:#455047; --faint:#667168; --line:#d9e2dc; --green:#0b8f3d; --green-2:#0b7e38;
+      }
+      body { background: #fff; }
+      .nav, .progress, .hero-actions, .prototype .segmented, .calc input, .skip-link { display: none !important; }
+      .hero { min-height: auto; padding-top: 40px; }
+      .section { padding: 48px 0; break-inside: avoid; }
+      .card, .diagram-wrap, .prototype, .solution-copy, .north-star, .closing-box { box-shadow:none; backdrop-filter:none; }
+      .reveal { opacity:1 !important; transform:none !important; }
+      a { text-decoration:none; }
+    }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to case study</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="Primary navigation">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="Spotify AI DJ teardown home" style="text-decoration:none">
+      <span class="brand-mark">DJ</span>
+      <span>Spotify AI DJ <small>Independent product teardown</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#research">Evidence</a>
+      <a href="#solution">Solution</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#experiment">Experiment</a>
+      <a href="#roadmap">Roadmap</a>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle light and dark theme" title="Toggle theme">◐</button>
+      <button class="icon-btn" type="button" onclick="window.print()" aria-label="Print or save as PDF" title="Print / Save PDF">↧</button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">Product Strategy Lab · Feature Teardown</span>
+          <h1>Spotify AI DJ needs a <span>discovery control layer.</span></h1>
+          <p class="hero-lede">A problem-first teardown of how AI DJ reduces listening decision fatigue, where personalization can become repetition, and how a simple Discovery Dial could restore agency without breaking the magic.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#solution">Explore the proposed feature ↓</a>
+            <a class="button ghost" href="#architecture">View system architecture</a>
+          </div>
+          <div class="proof-strip" aria-label="Case study capabilities">
+            <span class="pill green">User research</span>
+            <span class="pill">Jobs to Be Done</span>
+            <span class="pill">Metrics tree</span>
+            <span class="pill">AI architecture</span>
+            <span class="pill">Experiment design</span>
+            <span class="pill">RICE prioritization</span>
+          </div>
+        </div>
+
+        <div class="player-shell" aria-label="Conceptual Spotify AI DJ player showing proposed Discovery Dial">
+          <div class="player-top"><span>9:41</span><span>Portfolio prototype</span><span>●●●</span></div>
+          <div class="album-art"><div class="disc" aria-hidden="true"></div></div>
+          <div class="now-playing">
+            <div class="label">DJ session · Balanced</div>
+            <h3>Your mix, with room to roam</h3>
+            <p>Favorites, adjacent discoveries, and fewer repeats.</p>
+          </div>
+          <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="dial-mini"><span>Familiar</span><span class="active">Balanced</span><span>Explore</span></div>
+        </div>
+      </div>
+
+      <div class="stat-grid reveal" aria-label="Current feature context">
+        <article class="stat"><strong>94M</strong><span>Premium users reached by DJ</span><small>Spotify, May 2026</small></article>
+        <article class="stat"><strong>75+</strong><span>markets with DJ presence</span><small>Spotify, May 2026</small></article>
+        <article class="stat"><strong>Voice + text</strong><span>real-time session requests</span><small>Current supported experience</small></article>
+        <article class="stat"><strong>Beta</strong><span>still evolving globally</span><small>Opportunity for controlled learning</small></article>
+      </div>
+      <p class="note" style="margin-top:16px"><strong>Independent portfolio work.</strong> This case study is not affiliated with or commissioned by Spotify. Public facts are sourced. Proposed metrics, UX, architecture, impact estimates, and delivery plans are illustrative product work.</p>
+    </div>
+  </section>
+
+  <section class="section compact" id="executive-summary">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">Executive summary</span>
+        <h2>The feature succeeds at “choose for me.” It weakens when “choose for me” becomes “repeat me.”</h2>
+      </div>
+      <div class="bluf reveal">
+        <strong>Recommendation:</strong> Add a session-level <strong>Discovery Dial</strong> with Familiar, Balanced, and Explore modes. Use it as an explicit ranking constraint, isolate DJ-generated exposure from long-term taste signals, and evaluate success through qualified sessions rather than raw listening time.
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="problem">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">01 · The user problem</span>
+        <h2>People do not need more music. They need less effort between intent and a satisfying session.</h2>
+        <p>Spotify’s AI DJ combines personalized music, editorial context, and a human-like voice. The core job is not “play songs.” It is to remove selection burden while preserving discovery, trust, and control.</p>
+      </div>
+
+      <div class="grid-2">
+        <article class="card persona reveal">
+          <div class="avatar" aria-hidden="true">🎧</div>
+          <div>
+            <span class="tag">Primary persona</span>
+            <h3>The high-frequency, low-planning listener</h3>
+            <p>Uses Spotify most days, likes variety, but does not want to build a playlist for every context.</p>
+            <ul class="list">
+              <li>Wants music to start in under 10 seconds.</li>
+              <li>Expects taste awareness without micromanaging prompts.</li>
+              <li>Enjoys discovery, but rejects obvious mismatch or repetition.</li>
+              <li>Needs lightweight control while driving, working, or exercising.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <span class="tag blue">Jobs to Be Done</span>
+          <h3>Core job statement</h3>
+          <p style="font-size:21px;color:var(--text);line-height:1.45">“When I want music but do not want to decide track by track, help me begin a relevant, varied session immediately so I can stay in the moment.”</p>
+          <hr style="border:0;border-top:1px solid var(--line);margin:22px 0">
+          <h3>Emotional job</h3>
+          <p>Make me feel understood, pleasantly surprised, and still in control.</p>
+        </article>
+      </div>
+
+      <div class="grid-3" style="margin-top:18px">
+        <article class="card reveal"><span class="tag">Functional</span><h3>Reduce decision fatigue</h3><p>Turn an ambiguous listening intent into a coherent sequence without requiring playlist construction.</p></article>
+        <article class="card reveal"><span class="tag amber">Emotional</span><h3>Create trusted surprise</h3><p>Balance familiar anchors with discoveries that feel plausible, not random or algorithmically forced.</p></article>
+        <article class="card reveal"><span class="tag purple">Business</span><h3>Deepen Premium value</h3><p>Build a differentiated, habitual listening surface that increases reuse and perceived personalization quality.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="research">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">02 · Evidence and user signals</span>
+        <h2>The repeated signal is not “AI is bad.” It is “the DJ is overconfident about what I want.”</h2>
+        <p>Public feedback shows a pattern across repetition, weak novelty, feedback loops, and loss of agency. Spotify’s addition of voice and text requests addresses momentary intent, but persistent session-level exploration preference remains a distinct problem.</p>
+      </div>
+
+      <div class="grid-3">
+        <article class="card quote reveal">
+          <blockquote>It feels like the DJ only wants to play a small set of songs again and again.</blockquote>
+          <div class="signal">Signal → repetition fatigue</div>
+          <footer>Paraphrased from Spotify Community user feedback</footer>
+        </article>
+        <article class="card quote reveal">
+          <blockquote>I know the vibe I want. I want to tell the product directly rather than keep skipping.</blockquote>
+          <div class="signal">Signal → explicit agency</div>
+          <footer>Paraphrased from Spotify Community user feedback</footer>
+        </article>
+        <article class="card quote reveal">
+          <blockquote>The DJ can create its own feedback loop, then treat those plays as evidence of my taste.</blockquote>
+          <div class="signal">Signal → polluted preference model</div>
+          <footer>Paraphrased from Spotify Community user feedback</footer>
+        </article>
+      </div>
+
+      <div class="grid-2" style="margin-top:18px">
+        <article class="card reveal">
+          <span class="tag red">Research synthesis</span>
+          <h3>Three root frictions</h3>
+          <ol style="padding-left:20px;color:var(--muted)">
+            <li><strong style="color:var(--text)">Agency gap:</strong> users can change the vibe, but do not control how adventurous the ranking should remain.</li>
+            <li><strong style="color:var(--text)">Expectation gap:</strong> a human-like DJ voice raises expectations for taste, context, and sequence quality.</li>
+            <li><strong style="color:var(--text)">Feedback-loop risk:</strong> system-selected plays can be mistaken for genuine user preference.</li>
+          </ol>
+        </article>
+        <article class="card reveal">
+          <span class="tag blue">Counter-signal</span>
+          <h3>Why the concept is worth improving</h3>
+          <p>Users also value thematic sets, low-effort listening, personalized commentary, nostalgia, and the occasional strong discovery. The opportunity is not to replace DJ with manual controls. It is to add a small amount of agency at the highest-leverage point.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="current-flow">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">03 · Current experience</span>
+        <h2>The user flow is fast, but the recovery loop is coarse.</h2>
+        <p>Users can launch DJ, listen, skip, tap to change the mood, or make a voice/text request. The missing control sits between a single request and repeated manual correction.</p>
+      </div>
+
+      <div class="journey reveal" aria-label="Current AI DJ journey">
+        <article class="step"><span class="num">01</span><h3>Enter DJ</h3><p>Home, search, or Now Playing.</p><div class="risk">Low friction</div></article>
+        <article class="step"><span class="num">02</span><h3>Receive a set</h3><p>Personalized tracks plus commentary.</p><div class="risk">Trust starts here</div></article>
+        <article class="step"><span class="num">03</span><h3>Evaluate vibe</h3><p>Listen, skip, save, or continue.</p><div class="risk">Implicit feedback</div></article>
+        <article class="step"><span class="num">04</span><h3>Correct session</h3><p>Tap DJ or make a request.</p><div class="risk">High user effort if repeated</div></article>
+        <article class="step"><span class="num">05</span><h3>Receive new set</h3><p>Ranking updates from request and history.</p><div class="risk">May remain too familiar</div></article>
+        <article class="step"><span class="num">06</span><h3>Return or abandon</h3><p>Reuse depends on remembered quality.</p><div class="risk">Habit or churn</div></article>
+      </div>
+
+      <div class="diagnosis" style="margin-top:32px">
+        <div class="cause-stack reveal">
+          <div class="cause"><strong>Observed symptom</strong><small>Repeated songs, predictable sets, wrong vibe, too many corrections.</small></div>
+          <div class="cause"><strong>User interpretation</strong><small>“Spotify does not really understand me.”</small></div>
+          <div class="cause"><strong>Behavioral outcome</strong><small>Skipping, exiting DJ, returning to familiar playlists.</small></div>
+        </div>
+        <div class="arrow-col reveal">→</div>
+        <div class="cause-stack reveal">
+          <div class="cause"><strong>Likely product cause</strong><small>Ranking overweights historical affinity relative to novelty and session intent.</small></div>
+          <div class="cause"><strong>System cause</strong><small>DJ-generated exposure may reinforce the same candidates.</small></div>
+          <div class="cause"><strong>Design cause</strong><small>Control exists as repeated corrections, not a persistent session preference.</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="metrics">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">04 · Metrics tree</span>
+        <h2>Listening time alone can reward a mediocre session. Quality must be built into the metric.</h2>
+      </div>
+
+      <div class="metrics-tree">
+        <article class="north-star reveal">
+          <span class="tag">North Star</span>
+          <strong>Qualified DJ Sessions per Eligible Weekly User</strong>
+          <p>A DJ session counts as qualified when it lasts at least 10 minutes, stays below a defined skip threshold, and contains at least one positive signal such as save, like, follow, request continuation, or voluntary return.</p>
+          <span class="formula">QDS / eligible weekly DJ users</span>
+        </article>
+
+        <div class="grid-4">
+          <article class="card metric-card reveal"><span class="tag blue">Activation</span><h3>DJ start rate</h3><p>Share of eligible users who start at least one DJ session weekly.</p><span class="formula">DJ starters ÷ eligible users</span></article>
+          <article class="card metric-card reveal"><span class="tag">Engagement quality</span><h3>Set completion</h3><p>Share of generated sets reaching the next commentary break without abandonment.</p><span class="formula">completed sets ÷ started sets</span></article>
+          <article class="card metric-card reveal"><span class="tag purple">Discovery</span><h3>Novel save rate</h3><p>Saves or follows for artists/tracks outside the listener’s recent exposure window.</p><span class="formula">novel saves ÷ novel impressions</span></article>
+          <article class="card metric-card reveal"><span class="tag amber">Retention</span><h3>7-day DJ reuse</h3><p>Users who return to DJ within seven days after a qualified session.</p><span class="formula">7D returners ÷ qualified users</span></article>
+        </div>
+
+        <div class="grid-4">
+          <article class="card metric-card reveal"><span class="tag red">Guardrail</span><h3>Early exit rate</h3><p>DJ sessions ending within the first two tracks or three minutes.</p></article>
+          <article class="card metric-card reveal"><span class="tag red">Guardrail</span><h3>Rapid skip rate</h3><p>Tracks skipped in the first 30 seconds, segmented by mode and familiarity.</p></article>
+          <article class="card metric-card reveal"><span class="tag red">Guardrail</span><h3>Complaint / hide rate</h3><p>Negative feedback, snooze actions, and “not for me” signals per thousand sessions.</p></article>
+          <article class="card metric-card reveal"><span class="tag red">System</span><h3>P95 response latency</h3><p>Time from dial/request action to the first playable updated recommendation.</p></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="tradeoffs">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">05 · Product judgment</span>
+        <h2>The design is a set of tradeoffs, not a list of features.</h2>
+      </div>
+      <div class="grid-3">
+        <article class="card reveal"><span class="tag">Agency vs magic</span><h3>More control can reduce delight</h3><p>A complex tuning panel would turn DJ back into work. The control must remain low-cognitive-load and optional.</p></article>
+        <article class="card reveal"><span class="tag amber">Novelty vs satisfaction</span><h3>New does not always mean better</h3><p>Exploration should increase bounded novelty, not inject random content that weakens session coherence.</p></article>
+        <article class="card reveal"><span class="tag purple">Learning vs privacy</span><h3>Preference data needs boundaries</h3><p>Session-level exploration intent should not silently become a permanent taste attribute.</p></article>
+        <article class="card reveal"><span class="tag blue">Voice vs interruption</span><h3>Personality can become friction</h3><p>Commentary adds context and differentiation, but frequency should not undermine continuous listening.</p></article>
+        <article class="card reveal"><span class="tag red">Optimization vs filter bubbles</span><h3>Affinity can narrow discovery</h3><p>Optimizing immediate completion can reduce long-run diversity and creator discovery.</p></article>
+        <article class="card reveal"><span class="tag">Speed vs sequence quality</span><h3>Instant playback limits reranking depth</h3><p>The system must build a playable first set quickly while continuing deeper candidate generation in the background.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="solution">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">06 · Proposed improvement</span>
+        <h2>Discovery Dial: one persistent choice that shapes the entire session.</h2>
+        <p>The dial is not another prompt box. It is a three-state control translated into ranking constraints, repetition limits, and feedback-handling rules.</p>
+      </div>
+
+      <div class="solution-hero">
+        <article class="solution-copy reveal">
+          <span class="tag">V1 recommendation</span>
+          <h3>Familiar · Balanced · Explore</h3>
+          <p>Place the dial inside DJ’s session card and Now Playing surface. Default to Balanced. Persist the selection for the current session only. Explain the effect in plain language, then get out of the way.</p>
+          <p class="big-quote">“Give me the confidence of personalization without trapping me inside my recent history.”</p>
+        </article>
+
+        <article class="prototype reveal" aria-label="Interactive Discovery Dial prototype">
+          <div class="proto-top"><span>AI DJ</span><span id="modeBadge">Balanced mode</span></div>
+          <h3 class="proto-title" id="protoTitle">A confident mix with room to explore</h3>
+          <p class="proto-copy" id="protoCopy">Anchors the session in your taste, then introduces adjacent tracks and artists.</p>
+          <div class="segmented" role="group" aria-label="Choose Discovery Dial mode">
+            <button type="button" data-mode="familiar">Familiar</button>
+            <button type="button" class="active" data-mode="balanced">Balanced</button>
+            <button type="button" data-mode="explore">Explore</button>
+          </div>
+          <div class="mix-bar" aria-hidden="true"><span id="familiarBar" style="width:65%"></span><span id="newBar" style="width:35%"></span></div>
+          <div class="mix-labels"><span id="familiarLabel">65% familiar</span><span id="newLabel">35% discovery</span></div>
+          <div class="tracks" id="trackList"></div>
+          <p class="proto-note">Illustrative interaction. Track names and mix ratios are conceptual, not Spotify data.</p>
+        </article>
+      </div>
+
+      <div class="grid-2" style="margin-top:22px">
+        <article class="card reveal">
+          <span class="tag">In scope for V1</span>
+          <div class="scope-list">
+            <div class="scope-item"><i>✓</i><div><strong>Three session modes</strong><small>Familiar, Balanced, Explore with simple descriptions.</small></div></div>
+            <div class="scope-item"><i>✓</i><div><strong>Ranking constraints</strong><small>Mode changes novelty mix, repetition cap, artist diversity, and catalog recency.</small></div></div>
+            <div class="scope-item"><i>✓</i><div><strong>Session-scoped persistence</strong><small>The setting remains active until DJ ends or the user changes it.</small></div></div>
+            <div class="scope-item"><i>✓</i><div><strong>Clear telemetry</strong><small>Mode changes, skips, saves, exits, and request interactions are instrumented.</small></div></div>
+          </div>
+        </article>
+        <article class="card reveal">
+          <span class="tag red">Explicitly out of scope</span>
+          <div class="scope-list">
+            <div class="scope-item no"><i>×</i><div><strong>Per-genre sliders</strong><small>Too much setup for a feature built around low effort.</small></div></div>
+            <div class="scope-item no"><i>×</i><div><strong>Permanent profile rewrites</strong><small>Mode selection should not silently redefine long-term taste.</small></div></div>
+            <div class="scope-item no"><i>×</i><div><strong>Guaranteed exact percentages</strong><small>Ratios are product intent, not a rigid promise when catalog constraints apply.</small></div></div>
+            <div class="scope-item no"><i>×</i><div><strong>New voice personas</strong><small>The problem is ranking agency, not voice variety.</small></div></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="future-flow">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">07 · Proposed experience flow</span>
+        <h2>Set the exploration posture once. Let the system carry it through the session.</h2>
+      </div>
+      <div class="diagram-wrap reveal">
+        <svg viewBox="0 0 1120 360" role="img" aria-labelledby="flowTitle flowDesc">
+          <title id="flowTitle">Proposed Discovery Dial user flow</title>
+          <desc id="flowDesc">The user starts DJ, selects a discovery mode, receives a constrained set, gives feedback, and the session updates without permanently changing long-term taste.</desc>
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1ed760"/></marker>
+            <marker id="arrowMuted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#789182"/></marker>
+          </defs>
+          <rect x="25" y="74" width="145" height="82" rx="16" class="svg-box-muted"/><text x="97" y="106" text-anchor="middle" class="svg-text">Start DJ</text><text x="97" y="127" text-anchor="middle" class="svg-sub">Home / Search / Player</text>
+          <path d="M170 115 H210" class="svg-line"/>
+          <rect x="210" y="55" width="175" height="120" rx="18" class="svg-box-proposed"/><text x="297" y="91" text-anchor="middle" class="svg-text">Choose mode</text><text x="297" y="113" text-anchor="middle" class="svg-sub">Familiar · Balanced · Explore</text><text x="297" y="137" text-anchor="middle" class="svg-sub">Default: Balanced</text>
+          <path d="M385 115 H425" class="svg-line"/>
+          <rect x="425" y="74" width="165" height="82" rx="16" class="svg-box"/><text x="507" y="106" text-anchor="middle" class="svg-text">Generate set</text><text x="507" y="127" text-anchor="middle" class="svg-sub">Mode-constrained ranking</text>
+          <path d="M590 115 H630" class="svg-line"/>
+          <rect x="630" y="74" width="170" height="82" rx="16" class="svg-box-muted"/><text x="715" y="106" text-anchor="middle" class="svg-text">Listen + feedback</text><text x="715" y="127" text-anchor="middle" class="svg-sub">Skip · save · continue · request</text>
+          <path d="M800 115 H840" class="svg-line"/>
+          <rect x="840" y="55" width="240" height="120" rx="18" class="svg-box-proposed"/><text x="960" y="88" text-anchor="middle" class="svg-text">Update within session</text><text x="960" y="111" text-anchor="middle" class="svg-sub">Adjust candidates and sequence</text><text x="960" y="134" text-anchor="middle" class="svg-sub">Preserve selected exploration posture</text>
+          <path d="M960 175 C960 250 710 260 710 166" class="svg-line"/>
+
+          <rect x="210" y="245" width="390" height="70" rx="16" class="svg-box-muted"/><text x="405" y="275" text-anchor="middle" class="svg-text">Long-term taste profile</text><text x="405" y="296" text-anchor="middle" class="svg-sub">Updated only by qualified organic signals, not passive DJ exposure alone</text>
+          <path d="M715 156 C715 220 600 220 600 245" class="svg-line-muted"/>
+          <rect x="675" y="245" width="405" height="70" rx="16" class="svg-box-proposed"/><text x="878" y="275" text-anchor="middle" class="svg-text">Session preference state</text><text x="878" y="296" text-anchor="middle" class="svg-sub">Expires when the session ends; safe for experimentation and privacy</text>
+          <path d="M297 175 C297 220 675 220 675 262" class="svg-line"/>
+        </svg>
+        <div class="legend"><span><i></i> Existing / expected capability</span><span><i class="proposed"></i> Proposed Discovery Dial capability</span><span>Dashed arrow = qualified signal boundary</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="architecture">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">08 · Proposed technical architecture</span>
+        <h2>A thin preference layer can influence ranking without rebuilding the entire DJ stack.</h2>
+        <p>Spotify publicly describes AI DJ as a combination of personalization technology, generative AI used with music editors, and a dynamic AI voice. The diagram below adds an inferred, proposed Discovery Control layer. It does not claim to depict Spotify’s private internal implementation.</p>
+      </div>
+
+      <div class="diagram-wrap reveal">
+        <svg viewBox="0 0 1220 690" role="img" aria-labelledby="archTitle archDesc">
+          <title id="archTitle">Proposed system architecture for Discovery Dial in Spotify AI DJ</title>
+          <desc id="archDesc">The architecture shows clients, session orchestration, intent and preference services, candidate sources, policy filtering, diversity reranking, commentary and voice generation, playback, event streaming, experimentation, and privacy boundaries.</desc>
+          <defs>
+            <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1ed760"/></marker>
+            <marker id="arrow2m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#789182"/></marker>
+          </defs>
+
+          <text x="28" y="34" class="svg-sub" style="font-size:12px;letter-spacing:1.2px">EXPERIENCE LAYER</text>
+          <rect x="28" y="52" width="230" height="92" rx="18" class="svg-box-muted"/><text x="143" y="86" text-anchor="middle" class="svg-text">Mobile / Auto / Desktop</text><text x="143" y="108" text-anchor="middle" class="svg-sub">DJ player · voice/text request</text><text x="143" y="126" text-anchor="middle" class="svg-sub">Discovery Dial UI</text>
+          <path d="M258 98 H318" stroke="#1ed760" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+          <rect x="318" y="52" width="235" height="92" rx="18" class="svg-box"/><text x="435" y="86" text-anchor="middle" class="svg-text">DJ Session Orchestrator</text><text x="435" y="108" text-anchor="middle" class="svg-sub">Session state · sequencing · failover</text><text x="435" y="126" text-anchor="middle" class="svg-sub">Playback-ready response</text>
+
+          <text x="28" y="190" class="svg-sub" style="font-size:12px;letter-spacing:1.2px">CONTROL + INTENT LAYER</text>
+          <rect x="28" y="210" width="225" height="92" rx="18" class="svg-box-muted"/><text x="140" y="245" text-anchor="middle" class="svg-text">Intent Interpreter</text><text x="140" y="267" text-anchor="middle" class="svg-sub">Voice/text → mood, activity, constraints</text>
+          <rect x="278" y="210" width="225" height="92" rx="18" class="svg-box-proposed"/><text x="390" y="243" text-anchor="middle" class="svg-text">Discovery Preference Service</text><text x="390" y="265" text-anchor="middle" class="svg-sub">Mode · TTL · mode-change history</text><text x="390" y="283" text-anchor="middle" class="svg-sub">Session-scoped by default</text>
+          <rect x="528" y="210" width="225" height="92" rx="18" class="svg-box-proposed"/><text x="640" y="243" text-anchor="middle" class="svg-text">Constraint Composer</text><text x="640" y="265" text-anchor="middle" class="svg-sub">Novelty band · repetition cap</text><text x="640" y="283" text-anchor="middle" class="svg-sub">Artist / genre diversity targets</text>
+          <path d="M435 144 V185 H140 V210" stroke="#789182" stroke-width="1.5" fill="none" marker-end="url(#arrow2m)"/>
+          <path d="M435 144 V210" stroke="#1ed760" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+          <path d="M503 256 H528" stroke="#1ed760" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+
+          <text x="28" y="352" class="svg-sub" style="font-size:12px;letter-spacing:1.2px">RECOMMENDATION + GENERATION LAYER</text>
+          <rect x="28" y="374" width="205" height="96" rx="18" class="svg-box-muted"/><text x="130" y="407" text-anchor="middle" class="svg-text">Candidate Generation</text><text x="130" y="430" text-anchor="middle" class="svg-sub">Affinity · collaborative · semantic</text><text x="130" y="448" text-anchor="middle" class="svg-sub">Editorial · new release · nostalgia</text>
+          <rect x="258" y="374" width="205" height="96" rx="18" class="svg-box-muted"/><text x="360" y="407" text-anchor="middle" class="svg-text">Eligibility + Policy Filter</text><text x="360" y="430" text-anchor="middle" class="svg-sub">Availability · safety · market</text><text x="360" y="448" text-anchor="middle" class="svg-sub">Explicit preferences · blocked content</text>
+          <rect x="488" y="374" width="230" height="96" rx="18" class="svg-box-proposed"/><text x="603" y="405" text-anchor="middle" class="svg-text">Diversity + Repetition Reranker</text><text x="603" y="428" text-anchor="middle" class="svg-sub">Intent fit + novelty + sequence quality</text><text x="603" y="446" text-anchor="middle" class="svg-sub">− fatigue − exposure-loop penalty</text>
+          <rect x="743" y="374" width="205" height="96" rx="18" class="svg-box-muted"/><text x="845" y="407" text-anchor="middle" class="svg-text">Commentary Composer</text><text x="845" y="430" text-anchor="middle" class="svg-sub">Editorial knowledge + grounded GenAI</text><text x="845" y="448" text-anchor="middle" class="svg-sub">Why this set, artist, or moment</text>
+          <rect x="973" y="374" width="205" height="96" rx="18" class="svg-box-muted"/><text x="1075" y="407" text-anchor="middle" class="svg-text">Dynamic Voice + Playback</text><text x="1075" y="430" text-anchor="middle" class="svg-sub">Text-to-voice · queue delivery</text><text x="1075" y="448" text-anchor="middle" class="svg-sub">Fallback to music-only playback</text>
+          <path d="M640 302 V340 H130 V374" stroke="#1ed760" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+          <path d="M233 422 H258" stroke="#789182" stroke-width="1.5" fill="none" marker-end="url(#arrow2m)"/>
+          <path d="M463 422 H488" stroke="#1ed760" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+          <path d="M718 422 H743" stroke="#789182" stroke-width="1.5" fill="none" marker-end="url(#arrow2m)"/>
+          <path d="M948 422 H973" stroke="#789182" stroke-width="1.5" fill="none" marker-end="url(#arrow2m)"/>
+          <path d="M1075 374 V175 H553" stroke="#789182" stroke-width="1.5" fill="none" marker-end="url(#arrow2m)"/>
+
+          <text x="28" y="522" class="svg-sub" style="font-size:12px;letter-spacing:1.2px">LEARNING + GOVERNANCE LAYER</text>
+          <rect x="28" y="545" width="220" height="98" rx="18" class="svg-box-muted"/><text x="138" y="577" text-anchor="middle" class="svg-text">Event Stream</text><text x="138" y="600" text-anchor="middle" class="svg-sub">Impression · skip · save · exit</text><text x="138" y="618" text-anchor="middle" class="svg-sub">Mode · request · latency · errors</text>
+          <rect x="273" y="545" width="220" height="98" rx="18" class="svg-box-proposed"/><text x="383" y="577" text-anchor="middle" class="svg-text">Signal Qualification</text><text x="383" y="600" text-anchor="middle" class="svg-sub">Separate passive exposure from intent</text><text x="383" y="618" text-anchor="middle" class="svg-sub">Apply confidence and recency rules</text>
+          <rect x="518" y="545" width="220" height="98" rx="18" class="svg-box-muted"/><text x="628" y="577" text-anchor="middle" class="svg-text">Experimentation Platform</text><text x="628" y="600" text-anchor="middle" class="svg-sub">A/B/n assignment · metric checks</text><text x="628" y="618" text-anchor="middle" class="svg-sub">Guardrails · rollout controls</text>
+          <rect x="763" y="545" width="195" height="98" rx="18" class="svg-box-muted"/><text x="860" y="577" text-anchor="middle" class="svg-text">Feature Store / Models</text><text x="860" y="600" text-anchor="middle" class="svg-sub">Qualified taste signals</text><text x="860" y="618" text-anchor="middle" class="svg-sub">Offline evaluation</text>
+          <rect x="983" y="545" width="195" height="98" rx="18" class="svg-box-muted"/><text x="1080" y="577" text-anchor="middle" class="svg-text">Observability + Audit</text><text x="1080" y="600" text-anchor="middle" class="svg-sub">Latency · quality · drift · safety</text><text x="1080" y="618" text-anchor="middle" class="svg-sub">Decision and version logs</text>
+          <path d="M1075 470 V508 H138 V545" stroke="#789182" stroke-width="1.5" fill="none" marker-end="url(#arrow2m)"/>
+          <path d="M248 594 H273" stroke="#1ed760" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+          <path d="M493 594 H518" stroke="#1ed760" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+          <path d="M738 594 H763" stroke="#789182" stroke-width="1.5" fill="none" marker-end="url(#arrow2m)"/>
+          <path d="M958 594 H983" stroke="#789182" stroke-width="1.5" fill="none" marker-end="url(#arrow2m)"/>
+        </svg>
+        <div class="legend"><span><i></i> Publicly supported or standard inferred DJ capability</span><span><i class="proposed"></i> Proposed Discovery Dial component</span></div>
+      </div>
+
+      <div class="grid-3" style="margin-top:20px">
+        <article class="card reveal"><span class="tag">Design decision</span><h3>Session state, not profile state</h3><p>Discovery mode expires when the session ends. This preserves user agency and reduces unintended long-term personalization changes.</p></article>
+        <article class="card reveal"><span class="tag blue">Reliability</span><h3>Fast first set, deeper next set</h3><p>Return a playable set from cached candidates quickly, then asynchronously improve subsequent sets with deeper reranking.</p></article>
+        <article class="card reveal"><span class="tag red">Failure handling</span><h3>Graceful degradation</h3><p>If intent parsing, commentary, or reranking fails, fall back to a standard personalized set instead of blocking playback.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="logic">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">09 · Ranking logic</span>
+        <h2>The dial changes constraints, not the user’s identity.</h2>
+      </div>
+
+      <div class="logic reveal" aria-label="Recommendation logic sequence">
+        <div class="logic-node"><strong>Session intent</strong><small>Mood, activity, prompt, current context</small></div>
+        <div class="logic-node"><strong>Taste affinity</strong><small>Long-term and recent organic preference</small></div>
+        <div class="logic-node"><strong>Mode target</strong><small>Novelty band and repeat tolerance</small></div>
+        <div class="logic-node"><strong>Candidate pool</strong><small>Known, adjacent, editorial, new release</small></div>
+        <div class="logic-node"><strong>Rerank</strong><small>Diversity, sequence, fatigue penalties</small></div>
+        <div class="logic-node"><strong>Generate set</strong><small>Playable sequence plus commentary context</small></div>
+        <div class="logic-node"><strong>Learn safely</strong><small>Qualify feedback before updating taste</small></div>
+      </div>
+
+      <div class="grid-2" style="margin-top:24px">
+        <div class="code-block reveal" aria-label="Conceptual ranking formula"><span class="g">final_score</span> =
+    <span class="b">0.30</span> × intent_fit
+  + <span class="b">0.24</span> × taste_affinity
+  + <span class="b">mode_weight</span> × novelty
+  + <span class="b">0.12</span> × sequence_coherence
+  + <span class="b">0.08</span> × editorial_value
+  − <span class="a">repeat_penalty</span>
+  − <span class="a">artist_fatigue_penalty</span>
+  − <span class="a">dj_exposure_loop_penalty</span>
+
+<span class="g">mode_weight</span>:
+  Familiar → 0.08
+  Balanced → 0.18
+  Explore  → 0.30</div>
+        <article class="card reveal">
+          <span class="tag purple">Key rule</span>
+          <h3>Passive exposure is not preference</h3>
+          <p>A track played because DJ selected it should not become a strong positive taste signal by default. Signal strength increases only when the listener completes, saves, likes, follows, replays, or explicitly requests related content.</p>
+          <div class="note" style="margin-top:18px"><strong>Illustrative weights:</strong> the formula demonstrates product intent and system behavior. Production weights would be learned and validated offline, then tested online.</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="instrumentation">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">10 · Data and instrumentation</span>
+        <h2>Instrument the decision, the delivery, and the outcome.</h2>
+      </div>
+      <div class="table-wrap reveal">
+        <table class="data-table">
+          <thead><tr><th>Event</th><th>Trigger</th><th>Core properties</th><th>Why it matters</th></tr></thead>
+          <tbody>
+            <tr><td><strong>dj_mode_selected</strong></td><td>User selects or changes mode</td><td>mode, prior_mode, session_id, surface, experiment_id</td><td>Measures adoption, mode switching, and discoverability.</td></tr>
+            <tr><td><strong>dj_set_served</strong></td><td>New set enters queue</td><td>mode, familiar_ratio, unique_artists, repeat_count, generation_latency</td><td>Connects intended mix to delivered mix.</td></tr>
+            <tr><td><strong>dj_track_outcome</strong></td><td>Track completes or exits</td><td>familiarity_band, skip_seconds, save, follow, replay, source_pool</td><td>Evaluates satisfaction and novelty quality.</td></tr>
+            <tr><td><strong>dj_request_submitted</strong></td><td>Voice/text request sent</td><td>intent_type, parse_confidence, mode, response_latency</td><td>Shows whether mode reduces repeated corrective requests.</td></tr>
+            <tr><td><strong>dj_session_qualified</strong></td><td>Session reaches quality threshold</td><td>duration, skip_rate, positive_signals, sets_completed</td><td>Calculates the North Star consistently.</td></tr>
+            <tr><td><strong>dj_fallback_used</strong></td><td>Service degrades or times out</td><td>failure_stage, fallback_type, recovery_time</td><td>Protects reliability and identifies system bottlenecks.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="experiment">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">11 · Experiment design</span>
+        <h2>Test whether explicit exploration control improves quality, not merely interaction.</h2>
+        <p>Use an A/B/n test among eligible Premium DJ users who have completed at least two prior DJ sessions. Randomize at the user level to prevent cross-session contamination.</p>
+      </div>
+
+      <div class="table-wrap reveal">
+        <table class="experiment-table">
+          <thead><tr><th>Arm</th><th>Experience</th><th>Hypothesis</th><th>Primary read</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Control</strong></td><td>Current DJ with voice/text requests</td><td>Baseline session quality and correction behavior</td><td>Qualified session rate</td></tr>
+            <tr><td><strong>Variant A</strong></td><td>Discovery Dial shown before first set</td><td>Early control improves fit but may add activation friction</td><td>QDS + start-rate guardrail</td></tr>
+            <tr class="winner"><td><strong>Variant B · Recommended</strong></td><td>Balanced default; dial visible in Now Playing after playback begins</td><td>Preserves zero-friction start while enabling persistent correction</td><td>QDS + 7-day reuse</td></tr>
+            <tr><td><strong>Variant C</strong></td><td>Dial appears after two rapid skips</td><td>Contextual intervention helps dissatisfied users with minimal UI exposure</td><td>Recovery rate after skip sequence</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid-3" style="margin-top:20px">
+        <article class="card reveal"><span class="tag">Ship</span><h3>Decision threshold</h3><p>Ship when Qualified DJ Sessions improve meaningfully, 7-day reuse rises, and DJ start rate plus latency remain within guardrail tolerances.</p></article>
+        <article class="card reveal"><span class="tag amber">Investigate</span><h3>Ambiguous result</h3><p>If listening time rises but novel save rate and satisfaction do not, inspect passive continuation, mode misuse, and cohort differences.</p></article>
+        <article class="card reveal"><span class="tag red">Kill or redesign</span><h3>Failure threshold</h3><p>Stop when the dial reduces starts, increases rapid skips, creates mode confusion, or delivers a mix materially different from its promise.</p></article>
+      </div>
+
+      <div class="card calc reveal" style="margin-top:22px">
+        <div>
+          <span class="tag blue">Illustrative impact model</span>
+          <h3 style="font-size:28px">Translate metric lift into session impact</h3>
+          <p style="color:var(--muted)">Adjust assumptions to model a pilot. This is not a forecast of Spotify performance.</p>
+          <div class="controls">
+            <div class="field"><label for="weeklyUsers"><span>Weekly active DJ users in pilot</span><output id="weeklyUsersOut">5.0M</output></label><input id="weeklyUsers" type="range" min="100000" max="20000000" step="100000" value="5000000"></div>
+            <div class="field"><label for="baselineQ"><span>Baseline qualified session rate</span><output id="baselineQOut">28%</output></label><input id="baselineQ" type="range" min="5" max="60" step="1" value="28"></div>
+            <div class="field"><label for="relativeLift"><span>Expected relative lift</span><output id="relativeLiftOut">6%</output></label><input id="relativeLift" type="range" min="1" max="20" step="1" value="6"></div>
+            <div class="field"><label for="reuse"><span>Sessions per qualified user / week</span><output id="reuseOut">1.4</output></label><input id="reuse" type="range" min="1" max="3" step="0.1" value="1.4"></div>
+          </div>
+        </div>
+        <div class="impact-results" aria-live="polite">
+          <div class="impact-result"><strong id="baseSessions">1.96M</strong><span>baseline qualified sessions / week</span></div>
+          <div class="impact-result"><strong id="incrementalSessions">117.6K</strong><span>incremental qualified sessions / week</span></div>
+          <div class="impact-result"><strong id="newRate">29.7%</strong><span>modeled qualified session rate</span></div>
+          <div class="impact-result"><strong id="annualSessions">6.12M</strong><span>annualized incremental sessions</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="prioritization">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">12 · Prioritization</span>
+        <h2>The best next move is the smallest control with system-level leverage.</h2>
+      </div>
+      <div class="table-wrap reveal">
+        <table class="data-table">
+          <thead><tr><th>Opportunity</th><th>Reach</th><th>Impact</th><th>Confidence</th><th>Effort</th><th>RICE</th><th>Decision</th></tr></thead>
+          <tbody>
+            <tr class="winner"><td><strong>Discovery Dial</strong></td><td>8</td><td>8</td><td>8</td><td>4</td><td><strong>128</strong></td><td>Build first</td></tr>
+            <tr><td><strong>30-day song / artist snooze</strong></td><td>7</td><td>7</td><td>8</td><td>4</td><td><strong>98</strong></td><td>V1.1</td></tr>
+            <tr><td><strong>“Why this track?” explanation</strong></td><td>6</td><td>5</td><td>7</td><td>4</td><td><strong>52.5</strong></td><td>Test later</td></tr>
+            <tr><td><strong>Commentary frequency control</strong></td><td>5</td><td>5</td><td>6</td><td>3</td><td><strong>50</strong></td><td>Separate problem</td></tr>
+            <tr><td><strong>Multiple new DJ personas</strong></td><td>6</td><td>3</td><td>5</td><td>8</td><td><strong>11.25</strong></td><td>Deprioritize</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note" style="margin-top:14px"><strong>RICE method:</strong> scores are relative portfolio assumptions for comparison, not Spotify estimates. Formula: Reach × Impact × Confidence ÷ Effort.</p>
+    </div>
+  </section>
+
+  <section class="section" id="risk">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">13 · Risk, trust, and responsible AI</span>
+        <h2>A personalized voice product must earn trust at both the interface and data layer.</h2>
+      </div>
+      <div class="risk-matrix">
+        <article class="risk-item reveal"><div class="risk-head"><h3>Mode promise mismatch</h3><span class="severity high">High</span></div><p><strong>Risk:</strong> Explore still feels repetitive. <strong>Mitigation:</strong> measure delivered mix, publish plain-language behavior, and cap recent repeat exposure.</p></article>
+        <article class="risk-item reveal"><div class="risk-head"><h3>Taste-profile contamination</h3><span class="severity high">High</span></div><p><strong>Risk:</strong> DJ’s own choices reinforce themselves. <strong>Mitigation:</strong> qualify signals and downweight passive, system-initiated exposure.</p></article>
+        <article class="risk-item reveal"><div class="risk-head"><h3>Exploration harms satisfaction</h3><span class="severity med">Medium</span></div><p><strong>Risk:</strong> novelty becomes randomness. <strong>Mitigation:</strong> use adjacency bands, set-level coherence, and rapid-skip recovery.</p></article>
+        <article class="risk-item reveal"><div class="risk-head"><h3>Choice overload</h3><span class="severity med">Medium</span></div><p><strong>Risk:</strong> extra UI contradicts “choose for me.” <strong>Mitigation:</strong> default to Balanced and reveal the control only after playback begins.</p></article>
+        <article class="risk-item reveal"><div class="risk-head"><h3>Accessibility gaps</h3><span class="severity med">Medium</span></div><p><strong>Risk:</strong> color-only state or difficult car interaction. <strong>Mitigation:</strong> labeled controls, voice equivalents, large touch targets, and screen-reader states.</p></article>
+        <article class="risk-item reveal"><div class="risk-head"><h3>Latency regression</h3><span class="severity low">Low</span></div><p><strong>Risk:</strong> reranking delays playback. <strong>Mitigation:</strong> cached first-set candidates, asynchronous deep ranking, and standard DJ fallback.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="competitive">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">14 · Competitive lens</span>
+        <h2>Spotify’s differentiation is the combination of curation, conversation, and continuity.</h2>
+        <p>Competitors also offer personalized discovery and prompt-driven radio. The opportunity is to make DJ’s ongoing session relationship more controllable than a one-time station or prompt.</p>
+      </div>
+      <div class="table-wrap reveal">
+        <table class="data-table">
+          <thead><tr><th>Experience</th><th>Core strength</th><th>User control</th><th>Strategic whitespace</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Spotify AI DJ</strong></td><td>Personalized sequence, commentary, voice/text steering</td><td>Requests and vibe change</td><td>Persistent exploration posture across a session</td></tr>
+            <tr><td><strong>Apple Music Discovery Station</strong></td><td>Low-effort personalized discovery station</td><td>Standard playback feedback</td><td>Less differentiated conversational relationship</td></tr>
+            <tr><td><strong>YouTube Music Ask Music</strong></td><td>Natural-language generation of personalized radio/playlists</td><td>Prompt-led intent</td><td>Less emphasis on a persistent DJ persona and narrated continuity</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="roadmap">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">15 · Delivery roadmap</span>
+        <h2>Six weeks to a controlled beta, not six months to a perfect system.</h2>
+      </div>
+      <div class="timeline reveal">
+        <article class="week"><strong>WEEK 1</strong><h3>Discovery + baseline</h3><p>Validate problem cohorts, define QDS, audit current instrumentation, set guardrails.</p></article>
+        <article class="week"><strong>WEEK 2</strong><h3>UX + contracts</h3><p>Prototype placement, mode copy, accessibility, event schemas, state TTL.</p></article>
+        <article class="week"><strong>WEEK 3</strong><h3>Ranking prototype</h3><p>Offline candidate reranking, repetition penalty, mode targets, replay tests.</p></article>
+        <article class="week"><strong>WEEK 4</strong><h3>Integration</h3><p>Client control, session orchestrator, fallback path, telemetry, dashboards.</p></article>
+        <article class="week"><strong>WEEK 5</strong><h3>Dogfood + QA</h3><p>Internal cohorts, accessibility checks, latency testing, failure injection.</p></article>
+        <article class="week"><strong>WEEK 6</strong><h3>A/B/n beta</h3><p>1% launch, daily guardrails, cohort analysis, scale/iterate/stop decision.</p></article>
+      </div>
+
+      <div class="grid-3" style="margin-top:20px">
+        <article class="card reveal"><span class="tag">Now</span><h3>Discovery Dial</h3><p>Three modes, session state, ranking rules, event instrumentation, A/B/n beta.</p></article>
+        <article class="card reveal"><span class="tag blue">Next</span><h3>Snooze and explainability</h3><p>Temporary song/artist snooze and lightweight “why this set” context.</p></article>
+        <article class="card reveal"><span class="tag purple">Later</span><h3>Adaptive mode</h3><p>Optional mode that learns exploration appetite by context while remaining visible and reversible.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="decision-log">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">16 · Decision log</span>
+        <h2>What I chose not to build is part of the product strategy.</h2>
+      </div>
+      <div class="grid-2">
+        <article class="card reveal"><span class="tag red">Rejected</span><h3>“Never repeat a song” toggle</h3><p><strong>Why not:</strong> absolute rules can break context, nostalgia, and catalog availability. A recency-sensitive fatigue penalty is more robust.</p></article>
+        <article class="card reveal"><span class="tag red">Rejected</span><h3>Large multi-dimensional preference panel</h3><p><strong>Why not:</strong> it contradicts the low-effort job. Three understandable modes provide sufficient leverage for V1.</p></article>
+        <article class="card reveal"><span class="tag amber">Deferred</span><h3>Permanent exploration personality</h3><p><strong>Why later:</strong> long-term settings need deeper consent, education, profile controls, and cross-surface consistency.</p></article>
+        <article class="card reveal"><span class="tag">Chosen</span><h3>Now Playing placement</h3><p><strong>Why:</strong> preserves instant startup, introduces control at the moment quality becomes observable, and avoids pre-session setup.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="interview">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">17 · Interview-ready narrative</span>
+        <h2>Lead with the user problem, then show the decision.</h2>
+      </div>
+      <article class="card talk-track reveal">
+        <div class="talk-time">90 sec</div>
+        <blockquote>“I evaluated Spotify AI DJ as a solution to decision fatigue, not as an AI novelty. The core experience is strong because it combines personalization, editorial context, and a human-like voice. Public user feedback, however, consistently points to repetition and reduced agency. My recommendation is a session-level Discovery Dial with Familiar, Balanced, and Explore modes. It changes ranking constraints rather than rewriting the user’s taste profile. I would measure success through Qualified DJ Sessions, novel saves, and seven-day reuse, with start rate, skips, latency, and complaints as guardrails. I deliberately kept the V1 narrow because the product’s job is to remove work, not create a mixing console.”</blockquote>
+      </article>
+
+      <div class="grid-4" style="margin-top:20px">
+        <article class="card reveal"><span class="tag">Framework</span><h3>JTBD</h3><p>Defines the functional and emotional job before discussing the feature.</p></article>
+        <article class="card reveal"><span class="tag">Framework</span><h3>North Star</h3><p>Balances engagement with quality rather than optimizing raw minutes.</p></article>
+        <article class="card reveal"><span class="tag">Framework</span><h3>RICE</h3><p>Explains why a small control outranks higher-effort feature ideas.</p></article>
+        <article class="card reveal"><span class="tag">Framework</span><h3>Input / guardrail</h3><p>Connects ranking mechanics to user outcomes and risk controls.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="sources">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">18 · Sources and methodology</span>
+        <h2>Public evidence, clearly separated from product assumptions.</h2>
+        <p>Research reviewed July 2026. User quotes in this page are paraphrased to synthesize recurring themes. Architecture and metrics are independent proposals.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card source-card reveal"><h3>Spotify AI DJ launch</h3><p>Official description of personalization, generative AI with editors, dynamic voice, and the original user flow.</p><a href="https://newsroom.spotify.com/2023-02-22/spotify-debuts-a-new-ai-dj-right-in-your-pocket/" target="_blank" rel="noreferrer">Open official source ↗</a></article>
+        <article class="card source-card reveal"><h3>DJ support documentation</h3><p>Current Premium experience, entry points, voice/text requests, real-time steering, and listening-history questions.</p><a href="https://support.spotify.com/us/article/dj/" target="_blank" rel="noreferrer">Open official source ↗</a></article>
+        <article class="card source-card reveal"><h3>2026 global expansion</h3><p>94 million Premium users, more than 75 markets, additional languages, and continued beta status.</p><a href="https://newsroom.spotify.com/2026-05-07/dj-expansion-4-new-languages/" target="_blank" rel="noreferrer">Open official source ↗</a></article>
+        <article class="card source-card reveal"><h3>DJ requests</h3><p>Official 2025 launch of real-time voice requests and the stated need for more user control.</p><a href="https://newsroom.spotify.com/2025-05-13/dj-voice-requests/" target="_blank" rel="noreferrer">Open official source ↗</a></article>
+        <article class="card source-card reveal"><h3>Spotify Community feedback</h3><p>Recurring complaints about repetition, feedback loops, desire for novelty controls, and explicit mood guidance.</p><a href="https://community.spotify.com/t5/Live-Ideas/Make-Spotify-DJ-less-repetitive/idi-p/5809645" target="_blank" rel="noreferrer">Open user signal ↗</a></article>
+        <article class="card source-card reveal"><h3>Personalization paradox case</h3><p>Study of more than 1,400 comments identifying agency, expectation, and repetitive-content frictions.</p><a href="https://journals.sagepub.com/doi/10.1177/20438869251395753" target="_blank" rel="noreferrer">Open research source ↗</a></article>
+        <article class="card source-card reveal"><h3>Diversity research</h3><p>Spotify research on recommender systems and the diversity of users’ music consumption.</p><a href="https://research.atspotify.com/algorithmic-effects-on-the-diversity-of-consumption-on-spotify" target="_blank" rel="noreferrer">Open research source ↗</a></article>
+        <article class="card source-card reveal"><h3>Personalization + experimentation</h3><p>Spotify engineering perspective on separating ML serving from experimentation while integrating the two systems.</p><a href="https://engineering.atspotify.com/2026/1/why-we-use-separate-tech-stacks-for-personalization-and-experimentation" target="_blank" rel="noreferrer">Open engineering source ↗</a></article>
+        <article class="card source-card reveal"><h3>Competitive references</h3><p>Official Apple and YouTube documentation for personalized discovery stations and prompt-generated radio.</p><a href="https://support.apple.com/en-mide/guide/iphone/-iph2c41e6189/ios" target="_blank" rel="noreferrer">Apple source ↗</a><br><a href="https://blog.youtube/inside-youtube/2024-in-youtube-ai/" target="_blank" rel="noreferrer">YouTube source ↗</a></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="container">
+      <div class="closing-box reveal">
+        <span class="eyebrow">What this project demonstrates</span>
+        <h2>Problem framing, AI product judgment, system thinking, experimentation, and strategic restraint.</h2>
+        <p>Built as an interview-ready portfolio artifact by Aishwarya Chourasia, connecting user evidence to a scoped feature, measurable outcomes, technical design, rollout controls, and explicit tradeoffs.</p>
+        <div class="hero-actions" style="justify-content:center">
+          <a class="button primary" href="mailto:aishwarya7uiuc@gmail.com">Contact Aishwarya</a>
+          <a class="button ghost" href="https://aishwarya2510.github.io" target="_blank" rel="noreferrer">View portfolio ↗</a>
+          <button class="button ghost" type="button" onclick="window.print()">Print / Save PDF</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+
+<script>
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('dj-case-theme');
+  if (savedTheme) root.dataset.theme = savedTheme;
+  themeToggle.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    localStorage.setItem('dj-case-theme', next);
+  });
+
+  const progress = document.getElementById('progress');
+  const updateProgress = () => {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+    progress.style.width = pct + '%';
+  };
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  const modeData = {
+    familiar: {
+      badge: 'Familiar mode',
+      title: 'Comfort first, with a light refresh',
+      copy: 'Prioritizes favorites and proven affinities while limiting recent repeats.',
+      familiar: 85,
+      fresh: 15,
+      tracks: [
+        ['01', 'A proven favorite', 'Recent organic affinity', 'Familiar'],
+        ['02', 'A deep cut you know', 'Low recent exposure', 'Rediscovery'],
+        ['03', 'A safe adjacent track', 'High artist similarity', 'Light discovery']
+      ]
+    },
+    balanced: {
+      badge: 'Balanced mode',
+      title: 'A confident mix with room to explore',
+      copy: 'Anchors the session in your taste, then introduces adjacent tracks and artists.',
+      familiar: 65,
+      fresh: 35,
+      tracks: [
+        ['01', 'A familiar anchor', 'Matches your current context', 'Familiar'],
+        ['02', 'An adjacent discovery', 'Because you saved a related artist', 'New to you'],
+        ['03', 'A forgotten favorite', 'Not played in 14 months', 'Rediscovery']
+      ]
+    },
+    explore: {
+      badge: 'Explore mode',
+      title: 'Wider discovery, still grounded in you',
+      copy: 'Expands into adjacent scenes, newer releases, and less-heard artists with stronger diversity rules.',
+      familiar: 35,
+      fresh: 65,
+      tracks: [
+        ['01', 'A contextual bridge', 'Connects taste to a new scene', 'Bridge'],
+        ['02', 'An emerging artist', 'Editorial + semantic match', 'New to you'],
+        ['03', 'A left-field fit', 'High context fit, low prior exposure', 'Explore']
+      ]
+    }
+  };
+
+  const trackList = document.getElementById('trackList');
+  function setMode(mode) {
+    const d = modeData[mode];
+    document.getElementById('modeBadge').textContent = d.badge;
+    document.getElementById('protoTitle').textContent = d.title;
+    document.getElementById('protoCopy').textContent = d.copy;
+    document.getElementById('familiarBar').style.width = d.familiar + '%';
+    document.getElementById('newBar').style.width = d.fresh + '%';
+    document.getElementById('familiarLabel').textContent = d.familiar + '% familiar';
+    document.getElementById('newLabel').textContent = d.fresh + '% discovery';
+    trackList.innerHTML = d.tracks.map(t => `
+      <div class="track">
+        <div class="track-art">${t[0]}</div>
+        <div><strong>${t[1]}</strong><small>${t[2]}</small></div>
+        <div class="why">${t[3]}</div>
+      </div>`).join('');
+    document.querySelectorAll('.segmented button').forEach(btn => btn.classList.toggle('active', btn.dataset.mode === mode));
+  }
+  document.querySelectorAll('.segmented button').forEach(btn => btn.addEventListener('click', () => setMode(btn.dataset.mode)));
+  setMode('balanced');
+
+  const compact = new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 2 });
+  const pct = (n, d = 1) => Number(n).toFixed(d).replace(/\.0$/, '') + '%';
+  const ids = ['weeklyUsers', 'baselineQ', 'relativeLift', 'reuse'];
+  function updateModel() {
+    const users = Number(document.getElementById('weeklyUsers').value);
+    const baseRate = Number(document.getElementById('baselineQ').value) / 100;
+    const lift = Number(document.getElementById('relativeLift').value) / 100;
+    const reuse = Number(document.getElementById('reuse').value);
+    const newRate = baseRate * (1 + lift);
+    const baseSessions = users * baseRate * reuse;
+    const incremental = users * (newRate - baseRate) * reuse;
+    const annual = incremental * 52;
+
+    document.getElementById('weeklyUsersOut').textContent = compact.format(users);
+    document.getElementById('baselineQOut').textContent = pct(baseRate * 100, 0);
+    document.getElementById('relativeLiftOut').textContent = pct(lift * 100, 0);
+    document.getElementById('reuseOut').textContent = reuse.toFixed(1);
+    document.getElementById('baseSessions').textContent = compact.format(baseSessions);
+    document.getElementById('incrementalSessions').textContent = compact.format(incremental);
+    document.getElementById('newRate').textContent = pct(newRate * 100, 1);
+    document.getElementById('annualSessions').textContent = compact.format(annual);
+  }
+  ids.forEach(id => document.getElementById(id).addEventListener('input', updateModel));
+  updateModel();
+</script>
+</body>
+</html>

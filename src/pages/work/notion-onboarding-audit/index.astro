@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { withBase } from "../../../lib/paths";
+---
+
+<BaseLayout
+  title="Notion Onboarding Audit - Aishwarya's Portfolio"
+  description="First Value is a Notion onboarding audit and redesign concept."
+>
+  <main class="framed-project">
+    <iframe
+      src={withBase("/allprojects/notion_onboarding_audit/index.html")}
+      title="Notion Onboarding Audit case study"
+    ></iframe>
+  </main>
+</BaseLayout>
+
+<style>
+  .framed-project {
+    min-height: 100vh;
+    background: var(--color-bg);
+  }
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: 100vh;
+    border: 0;
+    background: #f7f7f5;
+  }
+
+  @media (max-width: 980px) {
+    .framed-project {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

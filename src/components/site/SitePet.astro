@@ -644,8 +644,13 @@
   }
 
   .monster-switcher__trigger {
-    min-height: 38px;
-    padding: 9px 12px;
+    display: grid;
+    place-items: center;
+    width: 42px;
+    min-height: 42px;
+    overflow: hidden;
+    padding: 0;
+    color: transparent;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.02em;
@@ -660,6 +665,17 @@
   .monster-switcher__trigger:focus-visible {
     transform: translateY(-1px);
     background: #f3f1eb;
+  }
+
+  .monster-switcher__trigger::before {
+    content: "";
+    display: block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #dacc9d;
+    border-radius: 999px;
+    background: #b8ffe7;
+    box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.14);
   }
 
   .monster-switcher__panel {
@@ -725,26 +741,6 @@
     .monster-switcher {
       right: 10px;
       bottom: 10px;
-    }
-
-    .monster-switcher__trigger {
-      width: 42px;
-      min-height: 42px;
-      overflow: hidden;
-      padding: 0;
-      color: transparent;
-    }
-
-    .monster-switcher__trigger::before {
-      content: "";
-      display: block;
-      width: 18px;
-      height: 18px;
-      margin: 0 auto;
-      border: 2px solid #dacc9d;
-      border-radius: 999px;
-      background: #b8ffe7;
-      box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.14);
     }
 
     .monster-switcher__panel {

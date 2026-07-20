@@ -1,0 +1,1207 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Connection Lens — a portfolio-ready lightweight PRD for reliable search across LinkedIn first-degree connections, by Aishwarya Chourasia.">
+<title>Connection Lens | Lightweight Product Requirements Document</title>
+
+<style>
+:root{
+  --li-blue:#0a66c2;
+  --li-blue-dark:#004182;
+  --li-blue-light:#e7f3ff;
+  --li-bg:#f3f2ef;
+  --li-card:#ffffff;
+  --li-text:#1f1f1f;
+  --li-muted:#666666;
+  --li-line:#d9d9d9;
+  --li-soft:#eef3f8;
+  --li-green:#057642;
+  --li-red:#cc1016;
+  --li-gold:#915907;
+  --shadow:0 0 0 1px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.08);
+  --radius:12px;
+  --max:1180px;
+}
+html[data-theme="dark"]{
+  --li-bg:#000000;
+  --li-card:#1d2226;
+  --li-text:#f3f2ef;
+  --li-muted:#b0b0b0;
+  --li-line:#38434f;
+  --li-soft:#26323d;
+  --li-blue-light:#14395a;
+  --shadow:0 0 0 1px rgba(255,255,255,.12),0 5px 15px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--li-bg);
+  color:var(--li-text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.5;
+}
+a{color:inherit}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--li-blue);z-index:999}
+.skip{position:absolute;left:-999px;top:8px}
+.skip:focus{left:8px;z-index:1000;background:var(--li-card);padding:10px;border:1px solid var(--li-line);border-radius:8px}
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:var(--li-card);
+  border-bottom:1px solid var(--li-line);
+  transition:box-shadow .2s;
+}
+.nav.scrolled{box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.nav-inner{
+  max-width:1260px;margin:auto;padding:0 18px;height:52px;
+  display:grid;grid-template-columns:auto minmax(200px,280px) 1fr auto auto;align-items:center;gap:8px;
+}
+.logo{display:flex;align-items:center;text-decoration:none;font-weight:700;flex-shrink:0}
+.logo-mark{
+  width:34px;height:34px;border-radius:4px;background:var(--li-blue);color:#fff;
+  display:grid;place-items:center;font-size:1.35rem;font-weight:800;letter-spacing:-.06em;
+  font-family:Georgia,'Times New Roman',serif;
+}
+.nav-search{
+  height:34px;background:var(--li-soft);border-radius:4px;display:flex;align-items:center;gap:8px;padding:0 12px;color:var(--li-muted);
+  font-size:.84rem;border:1px solid transparent;
+}
+.nav-search svg{width:16px;height:16px;flex-shrink:0;color:var(--li-text);opacity:.65}
+.nav-links{display:flex;align-items:stretch;justify-content:flex-end;gap:2px;height:100%}
+.nav-links a{
+  font-size:.66rem;text-decoration:none;color:var(--li-muted);font-weight:600;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  padding:0 12px;border-bottom:2px solid transparent;position:relative;min-width:56px;
+}
+.nav-links a svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.5}
+.nav-links a:hover{color:var(--li-text)}
+.nav-links a:hover svg{color:var(--li-text)}
+.nav-links a.current{color:var(--li-text);border-bottom-color:var(--li-text)}
+.nav-badge{
+  position:absolute;top:2px;right:8px;background:var(--li-red);color:#fff;border-radius:999px;
+  font-size:.56rem;font-weight:700;min-width:15px;height:15px;display:grid;place-items:center;padding:0 3px;
+  border:1.5px solid var(--li-card);
+}
+.nav-me{display:flex;align-items:center;gap:12px;padding-left:12px;margin-left:6px;border-left:1px solid var(--li-line);height:100%}
+.me-avatar{
+  width:24px;height:24px;border-radius:50%;background:linear-gradient(145deg,#0a66c2,#70b5f9);
+  color:#fff;font-size:.62rem;font-weight:700;display:grid;place-items:center;flex-shrink:0;
+}
+.nav-me a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;color:var(--li-muted);font-size:.66rem;font-weight:600;padding:0 4px}
+.nav-me a:hover{color:var(--li-text)}
+.nav-me a:hover .me-avatar{outline:2px solid var(--li-text);outline-offset:1px}
+.me-caret{display:flex;align-items:center;gap:2px}
+.me-caret svg{width:11px;height:11px}
+.icon-btn{
+  width:32px;height:32px;border:0;background:transparent;color:var(--li-muted);font-size:1rem;border-radius:50%;flex-shrink:0;
+}
+.icon-btn:hover{background:var(--li-soft)}
+.back-projects{
+  display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 14px;border-radius:999px;
+  border:1px solid var(--li-blue);color:var(--li-blue);font-size:.82rem;font-weight:700;text-decoration:none;white-space:nowrap;
+}
+.back-projects:hover{background:var(--li-blue-light)}
+.container{max-width:var(--max);margin:auto;padding:0 18px}
+.hero{padding:28px 0 34px}
+.hero-grid{
+  max-width:1500px;
+  display:grid;grid-template-columns:minmax(270px,300px) minmax(0,760px) minmax(330px,360px);gap:24px;align-items:start;
+}
+.hero > .container:before{
+  content:"";position:absolute;left:0;right:0;top:0;height:190px;background:linear-gradient(135deg,#0a66c2,#004182);
+  z-index:-1;
+}
+.hero{position:relative;isolation:isolate}
+.feed-profile,.feed-news,.project-post,.composer-card{
+  background:var(--li-card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
+}
+.project-post{
+  padding:0 18px 22px;
+}
+.project-post:before{
+  content:"";display:block;height:76px;background:linear-gradient(135deg,#0a66c2,#5da9e9);margin:0 -18px 0;
+}
+.feed-profile{position:sticky;top:68px}
+.profile-cover{
+  height:70px;
+  background:
+    linear-gradient(180deg,rgba(10,102,194,.08),rgba(0,0,0,.1)),
+    url("cover.avif") center/cover;
+}
+.profile-avatar{
+  width:86px;height:86px;border:4px solid var(--li-card);border-radius:50%;margin:-43px 0 10px 18px;
+  background:linear-gradient(145deg,#0a66c2,#70b5f9);overflow:hidden
+}
+.profile-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.profile-copy{padding:0 14px 0}
+.profile-copy b{display:flex;align-items:center;gap:5px;font-size:1.25rem;line-height:1.12;letter-spacing:-.025em}
+.profile-copy b:after{content:"in";display:inline-grid;place-items:center;width:15px;height:15px;border-radius:2px;background:var(--li-blue);color:#fff;font-size:.62rem;font-family:Georgia,'Times New Roman',serif}
+.profile-copy span{display:none}
+.profile-role{color:var(--li-muted);font-size:.76rem;margin:4px 0 0;padding:0 14px}
+.profile-location{color:var(--li-muted);font-size:.76rem;margin:3px 0 12px;padding:0 14px 12px;border-bottom:1px solid var(--li-line)}
+.profile-stat,.profile-link{display:flex;justify-content:space-between;gap:10px;padding:10px 16px;border-bottom:1px solid var(--li-line);font-size:.8rem;text-decoration:none}
+.profile-stat strong{color:var(--li-blue)}
+.profile-link{font-weight:700;color:var(--li-muted)}
+.premium-row{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--li-line);font-size:.8rem;font-weight:700}
+.premium-row:before{content:"";width:13px;height:13px;border-radius:2px;background:#c37d16;display:block}
+.feed-center{display:grid;gap:12px;min-width:0}
+.composer-card{padding:12px 16px}
+.composer-row{display:grid;grid-template-columns:42px 1fr;gap:10px;align-items:center}
+.composer-input{height:42px;border:1px solid var(--li-line);border-radius:999px;display:flex;align-items:center;padding:0 18px;color:var(--li-text);font-weight:700}
+.composer-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.composer-actions span{display:flex;align-items:center;justify-content:center;gap:7px;color:var(--li-muted);font-weight:700;font-size:.86rem}
+.feed-news{position:sticky;top:68px;padding:20px}
+.feed-news h2{font-size:1.32rem;margin:0 0 12px;letter-spacing:0}
+.news-list{display:grid;gap:15px}
+.news-item b{display:block;font-size:.94rem;line-height:1.3}.news-item span{display:block;color:var(--li-muted);font-size:.78rem;margin-top:3px}
+.puzzle-card{margin-top:12px;padding-top:14px;border-top:1px solid var(--li-line)}
+.puzzle-row{display:grid;grid-template-columns:34px 1fr auto;gap:9px;align-items:center;margin-top:10px}
+.puzzle-icon{width:32px;height:32px;border-radius:6px;background:var(--li-blue-light);display:grid;place-items:center;color:var(--li-blue);font-weight:800}
+.puzzle-copy b,.puzzle-copy span,.puzzle-row > div:nth-child(2) b,.puzzle-row > div:nth-child(2) span{display:block}
+.puzzle-copy span,.puzzle-row > div:nth-child(2) span{color:var(--li-muted);font-size:.78rem}
+.puzzle-arrow{color:var(--li-muted);font-size:1.15rem}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:7px;margin-top:-18px;
+  padding:6px 10px;border-radius:999px;background:var(--li-blue-light);color:var(--li-blue-dark);
+  font-size:.72rem;font-weight:700;border:1px solid rgba(10,102,194,.16)
+}
+h1{font-size:2.15rem;line-height:1.08;letter-spacing:-.035em;margin:18px 0 14px}
+h1 span{color:var(--li-blue)}
+.lede{font-size:.98rem;color:var(--li-muted)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;
+  font-weight:700;text-decoration:none;border:1px solid var(--li-blue);font-size:.88rem;
+}
+.btn-primary{background:var(--li-blue);color:#fff}
+.btn-primary:hover{background:var(--li-blue-dark)}
+.btn-secondary{background:var(--li-card);color:var(--li-blue)}
+.small{font-size:.78rem;color:var(--li-muted)}
+.network-card{
+  background:var(--li-card);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:0;overflow:hidden;min-height:520px;position:relative;
+}
+.network-card:before{
+  content:"My Network search";display:block;padding:16px 18px;border-bottom:1px solid var(--li-line);
+  font-size:1rem;font-weight:700;
+}
+.search-shell{
+  margin:16px 18px 10px;border:1px solid var(--li-line);border-radius:6px;padding:10px 12px;
+  display:flex;gap:9px;align-items:center;background:var(--li-card)
+}
+.search-icon{width:26px;height:26px;border-radius:50%;background:var(--li-soft);display:grid;place-items:center;color:var(--li-blue);font-weight:800}
+.query{font-size:.88rem;color:var(--li-text)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin:10px 18px}
+.chip{
+  display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;
+  background:var(--li-card);color:var(--li-blue);font-size:.73rem;font-weight:700;border:1px solid var(--li-blue)
+}
+.results-mini{display:grid;gap:0}
+.person{
+  display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;
+  padding:14px 18px;border-top:1px solid var(--li-line);background:var(--li-card)
+}
+.avatar{
+  width:48px;height:48px;border-radius:50%;background:linear-gradient(145deg,#0a66c2,#70b5f9);
+  display:grid;place-items:center;color:#fff;font-weight:700
+}
+.person b{display:block;font-size:.9rem}.person span{font-size:.74rem;color:var(--li-muted)}
+.match{font-size:.68rem;padding:5px 8px;border-radius:999px;background:#e6f6ef;color:var(--li-green);font-weight:700}
+.graph,.node-dot{display:none}
+section{padding:18px 0}
+main > section .container{
+  max-width:760px;
+  background:var(--li-card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:22px;
+}
+.section-head{
+  display:grid;grid-template-columns:1fr 1.2fr;gap:24px;margin-bottom:18px;
+}
+.kicker{font-size:.73rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--li-blue)}
+h2{font-size:1.9rem;line-height:1.16;letter-spacing:-.03em;margin:6px 0}
+h3{font-size:1.08rem;margin:0 0 8px;letter-spacing:-.015em}
+.section-intro{color:var(--li-muted);font-size:.94rem;align-self:end}
+.card{
+  background:var(--li-card);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)
+}
+.card p{color:var(--li-muted);margin:.35rem 0}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.tag{
+  display:inline-flex;padding:4px 8px;border-radius:999px;font-size:.68rem;font-weight:700;
+  background:var(--li-soft);border:1px solid var(--li-line)
+}
+.tag.blue{background:var(--li-blue-light);color:var(--li-blue-dark);border-color:rgba(10,102,194,.15)}
+.tag.green{background:#e6f6ef;color:var(--li-green);border-color:#b9e6d1}
+.tag.amber{background:#fff4df;color:var(--li-gold);border-color:#f0d5a3}
+.tag.red{background:#fde9ea;color:var(--li-red);border-color:#f5c5c8}
+.statement{
+  padding:20px;border-radius:var(--radius);background:var(--li-card);box-shadow:var(--shadow);
+  border-left:5px solid var(--li-blue);font-size:1.08rem;font-weight:700;line-height:1.5
+}
+.fact,.signal,.inference,.assumption{border-top:4px solid transparent}
+.fact{border-top-color:var(--li-green)}
+.signal{border-top-color:var(--li-gold)}
+.inference{border-top-color:var(--li-blue)}
+.assumption{border-top-color:var(--li-red)}
+.tldr{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tldr-item{padding:14px;border-radius:10px;background:var(--li-soft)}
+.tldr-item b{display:block;font-size:.69rem;text-transform:uppercase;letter-spacing:.06em;color:var(--li-muted);margin-bottom:5px}
+.flow-scroll{overflow:auto;padding-bottom:8px}
+.flow{min-width:940px;display:grid;grid-template-columns:repeat(11,auto);gap:8px;align-items:center}
+.flow-node{
+  width:142px;min-height:106px;border:1px solid var(--li-line);border-radius:10px;background:var(--li-card);
+  padding:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:.8rem;font-weight:700
+}
+.flow-node span{font-size:.67rem;color:var(--li-muted);font-weight:500;margin-top:6px}
+.flow-node.problem{border-color:#d5a85f;background:#fff7e8}
+.flow-node.value{border-color:#7db89a;background:#edf8f2}
+.arrow{font-size:1.25rem;color:var(--li-muted);font-weight:700}
+.quote{
+  padding:15px 18px;border-left:4px solid var(--li-blue);background:var(--li-card);border-radius:0 10px 10px 0;
+  color:var(--li-muted);box-shadow:var(--shadow)
+}
+.quote strong{color:var(--li-text)}
+.persona-card{display:grid;grid-template-columns:60px 1fr;gap:14px}
+.persona-icon{width:56px;height:56px;border-radius:50%;background:var(--li-blue-light);display:grid;place-items:center;font-size:25px}
+.scope-table{width:100%;border-collapse:collapse}
+.scope-table th,.scope-table td,table th,table td{padding:12px 10px;border-bottom:1px solid var(--li-line);text-align:left;vertical-align:top}
+.scope-table th,table th{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--li-muted)}
+.scope-table td,table td{font-size:.85rem}
+.req{display:grid;grid-template-columns:54px 1fr;gap:12px}
+.req-id{width:46px;height:32px;border-radius:5px;background:var(--li-blue);color:#fff;display:grid;place-items:center;font-size:.7rem;font-weight:700}
+.req ul{margin:.45rem 0;padding-left:18px;color:var(--li-muted)}
+.req li{margin:.24rem 0}
+.prototype{
+  background:var(--li-card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)
+}
+.proto-nav{
+  height:58px;border-bottom:1px solid var(--li-line);display:flex;align-items:center;gap:12px;padding:0 16px;background:var(--li-card)
+}
+.proto-logo{width:34px;height:34px;border-radius:4px;background:var(--li-blue);color:#fff;display:grid;place-items:center;font-weight:800}
+.proto-search{flex:1;border:1px solid var(--li-line);background:var(--li-soft);border-radius:4px;padding:9px 12px;color:var(--li-muted);font-size:.82rem}
+.proto-body{display:grid;grid-template-columns:260px 1fr;min-height:590px}
+.filters{padding:16px;border-right:1px solid var(--li-line);background:var(--li-card)}
+.filter-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--li-muted);margin:16px 0 6px}
+.filter-control{width:100%;border:1px solid var(--li-line);border-radius:6px;background:var(--li-card);padding:9px;color:var(--li-text)}
+.toggle-row{display:flex;justify-content:space-between;align-items:center;margin:11px 0;font-size:.83rem}
+.switch{width:38px;height:22px;border-radius:999px;background:#b7b7b7;position:relative;cursor:pointer}
+.switch:before{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.2s}
+.switch.on{background:var(--li-blue)}.switch.on:before{left:19px}
+.apply{width:100%;border:0;border-radius:999px;background:var(--li-blue);color:#fff;padding:10px;font-weight:700;margin-top:14px}
+.clear{width:100%;border:0;background:transparent;color:var(--li-blue);padding:10px;font-weight:700}
+.result-pane{padding:18px}
+.result-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px}
+.result-list{display:grid;gap:0}
+.result-row{
+  display:grid;grid-template-columns:56px 1fr auto;gap:13px;align-items:center;
+  padding:14px 0;border-top:1px solid var(--li-line);background:var(--li-card)
+}
+.result-row.hidden{display:none}
+.result-row .avatar{width:56px;height:56px}
+.result-row h4{margin:0;font-size:.92rem}.result-row p{margin:2px 0;color:var(--li-muted);font-size:.77rem}
+.reason{font-size:.68rem;color:var(--li-green);font-weight:700;margin-top:5px}
+.message-btn{border:1px solid var(--li-blue);color:var(--li-blue);background:var(--li-card);padding:8px 14px;border-radius:999px;font-weight:700}
+.empty{display:none;text-align:center;padding:60px 20px;color:var(--li-muted)}
+.empty.show{display:block}
+.metric-tree{display:grid;grid-template-columns:1fr 48px 1fr;gap:18px;align-items:center}
+.metric-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:14px}
+.metric-card{border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);background:var(--li-card);border-top:4px solid var(--li-line)}
+.metric-card.star{border-top-color:var(--li-blue)}
+.metric-card.secondary{border-top-color:var(--li-gold)}
+.metric-card.guardrail{border-top-color:var(--li-red)}
+.metric-card h4{margin:9px 0 6px;font-size:1.02rem;letter-spacing:-.01em}
+.metric-card p{color:var(--li-muted);font-size:.83rem;margin:0}
+.ost{display:grid;grid-template-columns:repeat(4,1fr);gap:0;align-items:stretch}
+.ost-step{border:1px solid var(--li-line);border-radius:10px;background:var(--li-card);padding:14px;margin:0 6px}
+.ost-step b{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--li-blue);margin-bottom:6px}
+.ost-step p{margin:0;font-size:.82rem;color:var(--li-muted)}
+.ost-arrow{display:flex;align-items:center;justify-content:center;color:var(--li-muted);font-size:1.3rem;font-weight:700}
+.tree-arrow{text-align:center;color:var(--li-blue);font-size:1.8rem}
+.metric-list{display:grid;gap:8px}
+.metric-pill{padding:12px;border-radius:9px;background:var(--li-soft)}
+.metric-pill b{display:block}.metric-pill span{font-size:.76rem;color:var(--li-muted)}
+.arch{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.arch-box{min-height:140px;border-radius:10px;background:var(--li-card);padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center;box-shadow:var(--shadow)}
+.arch-box b{display:block;margin-bottom:6px}.arch-box small{color:var(--li-muted)}
+.code{background:#1b1f23;color:#e8f3ff;border-radius:10px;padding:17px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.78rem;line-height:1.68}
+.priority{font-weight:700}.must{color:var(--li-red)}.should{color:var(--li-gold)}.could{color:var(--li-green)}.wont{color:var(--li-muted)}
+.calc{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px}
+.control{margin-bottom:16px}
+.control label{display:flex;justify-content:space-between;gap:15px;font-size:.82rem;font-weight:700;margin-bottom:6px}
+input[type=range]{width:100%;accent-color:var(--li-blue)}
+.results{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.result{padding:15px;border-radius:10px;background:var(--li-soft)}
+.result strong{display:block;font-size:1.52rem;letter-spacing:-.03em;color:var(--li-blue-dark)}
+.result span{font-size:.74rem;color:var(--li-muted)}
+.edge{display:grid;grid-template-columns:48px 1fr;gap:12px}
+.edge-num{width:42px;height:42px;border-radius:50%;background:var(--li-blue-light);color:var(--li-blue-dark);display:grid;place-items:center;font-weight:700}
+.decision-log{display:grid;gap:10px}
+.decision-item{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:14px;border-radius:10px;background:var(--li-card);box-shadow:var(--shadow)}
+.decision-item b{color:var(--li-blue-dark)}
+.tradeoff-card{background:var(--li-card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+.tradeoff-row{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--li-line)}
+.tradeoff-row:first-of-type{border-top:0}
+.tradeoff-tag{flex-shrink:0;font-size:.64rem;font-weight:700;padding:3px 9px;border-radius:999px;height:fit-content;white-space:nowrap;margin-top:1px}
+.tradeoff-tag.gain{background:#e6f6ef;color:var(--li-green)}
+.tradeoff-tag.cost{background:#fde9ea;color:var(--li-red)}
+.tradeoff-row p{margin:0;font-size:.85rem;color:var(--li-muted)}
+.tradeoff-row p strong{color:var(--li-text)}
+.roadmap{display:grid;gap:0}
+.phase{display:grid;grid-template-columns:108px 22px 1fr;gap:13px;min-height:110px}
+.phase-label{font-weight:700;color:var(--li-blue)}
+.phase-dot{position:relative}
+.phase-dot:before{content:"";position:absolute;top:6px;left:4px;width:14px;height:14px;border-radius:50%;background:var(--li-blue)}
+.phase-dot:after{content:"";position:absolute;top:22px;bottom:0;left:10px;width:2px;background:var(--li-line)}
+.phase:last-child .phase-dot:after{display:none}
+.phase-body{padding-bottom:24px}
+.interview{
+  padding:24px;border-radius:var(--radius);background:var(--li-card);box-shadow:var(--shadow);
+  border-left:5px solid var(--li-blue);font-size:1.02rem;font-weight:600;line-height:1.7
+}
+.source-list{padding-left:20px}
+.source-list li{margin:9px 0;color:var(--li-muted);font-size:.85rem}
+.source-list a{color:var(--li-blue);text-decoration:none}
+.notice{padding:14px;border-radius:10px;background:var(--li-soft);font-size:.8rem;color:var(--li-muted)}
+footer{padding:30px 0 50px;border-top:1px solid var(--li-line);background:var(--li-card)}
+.footer-grid{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:var(--li-muted)}
+@media(max-width:980px){
+  .nav-inner{grid-template-columns:auto 1fr auto}.nav-search,.nav-me{display:none}
+  .hero-grid{grid-template-columns:1fr}
+  .feed-profile,.feed-news{position:static}
+  .section-head,.grid-3,.grid-4,.calc,.metric-tree,.metric-grid,.ost{grid-template-columns:1fr}
+  .grid-2,.tldr{grid-template-columns:1fr}
+  .tree-arrow{transform:rotate(90deg)}
+  .ost-step{margin:0}
+}
+@media(min-width:1120px){
+  .hero-grid{
+    grid-template-columns:300px minmax(0,760px) 360px;
+  }
+  .feed-profile{
+    position:fixed;
+    top:70px;
+    left:max(18px,calc((100vw - 1500px)/2 + 18px));
+    width:300px;
+    max-height:calc(100vh - 86px);
+    overflow:hidden;
+  }
+  .feed-news{
+    position:fixed;
+    top:70px;
+    right:max(18px,calc((100vw - 1500px)/2 + 18px));
+    width:360px;
+    max-height:calc(100vh - 86px);
+    overflow:hidden;
+  }
+  .feed-center{grid-column:2}
+  main > section .container,
+  footer .container{
+    width:min(760px,calc(100vw - 746px));
+    margin-left:max(342px,calc((100vw - 1500px)/2 + 342px));
+    margin-right:0;
+  }
+}
+@media(max-width:720px){
+  .container,.nav-inner{padding-left:12px;padding-right:12px}
+  .back-projects{height:32px;padding:0 11px;font-size:.76rem}
+  .nav-links a span:not(.nav-badge){display:none}
+  .nav-links a{min-width:34px;padding:0 6px}
+  .nav-links{gap:0}
+  .nav-me a .me-caret{display:none}
+  .hero{padding-top:18px}
+  .proto-body{grid-template-columns:1fr}.filters{border-right:0;border-bottom:1px solid var(--li-line)}
+  .result-row{grid-template-columns:48px 1fr}.result-row .avatar{width:48px;height:48px}.message-btn{grid-column:2;justify-self:start}
+  .arch,.results{grid-template-columns:1fr}
+  .phase{grid-template-columns:82px 20px 1fr}
+  .decision-item{grid-template-columns:1fr}
+}
+@media print{
+  .nav,.actions,.progress,.icon-btn,.apply,.clear,.message-btn{display:none!important}
+  body{background:#fff;color:#111}
+  section{padding:26px 0;break-inside:avoid}
+  .card,.network-card,.prototype,.interview,.hero-grid>div:first-child{box-shadow:none}
+}
+</style>
+
+</head>
+<body>
+<div class="progress" id="pageProgress"></div>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" id="siteNav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="Connection Lens home"><span class="logo-mark">in</span></a>
+    <div class="nav-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span>Search your network</span></div>
+    <div class="nav-links">
+      <a href="#top" data-section="top"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+      <a href="#problem" data-section="problem"><svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="8" r="2.4"/><path d="M15.5 12.2c2.7.3 5 2.4 5 5.8"/></svg><span>Problem</span></a>
+      <a href="#prd" data-section="prd"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>PRD</span></a>
+      <a href="#prototype" data-section="prototype"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="1.5"/><path d="M3 8h18"/><path d="M9 19l2-4 2 4"/></svg><span>Prototype</span></a>
+      <a href="#architecture" data-section="architecture"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg><span>Architecture</span></a>
+      <a href="#metrics" data-section="metrics"><svg viewBox="0 0 24 24"><path d="M4 20V10M11 20V4M18 20v-7"/></svg><span>Metrics</span><span class="nav-badge">3</span></a>
+      <a href="#sources" data-section="sources"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Sources</span></a>
+    </div>
+    <div class="nav-me">
+      <a href="#sources">
+        <span class="me-avatar">PM</span>
+        <span class="me-caret">Me<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M7 10l5 5 5-5z"/></svg></span>
+      </a>
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle light and dark theme">◐</button>
+    </div>
+    <a class="back-projects" href="/portfolio_new/home/">Back to projects</a>
+  </div>
+</nav>
+
+<main id="main">
+<header class="hero" id="top">
+  <div class="container hero-grid">
+    <aside class="feed-profile" aria-label="Profile summary preview">
+      <div class="profile-cover"></div>
+      <div class="profile-avatar"><img src="profile-pic.png" alt="Aishwarya Chourasia profile photo"></div>
+      <div class="profile-copy">
+        <b>Aishwarya Chourasia</b>
+        <span>Network search concept · Portfolio case study</span>
+      </div>
+      <div class="profile-role">Business Operations | AI Transformation & Enablement | Product Strategy</div>
+      <div class="profile-location">United States</div>
+      <div class="profile-stat"><span>Profile viewers</span><strong>657</strong></div>
+      <div class="profile-stat"><span>Post impressions</span><strong>394</strong></div>
+      <div class="premium-row">Your Premium features</div>
+      <a class="profile-link" href="#prd">Saved PRD</a>
+      <a class="profile-link" href="#problem">Groups</a>
+      <a class="profile-link" href="#sources">Newsletters</a>
+      <a class="profile-link" href="#prototype">Prototype</a>
+      <a class="profile-link" href="#metrics">Metrics</a>
+    </aside>
+
+    <div class="feed-center">
+    <div class="composer-card" aria-label="LinkedIn composer preview">
+      <div class="composer-row"><div class="avatar">CL</div><div class="composer-input">Start a product note</div></div>
+      <div class="composer-actions"><span>Job</span><span>Write article</span><span>Share insight</span></div>
+    </div>
+
+    <article class="project-post">
+      <div class="eyebrow">Featured project · Lightweight PRD</div>
+      <h1>Find the right person in <span>your network.</span></h1>
+      <p class="lede">
+        A portfolio-ready product requirements document for a reliable, transparent search experience across first-degree LinkedIn connections,
+        using explicit professional filters alongside natural-language search.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#prd">Read the PRD ↓</a>
+        <button class="btn btn-secondary" onclick="window.print()">Print case study</button>
+      </div>
+      <p class="small" style="margin-top:18px">Product case study by <strong>Aishwarya Chourasia</strong> · July 2026</p>
+    </article>
+
+    <aside class="network-card" aria-label="Connection Lens concept preview">
+      <div class="search-shell"><div class="search-icon">⌕</div><div class="query">Product leaders at healthcare companies in Chicago</div></div>
+      <div class="chips">
+        <span class="chip">1st degree ×</span><span class="chip">Title: Product ×</span><span class="chip">Industry: Healthcare ×</span><span class="chip">Chicago ×</span>
+      </div>
+      <div class="results-mini">
+        <div class="person"><div class="avatar">AM</div><div><b>Alex Morgan</b><span>Director of Product · Health Platform</span></div><span class="match">4 matches</span></div>
+        <div class="person"><div class="avatar">RS</div><div><b>Rina Shah</b><span>Senior Product Manager · Digital Health</span></div><span class="match">4 matches</span></div>
+        <div class="person"><div class="avatar">JT</div><div><b>Jordan Taylor</b><span>Group Product Manager · Care Technology</span></div><span class="match">3 matches</span></div>
+      </div>
+      <div class="notice" style="margin-top:14px"><strong>Concept principle:</strong> every result explains which filters matched, so users can trust and refine the search.</div>
+      <div class="graph"></div><span class="node-dot n1"></span><span class="node-dot n2"></span><span class="node-dot n3"></span>
+    </aside>
+    </div>
+
+    <aside class="feed-news" aria-label="LinkedIn-style context rail">
+      <h2>LinkedIn News</h2>
+      <div class="news-list">
+        <div class="news-item"><b>Professionals lean on warm networks</b><span>Product signal · 5,114 readers</span></div>
+        <div class="news-item"><b>Search trust depends on clear filters</b><span>UX trend · 4,332 readers</span></div>
+        <div class="news-item"><b>AI search needs transparent results</b><span>Product analysis · 1,902 readers</span></div>
+        <div class="news-item"><b>Personal CRM habits keep growing</b><span>Workplace tools · 1,709 readers</span></div>
+      </div>
+      <div class="puzzle-card">
+        <h2>Today’s prompts</h2>
+        <div class="puzzle-row"><div class="puzzle-icon">1</div><div><b>Find a mentor</b><span>Use title + industry</span></div><span>›</span></div>
+        <div class="puzzle-row"><div class="puzzle-icon">2</div><div><b>Warm intro</b><span>Use company + degree</span></div><span>›</span></div>
+        <div class="puzzle-row"><div class="puzzle-icon">3</div><div><b>Domain advice</b><span>Use skill + location</span></div><span>›</span></div>
+      </div>
+    </aside>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">01 · Problem first</div><h2>Large networks are valuable only when they are retrievable.</h2></div>
+      <p class="section-intro">
+        LinkedIn supports people search through connection degree, location, company, school, industry, keywords, and conversational queries.
+        Public feedback nevertheless shows that members can struggle when familiar title or keyword controls change, disappear, or produce results they cannot easily explain.
+      </p>
+    </div>
+
+    <div class="statement">
+      <span class="tag blue" style="margin-bottom:10px;display:inline-flex">Problem statement</span><br>
+      Active professionals with large first-degree networks routinely need to reach a specific person they already know — for a referral, a warm introduction, or domain advice —
+      but can recall only that person's professional context, not their name. Today, finding that person means guessing keywords, scrolling connection lists manually,
+      or paying for a prospecting tool built for cold outreach rather than personal recall. When the guess fails, members abandon the search or send a colder,
+      less credible message to someone they don't actually know — so relationships already inside their network go unused exactly when they would matter most.
+    </div>
+    <p class="small" style="margin-top:8px">Standalone on purpose: no proposed solution appears above this line.</p>
+
+    <div class="grid-4" style="margin-top:18px">
+      <article class="card fact"><span class="tag green">Official fact</span><h3 style="margin-top:11px">People search has broad filters</h3><p>LinkedIn documents connection degree, location, current company, past company, school, industry, and keyword filtering.</p></article>
+      <article class="card fact"><span class="tag green">Official fact</span><h3 style="margin-top:11px">Search is becoming conversational</h3><p>LinkedIn states that updated people search can interpret meaning and accept role, title, company, and location in natural language.</p></article>
+      <article class="card signal"><span class="tag amber">Public signal</span><h3 style="margin-top:11px">Users report lost precision</h3><p>Recent community posts describe difficulty finding title filters and dissatisfaction with inconsistent or irrelevant AI-search results.</p></article>
+      <article class="card inference"><span class="tag blue">Product inference</span><h3 style="margin-top:11px">Trust requires visibility</h3><p>A hybrid experience should expose parsed filters, match reasons, and easy correction rather than replacing deterministic controls.</p></article>
+    </div>
+
+    <div class="quote" style="margin-top:18px">
+      <strong>Observed workflow:</strong> a member knows the relationship and professional attributes of the person they need, but not the exact name. The current path can require trial-and-error across search text, filter menus, company pages, or premium products.
+    </div>
+  </div>
+</section>
+
+<section id="prd">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">02 · PRD summary</div><h2>Connection Lens</h2></div>
+      <p class="section-intro">A lightweight decision document that states what to build, why now, how success will be measured, and what deliberately remains outside V1.</p>
+    </div>
+
+    <div class="card">
+      <div class="tldr">
+        <div class="tldr-item"><b>Problem</b>Members cannot reliably retrieve relevant first-degree connections using remembered professional attributes.</div>
+        <div class="tldr-item"><b>Solution</b>A dedicated My Network search with explicit title, company, industry, location, relationship, and keyword chips.</div>
+        <div class="tldr-item"><b>Why now</b>Conversational people search is expanding, while user feedback shows precision and explainability remain important.</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:18px">
+      <article class="card">
+        <h3>Vision</h3>
+        <p>Turn a member’s existing network into a useful professional memory system. A member should be able to describe who they need, verify the interpreted criteria, and act in under one minute.</p>
+      </article>
+      <article class="card">
+        <h3>Product principle</h3>
+        <p><strong>AI proposes. Filters prove.</strong> Natural language can accelerate query creation, but explicit chips, result explanations, and editable criteria preserve control.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">03 · Persona and job</div><h2>Build for purposeful network retrieval.</h2></div>
+      <p class="section-intro">The persona is behavioral, not demographic, and the feature is intentionally separated from high-volume prospecting.</p>
+    </div>
+
+    <div class="grid-2">
+      <article class="card persona-card">
+        <div class="persona-icon">🔎</div>
+        <div><h3>Primary persona</h3><p><strong>Active professionals with 500–5,000 first-degree connections who open LinkedIn at least 3–4 times a week and, roughly monthly, need to reach one specific person they already know — for a referral, an intro, or hiring/domain advice.</strong></p></div>
+      </article>
+      <article class="card persona-card">
+        <div class="persona-icon">🎯</div>
+        <div><h3>Jobs to Be Done</h3><p>“When I need help with a specific professional goal, help me identify the most relevant person I already know so I can take a warm, credible next step.”</p></div>
+      </article>
+    </div>
+
+    <div class="grid-3" style="margin-top:18px">
+      <article class="card"><h3>Core scenario</h3><p>Find a first-degree connection at a target company whose current role is relevant to a job, partnership, or domain question.</p></article>
+      <article class="card"><h3>Adjacent scenario</h3><p>Rediscover former colleagues, alumni, or local contacts after a role change, relocation, or industry transition.</p></article>
+      <article class="card"><h3>Not the target</h3><p>Bulk lead generation, scraping, automated outreach, CRM enrichment, or recruiter-grade sourcing workflows.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="metrics">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">04 · Success metrics — defined before the solution</div><h2>Decide how success is measured before designing the fix.</h2></div>
+      <p class="section-intro">One north star, two secondary metrics, and one guardrail — set immediately after the problem and persona, so every capability below is built to move a number, not just to ship a feature.</p>
+    </div>
+
+    <div class="metric-grid">
+      <article class="metric-card star">
+        <span class="tag blue">North Star</span>
+        <h4>Successful Network Retrieval Rate (SNRR)</h4>
+        <p>% of qualified search sessions where the member opens a relevant profile, messages, or saves a connection within ten minutes without re-querying out of frustration.</p>
+      </article>
+      <article class="metric-card secondary">
+        <span class="tag amber">Secondary</span>
+        <h4>Time to useful profile</h4>
+        <p>Median elapsed time from search start to the first profile the member actually acts on.</p>
+      </article>
+      <article class="metric-card secondary">
+        <span class="tag amber">Secondary</span>
+        <h4>Parser correction rate</h4>
+        <p>% of sessions where a member edits an auto-generated chip — a direct read on interpretation trust.</p>
+      </article>
+      <article class="metric-card guardrail">
+        <span class="tag red">Guardrail</span>
+        <h4>Unwanted-contact rate</h4>
+        <p>Spam reports, blocks, and privacy complaints per 1,000 searches. Must not move upward as retrieval improves.</p>
+      </article>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h3>Working backward with an Opportunity Solution Tree</h3>
+      <p class="section-intro" style="margin-bottom:12px">Each capability in this PRD exists because it traces back to the North Star outcome, not the other way around.</p>
+      <div class="ost">
+        <div class="ost-step"><b>Outcome</b><p>Lift SNRR without harming trust or Premium.</p></div>
+        <div class="ost-arrow">→</div>
+        <div class="ost-step"><b>Opportunities</b><p>Ambiguous titles, no match reasons, prospecting-tool overlap.</p></div>
+        <div class="ost-arrow">→</div>
+        <div class="ost-step"><b>Solutions</b><p>Editable chips, explanation layer, first-degree-only scope.</p></div>
+        <div class="ost-arrow">→</div>
+        <div class="ost-step"><b>Experiment</b><p>Randomized A/B test vs. existing My Network search.</p></div>
+      </div>
+    </div>
+
+    <div class="notice" style="margin-top:14px"><strong>Also monitored, not gated on:</strong> Sales Navigator and Recruiter cannibalization by cohort — a business signal to watch, kept separate from the single guardrail above so the guardrail stays unambiguous.</div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">05 · User journey</div><h2>From fuzzy memory to confident action.</h2></div>
+      <p class="section-intro">The proposed flow makes query interpretation visible before the member acts.</p>
+    </div>
+
+    <div class="card flow-scroll">
+      <div class="flow">
+        <div class="flow-node">Open My Network<span>Dedicated retrieval entry</span></div><div class="arrow">→</div>
+        <div class="flow-node">Describe person<span>Natural language or filters</span></div><div class="arrow">→</div>
+        <div class="flow-node problem">Review parsed chips<span>Correct title, company, location</span></div><div class="arrow">→</div>
+        <div class="flow-node value">View ranked matches<span>Match reasons visible</span></div><div class="arrow">→</div>
+        <div class="flow-node">Inspect context<span>Shared history and recent activity</span></div><div class="arrow">→</div>
+        <div class="flow-node value">Message or save<span>Warm next action</span></div>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:18px">
+      <article class="card"><h3>Happy path</h3><p>Member enters a conversational query, confirms the generated chips, sees fewer than 25 relevant connections, and messages one.</p></article>
+      <article class="card"><h3>Correction path</h3><p>Member removes an incorrectly parsed title, broadens location, or changes current company to past company without rewriting the query.</p></article>
+      <article class="card"><h3>Recovery path</h3><p>Zero results triggers suggestions to relax one criterion at a time while preserving the original intent and privacy boundaries.</p></article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">06 · Goals and non-goals</div><h2>Scope is a product decision.</h2></div>
+      <p class="section-intro">The V1 solves one job well: retrieving first-degree connections for member-led networking. Framed as a Now / Next / Later split, not a wishlist.</p>
+    </div>
+
+    <div class="card" style="overflow:auto">
+      <table class="scope-table">
+        <thead><tr><th>In scope for V1</th><th>Out of scope</th><th>Later</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>First-degree connections only</td>
+            <td>Second- and third-degree prospect discovery</td>
+            <td>Connections-of and warm-introduction paths</td>
+          </tr>
+          <tr>
+            <td>Current title, current company, past company, industry, location, school, and keywords</td>
+            <td>Revenue, headcount, intent signals, buyer personas, or CRM fields</td>
+            <td>Skills, tenure, seniority, activity, and custom lists</td>
+          </tr>
+          <tr>
+            <td>Natural-language query translated into editable chips</td>
+            <td>Autonomous outreach or message generation by default</td>
+            <td>Optional message context assistant with approval</td>
+          </tr>
+          <tr>
+            <td>Result explanation and one saved search</td>
+            <td>Exports, scraping, mass actions, or API access</td>
+            <td>Multiple saved searches and alerts for Premium members</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">07 · Functional requirements</div><h2>What V1 must do.</h2></div>
+      <p class="section-intro">Requirements are ordered around query creation, trust, action, and safe recovery.</p>
+    </div>
+
+    <div class="grid-2">
+      <article class="card req">
+        <div class="req-id">FR-01</div>
+        <div><h3>Hybrid query builder</h3><ul><li>Accept natural language or manual filter selection.</li><li>Translate recognized entities into editable chips.</li><li>Preserve unrecognized text as keywords.</li></ul></div>
+      </article>
+      <article class="card req">
+        <div class="req-id">FR-02</div>
+        <div><h3>Professional entity filters</h3><ul><li>Support current title, current company, past company, industry, location, school, and 1st-degree relationship.</li><li>Allow multi-select and include/exclude logic where safe.</li></ul></div>
+      </article>
+      <article class="card req">
+        <div class="req-id">FR-03</div>
+        <div><h3>Explainable ranking</h3><ul><li>Show the criteria each result matched.</li><li>Rank exact current-role matches above weak keyword matches.</li><li>Never imply private information was used.</li></ul></div>
+      </article>
+      <article class="card req">
+        <div class="req-id">FR-04</div>
+        <div><h3>Low-friction actions</h3><ul><li>Open profile, message, or save connection.</li><li>Show shared history already visible to the member.</li><li>Keep outreach member-initiated.</li></ul></div>
+      </article>
+      <article class="card req">
+        <div class="req-id">FR-05</div>
+        <div><h3>Zero-result recovery</h3><ul><li>Identify the most restrictive criterion.</li><li>Recommend one reversible relaxation.</li><li>Show expected result-count change before applying.</li></ul></div>
+      </article>
+      <article class="card req">
+        <div class="req-id">FR-06</div>
+        <div><h3>Saved intent</h3><ul><li>Permit one saved search in free V1.</li><li>Allow renaming and manual rerun.</li><li>No unsolicited alerts in V1.</li></ul></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="prototype">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">08 · Interactive prototype</div><h2>Test the retrieval experience.</h2></div>
+      <p class="section-intro">Adjust filters and apply them to a synthetic set of connections. No real LinkedIn data is used.</p>
+    </div>
+
+    <div class="prototype">
+      <div class="proto-nav"><div class="proto-logo">in</div><div class="proto-search" contenteditable="true">product leaders at healthcare companies in Chicago</div><span class="small">My Network</span></div>
+      <div class="proto-body">
+        <aside class="filters">
+          <span class="tag blue">Connection Lens</span>
+          <div class="filter-label">Current title contains</div>
+          <select class="filter-control" id="titleFilter">
+            <option value="">Any title</option>
+            <option value="product" selected>Product</option>
+            <option value="engineering">Engineering</option>
+            <option value="recruiter">Recruiter</option>
+            <option value="operations">Operations</option>
+          </select>
+          <div class="filter-label">Industry</div>
+          <select class="filter-control" id="industryFilter">
+            <option value="">Any industry</option>
+            <option value="healthcare" selected>Healthcare</option>
+            <option value="software">Software</option>
+            <option value="finance">Financial services</option>
+          </select>
+          <div class="filter-label">Location</div>
+          <select class="filter-control" id="locationFilter">
+            <option value="">Any location</option>
+            <option value="chicago" selected>Chicago</option>
+            <option value="new york">New York</option>
+            <option value="san francisco">San Francisco</option>
+            <option value="remote">Remote</option>
+          </select>
+          <div class="filter-label">Relationship context</div>
+          <div class="toggle-row"><span>Worked together</span><div class="switch" id="workedSwitch" onclick="this.classList.toggle('on')"></div></div>
+          <div class="toggle-row"><span>Same school</span><div class="switch" id="schoolSwitch" onclick="this.classList.toggle('on')"></div></div>
+          <button class="apply" onclick="applyFilters()">Apply filters</button>
+          <button class="clear" onclick="clearFilters()">Clear all</button>
+        </aside>
+        <div class="result-pane">
+          <div class="result-head"><div><strong id="resultCount">3 connections</strong><div class="small">Ranked by exact professional match</div></div><span class="tag green">1st degree only</span></div>
+          <div class="chips" id="activeChips"><span class="chip">Title: Product</span><span class="chip">Industry: Healthcare</span><span class="chip">Chicago</span></div>
+          <div class="result-list" id="resultList">
+            <div class="result-row" data-title="product" data-industry="healthcare" data-location="chicago" data-worked="true" data-school="false">
+              <div class="avatar">AM</div><div><h4>Alex Morgan</h4><p>Director of Product · Health Platform · Chicago</p><div class="reason">Matched: Product, Healthcare, Chicago, worked together</div></div><button class="message-btn">Message</button>
+            </div>
+            <div class="result-row" data-title="product" data-industry="healthcare" data-location="chicago" data-worked="false" data-school="true">
+              <div class="avatar">RS</div><div><h4>Rina Shah</h4><p>Senior Product Manager · Digital Health · Chicago</p><div class="reason">Matched: Product, Healthcare, Chicago, same school</div></div><button class="message-btn">Message</button>
+            </div>
+            <div class="result-row" data-title="product" data-industry="healthcare" data-location="chicago" data-worked="false" data-school="false">
+              <div class="avatar">JT</div><div><h4>Jordan Taylor</h4><p>Group Product Manager · Care Technology · Chicago</p><div class="reason">Matched: Product, Healthcare, Chicago</div></div><button class="message-btn">Message</button>
+            </div>
+            <div class="result-row hidden" data-title="engineering" data-industry="healthcare" data-location="new york" data-worked="true" data-school="false">
+              <div class="avatar">LC</div><div><h4>Lee Chen</h4><p>VP Engineering · Health Infrastructure · New York</p><div class="reason">Matched: Engineering, Healthcare, New York</div></div><button class="message-btn">Message</button>
+            </div>
+            <div class="result-row hidden" data-title="recruiter" data-industry="software" data-location="san francisco" data-worked="false" data-school="true">
+              <div class="avatar">SK</div><div><h4>Samira Khan</h4><p>Technical Recruiter · Enterprise Software · San Francisco</p><div class="reason">Matched: Recruiter, Software, San Francisco</div></div><button class="message-btn">Message</button>
+            </div>
+            <div class="result-row hidden" data-title="operations" data-industry="finance" data-location="remote" data-worked="true" data-school="false">
+              <div class="avatar">DR</div><div><h4>Devon Reed</h4><p>Director of Operations · Financial Services · Remote</p><div class="reason">Matched: Operations, Financial services, Remote</div></div><button class="message-btn">Message</button>
+            </div>
+          </div>
+          <div class="empty" id="emptyState"><div style="font-size:40px">⌕</div><h3>No exact matches</h3><p>Try removing location first. It is currently the most restrictive criterion.</p><button class="btn btn-primary" onclick="relaxLocation()">Remove location</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">09 · Prioritization</div><h2>MoSCoW protects the V1 decision.</h2></div>
+      <p class="section-intro">The first release validates retrieval precision and member trust without recreating Sales Navigator.</p>
+    </div>
+
+    <div class="card" style="overflow:auto">
+      <table>
+        <thead><tr><th>Priority</th><th>Capability</th><th>Rationale</th></tr></thead>
+        <tbody>
+          <tr><td class="priority must">Must</td><td>1st-degree scope, title/company/location filters, editable chips, match explanations, message action</td><td>Complete the core retrieval job with transparent control.</td></tr>
+          <tr><td class="priority should">Should</td><td>Past company, school, industry, one saved search, zero-result relaxation</td><td>Improves common networking workflows without high abuse risk.</td></tr>
+          <tr><td class="priority could">Could</td><td>Worked-together context, recent profile change, lightweight relevance feedback</td><td>Adds useful context if existing data and privacy rules support it.</td></tr>
+          <tr><td class="priority wont">Won’t in V1</td><td>Bulk exports, alerts, CRM sync, second-degree prospecting, automated outreach, advanced buyer filters</td><td>Protects member trust, premium differentiation, and implementation focus.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">10 · Product architecture</div><h2>Natural language in. Auditable filters out.</h2></div>
+      <p class="section-intro">The system performs permission-aware retrieval over attributes already visible to the searching member.</p>
+    </div>
+
+    <div class="arch">
+      <div class="arch-box"><b>1. Query interface</b><small>Natural language, manual filters, saved query</small></div>
+      <div class="arch-box"><b>2. Entity parser</b><small>Title, company, location, school, industry, relationship intent</small></div>
+      <div class="arch-box"><b>3. Member graph ACL</b><small>1st-degree eligibility, visibility, blocks, privacy rules</small></div>
+      <div class="arch-box"><b>4. Search index</b><small>Normalized professional entities and permitted profile fields</small></div>
+      <div class="arch-box"><b>5. Ranker</b><small>Exactness, currentness, relationship context, quality controls</small></div>
+      <div class="arch-box"><b>6. Explanation layer</b><small>Matched criteria, relaxations, feedback, telemetry</small></div>
+    </div>
+
+    <div class="grid-2" style="margin-top:18px">
+      <article class="card">
+        <h3>Request flow</h3>
+        <div class="code">query = parse(member_input)
+chips = normalize(query.entities)
+
+eligible_ids = connection_graph.first_degree(viewer_id)
+visible_ids  = privacy_acl.filter(eligible_ids, viewer_id)
+
+candidates = search_index.retrieve(
+    ids=visible_ids,
+    filters=chips,
+    keywords=query.remaining_text
+)
+
+results = rank(candidates,
+    exact_entity_match,
+    current_role_match,
+    relationship_context,
+    profile_quality
+)
+
+return explain(results, chips)</div>
+      </article>
+      <article class="card">
+        <h3>Reliability controls</h3>
+        <p>• Deterministic fallback when parser confidence is low</p>
+        <p>• Title and company normalization with visible exact-versus-related semantics</p>
+        <p>• Blocked, hidden, and restricted members removed before retrieval</p>
+        <p>• Profile updates reflected through index freshness targets</p>
+        <p>• Query and explanation versioning for experiment analysis</p>
+        <p>• Abuse-rate limits and anomaly monitoring</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">11 · Instrumentation</div><h2>Every search decision is measurable.</h2></div>
+      <p class="section-intro">Events distinguish assignment, interpretation, retrieval quality, correction, and downstream member action.</p>
+    </div>
+
+    <div class="card" style="overflow:auto">
+      <table>
+        <thead><tr><th>Event</th><th>Trigger</th><th>Properties</th><th>Decision use</th></tr></thead>
+        <tbody>
+          <tr><td><code>connection_search_started</code></td><td>Member enters Lens</td><td>entry_point, network_size_bucket, experiment_id</td><td>Qualified sessions</td></tr>
+          <tr><td><code>query_parsed</code></td><td>Natural language becomes chips</td><td>entity_types, confidence, unresolved_text</td><td>Parser quality</td></tr>
+          <tr><td><code>filter_corrected</code></td><td>Member edits a chip</td><td>filter_type, old_value, new_value, reason</td><td>Interpretation errors</td></tr>
+          <tr><td><code>results_rendered</code></td><td>Search completes</td><td>count, latency, exact_match_count, zero_result</td><td>Retrieval health</td></tr>
+          <tr><td><code>result_actioned</code></td><td>Profile, message, or save</td><td>rank, action, matched_filters, elapsed_time</td><td>North Star</td></tr>
+          <tr><td><code>search_feedback_submitted</code></td><td>Member rates result quality</td><td>relevant, explanation_helpful, issue_type</td><td>Quality training and diagnosis</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">12 · Opportunity model</div><h2>Estimate the value of recovered network utility.</h2></div>
+      <p class="section-intro">This directional model uses portfolio assumptions, not LinkedIn internal traffic or conversion data.</p>
+    </div>
+
+    <div class="calc">
+      <div class="card">
+        <div class="control"><label><span>Monthly qualified search sessions</span><output id="sessionsOut">5,000,000</output></label><input id="sessions" type="range" min="500000" max="30000000" step="500000" value="5000000"></div>
+        <div class="control"><label><span>Current successful retrieval rate</span><output id="baseOut">28%</output></label><input id="baseRate" type="range" min="10" max="60" step="1" value="28"></div>
+        <div class="control"><label><span>Relative improvement</span><output id="liftOut">12%</output></label><input id="relativeLift" type="range" min="1" max="40" step="1" value="12"></div>
+        <div class="control"><label><span>Message or save rate after retrieval</span><output id="actionOut">45%</output></label><input id="actionRate" type="range" min="10" max="80" step="1" value="45"></div>
+      </div>
+      <div class="card">
+        <div class="results">
+          <div class="result"><span>Current successful sessions</span><strong id="currentSuccess">1,400,000</strong></div>
+          <div class="result"><span>Incremental successful retrievals</span><strong id="incrementalSuccess">168,000</strong></div>
+          <div class="result"><span>Incremental member actions</span><strong id="incrementalActions">75,600</strong></div>
+          <div class="result"><span>New retrieval rate</span><strong id="newRate">31.4%</strong></div>
+        </div>
+        <div class="notice" style="margin-top:15px">The model excludes network effects, repeat use, message acceptance, subscription impact, and potential cannibalization. It should be treated as an order-of-magnitude decision aid.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">13 · Edge cases</div><h2>Resolve ambiguity before it becomes a trust failure.</h2></div>
+      <p class="section-intro">The PRD exposes open questions rather than pretending they do not exist.</p>
+    </div>
+
+    <div class="grid-2">
+      <article class="card edge"><div class="edge-num">1</div><div><h3>Ambiguous titles</h3><p>“PM” may mean product manager, project manager, program manager, or preventive maintenance. Show interpreted titles and let members correct them.</p></div></article>
+      <article class="card edge"><div class="edge-num">2</div><div><h3>Multiple current roles</h3><p>Members can hold concurrent jobs. Match any current role, label which role matched, and avoid inferring primary employment.</p></div></article>
+      <article class="card edge"><div class="edge-num">3</div><div><h3>Stale profiles</h3><p>Display profile-reported data without asserting it is current beyond the member’s last update. Consider a freshness cue only when policy allows.</p></div></article>
+      <article class="card edge"><div class="edge-num">4</div><div><h3>Very small networks</h3><p>For fewer than 100 connections, default to a simplified search and do not overcomplicate the experience with advanced controls.</p></div></article>
+      <article class="card edge"><div class="edge-num">5</div><div><h3>Sensitive inference</h3><p>Do not support search over health, ethnicity, religion, political views, age, or other sensitive attributes, even when text appears on profiles.</p></div></article>
+      <article class="card edge"><div class="edge-num">6</div><div><h3>Abuse and mass outreach</h3><p>Rate-limit repetitive queries and messages, monitor spam signals, and omit bulk actions or exports.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">14 · Open questions</div><h2>What must be answered before launch.</h2></div>
+      <p class="section-intro">These decisions require data, legal, trust, design, and monetization partners.</p>
+    </div>
+
+    <div class="grid-3">
+      <article class="card"><h3>Product boundary</h3><p>Which filters create enough personal-network utility without undermining Sales Navigator or Recruiter differentiation?</p></article>
+      <article class="card"><h3>Ranking quality</h3><p>Should recent interaction, shared history, or connection strength influence ranking, and how can that be explained safely?</p></article>
+      <article class="card"><h3>Profile visibility</h3><p>Which attributes are searchable when visible on a profile but hidden from a specific viewer through settings or policy?</p></article>
+      <article class="card"><h3>Natural language</h3><p>What parser confidence triggers automatic chips versus a clarification prompt or deterministic keyword fallback?</p></article>
+      <article class="card"><h3>Saved searches</h3><p>Does one free saved search increase repeat utility without creating a disguised prospecting workflow?</p></article>
+      <article class="card"><h3>Messaging quality</h3><p>Does improved retrieval lead to valued conversations, or simply increase unsolicited messages to high-demand members?</p></article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">15 · Decision log</div><h2>Make product judgment visible.</h2></div>
+      <p class="section-intro">A decision log shows why the PRD chooses restraint over feature accumulation.</p>
+    </div>
+
+    <div class="decision-log">
+      <div class="decision-item"><b>First-degree only</b><span>Solves personal network retrieval, reduces abuse, and protects premium prospecting products.</span></div>
+      <div class="decision-item"><b>Explicit chips</b><span>Preserves transparency when natural-language interpretation is wrong or incomplete.</span></div>
+      <div class="decision-item"><b>No bulk actions</b><span>Keeps the workflow member-led and reduces spam, scraping, and automation incentives.</span></div>
+      <div class="decision-item"><b>One free saved search</b><span>Tests repeat utility without immediately turning the feature into an alerting or lead-management system.</span></div>
+      <div class="decision-item"><b>No message generator in V1</b><span>Separates retrieval quality from outreach quality and avoids masking whether the right person was found.</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">16 · Tradeoffs</div><h2>A tight scope is a bet, not a free lunch.</h2></div>
+      <p class="section-intro">Every restraint decision above has a cost. Naming it here is what separates a defensible scope call from wishful thinking.</p>
+    </div>
+
+    <div class="grid-2">
+      <article class="tradeoff-card">
+        <h3>Solve one job perfectly</h3>
+        <div class="tradeoff-row"><span class="tradeoff-tag gain">Gain</span><p>A narrow V1 that fully solves one use case — first-degree retrieval — ships faster and lets us learn faster from real usage.</p></div>
+        <div class="tradeoff-row"><span class="tradeoff-tag cost">Cost</span><p><strong>Underserves adjacent users.</strong> Scoping this tightly means recruiters, second-degree prospectors, and bulk networkers get a half-solution until V2.</p></div>
+      </article>
+      <article class="tradeoff-card">
+        <h3>Clear success criteria</h3>
+        <div class="tradeoff-row"><span class="tradeoff-tag gain">Gain</span><p>Defining SNRR, the two secondary metrics, and the guardrail before build prevents scope creep and post-launch arguments about what "success" means.</p></div>
+        <div class="tradeoff-row"><span class="tradeoff-tag cost">Cost</span><p><strong>Rigidity risk.</strong> If discovery in Weeks 1–2 surfaces a different job to solve, a metrics-first PRD can become a constraint that's harder to unwind mid-build.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">17 · Delivery plan</div><h2>Six weeks to a decision-quality test.</h2></div>
+      <p class="section-intro">The plan aligns Search, My Network, Trust, Premium, Data Science, Design, and Messaging partners.</p>
+    </div>
+
+    <div class="roadmap card">
+      <div class="phase"><div class="phase-label">Week 1</div><div class="phase-dot"></div><div class="phase-body"><h3>Discovery and baseline</h3><p>Analyze My Network search funnels, zero-result queries, title corrections, premium overlap, spam risk, and member interviews.</p></div></div>
+      <div class="phase"><div class="phase-label">Week 2</div><div class="phase-dot"></div><div class="phase-body"><h3>Prototype and policy</h3><p>Validate filter comprehension, chip correction, result explanations, zero-state recovery, privacy constraints, and monetization boundaries.</p></div></div>
+      <div class="phase"><div class="phase-label">Weeks 3–4</div><div class="phase-dot"></div><div class="phase-body"><h3>Build and instrument</h3><p>Implement entry point, parser integration, ACL filtering, index query, ranking, explanation payload, events, and feature flag.</p></div></div>
+      <div class="phase"><div class="phase-label">Week 5</div><div class="phase-dot"></div><div class="phase-body"><h3>Dogfood and ramp</h3><p>Validate relevance, latency, parser failures, privacy exclusions, abuse limits, and premium guardrail dashboards at 1% exposure.</p></div></div>
+      <div class="phase"><div class="phase-label">Week 6+</div><div class="phase-dot"></div><div class="phase-body"><h3>A/B test and decide</h3><p>Read SNRR, time to useful profile, corrections, message quality, trust signals, segment effects, and premium impact.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">18 · Interview narrative</div><h2>The 90-second executive readout.</h2></div>
+      <p class="section-intro">Present the out-of-scope decision before the feature details.</p>
+    </div>
+
+    <div class="interview">
+      “I deliberately did not build a free version of Sales Navigator. I focused on one member job: retrieving a relevant person from an existing first-degree network.
+      LinkedIn’s current help documentation shows that people search supports filters such as connection degree, company, location, industry, school, and keywords, and that search is becoming more conversational.
+      Recent public feedback also shows that members can lose trust when title controls change or AI results feel imprecise. My proposal, Connection Lens, combines natural-language input with explicit editable chips.
+      The member can search for ‘product leaders at healthcare companies in Chicago,’ verify how the system interpreted title, industry, and location, and see why each connection matched.
+      V1 is limited to first-degree connections, has no exports, no automated outreach, and only one saved search. I would measure Successful Network Retrieval Rate, time to useful profile, parser corrections,
+      result relevance, message quality, privacy complaints, and premium cannibalization. The core product judgment is that AI can accelerate query construction, but deterministic filters and explanations must preserve member control.”
+    </div>
+  </div>
+</section>
+
+<section id="sources">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">19 · Evidence and limitations</div><h2>Grounded, current, and explicit about uncertainty.</h2></div>
+      <p class="section-intro">Official sources define current capabilities. Public feedback is directional. Product metrics and impact estimates are assumptions.</p>
+    </div>
+
+    <div class="grid-2">
+      <article class="card">
+        <h3>Official sources</h3>
+        <ol class="source-list">
+          <li><a href="https://www.linkedin.com/help/linkedin/answer/a525054" target="_blank" rel="noopener">LinkedIn Help: Search for people</a> — current people-search filters and conversational query guidance.</li>
+          <li><a href="https://www.linkedin.com/help/linkedin/answer/a566261" target="_blank" rel="noopener">LinkedIn Help: View your connections</a> — My Network access and filter options.</li>
+          <li><a href="https://www.linkedin.com/help/sales-navigator/answer/a1466279" target="_blank" rel="noopener">Sales Navigator filter definitions</a> — current title, company, connection, and premium prospecting capabilities.</li>
+          <li><a href="https://www.linkedin.com/help/linkedin/answer/a524294" target="_blank" rel="noopener">LinkedIn Help: Connection degree in search</a> — first-, second-, and third-degree filtering behavior.</li>
+        </ol>
+      </article>
+      <article class="card">
+        <h3>Public signals and boundaries</h3>
+        <ol class="source-list">
+          <li><a href="https://www.reddit.com/r/linkedin/comments/1pj5w9n/did_linkedin_take_away_or_move_filters/" target="_blank" rel="noopener">Community report about title-filter discoverability</a> — qualitative signal, not representative research.</li>
+          <li><a href="https://www.reddit.com/r/linkedin/comments/1skfcn3/why_has_linkedin_changed_their_search_filters_for/" target="_blank" rel="noopener">Community report about AI people-search relevance</a> — qualitative signal requiring internal validation.</li>
+          <li><a href="https://www.theverge.com/news/819908/linkedin-ai-people-search-launch" target="_blank" rel="noopener">The Verge: AI-powered LinkedIn people search</a> — public reporting on conversational people search.</li>
+          <li>All synthetic people, UI examples, usage volumes, baseline metrics, lifts, and decision thresholds in this case are portfolio assumptions.</li>
+          <li>No private LinkedIn data, source code, experiments, user research, or confidential information was accessed.</li>
+          <li>This independent case study is not sponsored by, endorsed by, or affiliated with LinkedIn Corporation or Microsoft.</li>
+        </ol>
+      </article>
+    </div>
+  </div>
+</section>
+</main>
+
+
+<script>
+const root=document.documentElement;
+const savedTheme=localStorage.getItem('connection-lens-theme');
+if(savedTheme) root.dataset.theme=savedTheme;
+document.getElementById('themeToggle').addEventListener('click',()=>{
+  root.dataset.theme=root.dataset.theme==='light'?'dark':'light';
+  localStorage.setItem('connection-lens-theme',root.dataset.theme);
+});
+window.addEventListener('scroll',()=>{
+  const d=document.documentElement;
+  document.getElementById('pageProgress').style.width=((d.scrollTop/(d.scrollHeight-d.clientHeight))*100)+'%';
+  document.getElementById('siteNav').classList.toggle('scrolled',d.scrollTop>4);
+});
+
+const navLinks=document.querySelectorAll('.nav-links a[data-section]');
+const sectionMap=new Map();
+navLinks.forEach(a=>{
+  const id=a.dataset.section;
+  const el=id==='top'?document.getElementById('top'):document.getElementById(id);
+  if(el) sectionMap.set(el,a);
+});
+if('IntersectionObserver' in window && sectionMap.size){
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      const link=sectionMap.get(entry.target);
+      if(!link) return;
+      if(entry.isIntersecting){
+        navLinks.forEach(a=>a.classList.remove('current'));
+        link.classList.add('current');
+      }
+    });
+  },{rootMargin:'-45% 0px -50% 0px',threshold:0});
+  sectionMap.forEach((_,el)=>observer.observe(el));
+}
+
+function applyFilters(){
+  const title=document.getElementById('titleFilter').value;
+  const industry=document.getElementById('industryFilter').value;
+  const location=document.getElementById('locationFilter').value;
+  const worked=document.getElementById('workedSwitch').classList.contains('on');
+  const school=document.getElementById('schoolSwitch').classList.contains('on');
+  let count=0;
+  document.querySelectorAll('.result-row').forEach(row=>{
+    const okTitle=!title||row.dataset.title===title;
+    const okIndustry=!industry||row.dataset.industry===industry;
+    const okLocation=!location||row.dataset.location===location;
+    const okWorked=!worked||row.dataset.worked==='true';
+    const okSchool=!school||row.dataset.school==='true';
+    const show=okTitle&&okIndustry&&okLocation&&okWorked&&okSchool;
+    row.classList.toggle('hidden',!show);
+    if(show) count++;
+  });
+  const chips=[];
+  if(title) chips.push('Title: '+title[0].toUpperCase()+title.slice(1));
+  if(industry) chips.push('Industry: '+industry[0].toUpperCase()+industry.slice(1));
+  if(location) chips.push(location.split(' ').map(x=>x[0].toUpperCase()+x.slice(1)).join(' '));
+  if(worked) chips.push('Worked together');
+  if(school) chips.push('Same school');
+  document.getElementById('activeChips').innerHTML=chips.map(c=>`<span class="chip">${c}</span>`).join('');
+  document.getElementById('resultCount').textContent=count+' connection'+(count===1?'':'s');
+  document.getElementById('emptyState').classList.toggle('show',count===0);
+  document.getElementById('resultList').style.display=count===0?'none':'grid';
+}
+function clearFilters(){
+  document.getElementById('titleFilter').value='';
+  document.getElementById('industryFilter').value='';
+  document.getElementById('locationFilter').value='';
+  document.getElementById('workedSwitch').classList.remove('on');
+  document.getElementById('schoolSwitch').classList.remove('on');
+  applyFilters();
+}
+function relaxLocation(){
+  document.getElementById('locationFilter').value='';
+  applyFilters();
+}
+applyFilters();
+
+const sessions=document.getElementById('sessions');
+const baseRate=document.getElementById('baseRate');
+const relativeLift=document.getElementById('relativeLift');
+const actionRate=document.getElementById('actionRate');
+function updateCalc(){
+  const s=+sessions.value,b=+baseRate.value/100,l=+relativeLift.value/100,a=+actionRate.value/100;
+  const current=s*b,increment=current*l,newRate=b*(1+l),actions=increment*a;
+  document.getElementById('sessionsOut').textContent=s.toLocaleString();
+  document.getElementById('baseOut').textContent=(b*100).toFixed(0)+'%';
+  document.getElementById('liftOut').textContent=(l*100).toFixed(0)+'%';
+  document.getElementById('actionOut').textContent=(a*100).toFixed(0)+'%';
+  document.getElementById('currentSuccess').textContent=Math.round(current).toLocaleString();
+  document.getElementById('incrementalSuccess').textContent=Math.round(increment).toLocaleString();
+  document.getElementById('incrementalActions').textContent=Math.round(actions).toLocaleString();
+  document.getElementById('newRate').textContent=(newRate*100).toFixed(1)+'%';
+}
+[sessions,baseRate,relativeLift,actionRate].forEach(x=>x.addEventListener('input',updateCalc));
+updateCalc();
+</script>
+</body>
+</html>

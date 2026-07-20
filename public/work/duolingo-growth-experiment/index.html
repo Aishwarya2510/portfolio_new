@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Project Momentum — a portfolio-ready Duolingo D7 retention growth experiment case study by Aishwarya Chourasia." />
+<title>Project Momentum | Duolingo Growth Experiment</title>
+<style>
+  :root{
+    --bg:#07130d;
+    --panel:#0d2116;
+    --panel-2:#112a1c;
+    --panel-3:#173625;
+    --text:#f6fff8;
+    --muted:#a9c1b0;
+    --line:#244632;
+    --brand:#58cc02;
+    --brand-2:#89e219;
+    --cyan:#38d6c5;
+    --yellow:#ffc800;
+    --orange:#ff8a00;
+    --red:#ff5d5d;
+    --purple:#b983ff;
+    --shadow:0 18px 50px rgba(0,0,0,.28);
+    --radius:22px;
+    --radius-sm:14px;
+    --max:1180px;
+  }
+  html[data-theme="light"]{
+    --bg:#f4f9f1;
+    --panel:#ffffff;
+    --panel-2:#f0f7ed;
+    --panel-3:#e7f2e3;
+    --text:#102016;
+    --muted:#52695a;
+    --line:#d3e2d5;
+    --shadow:0 18px 50px rgba(29,68,38,.12);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:
+      radial-gradient(circle at 12% -10%, rgba(88,204,2,.16), transparent 30rem),
+      radial-gradient(circle at 92% 15%, rgba(56,214,197,.10), transparent 28rem),
+      var(--bg);
+    color:var(--text);
+    line-height:1.58;
+  }
+  a{color:inherit}
+  button,input,select{font:inherit}
+  .skip{position:absolute;left:-999px;top:10px}
+  .skip:focus{left:10px;z-index:9999;background:var(--panel);padding:10px;border-radius:8px}
+  .nav{
+    position:static;z-index:100;
+    backdrop-filter:blur(18px);
+    background:color-mix(in srgb,var(--bg) 82%,transparent);
+    border-bottom:1px solid color-mix(in srgb,var(--line) 75%,transparent);
+  }
+  .nav-inner{
+    max-width:var(--max);margin:auto;padding:12px 22px;
+    display:flex;align-items:center;justify-content:space-between;gap:18px;
+  }
+  .brandmark{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:900}
+  .owl{
+    width:34px;height:34px;border-radius:11px;background:var(--brand);display:grid;place-items:center;
+    color:#0a2d0b;font-size:20px;box-shadow:0 6px 18px rgba(88,204,2,.25)
+  }
+  .nav-links{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .nav-links a{font-size:.86rem;color:var(--muted);text-decoration:none;font-weight:700}
+  .nav-links a:hover{color:var(--text)}
+  .icon-btn{
+    width:38px;height:38px;border-radius:12px;border:1px solid var(--line);
+    background:var(--panel);color:var(--text);cursor:pointer
+  }
+  .container{max-width:var(--max);margin:auto;padding:0 22px}
+  .hero{padding:84px 0 48px;position:relative;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+  .eyebrow{
+    display:inline-flex;gap:8px;align-items:center;
+    border:1px solid color-mix(in srgb,var(--brand) 45%,var(--line));
+    background:color-mix(in srgb,var(--brand) 10%,var(--panel));
+    padding:7px 11px;border-radius:999px;color:var(--brand-2);font-size:.82rem;font-weight:850;
+    letter-spacing:.03em;text-transform:uppercase
+  }
+  h1{font-size:clamp(2.9rem,7vw,6.3rem);line-height:.93;margin:20px 0 22px;letter-spacing:-.065em}
+  h1 span{color:var(--brand)}
+  .lede{font-size:1.15rem;color:var(--muted);max-width:720px}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:27px}
+  .btn{
+    border:0;border-radius:14px;padding:13px 18px;font-weight:900;text-decoration:none;display:inline-flex;
+    align-items:center;gap:8px;cursor:pointer
+  }
+  .btn-primary{background:var(--brand);color:#0c260f;box-shadow:0 10px 26px rgba(88,204,2,.23)}
+  .btn-secondary{background:var(--panel);border:1px solid var(--line);color:var(--text)}
+  .hero-card{
+    background:linear-gradient(145deg,var(--panel),var(--panel-2));
+    border:1px solid var(--line);border-radius:32px;padding:24px;box-shadow:var(--shadow);
+    transform:rotate(1.4deg)
+  }
+  .metric-strip{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .metric{
+    background:var(--panel-2);border:1px solid var(--line);border-radius:18px;padding:16px
+  }
+  .metric .k{font-size:1.9rem;font-weight:950;letter-spacing:-.04em;color:var(--brand-2)}
+  .metric .l{font-size:.78rem;color:var(--muted);font-weight:750}
+  .fact-note{margin-top:14px;font-size:.76rem;color:var(--muted)}
+  section{padding:76px 0}
+  .section-head{display:grid;grid-template-columns:.75fr 1.25fr;gap:34px;margin-bottom:30px}
+  .section-kicker{color:var(--brand-2);font-size:.83rem;font-weight:900;text-transform:uppercase;letter-spacing:.1em}
+  h2{font-size:clamp(2rem,4vw,3.65rem);line-height:1.02;letter-spacing:-.045em;margin:8px 0}
+  h3{font-size:1.25rem;margin:0 0 9px;letter-spacing:-.015em}
+  .section-intro{color:var(--muted);font-size:1.02rem;align-self:end}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .card{
+    background:linear-gradient(145deg,var(--panel),color-mix(in srgb,var(--panel-2) 75%,var(--panel)));
+    border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 8px 28px rgba(0,0,0,.08)
+  }
+  .card p{color:var(--muted);margin:.35rem 0}
+  .tag{
+    display:inline-flex;padding:4px 9px;border-radius:999px;background:var(--panel-3);
+    color:var(--brand-2);font-size:.73rem;font-weight:850;border:1px solid var(--line)
+  }
+  .statement{
+    background:linear-gradient(120deg,rgba(88,204,2,.16),rgba(56,214,197,.08));
+    border:1px solid color-mix(in srgb,var(--brand) 45%,var(--line));border-radius:28px;padding:28px;
+    font-size:clamp(1.22rem,2.5vw,1.85rem);font-weight:850;letter-spacing:-.025em
+  }
+  .small{font-size:.84rem;color:var(--muted)}
+  .assumption{border-left:4px solid var(--yellow)}
+  .fact{border-left:4px solid var(--brand)}
+  .signal{border-left:4px solid var(--cyan)}
+  .flow-wrap{overflow:auto;padding-bottom:10px}
+  .flow{
+    min-width:920px;display:grid;grid-template-columns:repeat(7,1fr);align-items:center;gap:8px
+  }
+  .flow-node{
+    padding:15px 12px;background:var(--panel);border:1px solid var(--line);border-radius:16px;text-align:center;
+    min-height:102px;display:grid;place-items:center;font-size:.84rem;font-weight:800
+  }
+  .flow-arrow{text-align:center;color:var(--brand);font-size:1.6rem;font-weight:900}
+  .funnel{display:grid;gap:12px}
+  .funnel-row{
+    display:grid;grid-template-columns:165px 1fr 110px;gap:14px;align-items:center
+  }
+  .bar{height:16px;background:var(--panel-3);border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--cyan));border-radius:inherit}
+  .hypothesis{
+    font-size:1.13rem;font-weight:800;padding:18px;border-radius:18px;background:var(--panel-2);border:1px solid var(--line)
+  }
+  .experiment-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .tab{
+    border:1px solid var(--line);background:var(--panel);color:var(--muted);
+    border-radius:12px;padding:10px 13px;font-weight:850;cursor:pointer
+  }
+  .tab.active{background:var(--brand);color:#0a2c0b;border-color:var(--brand)}
+  .experiment-panel{display:none}
+  .experiment-panel.active{display:block}
+  .spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+  .spec{background:var(--panel-2);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .spec b{display:block;font-size:.75rem;text-transform:uppercase;color:var(--muted);letter-spacing:.06em;margin-bottom:5px}
+  .phone-shell{
+    width:min(100%,360px);margin:auto;background:#050a06;border:7px solid #263329;border-radius:38px;padding:10px;
+    box-shadow:0 28px 60px rgba(0,0,0,.35)
+  }
+  .phone-screen{background:#f7fff3;color:#172019;border-radius:28px;overflow:hidden;min-height:620px;position:relative}
+  .phone-top{padding:15px 18px 8px;display:flex;justify-content:space-between;font-size:.75rem;font-weight:900}
+  .phone-body{padding:18px}
+  .duo-badge{
+    width:82px;height:82px;border-radius:26px;background:#58cc02;display:grid;place-items:center;
+    font-size:44px;margin:5px auto 16px
+  }
+  .phone-body h4{text-align:center;font-size:1.45rem;margin:5px 0}
+  .phone-body p{text-align:center;color:#526053;margin-top:4px}
+  .choice{
+    display:flex;justify-content:space-between;align-items:center;padding:13px 14px;margin:10px 0;
+    border:2px solid #dbe7d8;border-radius:15px;background:#fff;font-weight:850;cursor:pointer
+  }
+  .choice.selected{border-color:#58cc02;background:#f1ffe7}
+  .phone-cta{
+    width:100%;border:0;border-radius:14px;background:#58cc02;color:#16330f;padding:14px;font-weight:950;
+    margin-top:16px;box-shadow:0 5px 0 #46a302;cursor:pointer
+  }
+  .phone-caption{text-align:center;color:var(--muted);font-size:.8rem;margin-top:10px}
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:13px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  td{font-size:.9rem}
+  .score{font-weight:950;color:var(--brand-2)}
+  .rank1{background:color-mix(in srgb,var(--brand) 9%,transparent)}
+  .metric-tree{
+    display:grid;grid-template-columns:1fr 60px 1fr;gap:18px;align-items:center
+  }
+  .tree-center{text-align:center;color:var(--brand);font-size:2rem}
+  .metric-list{display:grid;gap:10px}
+  .metric-pill{background:var(--panel-2);border:1px solid var(--line);border-radius:15px;padding:13px}
+  .metric-pill b{display:block}
+  .metric-pill span{font-size:.8rem;color:var(--muted)}
+  .architecture{
+    display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:stretch
+  }
+  .arch{
+    border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:17px;text-align:center;
+    min-height:145px;display:flex;flex-direction:column;justify-content:center
+  }
+  .arch strong{display:block;margin-bottom:8px}
+  .arch small{color:var(--muted)}
+  .arch-arrow{display:none}
+  .code{
+    padding:18px;background:#050a06;color:#dfffd6;border-radius:18px;overflow:auto;border:1px solid #21412b;
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.82rem;line-height:1.7
+  }
+  .calc-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px}
+  .control{margin-bottom:16px}
+  .control label{display:flex;justify-content:space-between;font-size:.85rem;font-weight:800;margin-bottom:7px}
+  input[type=range]{width:100%;accent-color:var(--brand)}
+  .result-box{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:12px
+  }
+  .result{
+    background:var(--panel-2);border:1px solid var(--line);border-radius:17px;padding:16px
+  }
+  .result strong{font-size:1.6rem;display:block;color:var(--brand-2);letter-spacing:-.03em}
+  .decision{
+    border-radius:20px;padding:22px;border:1px solid var(--line);background:var(--panel-2)
+  }
+  .decision.ship{border-color:var(--brand);box-shadow:inset 0 0 0 1px rgba(88,204,2,.15)}
+  .decision.hold{border-color:var(--yellow)}
+  .decision.kill{border-color:var(--red)}
+  .decision-title{font-size:1.8rem;font-weight:950;letter-spacing:-.03em}
+  .timeline{display:grid;gap:0}
+  .week{
+    display:grid;grid-template-columns:115px 26px 1fr;gap:15px;min-height:115px
+  }
+  .week-dot{position:relative}
+  .week-dot:before{content:"";width:16px;height:16px;border-radius:50%;background:var(--brand);position:absolute;top:7px;left:5px}
+  .week-dot:after{content:"";width:2px;background:var(--line);position:absolute;top:26px;bottom:0;left:12px}
+  .week:last-child .week-dot:after{display:none}
+  .week-label{font-weight:950;color:var(--brand-2)}
+  .week-content{padding-bottom:28px}
+  .risk-matrix{display:grid;grid-template-columns:100px repeat(3,1fr);gap:8px}
+  .risk-cell{padding:13px;border-radius:13px;border:1px solid var(--line);background:var(--panel-2);font-size:.82rem}
+  .risk-head{font-weight:900;text-align:center}
+  .risk-high{background:color-mix(in srgb,var(--red) 14%,var(--panel))}
+  .risk-med{background:color-mix(in srgb,var(--yellow) 12%,var(--panel))}
+  .risk-low{background:color-mix(in srgb,var(--brand) 10%,var(--panel))}
+  .interview{
+    background:linear-gradient(135deg,rgba(88,204,2,.19),rgba(185,131,255,.10));
+    border:1px solid color-mix(in srgb,var(--brand) 38%,var(--line));border-radius:30px;padding:30px
+  }
+  blockquote{margin:0;font-size:1.2rem;font-weight:750;line-height:1.7}
+  .sources ol{padding-left:20px}
+  .sources li{margin:10px 0;color:var(--muted);font-size:.9rem}
+  .sources a{color:var(--text)}
+  footer{padding:35px 0 55px;border-top:1px solid var(--line);color:var(--muted)}
+  .footer-grid{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .print-note{font-size:.78rem}
+  .disclaimer{
+    padding:16px;border-radius:15px;background:color-mix(in srgb,var(--yellow) 8%,var(--panel));
+    border:1px solid color-mix(in srgb,var(--yellow) 40%,var(--line));font-size:.85rem;color:var(--muted)
+  }
+  .progress{position:fixed;top:0;left:0;height:3px;background:var(--brand);z-index:999;width:0}
+  @media(max-width:900px){
+    .hero-grid,.section-head,.grid-3,.grid-4,.calc-grid,.metric-tree{grid-template-columns:1fr}
+    .grid-2{grid-template-columns:1fr}
+    .hero-card{transform:none}
+    .section-head{gap:10px}
+    .spec-grid{grid-template-columns:repeat(2,1fr)}
+    .architecture{grid-template-columns:1fr}
+    .funnel-row{grid-template-columns:120px 1fr 70px}
+    .tree-center{transform:rotate(90deg)}
+    .nav-links a{display:none}
+  }
+  @media(max-width:560px){
+    .container,.nav-inner{padding-left:16px;padding-right:16px}
+    .hero{padding-top:55px}
+    .metric-strip,.spec-grid,.result-box{grid-template-columns:1fr}
+    .risk-matrix{grid-template-columns:72px repeat(3,1fr);font-size:.7rem}
+    .week{grid-template-columns:86px 22px 1fr}
+  }
+  @media print{
+    .nav,.hero-actions,.icon-btn,.progress,.experiment-tabs,.phone-cta{display:none!important}
+    body{background:white;color:#111}
+    section{padding:28px 0;break-inside:avoid}
+    .card,.statement,.interview{box-shadow:none}
+    a{text-decoration:none}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brandmark" href="#top"><span class="owl">🦉</span><span>Project Momentum</span></a>
+    <div class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#experiments">Experiments</a>
+      <a href="#metrics">Metrics</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#decision">Decision</a>
+      <a href="#sources">Sources</a>
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle light and dark theme">◐</button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+<header class="hero" id="top">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow">Growth Experiment Design · Retention</div>
+      <h1>Turn first lessons into <span>lasting habits.</span></h1>
+      <p class="lede">
+        A pre-launch, portfolio-grade growth experiment for Duolingo focused on improving Day-7 quality learning retention
+        without increasing notification fatigue, compulsive engagement, or low-value lesson completion.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#experiments">Explore the experiment ↓</a>
+        <button class="btn btn-secondary" onclick="window.print()">Print case study</button>
+      </div>
+      <p class="small" style="margin-top:18px">Product case study by <strong>Aishwarya Chourasia</strong> · July 2026</p>
+    </div>
+    <aside class="hero-card" aria-label="Key evidence">
+      <span class="tag">Why retention matters</span>
+      <h3 style="font-size:1.75rem;margin-top:13px">A movable growth lever with learning-quality guardrails</h3>
+      <div class="metric-strip">
+        <div class="metric"><div class="k">52.7M</div><div class="l">Average DAUs, Q4 2025</div></div>
+        <div class="metric"><div class="k">43M</div><div class="l">DAUs with 7+ day streaks at year-end 2025</div></div>
+        <div class="metric"><div class="k">+22%</div><div class="l">Higher daily lesson likelihood among learners with a Friend Streak</div></div>
+        <div class="metric"><div class="k">TSLW</div><div class="l">Quality guardrail: Time Spent Learning Well</div></div>
+      </div>
+      <p class="fact-note">Company-reported figures establish context. Proposed baselines, lifts, and sample sizes below are explicit planning assumptions, not Duolingo results.</p>
+    </aside>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="section-kicker">01 · Growth problem</div><h2>A lapse should not become abandonment.</h2></div>
+      <p class="section-intro">
+        The growth opportunity is not to manufacture more clicks. It is to help a motivated beginner convert an initial burst
+        of intent into a repeatable learning routine, while protecting learner trust and educational value.
+      </p>
+    </div>
+
+    <div class="statement">
+      New learners can complete a first lesson successfully yet still fail to build a stable cue, routine, and reward loop.
+      When motivation fades or a day is missed, the psychological cost of “starting over” can outweigh the perceived value of returning.
+    </div>
+
+    <div class="grid-3" style="margin-top:18px">
+      <article class="card fact">
+        <span class="tag">Verified fact</span>
+        <h3 style="margin-top:12px">Retention is a modeled DAU driver</h3>
+        <p>Duolingo has publicly described Current User Retention Rate as a metric that materially influenced its growth model and A/B testing focus.</p>
+      </article>
+      <article class="card signal">
+        <span class="tag">User signal</span>
+        <h3 style="margin-top:12px">Streaks motivate and pressure</h3>
+        <p>Public feedback shows that streaks can create commitment, but some learners also experience guilt, anxiety, or unhealthy pressure after a lapse.</p>
+      </article>
+      <article class="card assumption">
+        <span class="tag">Planning assumption</span>
+        <h3 style="margin-top:12px">The first week is fragile</h3>
+        <p>This case assumes D7 retention is 25% for the selected cohort. The real baseline must be queried before launch and used to recalculate power.</p>
+      </article>
+    </div>
+
+    <div class="grid-2" style="margin-top:18px">
+      <article class="card">
+        <h3>Target cohort</h3>
+        <p><strong>Included:</strong> New mobile learners, first course, first completed lesson, no prior streak above two days, eligible market and locale.</p>
+        <p><strong>Excluded:</strong> Existing resurfaced learners, classroom-managed accounts, minors where consent rules require separate treatment, and users in concurrent retention tests.</p>
+      </article>
+      <article class="card">
+        <h3>Growth question</h3>
+        <p><strong>Can a lightweight implementation-intention flow after lesson one increase D7 quality learning retention by at least 1.5 percentage points?</strong></p>
+        <p>We will not optimize for notification opens, XP accumulation, or raw time in app unless those outcomes also produce meaningful learning activity.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="section-kicker">02 · Funnel diagnosis</div><h2>Instrument the habit formation journey.</h2></div>
+      <p class="section-intro">The funnel separates intent, activation, repetition, lapse, and recovery so the team can identify where the mechanism works or fails.</p>
+    </div>
+
+    <div class="flow-wrap card">
+      <div class="flow" aria-label="User journey flow">
+        <div class="flow-node">Ad / word of mouth<br><small>Acquisition</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">First lesson completed<br><small>Activation</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">Routine chosen<br><small>Commitment</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">Second quality lesson<br><small>Repetition</small></div>
+      </div>
+      <div class="flow" style="margin-top:9px" aria-label="Continuation flow">
+        <div class="flow-node">At-risk state detected<br><small>No lesson by expected time</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">Relevant cue shown<br><small>In-app or push</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">Quality learning completed<br><small>Recovery</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">Day-7 retained<br><small>Outcome</small></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h3>Illustrative baseline funnel</h3>
+      <p class="small">Assumptions only. Replace with warehouse data before experiment sizing.</p>
+      <div class="funnel" style="margin-top:18px">
+        <div class="funnel-row"><strong>Lesson 1</strong><div class="bar"><i style="width:100%"></i></div><span>100%</span></div>
+        <div class="funnel-row"><strong>D2 return</strong><div class="bar"><i style="width:56%"></i></div><span>56%</span></div>
+        <div class="funnel-row"><strong>D3 return</strong><div class="bar"><i style="width:42%"></i></div><span>42%</span></div>
+        <div class="funnel-row"><strong>D7 retained</strong><div class="bar"><i style="width:25%"></i></div><span>25%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experiments">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="section-kicker">03 · Experiment portfolio</div><h2>Three hypotheses. One clear first bet.</h2></div>
+      <p class="section-intro">Each test changes a different behavioral lever: planning, effort reduction, or social accountability. The experiments are independently testable.</p>
+    </div>
+
+    <div class="experiment-tabs" role="tablist">
+      <button class="tab active" data-tab="exp1">01 · Momentum Plan</button>
+      <button class="tab" data-tab="exp2">02 · Rescue Lesson</button>
+      <button class="tab" data-tab="exp3">03 · Buddy Sprint</button>
+    </div>
+
+    <article class="experiment-panel active" id="exp1">
+      <div class="grid-2">
+        <div class="card">
+          <span class="tag">Recommended first</span>
+          <h3 style="font-size:1.8rem;margin-top:12px">Momentum Plan</h3>
+          <div class="hypothesis">We believe asking new learners to choose a realistic weekly cadence and preferred study time will increase D7 quality retention because a self-selected plan converts vague intent into a concrete cue.</div>
+          <div class="spec-grid">
+            <div class="spec"><b>Control</b>Current post-lesson completion experience</div>
+            <div class="spec"><b>Variant</b>Two-step cadence and time selection</div>
+            <div class="spec"><b>Primary</b>D7 quality learning retention</div>
+            <div class="spec"><b>MDE</b>+1.5 percentage points</div>
+          </div>
+          <h3>Why this is first</h3>
+          <p>It reaches nearly the entire eligible cohort, requires limited backend change, and tests the core behavioral mechanism before adding notification complexity or network effects.</p>
+          <h3 style="margin-top:16px">What could falsify it</h3>
+          <p>If completion of the post-lesson flow drops, reminders are ignored, or D7 lift disappears after controlling for plan completion, the intervention may be adding ceremony rather than commitment.</p>
+        </div>
+        <div>
+          <div class="phone-shell">
+            <div class="phone-screen">
+              <div class="phone-top"><span>9:41</span><span>● ● ●</span></div>
+              <div class="phone-body">
+                <div class="duo-badge">✓</div>
+                <h4>Build your learning rhythm</h4>
+                <p>Choose a plan you can actually keep. You can change it anytime.</p>
+                <div class="choice selected" onclick="selectChoice(this)"><span>3 days each week</span><span>✓</span></div>
+                <div class="choice" onclick="selectChoice(this)"><span>5 days each week</span><span></span></div>
+                <div class="choice" onclick="selectChoice(this)"><span>Every day</span><span></span></div>
+                <div class="choice" onclick="selectChoice(this)"><span>Decide later</span><span></span></div>
+                <button class="phone-cta" onclick="prototypeNext(this)">Choose my time</button>
+              </div>
+            </div>
+          </div>
+          <div class="phone-caption">Interactive low-fidelity concept · No Duolingo affiliation</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="experiment-panel" id="exp2">
+      <div class="grid-2">
+        <div class="card">
+          <span class="tag">Second priority</span>
+          <h3 style="font-size:1.8rem;margin-top:12px">60-Second Rescue Lesson</h3>
+          <div class="hypothesis">We believe offering an ultra-short, skill-valid lesson near a learner’s chosen study time will increase same-day recovery because it lowers the effort required to preserve momentum.</div>
+          <div class="spec-grid">
+            <div class="spec"><b>Control</b>Existing reminder strategy</div>
+            <div class="spec"><b>Variant</b>Deep link to a 60-second review</div>
+            <div class="spec"><b>Primary</b>Same-day quality recovery rate</div>
+            <div class="spec"><b>Guardrail</b>Notification disable rate</div>
+          </div>
+          <h3>Eligibility</h3>
+          <p>New learner, notification permission enabled, no quality lesson completed by the selected time minus 90 minutes, and no more than one reminder that day.</p>
+          <h3 style="margin-top:16px">Key risk</h3>
+          <p>The intervention could teach learners to wait for reminders or optimize for minimum-effort completions. TSLW and subsequent voluntary sessions must remain healthy.</p>
+        </div>
+        <div class="card">
+          <h3>Notification concept</h3>
+          <div style="margin-top:18px;background:#fff;color:#1b211d;border-radius:18px;padding:18px;box-shadow:var(--shadow)">
+            <div style="display:flex;gap:12px;align-items:center">
+              <div style="width:44px;height:44px;background:#58cc02;border-radius:12px;display:grid;place-items:center;font-size:24px">🦉</div>
+              <div><strong>One minute keeps your momentum</strong><div style="font-size:.85rem;color:#687268">Review 3 words from yesterday. No new material.</div></div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:15px">
+              <button style="flex:1;padding:10px;border:0;border-radius:10px;background:#58cc02;font-weight:900">Start review</button>
+              <button style="padding:10px;border:1px solid #d7ddd5;border-radius:10px;background:#fff">Not today</button>
+            </div>
+          </div>
+          <p class="small" style="margin-top:18px">Copy avoids threats, guilt, countdown pressure, and misleading scarcity. A learner can dismiss or reduce reminders directly.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="experiment-panel" id="exp3">
+      <div class="grid-2">
+        <div class="card">
+          <span class="tag">Exploratory</span>
+          <h3 style="font-size:1.8rem;margin-top:12px">Three-Day Buddy Sprint</h3>
+          <div class="hypothesis">We believe a short, opt-in shared learning sprint will increase D7 quality retention because mutual accountability makes the next action socially salient without demanding a permanent commitment.</div>
+          <div class="spec-grid">
+            <div class="spec"><b>Control</b>No buddy sprint invitation</div>
+            <div class="spec"><b>Variant</b>Invite one friend for three days</div>
+            <div class="spec"><b>Unit</b>Inviter-invitee cluster</div>
+            <div class="spec"><b>Primary</b>Cluster-level D7 retention</div>
+          </div>
+          <h3>Why not first</h3>
+          <p>Invitation acceptance constrains reach, implementation is heavier, and network spillovers can contaminate individual-level randomization. This should follow a simpler mechanism test.</p>
+        </div>
+        <div class="card">
+          <h3>Contamination-aware assignment</h3>
+          <div class="flow-wrap">
+            <div class="flow" style="min-width:620px;grid-template-columns:1fr 55px 1fr 55px 1fr">
+              <div class="flow-node">Eligible learner</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node">Create social cluster<br><small>Inviter + accepted invitee</small></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node">Assign cluster<br><small>Control or sprint</small></div>
+            </div>
+          </div>
+          <p class="small">Analyze intention-to-treat at the assigned cluster level. Report acceptance as a mechanism metric, not a reason to exclude non-acceptors.</p>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="section-kicker">04 · Prioritization</div><h2>RICE makes the tradeoff explicit.</h2></div>
+      <p class="section-intro">Scores are planning estimates on a consistent scale. They should be recalibrated with engineering, design, data science, and lifecycle marketing before commitment.</p>
+    </div>
+    <div class="card" style="overflow:auto">
+      <table>
+        <thead><tr><th>Experiment</th><th>Reach</th><th>Impact</th><th>Confidence</th><th>Effort</th><th>RICE score</th><th>Recommendation</th></tr></thead>
+        <tbody>
+          <tr class="rank1"><td><strong>Momentum Plan</strong></td><td>90</td><td>2.0</td><td>80%</td><td>3</td><td class="score">48.0</td><td>Run first</td></tr>
+          <tr><td><strong>Rescue Lesson</strong></td><td>45</td><td>2.5</td><td>70%</td><td>4</td><td class="score">19.7</td><td>Run second</td></tr>
+          <tr><td><strong>Buddy Sprint</strong></td><td>25</td><td>3.0</td><td>65%</td><td>7</td><td class="score">7.0</td><td>Explore after mechanism validation</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid-2" style="margin-top:18px">
+      <article class="card"><h3>What I would not test first</h3><p>A redesigned XP economy, a streak-loss countdown, or additional guilt-based notifications. Each introduces broader behavioral and brand effects before validating the basic commitment mechanism.</p></article>
+      <article class="card"><h3>Core tradeoff</h3><p>A larger intervention may create a larger lift, but slower learning. The first test deliberately favors reach, reversibility, clean attribution, and low operational complexity.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="metrics">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="section-kicker">05 · Metric system</div><h2>Measure learning retention, not attention capture.</h2></div>
+      <p class="section-intro">The metric tree prevents a superficially positive result from shipping when it harms learning quality, user trust, or downstream behavior.</p>
+    </div>
+
+    <div class="card metric-tree">
+      <div>
+        <span class="tag">Primary outcome</span>
+        <h3 style="font-size:1.7rem;margin-top:12px">D7 Quality Learning Retention</h3>
+        <p>Percentage of eligible learners who complete at least one qualifying learning session on day seven after activation.</p>
+        <div class="code">D7_QLR = users_with_qualifying_session_on_D7
+         ÷ eligible_activated_users</div>
+      </div>
+      <div class="tree-center">⇄</div>
+      <div class="metric-list">
+        <div class="metric-pill"><b>Mechanism metrics</b><span>Plan completion, reminder scheduling, return at selected time</span></div>
+        <div class="metric-pill"><b>Secondary outcomes</b><span>D2/D3 retention, 7-day quality sessions, voluntary sessions</span></div>
+        <div class="metric-pill"><b>Learning guardrail</b><span>Time Spent Learning Well per retained learner</span></div>
+        <div class="metric-pill"><b>Trust guardrails</b><span>Notification opt-outs, app uninstalls, complaint rate</span></div>
+        <div class="metric-pill"><b>Business guardrail</b><span>Trial or subscription conversion, reported separately</span></div>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:18px">
+      <article class="card"><h3>Qualifying session</h3><p>Contains meaningful learning interactions, passes anti-gaming checks, and meets the internal learning-quality definition. Merely opening the app does not count.</p></article>
+      <article class="card"><h3>Novelty effect</h3><p>Read D7 first, then inspect D14 and D28 directional trends. A short-term lift that disappears immediately should not be presented as durable habit formation.</p></article>
+      <article class="card"><h3>Segment reads</h3><p>Pre-register locale, age-policy group, notification permission, course type, device, acquisition source, and initial proficiency. Avoid post-hoc winner hunting.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="section-kicker">06 · Experiment architecture</div><h2>Assignment, delivery, telemetry, decision.</h2></div>
+      <p class="section-intro">The technical design keeps treatment deterministic, instrumentation auditable, and rollout reversible.</p>
+    </div>
+
+    <div class="architecture">
+      <div class="arch"><strong>1. Eligibility service</strong><small>New learner rules, exclusions, consent, concurrent-test checks</small></div>
+      <div class="arch"><strong>2. Assignment service</strong><small>Stable user hash, 50/50 split, experiment namespace</small></div>
+      <div class="arch"><strong>3. Remote configuration</strong><small>Variant payload, copy, timing rules, kill switch</small></div>
+      <div class="arch"><strong>4. Event pipeline</strong><small>Client events → stream → warehouse → quality labels</small></div>
+      <div class="arch"><strong>5. Statistics layer</strong><small>SRM checks, effect estimate, confidence interval, guardrails</small></div>
+    </div>
+
+    <div class="grid-2" style="margin-top:18px">
+      <div class="card">
+        <h3>Assignment logic</h3>
+        <div class="code">if eligible(user, "momentum_plan_v1"):
+    bucket = stable_hash(user.id, experiment.id) % 100
+    variant = "control" if bucket &lt; 50 else "momentum_plan"
+    log_assignment(user.id, experiment.id, variant)
+    return remote_config(variant)
+else:
+    return current_experience()</div>
+      </div>
+      <div class="card">
+        <h3>Data quality controls</h3>
+        <p>• Sample-ratio mismatch alert before outcome analysis</p>
+        <p>• Assignment event emitted server-side and deduplicated</p>
+        <p>• Exposure recorded only when the learner can actually see the treatment</p>
+        <p>• Event versioning and schema contracts for every client release</p>
+        <p>• Holdout integrity checks across concurrent lifecycle experiments</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="section-kicker">07 · Event taxonomy</div><h2>Every conclusion must be traceable.</h2></div>
+      <p class="section-intro">Events distinguish assignment, exposure, interaction, learning quality, and downstream outcome.</p>
+    </div>
+    <div class="card" style="overflow:auto">
+      <table>
+        <thead><tr><th>Event</th><th>Trigger</th><th>Required properties</th><th>Decision use</th></tr></thead>
+        <tbody>
+          <tr><td><code>experiment_assigned</code></td><td>Server assigns variant</td><td>experiment_id, variant, user_id, timestamp</td><td>Denominator and SRM</td></tr>
+          <tr><td><code>momentum_plan_viewed</code></td><td>Treatment rendered</td><td>screen_version, locale, source</td><td>Exposure definition</td></tr>
+          <tr><td><code>cadence_selected</code></td><td>Learner chooses plan</td><td>days_per_week, selected_time, skip</td><td>Mechanism</td></tr>
+          <tr><td><code>reminder_delivered</code></td><td>OS delivery callback</td><td>channel, local_time, status</td><td>Delivery integrity</td></tr>
+          <tr><td><code>learning_session_completed</code></td><td>Session closes</td><td>quality_flag, duration, skill_id, voluntary</td><td>Primary and quality outcomes</td></tr>
+          <tr><td><code>notification_preference_changed</code></td><td>User changes settings</td><td>old_state, new_state, source</td><td>Trust guardrail</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="section-kicker">08 · Power and impact</div><h2>Size the test before reading the result.</h2></div>
+      <p class="section-intro">Use the calculator to explore planning assumptions. It applies a normal approximation for two independent proportions at 95% confidence and 80% power.</p>
+    </div>
+
+    <div class="calc-grid">
+      <div class="card">
+        <div class="control"><label><span>Baseline D7 retention</span><output id="baselineOut">25.0%</output></label><input id="baseline" type="range" min="10" max="50" step=".5" value="25"></div>
+        <div class="control"><label><span>Minimum detectable lift</span><output id="mdeOut">1.5 pp</output></label><input id="mde" type="range" min=".5" max="5" step=".5" value="1.5"></div>
+        <div class="control"><label><span>Eligible users per day</span><output id="trafficOut">8,000</output></label><input id="traffic" type="range" min="1000" max="50000" step="1000" value="8000"></div>
+        <div class="control"><label><span>Monthly eligible activations</span><output id="monthlyOut">1,000,000</output></label><input id="monthly" type="range" min="100000" max="5000000" step="100000" value="1000000"></div>
+      </div>
+      <div class="card">
+        <div class="result-box">
+          <div class="result"><span class="small">Required per arm</span><strong id="sampleResult">13,338</strong><span class="small">Approximate users</span></div>
+          <div class="result"><span class="small">Enrollment time</span><strong id="daysResult">4 days</strong><span class="small">Plus 7-day maturity window</span></div>
+          <div class="result"><span class="small">Additional D7 learners</span><strong id="impactResult">15,000</strong><span class="small">Per month at MDE</span></div>
+          <div class="result"><span class="small">Relative lift</span><strong id="relativeResult">6.0%</strong><span class="small">Compared with baseline</span></div>
+        </div>
+        <p class="small" style="margin-top:16px">Final runtime should cover at least two full weekly cycles and continue until all enrolled users mature to D7. Do not stop early because a dashboard briefly crosses significance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="decision">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="section-kicker">09 · Decision framework</div><h2>Pre-commit the ship, hold, and kill rules.</h2></div>
+      <p class="section-intro">Statistical significance alone is insufficient. The product decision combines effect size, uncertainty, mechanism evidence, and guardrail health.</p>
+    </div>
+
+    <div class="calc-grid">
+      <div class="card">
+        <div class="control"><label><span>Observed absolute lift</span><output id="liftOut">1.8 pp</output></label><input id="lift" type="range" min="-2" max="5" step=".1" value="1.8"></div>
+        <div class="control"><label><span>p-value</span><output id="pOut">0.030</output></label><input id="pval" type="range" min=".001" max=".20" step=".001" value=".03"></div>
+        <div class="control"><label><span>Notification opt-out change</span><output id="optOut">+0.1 pp</output></label><input id="opt" type="range" min="-1" max="3" step=".1" value=".1"></div>
+        <div class="control"><label><span>TSLW change</span><output id="tslwOut">+0.5%</output></label><input id="tslw" type="range" min="-10" max="10" step=".5" value=".5"></div>
+      </div>
+      <div class="decision ship" id="decisionBox">
+        <div class="small">Illustrative decision</div>
+        <div class="decision-title" id="decisionTitle">SHIP GRADUALLY</div>
+        <p id="decisionText">Primary outcome clears the minimum bar, statistical confidence is acceptable, and guardrails remain healthy. Ramp 10% → 50% → 100% with live monitoring.</p>
+        <div class="disclaimer">This simulator is a portfolio artifact, not a substitute for Duolingo’s internal statistical standards, multiple-testing policy, or legal review.</div>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:18px">
+      <article class="card"><h3>Ship</h3><p>Lift ≥ 1.5 pp, p &lt; .05, no material TSLW decline, notification opt-out increase &lt; 0.5 pp, and no severe segment harm.</p></article>
+      <article class="card"><h3>Investigate</h3><p>Positive but underpowered result, heterogeneous segment effects, weak mechanism adoption, or a small guardrail warning that may be mitigated.</p></article>
+      <article class="card"><h3>Kill</h3><p>Negative primary outcome, material trust or learning-quality harm, sample-ratio mismatch unresolved, or treatment effect dependent on manipulative pressure.</p></article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="section-kicker">10 · Risk and ethics</div><h2>Growth must remain worthy of trust.</h2></div>
+      <p class="section-intro">A learning product has a higher bar than maximizing engagement. The intervention should support autonomy, competence, and durable learning.</p>
+    </div>
+
+    <div class="risk-matrix">
+      <div class="risk-cell risk-head"></div><div class="risk-cell risk-head">Low impact</div><div class="risk-cell risk-head">Medium impact</div><div class="risk-cell risk-head">High impact</div>
+      <div class="risk-cell risk-head">Likely</div><div class="risk-cell risk-low">Copy confusion</div><div class="risk-cell risk-med">Reminder fatigue</div><div class="risk-cell risk-high">Compulsive pressure</div>
+      <div class="risk-cell risk-head">Possible</div><div class="risk-cell risk-low">Minor latency</div><div class="risk-cell risk-med">Low-value sessions</div><div class="risk-cell risk-high">Minor-user consent issue</div>
+      <div class="risk-cell risk-head">Unlikely</div><div class="risk-cell risk-low">Event duplication</div><div class="risk-cell risk-med">Cross-test contamination</div><div class="risk-cell risk-high">Systemic delivery failure</div>
+    </div>
+
+    <div class="grid-3" style="margin-top:18px">
+      <article class="card"><h3>Autonomy</h3><p>Include “decide later,” easy reminder controls, no dark patterns, and no false claim that a chosen plan is mandatory.</p></article>
+      <article class="card"><h3>Learning quality</h3><p>Count only qualifying learning behavior. Do not let a one-tap interaction, ad view, or empty XP loop satisfy the primary outcome.</p></article>
+      <article class="card"><h3>Fairness</h3><p>Audit effect and guardrails by locale, accessibility settings, device performance, age-policy group, and notification availability.</p></article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="section-kicker">11 · Delivery plan</div><h2>From evidence to reversible rollout.</h2></div>
+      <p class="section-intro">A six-week plan aligns product, design, engineering, data science, lifecycle, privacy, and support around one decision.</p>
+    </div>
+
+    <div class="timeline card">
+      <div class="week"><div class="week-label">Week 1</div><div class="week-dot"></div><div class="week-content"><h3>Diagnose and pre-register</h3><p>Validate baseline funnel, define quality session, document exclusions, lock hypotheses, metrics, segments, and decision thresholds.</p></div></div>
+      <div class="week"><div class="week-label">Week 2</div><div class="week-dot"></div><div class="week-content"><h3>Prototype and usability test</h3><p>Test comprehension, perceived pressure, cadence choices, accessibility, and skip behavior with a small research panel.</p></div></div>
+      <div class="week"><div class="week-label">Week 3</div><div class="week-dot"></div><div class="week-content"><h3>Build and instrument</h3><p>Implement remote configuration, assignment, event contracts, QA dashboards, feature flag, and automated guardrail alerts.</p></div></div>
+      <div class="week"><div class="week-label">Week 4</div><div class="week-dot"></div><div class="week-content"><h3>Internal and 1% rollout</h3><p>Dogfood, verify event parity, run SRM checks, test rollback, inspect crash and latency metrics, and review support readiness.</p></div></div>
+      <div class="week"><div class="week-label">Week 5</div><div class="week-dot"></div><div class="week-content"><h3>50/50 experiment</h3><p>Enroll for two weekly cycles, freeze nonessential changes, monitor only pre-specified safety signals, and avoid outcome peeking.</p></div></div>
+      <div class="week"><div class="week-label">Week 6+</div><div class="week-dot"></div><div class="week-content"><h3>Analyze and decide</h3><p>Read intention-to-treat results, confidence intervals, mechanism metrics, guardrails, segments, novelty effects, and rollout recommendation.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="section-kicker">12 · Scope and tradeoffs</div><h2>Senior PM judgment is visible in what stays out.</h2></div>
+      <p class="section-intro">The experiment is deliberately narrow enough to learn quickly and broad enough to matter.</p>
+    </div>
+    <div class="grid-2">
+      <article class="card">
+        <h3>In scope</h3>
+        <p>• New mobile learner cohort</p><p>• Self-selected weekly cadence and time</p><p>• Existing reminder infrastructure where possible</p><p>• D7 retention and learning-quality instrumentation</p><p>• Remote-configured copy and kill switch</p>
+      </article>
+      <article class="card">
+        <h3>Out of scope</h3>
+        <p>• Rebuilding streak mechanics or XP economy</p><p>• Pricing, paywall, or subscription packaging changes</p><p>• Personalized lesson-ranking model changes</p><p>• Classroom or school-managed users</p><p>• Global launch before locale and policy validation</p>
+      </article>
+    </div>
+    <div class="grid-3" style="margin-top:18px">
+      <article class="card"><h3>Speed vs depth</h3><p>A two-step plan is less personalized than a fully adaptive habit coach, but it is faster to test and easier to attribute.</p></article>
+      <article class="card"><h3>Reach vs precision</h3><p>Broad eligibility improves power, while pre-specified segment analysis protects against hiding meaningful harm or non-response.</p></article>
+      <article class="card"><h3>Retention vs autonomy</h3><p>The design supports follow-through without treating every missed day as failure or escalating emotional pressure.</p></article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="section-kicker">13 · Interview story</div><h2>The 90-second executive readout.</h2></div>
+      <p class="section-intro">Lead with the growth problem and decision logic, not the interface.</p>
+    </div>
+    <div class="interview">
+      <blockquote>
+        “I focused on the first-week retention problem, not on adding another gamification feature. Duolingo has publicly shown that current-user retention is a meaningful growth lever, while its streak and social mechanics demonstrate the power of routine and accountability. My proposal tests whether a learner-selected cadence and study time can convert initial motivation into a repeatable cue. The primary metric is Day-7 quality learning retention, with Time Spent Learning Well and notification opt-outs as guardrails. I prioritized this over a rescue notification and a buddy sprint because it has higher reach, lower effort, cleaner attribution, and fewer network effects. I would ship only if the test clears a 1.5-point lift, remains statistically credible, and produces no material learning-quality or trust harm.”
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<section id="sources" class="sources">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="section-kicker">14 · Evidence base</div><h2>Sources and assumption register.</h2></div>
+      <p class="section-intro">Public sources establish company context and user signals. All proposed experiment baselines, MDEs, scores, and outcomes are clearly labeled assumptions.</p>
+    </div>
+    <div class="grid-2">
+      <article class="card">
+        <h3>Primary and official sources</h3>
+        <ol>
+          <li><a href="https://investors.duolingo.com/static-files/f19d76fb-dee4-4f13-96ae-138ebfd0f2d3" target="_blank" rel="noopener">Duolingo 2025 Form 10-K</a> — DAUs, MAUs, paid subscribers, and streak context.</li>
+          <li><a href="https://blog.duolingo.com/growth-model-duolingo/" target="_blank" rel="noopener">Duolingo Growth Model</a> — retention as a modeled and testable DAU lever.</li>
+          <li><a href="https://blog.duolingo.com/product-lessons-friend-streak/" target="_blank" rel="noopener">Friend Streak product lessons</a> — social accountability and reported daily lesson association.</li>
+          <li><a href="https://blog.duolingo.com/time-spent-learning-well/" target="_blank" rel="noopener">Time Spent Learning Well</a> — learning-quality metric design.</li>
+          <li><a href="https://investors.duolingo.com/static-files/99006c40-d8cf-41ca-b5b1-c5cb1fa5ba88" target="_blank" rel="noopener">FY2024 shareholder letter</a> — product experimentation and social engagement context.</li>
+          <li><a href="https://blog.duolingo.com/how-streaks-keep-duolingo-learners-committed-to-their-language-goals/" target="_blank" rel="noopener">Duolingo streak experiment history</a> — example of a commitment-device A/B test.</li>
+        </ol>
+      </article>
+      <article class="card">
+        <h3>Qualitative signals and limitations</h3>
+        <ol>
+          <li><a href="https://apps.apple.com/us/app/duolingo-language-lessons/id570060128" target="_blank" rel="noopener">Apple App Store listing and reviews</a> — directional user feedback, not representative research.</li>
+          <li><a href="https://www.theguardian.com/lifeandstyle/article/2024/sep/08/streak-daily-ritual-can-enrich-your-life-or-become-unhealthy-obsession" target="_blank" rel="noopener">Reporting on streak psychology</a> — illustrates motivation and pressure tradeoffs.</li>
+          <li>Baseline D7 retention of 25%, funnel rates, daily traffic, monthly activations, RICE scores, and simulated lifts are portfolio assumptions.</li>
+          <li>No internal Duolingo data, proprietary experimentation platform, user research, or production analytics were accessed.</li>
+          <li>This independent case study is not sponsored by, endorsed by, or affiliated with Duolingo.</li>
+        </ol>
+      </article>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container footer-grid">
+    <div><strong>Aishwarya Chourasia</strong><br><span class="small">Product Strategy · Growth · Experimentation · AI & Operations</span></div>
+    <div class="print-note">Standalone HTML · Responsive · Accessible · Print-ready<br>Project 02 from the PM Weekend Portfolio series</div>
+  </div>
+</footer>
+
+<script>
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  themeToggle.addEventListener('click',()=>{
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('momentum-theme', root.dataset.theme);
+  });
+  const savedTheme = localStorage.getItem('momentum-theme');
+  if(savedTheme) root.dataset.theme = savedTheme;
+
+  window.addEventListener('scroll',()=>{
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight))*100;
+    document.getElementById('progress').style.width = pct + '%';
+  });
+
+  document.querySelectorAll('.tab').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.experiment-panel').forEach(x=>x.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  function selectChoice(el){
+    el.parentElement.querySelectorAll('.choice').forEach(x=>{
+      x.classList.remove('selected');
+      x.lastElementChild.textContent='';
+    });
+    el.classList.add('selected');
+    el.lastElementChild.textContent='✓';
+  }
+
+  function prototypeNext(btn){
+    const body = btn.closest('.phone-body');
+    body.innerHTML = `
+      <div class="duo-badge">⏱</div>
+      <h4>When should learning fit?</h4>
+      <p>Choose a time that works most days. We will keep reminders respectful.</p>
+      <div class="choice selected" onclick="selectChoice(this)"><span>Morning · 8:00 AM</span><span>✓</span></div>
+      <div class="choice" onclick="selectChoice(this)"><span>Lunch · 12:30 PM</span><span></span></div>
+      <div class="choice" onclick="selectChoice(this)"><span>Evening · 7:00 PM</span><span></span></div>
+      <div class="choice" onclick="selectChoice(this)"><span>No reminder</span><span></span></div>
+      <button class="phone-cta" onclick="prototypeDone(this)">Save my plan</button>`;
+  }
+
+  function prototypeDone(btn){
+    const body = btn.closest('.phone-body');
+    body.innerHTML = `
+      <div class="duo-badge">🔥</div>
+      <h4>Your rhythm is ready</h4>
+      <p>Three learning days each week, around 8:00 AM. Change this anytime in settings.</p>
+      <div style="margin:22px 0;padding:16px;border-radius:16px;background:#efffe6;border:2px solid #b9ee98;text-align:center">
+        <strong>Next learning day: Tomorrow</strong><br><span style="font-size:.85rem;color:#60705f">A small plan. No perfection required.</span>
+      </div>
+      <button class="phone-cta" onclick="location.reload()">Restart prototype</button>`;
+  }
+
+  function normalInv(p){
+    // Peter J. Acklam approximation
+    const a=[-39.6968302866538,220.946098424521,-275.928510446969,138.357751867269,-30.6647980661472,2.50662827745924];
+    const b=[-54.4760987982241,161.585836858041,-155.698979859887,66.8013118877197,-13.2806815528857];
+    const c=[-0.00778489400243029,-0.322396458041136,-2.40075827716184,-2.54973253934373,4.37466414146497,2.93816398269878];
+    const d=[0.00778469570904146,0.32246712907004,2.445134137143,3.75440866190742];
+    const plow=0.02425, phigh=1-plow; let q,r;
+    if(p<plow){q=Math.sqrt(-2*Math.log(p));return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)}
+    if(p>phigh){q=Math.sqrt(-2*Math.log(1-p));return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)}
+    q=p-.5;r=q*q;return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1)
+  }
+
+  function samplePerArm(p1,p2,alpha=.05,power=.8){
+    const z1=normalInv(1-alpha/2), z2=normalInv(power), pbar=(p1+p2)/2;
+    const num=Math.pow(z1*Math.sqrt(2*pbar*(1-pbar))+z2*Math.sqrt(p1*(1-p1)+p2*(1-p2)),2);
+    return Math.ceil(num/Math.pow(p2-p1,2));
+  }
+
+  const baseline=document.getElementById('baseline'),mde=document.getElementById('mde'),traffic=document.getElementById('traffic'),monthly=document.getElementById('monthly');
+  function updatePower(){
+    const b=+baseline.value/100, d=+mde.value/100, t=+traffic.value, m=+monthly.value;
+    const n=samplePerArm(b,b+d);
+    const enrollment=Math.ceil((n*2)/t);
+    document.getElementById('baselineOut').textContent=(b*100).toFixed(1)+'%';
+    document.getElementById('mdeOut').textContent=(d*100).toFixed(1)+' pp';
+    document.getElementById('trafficOut').textContent=t.toLocaleString();
+    document.getElementById('monthlyOut').textContent=m.toLocaleString();
+    document.getElementById('sampleResult').textContent=n.toLocaleString();
+    document.getElementById('daysResult').textContent=enrollment+' day'+(enrollment===1?'':'s');
+    document.getElementById('impactResult').textContent=Math.round(m*d).toLocaleString();
+    document.getElementById('relativeResult').textContent=((d/b)*100).toFixed(1)+'%';
+  }
+  [baseline,mde,traffic,monthly].forEach(x=>x.addEventListener('input',updatePower));
+  updatePower();
+
+  const lift=document.getElementById('lift'),pval=document.getElementById('pval'),opt=document.getElementById('opt'),tslw=document.getElementById('tslw');
+  function updateDecision(){
+    const l=+lift.value,p=+pval.value,o=+opt.value,t=+tslw.value;
+    document.getElementById('liftOut').textContent=(l>=0?'+':'')+l.toFixed(1)+' pp';
+    document.getElementById('pOut').textContent=p.toFixed(3);
+    document.getElementById('optOut').textContent=(o>=0?'+':'')+o.toFixed(1)+' pp';
+    document.getElementById('tslwOut').textContent=(t>=0?'+':'')+t.toFixed(1)+'%';
+    const box=document.getElementById('decisionBox'), title=document.getElementById('decisionTitle'), text=document.getElementById('decisionText');
+    box.className='decision';
+    if(l>=1.5 && p<.05 && o<.5 && t>=-2){
+      box.classList.add('ship');title.textContent='SHIP GRADUALLY';text.textContent='Primary outcome clears the minimum bar, statistical confidence is acceptable, and guardrails remain healthy. Ramp 10% → 50% → 100% with live monitoring.';
+    }else if(l<0 || o>=1 || t<-5){
+      box.classList.add('kill');title.textContent='KILL OR REDESIGN';text.textContent='The result is negative or a trust and learning-quality guardrail shows material harm. Stop exposure, diagnose the mechanism, and do not rationalize the damage with secondary engagement.';
+    }else{
+      box.classList.add('hold');title.textContent='HOLD AND INVESTIGATE';text.textContent='The signal is promising but does not yet justify a full rollout. Review power, confidence intervals, mechanism adoption, segments, and guardrail causes before deciding.';
+    }
+  }
+  [lift,pval,opt,tslw].forEach(x=>x.addEventListener('input',updateDecision));
+  updateDecision();
+</script>
+</body>
+</html>
