@@ -813,6 +813,10 @@ const roadmap = [
       overflow-x: hidden;
     }
 
+    .spotify-page {
+      overflow-x: hidden;
+    }
+
     :global(.spotify-page .project-nav) {
       width: 100vw;
       max-width: 100vw;
@@ -837,6 +841,15 @@ const roadmap = [
       width: calc(100vw - 20px);
       max-width: calc(100vw - 20px);
       padding: 18px;
+    }
+
+    .flowchart {
+      border-radius: var(--radius-sm);
+    }
+
+    .flowchart figcaption {
+      padding: 0 14px 14px;
+      font-size: 0.86rem;
     }
 
     .spotify-hero__copy {
@@ -870,6 +883,11 @@ const roadmap = [
 
     .experiment-table div {
       grid-template-columns: 1fr;
+    }
+
+    .takeaway-actions a {
+      width: 100%;
+      justify-content: center;
     }
   }
 </style>

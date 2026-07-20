@@ -35,13 +35,15 @@ html[data-theme="dark"]{
   --shadow:0 0 0 1px rgba(255,255,255,.12),0 5px 15px rgba(0,0,0,.35);
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:hidden}
+img,svg,canvas,video{max-width:100%}
 body{
   margin:0;
   background:var(--li-bg);
   color:var(--li-text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   line-height:1.5;
+  overflow-x:hidden;
 }
 a{color:inherit}
 button,input,select,textarea{font:inherit}
@@ -373,15 +375,22 @@ input[type=range]{width:100%;accent-color:var(--li-blue)}
 footer{padding:30px 0 50px;border-top:1px solid var(--li-line);background:var(--li-card)}
 .footer-grid{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:var(--li-muted)}
 @media(max-width:980px){
-  .nav-inner{grid-template-columns:auto 1fr auto}.nav-search,.nav-me{display:none}
+  .nav-inner{grid-template-columns:auto minmax(0,1fr) auto;height:auto;min-height:52px}
+  .nav-search,.nav-me{display:none}
+  .nav-links{overflow-x:auto;justify-content:flex-start;scrollbar-width:none}
+  .nav-links::-webkit-scrollbar{display:none}
   .hero-grid{grid-template-columns:1fr}
   .feed-profile,.feed-news{position:static}
+  .feed-center{order:1}
+  .feed-profile{order:2}
+  .feed-news{order:3}
+  main > section .container{width:auto;max-width:760px;margin:auto}
   .section-head,.grid-3,.grid-4,.calc,.metric-tree,.metric-grid,.ost{grid-template-columns:1fr}
   .grid-2,.tldr{grid-template-columns:1fr}
   .tree-arrow{transform:rotate(90deg)}
   .ost-step{margin:0}
 }
-@media(min-width:1120px){
+@media(min-width:1280px){
   .hero-grid{
     grid-template-columns:300px minmax(0,760px) 360px;
   }
@@ -417,11 +426,21 @@ footer{padding:30px 0 50px;border-top:1px solid var(--li-line);background:var(--
   .nav-links{gap:0}
   .nav-me a .me-caret{display:none}
   .hero{padding-top:18px}
+  main > section .container{padding:18px;border-radius:10px}
+  section{padding:12px 0}
+  h1{font-size:clamp(1.95rem,9vw,2.4rem)}
+  h2{font-size:clamp(1.45rem,7vw,1.9rem)}
+  .project-post{padding:0 16px 18px}
+  .composer-actions{grid-template-columns:1fr}
+  .network-card{min-height:0}
+  .person,.result-row{grid-template-columns:48px 1fr}
+  .match,.message-btn{grid-column:2;justify-self:start}
   .proto-body{grid-template-columns:1fr}.filters{border-right:0;border-bottom:1px solid var(--li-line)}
   .result-row{grid-template-columns:48px 1fr}.result-row .avatar{width:48px;height:48px}.message-btn{grid-column:2;justify-self:start}
   .arch,.results{grid-template-columns:1fr}
   .phase{grid-template-columns:82px 20px 1fr}
   .decision-item{grid-template-columns:1fr}
+  .scope-table, table{display:block;overflow-x:auto;white-space:nowrap}
 }
 @media print{
   .nav,.actions,.progress,.icon-btn,.apply,.clear,.message-btn{display:none!important}
